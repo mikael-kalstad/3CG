@@ -5,7 +5,8 @@ import Ecg from "./Components/Ecg";
 const App = () => {
   return (
     <Layout>
-      <Ecg></Ecg>
+      <Ecg />
+
       <p>content goes here...</p>
     </Layout>
   );
