@@ -1,9 +1,10 @@
-import React from "react";
-import { Canvas } from "react-three-fiber";
-import Box from "./Box";
-import CameraControls from "./CameraControls";
-import Text from "./Text";
-import Line from "./Line";
+import React from 'react';
+import { Canvas } from 'react-three-fiber';
+import Box from './Box';
+import CameraControls from './CameraControls';
+import Text from './Text';
+import Line from './Line';
+import SineWave from './SineWave';
 
 const Ecg = () => (
   <Canvas camera={{ position: [-10, 10, 10], fov: 35 }}>
