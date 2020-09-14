@@ -1,9 +1,9 @@
-import React, { useMemo, useCallback, useState } from "react";
-import * as THREE from "three";
-import { useSpring } from "@react-spring/core";
-import { a } from "@react-spring/three";
+import React, { useMemo, useCallback, useState } from 'react';
+import * as THREE from 'three';
+import { useSpring } from '@react-spring/core';
+import { a } from '@react-spring/three';
 // import { useSpring, animated } from "react-spring";
-import Text from "./Text";
+import Text from './Text';
 // import { animated, useSpring } from "react-spring-three";
 
 const Line = (props) => {
@@ -37,10 +37,10 @@ const Line = (props) => {
             <lineBasicMaterial
               name="line"
               attach="material"
-              color={"#9c88ff"}
+              color={'#9c88ff'}
               linewidth={100}
-              linecap={"round"}
-              linejoin={"round"}
+              linecap={'round'}
+              linejoin={'round'}
             />
           </line>
         </a.mesh>
