@@ -12,9 +12,7 @@ const CameraControls = (props) => {
     orbitRef.current.update();
   });
 
-  return (
-    <orbitControls autoRotate args={[camera, gl.domElement]} ref={orbitRef} />
-  );
+  return <orbitControls args={[camera, gl.domElement]} ref={orbitRef} />;
 };
 
 export default CameraControls;

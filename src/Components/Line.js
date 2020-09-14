@@ -1,18 +1,13 @@
-import React, { useRef, useState, useMemo } from "react";
-import { Canvas, extend, useThree, useResource } from "react-three-fiber";
-import { DragControls } from "three/examples/jsm/controls/DragControls";
+import React, { useMemo, useCallback, useState } from "react";
+import { useResource } from "react-three-fiber";
+import * as THREE from "three";
+import { useSpring } from "@react-spring/core";
+import { a } from "@react-spring/three";
+import Text from "./Text";
 
 const Line = (props) => {
-  // This reference will give us direct access to the mesh
-  const mesh = useRef();
-
-  // Set up state for the hovered and active state
-  const [hovered, setHover] = useState(false);
-  const [active, setActive] = useState(false);
-
-  const { camera, gl } = useThree();
-  const [ref, object] = useResource();
-
+  const [hover, setHover] = useState(true);
+  const [ref] = useResource();
   const points = useMemo(
     () => [
       new THREE.Vector3(-10, 0, 0),
@@ -23,31 +18,41 @@ const Line = (props) => {
   );
   const onUpdate = useCallback((self) => self.setFromPoints(points), [points]);
 
-  // Rotate mesh every frame, this is outside of React without overhead
-  // useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
+  const { spring } = useSpring({
+    spring: hover,
+    config: { mass: 5, tension: 400, friction: 50, precision: 0.0001 },
+    // from: { opacity: 0 },
+    // to: {
+    //   opacity: hover ? 1 : 0,
+    // },
+  });
 
   return (
-    <mesh
-      {...props}
-      ref={mesh}
-      scale={active ? [2.5, 2.5, 2.5] : [2, 2, 2]}
-      onClick={(e) => setActive(!active)}
-      onPointerOver={(e) => setHover(true)}
-      onPointerOut={(e) => setHover(false)}
-    >
-      <line position={[0, -2.5, -10]} ref={ref}>
-        <bufferGeometry attach="geometry" onUpdate={onUpdate} />
-        <lineBasicMaterial
-          attach="material"
-          color={"#9c88ff"}
-          linewidth={10}
-          linecap={"round"}
-          linejoin={"round"}
-        />
-      </line>
-      <dragControls args={[[object], camera, gl.domElement]} />
-      />
-    </mesh>
+    <>
+      <a.mesh
+        onPointerOver={() => {
+          setHover(true);
+          // set({ y: 0 });
+        }}
+        onPointerOut={() => {
+          setHover(false);
+          // set({ y: 10 });
+        }}
+        opacity={spring.to([0], [1])}
+      >
+        <line position={[0, -2.5, -10]} ref={ref}>
+          <bufferGeometry attach="geometry" onUpdate={onUpdate} />
+          <lineBasicMaterial
+            attach="material"
+            color={"#9c88ff"}
+            linewidth={100}
+            linecap={"round"}
+            linejoin={"round"}
+          />
+        </line>
+      </a.mesh>
+      <Text>Hovered: {hover ? "true" : "false"}</Text>
+    </>
   );
 };
 
