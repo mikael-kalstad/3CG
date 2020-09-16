@@ -30,7 +30,10 @@ const Ecg = () => {
   let points = formatDataToPoints(json);
 
   return (
-    <Canvas camera={{ position: [-40, 10, 10], fov: 35 }}>
+    <Canvas
+      camera={{ position: [-40, 10, 10], fov: 35 }}
+      style={{ background: "#324444" }}
+    >
       <CameraControls />
       <ambientLight />
       <pointLight position={[-10, 10, -10]} castShadow />
