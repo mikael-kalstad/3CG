@@ -13,11 +13,17 @@ const formatDataToPoints = (data) => {
   for (let channel in samplesKeys) {
     let arr = samples[samplesKeys[channel]];
     let channelPoints = [];
-    let nPoints = 500;
+    let nPoints = 3000;
+    let scale = 0.4;
+    nPoints = nPoints > arr.length ? arr.length : nPoints;
     for (let i in arr) {
       if (i > nPoints) break;
 
-      channelPoints.push([i * 1 - nPoints / 2, arr[i], channel * 5]);
+      channelPoints.push([
+        i * scale - (scale * nPoints) / 2,
+        arr[i],
+        channel * 10,
+      ]);
     }
 
     points.push(channelPoints);
