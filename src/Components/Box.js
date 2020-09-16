@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useSpring } from "@react-spring/core";
-import { a } from "@react-spring/three";
+import React, { useRef, useState, useEffect } from 'react';
+import { useSpring } from '@react-spring/core';
+import { a } from '@react-spring/three';
 
 const Box = (props) => {
   const [active, setActive] = useState(0);
@@ -30,7 +30,7 @@ const Box = (props) => {
 
   const scale = spring.to([0, 1], [1, 2]);
   const rotation = spring.to([0, 1], [0, Math.PI]);
-  const color = spring.to([0, 1], ["#50c878", "#e45858"]);
+  const color = spring.to([0, 1], ['#50c878', '#e45858']);
 
   return (
     <a.mesh
