@@ -13,11 +13,17 @@ const formatDataToPoints = (data) => {
   for (let channel in samplesKeys) {
     let arr = samples[samplesKeys[channel]];
     let channelPoints = [];
-
+    let nPoints = 3000;
+    let scale = 0.4;
+    nPoints = nPoints > arr.length ? arr.length : nPoints;
     for (let i in arr) {
-      if (i > 100) break;
+      if (i > nPoints) break;
 
-      channelPoints.push([i * 5, arr[i], channel * 2]);
+      channelPoints.push([
+        i * scale - (scale * nPoints) / 2,
+        arr[i],
+        channel * 10,
+      ]);
     }
 
     points.push(channelPoints);
@@ -31,7 +37,7 @@ const Ecg = () => {
 
   return (
     <Canvas
-      camera={{ position: [-40, 10, 10], fov: 35 }}
+      camera={{ position: [-40, 10, 10], fov: 55 }}
       style={{ background: "#324444" }}
     >
       <CameraControls />
