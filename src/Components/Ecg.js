@@ -40,8 +40,8 @@ const Ecg = () => {
       <CameraControls />
       <ambientLight />
       <pointLight position={[-10, 10, -10]} castShadow />
-
       <Waves data={points} />
+      <gridHelper scale={[10, 10, 10]} />
     </Canvas>
   );
 };
