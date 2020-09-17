@@ -1,13 +1,13 @@
-import React from 'react';
-import { Canvas } from 'react-three-fiber';
-import CameraControls from './CameraControls';
-import Waves from './Waves';
-import json from './data.json';
+import React from "react";
+import { Canvas } from "react-three-fiber";
+import CameraControls from "./CameraControls";
+import Waves from "./Waves";
+import json from "./data.json";
 
 const formatDataToPoints = (data) => {
   let points = [];
   console.log(data);
-  let samples = data['samples'];
+  let samples = data["samples"];
   let samplesKeys = Object.keys(samples);
 
   for (let channel in samplesKeys) {
@@ -36,7 +36,10 @@ const Ecg = () => {
   let points = formatDataToPoints(json);
 
   return (
-    <Canvas camera={{ position: [-40, 10, -130], fov: 75 }}>
+    <Canvas
+      camera={{ position: [-40, 10, 10], fov: 55 }}
+      style={{ background: "#324444" }}
+    >
       <CameraControls />
       <ambientLight />
       <pointLight position={[-10, 10, -10]} castShadow />
