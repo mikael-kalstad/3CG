@@ -1,7 +1,7 @@
-import React, { useMemo, useCallback, useState } from "react";
-import * as THREE from "three";
-import { useSpring } from "@react-spring/core";
-import { a } from "@react-spring/three";
+import React, { useMemo, useCallback, useState } from 'react';
+import * as THREE from 'three';
+import { useSpring } from '@react-spring/core';
+import { a } from '@react-spring/three';
 
 const Line = (props) => {
   const [hover, setHover] = useState(0);
@@ -24,7 +24,7 @@ const Line = (props) => {
     (self) => {
       self.setFromPoints(points);
       let colors = getColorData(props.data);
-      self.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+      self.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     },
     [points, props.data]
   );
@@ -62,7 +62,7 @@ const Line = (props) => {
         );
     }
     // console.log("end of method...");
-    console.log(arr);
+    // console.log(arr);
     return new Float32Array(arr);
   };
 
@@ -84,9 +84,9 @@ const Line = (props) => {
             name="line"
             attach="material"
             linewidth={1000}
-            linecap={"round"}
-            linejoin={"round"}
-            vertexColors={"VertexColors"}
+            linecap={'round'}
+            linejoin={'round'}
+            vertexColors={'VertexColors'}
           />
         </line>
       </a.mesh>

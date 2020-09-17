@@ -1,13 +1,14 @@
-import React from "react";
-import { Canvas } from "react-three-fiber";
-import CameraControls from "./CameraControls";
-import Waves from "./Waves";
-import json from "./data.json";
+import React from 'react';
+import { Canvas } from 'react-three-fiber';
+import CameraControls from './CameraControls';
+import Label from './Label';
+import Wave from './Wave';
+import { dataService } from '../Services/DataService';
 
 const formatDataToPoints = (data) => {
   let points = [];
-  console.log(data);
-  let samples = data["samples"];
+
+  let samples = data['samples'];
   let samplesKeys = Object.keys(samples);
 
   for (let channel in samplesKeys) {
@@ -28,24 +29,25 @@ const formatDataToPoints = (data) => {
 
     points.push(channelPoints);
   }
-
+  console.log(points);
   return points;
 };
 
 const Ecg = () => {
-  let points = formatDataToPoints(json);
-
+  let points = formatDataToPoints(dataService.getJSON());
+  let channelNames = dataService.getChannelNamesArray();
+  console.log(points[3][parseInt(points[3].length / 2)]);
   return (
-    <Canvas
-      camera={{ position: [-40, 10, 10], fov: 55 }}
-      style={{ background: "#324444" }}
-    >
-      <CameraControls />
-      <ambientLight />
-      <pointLight position={[-10, 10, -10]} castShadow />
-      <Waves data={points} />
-      <gridHelper scale={[10, 10, 10]} />
-    </Canvas>
+    <>
+      {points.map((channel, i) => (
+        <>
+          <Label position={channel[parseInt(channel.length / 2)]}>
+            {channelNames[i]}
+          </Label>
+          <Wave data={channel} key={channel} />
+        </>
+      ))}
+    </>
   );
 };
 

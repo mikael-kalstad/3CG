@@ -1,14 +1,12 @@
-import React from "react";
-import Layout from "./Layout";
-import Ecg from "./Components/Ecg";
+import React from 'react';
+import Scene from './Components/Scene';
 
 const App = () => {
   return (
-    <Layout>
-      <Ecg />
-
+    <>
+      <Scene></Scene>
       <p>content goes here...</p>
-    </Layout>
+    </>
   );
 };
 
