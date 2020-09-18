@@ -25,11 +25,7 @@ export const formatDataToPoints = (data) => {
     for (let point in channelData) {
       if (point > MAX_NUM_OF_POINTS) break;
 
-      channelPoints.push([
-        point * SCALE - (SCALE * MAX_NUM_OF_POINTS) / 2,
-        channelData[point],
-        i * 10,
-      ]);
+      channelPoints.push([point * SCALE, channelData[point], i * 10]);
     }
 
     points.push(channelPoints);
@@ -37,31 +33,3 @@ export const formatDataToPoints = (data) => {
 
   return points;
 };
-
-// const formatDataToPoints = (data) => {
-//     let points = [];
-//     console.log(data);
-//     let samples = data["samples"];
-//     let samplesKeys = Object.keys(samples);
-
-//     for (let channel in samplesKeys) {
-//       let arr = samples[samplesKeys[channel]];
-//       let channelPoints = [];
-//       let nPoints = 3000;
-//       let scale = 0.4;
-//       nPoints = nPoints > arr.length ? arr.length : nPoints;
-//       for (let i in arr) {
-//         if (i > nPoints) break;
-
-//         channelPoints.push([
-//           i * scale - (scale * nPoints) / 2,
-//           arr[i],
-//           channel * 10,
-//         ]);
-//       }
-
-//       points.push(channelPoints);
-//     }
-
-//     return points;
-//   };
