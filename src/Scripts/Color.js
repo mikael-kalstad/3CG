@@ -13,15 +13,7 @@ export const getColorData = (data) => {
     let x = parseInt(i / (data.length / colors.length));
 
     if (x === colors.length - 1)
-      colors[x][0] +
-        (colors[x - 1][0] + colors[x][0]) *
-          (i / (x + 1) / (data.length / colors.length)),
-        colors[x][1] +
-          (colors[x - 1][1] + colors[x][1]) *
-            (i / (x + 1) / (data.length / colors.length)),
-        colors[x][2] +
-          (colors[x - 1][2] + colors[x][2]) *
-            (i / (x + 1) / (data.length / colors.length));
+      arr.push(colors[x][0], colors[x][1], colors[x][2]);
     else
       arr.push(
         colors[x][0] +
@@ -35,6 +27,5 @@ export const getColorData = (data) => {
             (i / (x + 1) / (data.length / colors.length))
       );
   }
-
   return new Float32Array(arr);
 };
