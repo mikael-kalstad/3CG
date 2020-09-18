@@ -1,6 +1,6 @@
-import React from "react";
-import { Html } from "drei";
-import styled from "styled-components";
+import React from 'react';
+import { Html } from 'drei';
+import styled from 'styled-components';
 
 const Title = styled.h1`
   width: 150px;
@@ -17,7 +17,7 @@ const Title = styled.h1`
 
 const Text = (props) => {
   return (
-    <group position={[-2, 5, 0]}>
+    <group position={props.position}>
       <Html>
         <Title>{props.children}</Title>
       </Html>
