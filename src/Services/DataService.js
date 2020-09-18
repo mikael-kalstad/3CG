@@ -11,6 +11,18 @@ class DataService {
     return this.json;
   }
 
+  getDuration() {
+    return this.json.duration;
+  }
+
+  getRecID() {
+    return this.json.rec_id;
+  }
+
+  getSampleRate() {
+    return this.json.sample_rate;
+  }
+
   getChannelNamesArray() {
     return Object.keys(this.json.samples);
   }

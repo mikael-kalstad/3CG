@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { useSpring } from '@react-spring/core';
 import { a } from '@react-spring/three';
 
-const Line = (props) => {
+const Wave = (props) => {
   const [hover, setHover] = useState(0);
   const [clicked, setClicked] = useState(0);
   // const [colors, setColors] = useState(undefined);
@@ -94,4 +94,4 @@ const Line = (props) => {
   );
 };
 
-export default Line;
+export default Wave;
