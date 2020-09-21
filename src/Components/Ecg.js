@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useFrame } from "react-three-fiber";
-import { formatDataToPoints } from "../Scripts/DataConverter";
-import { dataService } from "../Services/DataService";
-import Wave from "./Wave";
-import Label from "./Label";
+import React, { useState, useEffect, useRef, Suspense } from 'react';
+import { useFrame } from 'react-three-fiber';
+import { formatDataToPoints } from '../Scripts/DataConverter';
+import { dataService } from '../Services/DataService';
+import { noteService } from '../Services/NoteService';
+import Wave from './Wave';
+
+import Note from './Note';
 
 const MAX_POINTS_TO_RENDER = 1000;
 
@@ -22,7 +24,6 @@ const Ecg = (props) => {
 
   let points = formatDataToPoints(dataService.getJSON());
   let channelNames = dataService.getChannelNamesArray();
-  console.log(points[3][parseInt(points[3].length / 2)]);
 
   const mesh = useRef();
 
@@ -41,16 +42,18 @@ const Ecg = (props) => {
   }, []);
 
   return (
-    <mesh ref={mesh}>
-      {renderPoints.map((channel, i) => (
-        <>
-          <Label position={channel[parseInt(channel.length / 2)]}>
-            {channelNames[i]}
-          </Label>
-          <Wave data={channel} key={channel} />
-        </>
-      ))}
-    </mesh>
+    <Suspense fallback={null}>
+      <mesh ref={mesh}>
+        {renderPoints.map((channel, i) => (
+          <>
+            <Note pos={channel[0].map((val, i) => (i != 2 ? val - 2 : val))}>
+              {channelNames[i]}
+            </Note>
+            <Wave data={channel} key={channel} />
+          </>
+        ))}
+      </mesh>
+    </Suspense>
   );
 };
 
