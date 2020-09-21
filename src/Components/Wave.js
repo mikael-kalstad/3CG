@@ -1,12 +1,12 @@
-import React, { useMemo, useCallback, useState } from 'react';
-import * as THREE from 'three';
-import { useSpring } from '@react-spring/core';
-import { a } from '@react-spring/three';
+import React, { useMemo, useCallback, useState } from "react";
+import * as THREE from "three";
+import { useSpring } from "@react-spring/core";
+import { a } from "@react-spring/three";
+import { getColorData } from "../Scripts/Color";
 
-const Line = (props) => {
+const Wave = (props) => {
   const [hover, setHover] = useState(0);
   const [clicked, setClicked] = useState(0);
-  // const [colors, setColors] = useState(undefined);
 
   const points = useMemo(
     () => props.data.map((p) => new THREE.Vector3(p[0], p[1], p[2])),
@@ -24,49 +24,10 @@ const Line = (props) => {
     (self) => {
       self.setFromPoints(points);
       let colors = getColorData(props.data);
-      self.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      self.setAttribute("color", new THREE.BufferAttribute(colors, 3));
     },
     [points, props.data]
   );
-
-  const getColorData = (data) => {
-    // console.log("start of methd...");
-    let arr = [];
-    // console.log("length", data.length);
-
-    let colors = [
-      [1.0, 0.0, 0.0],
-      [1.0, 1.0, 0.0],
-      [0.0, 1.0, 1.0],
-      [0.125, 0.694, 0.141],
-    ];
-
-    for (let i = 0; i < data.length; i++) {
-      let x = parseInt(i / (data.length / colors.length));
-      // console.log(x);
-      // console.log(colors[x]);
-
-      if (x === colors.length - 1)
-        arr.push(colors[x][0], colors[x][1], colors[x][2]);
-      else
-        arr.push(
-          colors[x][0] +
-            (colors[x + 1][0] - colors[x][0]) *
-              (i / (x + 1) / (data.length / colors.length)),
-          colors[x][1] +
-            (colors[x + 1][1] - colors[x][1]) *
-              (i / (x + 1) / (data.length / colors.length)),
-          colors[x][2] +
-            (colors[x + 1][2] - colors[x][2]) *
-              (i / (x + 1) / (data.length / colors.length))
-        );
-    }
-    // console.log("end of method...");
-    // console.log(arr);
-    return new Float32Array(arr);
-  };
-
-  // getColorData(props.data);
 
   return (
     <a.group
@@ -77,16 +38,14 @@ const Line = (props) => {
     >
       <a.mesh>
         <line position={[0, -2.5, -10]} scale={[1, 100, 1]}>
-          <bufferGeometry attach="geometry" onUpdate={onUpdate}>
-            {/* <bufferAttribute color={colors} /> */}
-          </bufferGeometry>
+          <bufferGeometry attach="geometry" onUpdate={onUpdate} />
           <lineBasicMaterial
             name="line"
             attach="material"
             linewidth={1000}
-            linecap={'round'}
-            linejoin={'round'}
-            vertexColors={'VertexColors'}
+            linecap={"round"}
+            linejoin={"round"}
+            vertexColors={"VertexColors"}
           />
         </line>
       </a.mesh>
@@ -94,4 +53,4 @@ const Line = (props) => {
   );
 };
 
-export default Line;
+export default Wave;

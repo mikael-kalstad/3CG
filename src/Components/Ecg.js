@@ -1,45 +1,48 @@
-import React from 'react';
-import { Canvas } from 'react-three-fiber';
-import CameraControls from './CameraControls';
-import Label from './Label';
-import Wave from './Wave';
-import { dataService } from '../Services/DataService';
+import React, { useState, useEffect, useRef } from "react";
+import { useFrame } from "react-three-fiber";
+import { formatDataToPoints } from "../Scripts/DataConverter";
+import { dataService } from "../Services/DataService";
+import Wave from "./Wave";
+import Label from "./Label";
 
-const formatDataToPoints = (data) => {
-  let points = [];
+const MAX_POINTS_TO_RENDER = 1000;
 
-  let samples = data['samples'];
-  let samplesKeys = Object.keys(samples);
+const getPoints = (points, time) => {
+  let arr = [];
 
-  for (let channel in samplesKeys) {
-    let arr = samples[samplesKeys[channel]];
-    let channelPoints = [];
-    let nPoints = 3000;
-    let scale = 0.4;
-    nPoints = nPoints > arr.length ? arr.length : nPoints;
-    for (let i in arr) {
-      if (i > nPoints) break;
+  points.forEach((channel) => {
+    arr.push(channel.slice(time, MAX_POINTS_TO_RENDER + time));
+  });
 
-      channelPoints.push([
-        i * scale - (scale * nPoints) / 2,
-        arr[i],
-        channel * 10,
-      ]);
-    }
-
-    points.push(channelPoints);
-  }
-  console.log(points);
-  return points;
+  return arr;
 };
 
-const Ecg = () => {
+const Ecg = (props) => {
+  const [renderPoints, setRenderPoints] = useState([]);
+
   let points = formatDataToPoints(dataService.getJSON());
   let channelNames = dataService.getChannelNamesArray();
   console.log(points[3][parseInt(points[3].length / 2)]);
+
+  const mesh = useRef();
+
+  useFrame(() => {
+    if (props.play) mesh.current.position.x -= 0.1;
+  });
+
+  useEffect(() => {
+    let time = 0;
+    const interval = setInterval(() => {
+      time++;
+      setRenderPoints(getPoints(points, time));
+      // console.log(getPoints(points, time));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <>
-      {points.map((channel, i) => (
+    <mesh ref={mesh}>
+      {renderPoints.map((channel, i) => (
         <>
           <Label position={channel[parseInt(channel.length / 2)]}>
             {channelNames[i]}
@@ -47,7 +50,7 @@ const Ecg = () => {
           <Wave data={channel} key={channel} />
         </>
       ))}
-    </>
+    </mesh>
   );
 };
 
