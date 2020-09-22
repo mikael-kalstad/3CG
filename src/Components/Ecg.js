@@ -31,9 +31,9 @@ const Ecg = (props) => {
     return () => clearInterval(intervalId);
   }, [props.play]);
 
-  useFrame((state, delta) => {
-    if (props.play) mesh.current.position.x -= 0.01 * (60 * delta);
-  });
+  // useFrame((state, delta) => {
+  //   if (props.play) mesh.current.position.x -= 0.01 * (60 * delta);
+  // });
 
   return (
     <Suspense fallback={null}>
