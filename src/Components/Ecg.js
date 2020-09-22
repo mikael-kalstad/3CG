@@ -5,50 +5,50 @@ import { dataService } from "../Services/DataService";
 import Wave from "./Wave";
 import Label from "./Label";
 
-const MAX_POINTS_TO_RENDER = 1000;
+let pointData = formatDataToPoints(dataService.getJSON());
+let channelNames = dataService.getChannelNamesArray();
 
-const getPoints = (points, time) => {
-  let arr = [];
-
-  points.forEach((channel) => {
-    arr.push(channel.slice(time, MAX_POINTS_TO_RENDER + time));
-  });
-
-  return arr;
-};
+// -- !! This constant will be moved outside when timline-component is ready !! --
+const MAX_POINTS_TO_RENDER = 200;
 
 const Ecg = (props) => {
-  const [renderPoints, setRenderPoints] = useState([]);
-
-  let points = formatDataToPoints(dataService.getJSON());
-  let channelNames = dataService.getChannelNamesArray();
-  console.log(points[3][parseInt(points[3].length / 2)]);
-
+  const [time, setTime] = useState(0);
   const mesh = useRef();
 
-  useFrame(() => {
-    if (props.play) mesh.current.position.x -= 0.1;
-  });
-
   useEffect(() => {
-    let time = 0;
-    const interval = setInterval(() => {
-      time++;
-      setRenderPoints(getPoints(points, time));
-      // console.log(getPoints(points, time));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    // Update time state every set interval, used to synchronize "play" functin of ecg-waves
+    const intervalId = setInterval(() => {
+      // Only update time if play state is active
+      if (props.play) {
+        setTime((time) => {
+          return time + 1;
+        });
+      }
+    }, 500);
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
+  }, [props.play]);
+
+  useFrame((state, delta) => {
+    if (props.play) mesh.current.position.x -= 0.01 * (60 * delta);
+  });
 
   return (
     <mesh ref={mesh}>
-      {renderPoints.map((channel, i) => (
-        <>
+      {/* Render every channel as a 3D wave */}
+      {pointData.map((channel, i) => (
+        <React.Fragment key={i}>
           <Label position={channel[parseInt(channel.length / 2)]}>
             {channelNames[i]}
           </Label>
-          <Wave data={channel} key={channel} />
-        </>
+          <Wave
+            data={channel}
+            start={time}
+            end={MAX_POINTS_TO_RENDER}
+            play={props.play}
+          />
+        </React.Fragment>
       ))}
     </mesh>
   );

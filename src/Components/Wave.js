@@ -1,5 +1,6 @@
-import React, { useMemo, useCallback, useState } from "react";
+import React, { useState } from "react";
 import * as THREE from "three";
+import { useUpdate } from "react-three-fiber";
 import { useSpring } from "@react-spring/core";
 import { a } from "@react-spring/three";
 import { getColorData } from "../Scripts/Color";
@@ -7,26 +8,43 @@ import { getColorData } from "../Scripts/Color";
 const Wave = (props) => {
   const [hover, setHover] = useState(0);
   const [clicked, setClicked] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
-  const points = useMemo(
-    () => props.data.map((p) => new THREE.Vector3(p[0], p[1], p[2])),
-    [props.data]
-  );
-
+  // React-spring animation config
   const { spring } = useSpring({
     spring: hover || clicked,
     config: { mass: 5, tension: 400, friction: 50, precision: 0.0001 },
   });
 
+  // Scale on hover with mouse
   const scale = spring.to([0, 1], [1, 5]);
 
-  const onUpdate = useCallback(
+  // Return an array of points with a start and end
+  const updatePoints = (data, start, end) => {
+    return data.slice(start, end + start);
+  };
+
+  const ref = useUpdate(
     (self) => {
-      self.setFromPoints(points);
-      let colors = getColorData(props.data);
+      // Set specific range which is to be shown
+      self.setDrawRange(props.start, props.end);
+
+      // Only render points once
+      if (!mounted) {
+        self.setFromPoints(
+          props.data.map((p) => new THREE.Vector3(p[0], p[1], p[2]))
+        );
+        setMounted(true);
+      }
+
+      // Set gradient color theme to all points that is rendered in setDrawRange method
+      let points = updatePoints(props.data, props.start, props.end);
+      let colors = getColorData(points, props.start);
       self.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+      self.verticesNeedUpdate = true;
     },
-    [points, props.data]
+    [props.data, props.start, props.end, props.play]
   );
 
   return (
@@ -38,7 +56,7 @@ const Wave = (props) => {
     >
       <a.mesh>
         <line position={[0, -2.5, -10]} scale={[1, 100, 1]}>
-          <bufferGeometry attach="geometry" onUpdate={onUpdate} />
+          <bufferGeometry attach="geometry" ref={ref} />
           <lineBasicMaterial
             name="line"
             attach="material"
