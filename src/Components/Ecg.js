@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { useFrame } from "react-three-fiber";
 import { formatDataToPoints } from "../Scripts/DataConverter";
 import { dataService } from "../Services/DataService";
+import { noteService } from "../Services/NoteService";
 import Wave from "./Wave";
-import Label from "./Label";
+import Note from "./Note";
 
-let pointData = formatDataToPoints(dataService.getJSON());
+let renderPoints = formatDataToPoints(dataService.getJSON());
 let channelNames = dataService.getChannelNamesArray();
 
 // -- !! This constant will be moved outside when timline-component is ready !! --
@@ -35,22 +36,24 @@ const Ecg = (props) => {
   });
 
   return (
-    <mesh ref={mesh}>
-      {/* Render every channel as a 3D wave */}
-      {pointData.map((channel, i) => (
-        <React.Fragment key={i}>
-          <Label position={channel[parseInt(channel.length / 2)]}>
-            {channelNames[i]}
-          </Label>
-          <Wave
-            data={channel}
-            start={time}
-            end={MAX_POINTS_TO_RENDER}
-            play={props.play}
-          />
-        </React.Fragment>
-      ))}
-    </mesh>
+    <Suspense fallback={null}>
+      <mesh ref={mesh}>
+        {/* Render every channel as a 3D wave */}
+        {renderPoints.map((channel, i) => (
+          <React.Fragment key={i}>
+            <Note pos={channel[0].map((val, i) => (i != 2 ? val - 2 : val))}>
+              {channelNames[i]}
+            </Note>
+            <Wave
+              data={channel}
+              start={time}
+              end={MAX_POINTS_TO_RENDER}
+              play={props.play}
+            />
+          </React.Fragment>
+        ))}
+      </mesh>
+    </Suspense>
   );
 };
 

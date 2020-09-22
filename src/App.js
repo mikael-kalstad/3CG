@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Scene from "./Components/Scene";
-import Layout from "./Components/Layout";
+import React, { useState, Suspense } from 'react';
+import styled from 'styled-components';
+import Scene from './Components/Scene';
+import Layout from './Components/Layout';
 
 const Wrapper = styled.div`
   position: relative;
@@ -13,10 +13,12 @@ const App = () => {
   const [play, setPlay] = useState(false);
 
   return (
-    <Wrapper>
-      <Scene play={play} />
-      <Layout play={play} setPlay={setPlay} />
-    </Wrapper>
+    <Suspense fallback={<h1>Loading...</h1>}>
+      <Wrapper>
+        <Scene play={play} />
+        <Layout play={play} setPlay={setPlay} />
+      </Wrapper>
+    </Suspense>
   );
 };
 

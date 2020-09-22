@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import * as THREE from "three";
-import { useUpdate } from "react-three-fiber";
+import { useUpdate, useFrame } from "react-three-fiber";
 import { useSpring } from "@react-spring/core";
 import { a } from "@react-spring/three";
 import { getColorData } from "../Scripts/Color";
@@ -9,6 +9,11 @@ const Wave = (props) => {
   const [hover, setHover] = useState(0);
   const [clicked, setClicked] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const group = useRef();
+
+  useFrame((state, delta) => {
+    if (props.play) group.current.position.x -= 0.01 * (60 * delta);
+  });
 
   // React-spring animation config
   const { spring } = useSpring({
@@ -53,6 +58,7 @@ const Wave = (props) => {
       onClick={() => setClicked(Number(!clicked))}
       onPointerOver={() => !clicked && setHover(Number(1))}
       onPointerOut={() => !clicked && setHover(Number(0))}
+      ref={group}
     >
       <a.mesh>
         <line position={[0, -2.5, -10]} scale={[1, 100, 1]}>
