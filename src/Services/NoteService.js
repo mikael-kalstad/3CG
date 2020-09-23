@@ -8,6 +8,14 @@ class NoteService {
     return this.json.annotations;
   }
 
+  getAnnotationsInTimeframe(start, end) {
+    let annotations = this.getAnnotations();
+    let result = [];
+    for (let i in annotations) {
+      let ann = annotations[i];
+    }
+  }
+
   getAIAnnotations() {
     return this.json['ai-annotations'];
   }
