@@ -1,16 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import PlayAndPauseButton from "./Buttons/PlayAndPauseBtn";
-
-const Wrapper = styled.div`
-  position: absolute;
-  z-index: 1000;
-  top: 0;
-`;
+import PlayAndPauseButton from "./UI/Buttons/PlayAndPauseBtn";
+import SideDrawer from "./UI/SideDrawer";
 
 const Layout = (props) => (
   <>
     <PlayAndPauseButton play={props.play} setPlay={props.setPlay} />
+    <SideDrawer
+      channelNames={props.channelNames}
+      toggleChannel={props.toggleChannel}
+      toggleAllChannels={props.toggleAllChannels}
+      channelState={props.channelState}
+    />
   </>
 );
 
