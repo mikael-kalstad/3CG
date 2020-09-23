@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import Drawer from "@material-ui/core/Drawer";
-import MenuBtn from "./Buttons/MenuBtn";
-import CheckList from "./CheckList";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState } from 'react';
+import Drawer from '@material-ui/core/Drawer';
+import MenuBtn from './Buttons/MenuBtn';
+import CheckList from './CheckList';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
   formControl: {
     margin: theme.spacing(3),
   },
   drawerPaper: {
-    width: "250px",
+    width: '250px',
   },
 }));
 
@@ -27,7 +27,7 @@ const SideDrawer = (props) => {
     <>
       <MenuBtn onClick={toggleMenu} />
       <Drawer
-        anchor={"right"}
+        anchor={'right'}
         open={show}
         onClose={() => toggleMenu()}
         classes={{

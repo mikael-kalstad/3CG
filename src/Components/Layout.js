@@ -1,10 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import PlayAndPauseButton from "./UI/Buttons/PlayAndPauseBtn";
-import SideDrawer from "./UI/SideDrawer";
+import React from 'react';
+import styled from 'styled-components';
+import PlayAndPauseButton from './UI/Buttons/PlayAndPauseBtn';
+import MarkBtn from './UI/Buttons/MarkBtn';
+import SideDrawer from './UI/SideDrawer';
 
 const Layout = (props) => (
   <>
+    <MarkBtn onClick={props.toggleMarkMode} markMode={props.markMode} />
     <PlayAndPauseButton play={props.play} setPlay={props.setPlay} />
     <SideDrawer
       channelNames={props.channelNames}

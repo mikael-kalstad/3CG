@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { noteService } from '../Services/NoteService';
 import Wave from './Wave';
 import Note from './Note';
+import MarkPlane from './MarkPlane';
 
 // -- !! This constant will be moved outside when timline-component is ready !! --
 const MAX_POINTS_TO_RENDER = 200;
@@ -24,9 +25,6 @@ const Ecg = (props) => {
     // Cleanup on unmount
     return () => clearInterval(intervalId);
   }, [props.play]);
-  props.renderPoints.forEach((channel, i) =>
-    console.log(i + ': ' + channel[0])
-  );
   return (
     <Suspense fallback={null}>
       <mesh ref={mesh}>
@@ -37,7 +35,7 @@ const Ecg = (props) => {
               <React.Fragment key={i}>
                 <Note
                   position={channel[0].map((val, i) =>
-                    i != 2 ? val - 2 : val
+                    i != 2 ? val - 5 : val
                   )}
                   rotateToCamera={true}
                 >
@@ -53,6 +51,8 @@ const Ecg = (props) => {
             )
         )}
       </mesh>
+
+      {props.markMode && <MarkPlane />}
     </Suspense>
   );
 };

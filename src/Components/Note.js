@@ -10,7 +10,6 @@ const Note = (props) => {
 
   useEffect(() => {
     mesh.current.geometry.computeBoundingBox();
-    mesh.current.position.x -= 3;
   }, [mesh]);
 
   useFrame(() => {

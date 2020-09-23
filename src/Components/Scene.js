@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Canvas } from 'react-three-fiber';
 import CameraControls from './CameraControls';
 import Ecg from './Ecg';
+
 
 const Scene = (props) => {
   return (
@@ -17,7 +18,9 @@ const Scene = (props) => {
         renderPoints={props.renderPoints}
         channelNames={props.channelNames}
         channelState={props.channelState}
+        markMode={props.markMode}
       />
+      
     </Canvas>
   );
 };
