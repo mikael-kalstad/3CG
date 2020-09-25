@@ -16,6 +16,7 @@ const MarkPlane = (props) => {
 
   const onPointerDown = (event) => {
     props.updateXStart(event.point.x);
+    //props.updateXEnd(event.point.x);
     setPressing(true);
   };
 

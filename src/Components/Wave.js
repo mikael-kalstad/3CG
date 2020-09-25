@@ -56,8 +56,8 @@ const Wave = (props) => {
     <a.group
       position-y={scale}
       onClick={() => setClicked(Number(!clicked))}
-      onPointerOver={() => !clicked && setHover(Number(1))}
-      onPointerOut={() => !clicked && setHover(Number(0))}
+      onPointerOver={() => !props.markMode && !clicked && setHover(Number(1))}
+      onPointerOut={() => !props.markMode && !clicked && setHover(Number(0))}
       ref={group}
     >
       <a.mesh>

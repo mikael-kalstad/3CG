@@ -46,6 +46,7 @@ const Ecg = (props) => {
                   start={time}
                   end={MAX_POINTS_TO_RENDER}
                   play={props.play}
+                  markMode={props.markMode}
                 />
               </React.Fragment>
             )
