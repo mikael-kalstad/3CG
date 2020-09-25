@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PlayAndPauseButton from "./UI/Buttons/PlayAndPauseBtn";
 import SideDrawer from "./UI/SideDrawer";
+import TimeLine from "./UI/TimeLine";
 
 const Layout = (props) => (
   <>
@@ -12,6 +13,7 @@ const Layout = (props) => (
       toggleAllChannels={props.toggleAllChannels}
       channelState={props.channelState}
     />
+    <TimeLine />
   </>
 );
 

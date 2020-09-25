@@ -13,6 +13,8 @@
     "drei": "^1.5.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-draggable": "^4.4.3",
+    "react-rnd": "^10.2.3",
     "react-scripts": "3.4.3",
     "react-spring": "^8.0.27",
     "react-spring-three": "^1.0.4",

@@ -8,7 +8,6 @@ const MAX_POINTS_TO_RENDER = 200;
 
 const Ecg = (props) => {
   const [time, setTime] = useState(0);
-  const mesh = useRef();
 
   useEffect(() => {
     // Update time state every set interval, used to synchronize "play" functin of ecg-waves
@@ -27,7 +26,7 @@ const Ecg = (props) => {
 
   return (
     <Suspense fallback={null}>
-      <mesh ref={mesh}>
+      <mesh>
         {/* Render every channel as a 3D wave */}
         {props.renderPoints.map(
           (channel, i) =>
