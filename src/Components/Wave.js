@@ -61,7 +61,7 @@ const Wave = (props) => {
       ref={group}
     >
       <a.mesh>
-        <line position={[0, 0, 0]} scale={[1, 100, 1]}>
+        <line position={[-props.start * 0.4, 0, 0]} scale={[1, 100, 1]}>
           <bufferGeometry attach="geometry" ref={ref} />
           <lineBasicMaterial
             name="line"

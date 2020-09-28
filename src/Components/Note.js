@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import React, { useMemo, useRef, useEffect } from 'react';
 import { useLoader, useUpdate, useThree, useFrame } from 'react-three-fiber';
 import { PlaneGeometry } from 'three';
+import { noteService } from '../Services/NoteService';
 
 const Note = (props) => {
   const font = useLoader(THREE.FontLoader, '/helvetiker_regular.typeface.json');
@@ -10,6 +11,9 @@ const Note = (props) => {
   const textMesh = useRef();
   // const planeMesh = useRef();
 
+  //-----------
+  console.log(noteService.getAnnotationsArray());
+  //-----------
   useEffect(() => {
     textMesh.current.geometry.computeBoundingBox();
   }, [textMesh]);

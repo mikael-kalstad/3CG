@@ -4,8 +4,8 @@ class NoteService {
     this.json = require('../data/annotations.json');
   }
 
-  getAnnotations() {
-    return this.json.annotations;
+  getAnnotationsArray() {
+    return this.json;
   }
 
   getAnnotationsInTimeframe(start, end) {
@@ -14,10 +14,6 @@ class NoteService {
     for (let i in annotations) {
       let ann = annotations[i];
     }
-  }
-
-  getAIAnnotations() {
-    return this.json['ai-annotations'];
   }
 }
 
