@@ -3,7 +3,7 @@ export const formatDataToPoints = (data) => {
   let points = [];
 
   // Samples contains relevant point data
-  let samples = data["samples"];
+  let samples = data['samples'];
 
   // Samples contains several channels with different "key"names
   let samplesKeys = Object.keys(samples);
@@ -25,7 +25,11 @@ export const formatDataToPoints = (data) => {
     for (let point in channelData) {
       if (point > MAX_NUM_OF_POINTS) break;
 
-      channelPoints.push([point * SCALE, channelData[point], i * 10]);
+      channelPoints.push([
+        point * SCALE,
+        channelData[point],
+        i * 10 - (10 * (samplesKeys.length - 1)) / 2,
+      ]);
     }
 
     points.push(channelPoints);

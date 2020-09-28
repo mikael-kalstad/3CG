@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef, Suspense } from "react";
-import { noteService } from "../Services/NoteService";
-import Wave from "./Wave";
-import Note from "./Note";
+import React, { useState, useEffect, useRef, Suspense } from 'react';
+import { noteService } from '../Services/NoteService';
+import Wave from './Wave';
+import Note from './Note';
+import MarkWaves from './Marking/MarkWaves';
 
 // -- !! This constant will be moved outside when timline-component is ready !! --
 const MAX_POINTS_TO_RENDER = 200;
@@ -23,7 +24,6 @@ const Ecg = (props) => {
     // Cleanup on unmount
     return () => clearInterval(intervalId);
   }, [props.play]);
-
   return (
     <Suspense fallback={null}>
       <mesh>
@@ -33,7 +33,10 @@ const Ecg = (props) => {
             props.channelState[i] && (
               <React.Fragment key={i}>
                 <Note
-                  pos={channel[0].map((val, i) => (i != 2 ? val - 2 : val))}
+                  position={channel[0].map((val, i) =>
+                    i != 2 ? val - 2 : val
+                  )}
+                  rotateToCamera={true}
                 >
                   {props.channelNames[i]}
                 </Note>
@@ -42,11 +45,18 @@ const Ecg = (props) => {
                   start={time}
                   end={MAX_POINTS_TO_RENDER}
                   play={props.play}
+                  markMode={props.markMode}
                 />
               </React.Fragment>
             )
         )}
       </mesh>
+
+      <MarkWaves
+        renderPoints={props.renderPoints}
+        maxPointsToRender={MAX_POINTS_TO_RENDER}
+        markMode={props.markMode}
+      />
     </Suspense>
   );
 };

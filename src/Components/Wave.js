@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
-import * as THREE from "three";
-import { useUpdate, useFrame } from "react-three-fiber";
-import { useSpring } from "@react-spring/core";
-import { a } from "@react-spring/three";
-import { getColorData } from "../Scripts/Color";
+import React, { useState, useRef } from 'react';
+import * as THREE from 'three';
+import { useUpdate, useFrame } from 'react-three-fiber';
+import { useSpring } from '@react-spring/core';
+import { a } from '@react-spring/three';
+import { getColorData } from '../Scripts/Color';
 
 const Wave = (props) => {
   const [hover, setHover] = useState(0);
@@ -45,7 +45,7 @@ const Wave = (props) => {
       // Set gradient color theme to all points that is rendered in setDrawRange method
       let points = updatePoints(props.data, props.start, props.end);
       let colors = getColorData(points, props.start);
-      self.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+      self.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
       self.verticesNeedUpdate = true;
     },
@@ -56,20 +56,20 @@ const Wave = (props) => {
     <a.group
       position-y={scale}
       onClick={() => setClicked(Number(!clicked))}
-      onPointerOver={() => !clicked && setHover(Number(1))}
-      onPointerOut={() => !clicked && setHover(Number(0))}
+      onPointerOver={() => !props.markMode && !clicked && setHover(Number(1))}
+      onPointerOut={() => !props.markMode && !clicked && setHover(Number(0))}
       ref={group}
     >
       <a.mesh>
-        <line position={[0, -2.5, -10]} scale={[1, 100, 1]}>
+        <line position={[0, 0, 0]} scale={[1, 100, 1]}>
           <bufferGeometry attach="geometry" ref={ref} />
           <lineBasicMaterial
             name="line"
             attach="material"
             linewidth={1000}
-            linecap={"round"}
-            linejoin={"round"}
-            vertexColors={"VertexColors"}
+            linecap={'round'}
+            linejoin={'round'}
+            vertexColors={'VertexColors'}
           />
         </line>
       </a.mesh>

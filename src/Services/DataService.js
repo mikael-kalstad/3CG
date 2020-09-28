@@ -23,6 +23,61 @@ class DataService {
   getChannelNamesArray() {
     return Object.keys(this.json.samples);
   }
+
+  getSamples() {
+    return this.json.samples;
+  }
+
+  getSamplesInTimeframe(start, end) {
+    if (start < 0 || start > this.getDuration()) {
+      return 'ERROR';
+    }
+    if (end < 0 || end > this.getDuration()) {
+      return 'ERROR';
+    }
+    let samples = this.getSamples();
+    let sampleKeys = this.getChannelNamesArray();
+    let channelSamples = [];
+    for (let i in sampleKeys) {
+      channelSamples[i] = samples[sampleKeys[i]].slice(
+        Math.round(this.getSampleRate() * start),
+        Math.round(this.getSampleRate() * end)
+      );
+    }
+    return channelSamples;
+  }
+
+  getNumOfSamplesInTimeframe(start, end) {
+    if (start < 0 || start > this.getDuration()) {
+      return 'ERROR';
+    }
+    if (end < 0 || end > this.getDuration()) {
+      return 'ERROR';
+    }
+    return (
+      Math.round(this.getSampleRate() * end) -
+      Math.round(this.getSampleRate() * start)
+    );
+  }
+
+  getSamplesByChannel(channel) {
+    return this.json.samples[channel];
+  }
+
+  getSamplesByChannelInTimeframe(channel, start, end) {
+    if (start < 0 || start > this.getDuration()) {
+      return 'ERROR';
+    }
+    if (end < 0 || end > this.getDuration()) {
+      return 'ERROR';
+    }
+    let samples = this.getSamplesByChannel(channel);
+    let channelSamples = samples.slice(
+      Math.round(this.getSampleRate() * start),
+      Math.round(this.getSampleRate() * end)
+    );
+    return channelSamples;
+  }
 }
 
 export let dataService = new DataService('../data/data.json');

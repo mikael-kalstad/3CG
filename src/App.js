@@ -1,9 +1,9 @@
-import React, { useState, Suspense } from "react";
-import styled from "styled-components";
-import Scene from "./Components/Scene";
-import Layout from "./Components/Layout";
-import { formatDataToPoints } from "./Scripts/DataConverter";
-import { dataService } from "./Services/DataService";
+import React, { useState, Suspense } from 'react';
+import styled from 'styled-components';
+import Scene from './Components/Scene';
+import Layout from './Components/Layout';
+import { formatDataToPoints } from './Scripts/DataConverter';
+import { dataService } from './Services/DataService';
 
 const Wrapper = styled.div`
   position: relative;
@@ -22,6 +22,7 @@ const App = () => {
   const [channelState, setChannelState] = useState(
     channelNames.map(() => true)
   );
+  const [markMode, setMarkMode] = useState(false);
 
   // Change state of a specific channel based on index
   const toggleChannel = (index) => {
@@ -35,6 +36,10 @@ const App = () => {
     setChannelState(channelNames.map(() => state));
   };
 
+  const toggleMarkMode = () => {
+    setMarkMode(!markMode);
+  };
+
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <Wrapper>
@@ -43,6 +48,7 @@ const App = () => {
           renderPoints={renderPoints}
           channelNames={channelNames}
           channelState={channelState}
+          markMode={markMode}
         />
         <Layout
           play={play}
@@ -51,6 +57,8 @@ const App = () => {
           channelState={channelState}
           toggleChannel={toggleChannel}
           toggleAllChannels={toggleAllChannels}
+          markMode={markMode}
+          toggleMarkMode={toggleMarkMode}
         />
       </Wrapper>
     </Suspense>
