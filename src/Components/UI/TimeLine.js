@@ -29,15 +29,8 @@ const ResizeIcon = styled.div`
 
 const TimeLine = (props) => {
   const [width, setWidth] = useState("65%");
+  const [xPos, setXPos] = useState(0);
   const ContainerRef = useRef();
-
-  const handleResizeDown = (e) => {
-    e.target.addEventListener("ondrag", move);
-  };
-
-  const handleResizeUp = (e) => {
-    e.target.removeEventListener("ondrag", move);
-  };
 
   const move = (e, data) => {
     console.log(e, data);
@@ -51,6 +44,23 @@ const TimeLine = (props) => {
     setWidth(containerWidth * 0.65 + data.lastX + "px");
   };
 
+  const handleResize = (e, dir) => {
+    console.log("resize", e, dir);
+  };
+
+  const handleDrag = (e, data) => {
+    // console.log("drag", e, data);
+    // setXPos(xPos + e.movementX);
+    console.log(window.innerWidth);
+
+    let newStartTime =
+      (props.dataLength / (window.innerWidth * 0.6)) * (data.x + 1);
+    console.log("new start time", newStartTime);
+    props.timeProps.setStartTime(newStartTime);
+  };
+
+  // console.log("xpos", xPos);
+
   const style = {
     width: "200px",
     height: "100%",
@@ -60,24 +70,32 @@ const TimeLine = (props) => {
 
   return (
     <Container ref={ContainerRef}>
-      {/* <Rnd bounds="parent"> */}
       <Rnd
         bounds="parent"
         style={style}
         default={{ width: "200px", height: "100%", x: 0, y: 0 }}
+        enableResizing={{
+          left: true,
+          right: true,
+          top: false,
+          bottom: false,
+          bottomLeft: false,
+          bottomRight: false,
+          topLeft: false,
+          topRight: false,
+        }}
+        onResize={handleResize}
+        onDrag={handleDrag}
       >
-        <ResizeIcon
+        {/* <ResizeIcon
           position="left"
-          //   onMouseDown={(e) => handleResizeDown(e)}
-          //   onMouseUp={(e) => handleResizeUp(e)}
+         
         />
         <ResizeIcon
           position="right"
-          //   onMouseDown={(e) => handleResizeDown(e)}
-          //   onMouseUp={(e) => handleResizeUp(e)}
-        />
+          
+        /> */}
       </Rnd>
-      {/* </Rnd> */}
     </Container>
   );
 };

@@ -1,29 +1,13 @@
-import React, { useState, useEffect, useRef, Suspense } from 'react';
-import { noteService } from '../Services/NoteService';
-import Wave from './Wave';
-import Note from './Note';
-import MarkWaves from './Marking/MarkWaves';
+import React, { useState, useEffect, useRef, Suspense } from "react";
+import { noteService } from "../Services/NoteService";
+import Wave from "./Wave";
+import Note from "./Note";
+import MarkWaves from "./Marking/MarkWaves";
 
 // -- !! This constant will be moved outside when timline-component is ready !! --
 const MAX_POINTS_TO_RENDER = 200;
 
 const Ecg = (props) => {
-  const [time, setTime] = useState(0);
-
-  useEffect(() => {
-    // Update time state every set interval, used to synchronize "play" functin of ecg-waves
-    const intervalId = setInterval(() => {
-      // Only update time if play state is active
-      if (props.play) {
-        setTime((time) => {
-          return time + 1;
-        });
-      }
-    }, 500);
-
-    // Cleanup on unmount
-    return () => clearInterval(intervalId);
-  }, [props.play]);
   return (
     <Suspense fallback={null}>
       <mesh>
@@ -42,8 +26,8 @@ const Ecg = (props) => {
                 </Note>
                 <Wave
                   data={channel}
-                  start={time}
-                  end={MAX_POINTS_TO_RENDER}
+                  start={props.timeProps.startTime}
+                  end={props.timeProps.endTime}
                   play={props.play}
                   markMode={props.markMode}
                 />

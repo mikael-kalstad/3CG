@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Canvas } from 'react-three-fiber';
-import CameraControls from './CameraControls';
-import Ecg from './Ecg';
+import React, { useState } from "react";
+import { Canvas } from "react-three-fiber";
+import CameraControls from "./CameraControls";
+import Ecg from "./Ecg";
 
 const Scene = (props) => {
   return (
     <Canvas
       camera={{ position: [40, 80, -40], fov: 55 }}
-      style={{ background: '#324444' }}
+      style={{ background: "#324444" }}
     >
       {!props.markMode && <CameraControls />}
       <ambientLight />
@@ -18,6 +18,7 @@ const Scene = (props) => {
         channelNames={props.channelNames}
         channelState={props.channelState}
         markMode={props.markMode}
+        timeProps={props.timeProps}
       />
       <axesHelper position={[0, 40, 0]} scale={[40, 40, 40]}></axesHelper>
     </Canvas>
