@@ -3,14 +3,12 @@
     "onset": "00:02:18.280",
     "duration": 2.442,
     "code": "(SBR",
-    "text": "Sinus bradycardia"}
+    "text": "Sinus bradycardia"
   },
-
   {
     "onset": "00:01:32.350",
     "duration": 11.6,
     "code": "(AFIB",
-    "text": "Atrial fibrillation"}
-  },
-
+    "text": "Atrial fibrillation"
+  }
 ]
