@@ -22,6 +22,7 @@ const MarkPlane = (props) => {
 
   const onPointerUp = (event) => {
     setPressing(false);
+    console.log('Hello');
   };
 
   const onPointerDrag = (event) => {
@@ -34,6 +35,7 @@ const MarkPlane = (props) => {
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       onPointerMove={pressing && onPointerDrag}
+      onPointerOut={pressing && onPointerUp}
     >
       <boxBufferGeometry attach="geometry" />
       <meshPhongMaterial opacity={0} attach="material" transparent={true} />
