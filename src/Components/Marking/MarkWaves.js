@@ -21,17 +21,17 @@ const MarkWaves = (props) => {
   let middlePoint = width / 2;
   return (
     <>
-      {props.markMode && (
-        <>
+      <>
+        {props.markMode && (
           <MarkPlane
             width={width}
             middlePoint={middlePoint}
             updateXStart={updateXStart}
             updateXEnd={updateXEnd}
           />
-          <SelectedPlane selected={selected} />
-        </>
-      )}
+        )}
+        <SelectedPlane selected={selected} />
+      </>
     </>
   );
 };
