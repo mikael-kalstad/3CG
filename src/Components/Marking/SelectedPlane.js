@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { useUpdate, useFrame, extend } from 'react-three-fiber';
 import { MeshLine, MeshLineMaterial, MeshLineRaycast } from 'three.meshline';
+import { dataService } from '../../Services/DataService';
+import { Vector3 } from 'three';
 const TRANSPARANCY_PLANE = 0.3;
 const TRANSPARANCY_LINE = 0.6;
 const YSCALE = 0.2;
@@ -40,14 +42,30 @@ const SelectedPlane = (props) => {
   const shouldRender = (selected) => {
     return Math.abs(selected[1] - selected[0]) > 0.001;
   };
-  const points = [];
-  for (let j = 0; j < Math.PI * 5; j += (2 * Math.PI) / 100) {
-    points.push(Math.cos(j) * 10, Math.sin(j) * 10, j);
-  }
-  // const line = new MeshLine();
-  // line.setPoints(points);
-  // const material = new MeshLineMaterial({ color: 0xffffff });
-  // const object = THREE.Mesh(line, material);
+  // let points = dataService.getPointsNearestTime(1 / 500);
+  // console.log(points);
+  // let vectors = new Float32Array(points.length * 3);
+  // console.log(vectors);
+  // for (let i = 0; i < points.length; i++) {
+  //   console.log(i);
+  //   vectors[3 * i] = i * 0.4;
+  //   vectors[3 * i + 1] = points[i]*20;
+  //   vectors[3 * i + 2] = i * 10 - (10 * (points.length - 1)) / 2;
+  // }
+  // console.log(vectors);
+
+  // var geom = new THREE.Geometry();
+  // var v1 = new THREE.Vector3(0, 0, 0);
+  // var v2 = new THREE.Vector3(0, 5, 0);
+  // var v3 = new THREE.Vector3(0, 5, 5);
+
+  // geom.vertices.push(v1);
+  // geom.vertices.push(v2);
+  // geom.vertices.push(v3);
+
+  // geom.faces.push(new THREE.Face3(0, 1, 2));
+
+  // var object = new THREE.Mesh(geom, new THREE.MeshNormalMaterial());
 
   return (
     <group>
@@ -73,6 +91,11 @@ const SelectedPlane = (props) => {
           sizeAttenuation={true}
         />
       </mesh>
+      {/* <mesh>
+        <bufferGeometry attach="geometry" vertices={vectors} />
+        <meshPhongMaterial attach="material" />
+      </mesh> */}
+      {/* <primitive object={object} position={[0, 0, 0.55]} scale={[1, 1, 1]} />; */}
     </group>
   );
 };
