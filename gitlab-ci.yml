@@ -1,0 +1,22 @@
+image: node:latest
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - npm install
+    - npm build
+
+pages:
+  stage: deploy
+  script:
+    - mkdir .public
+    - ls
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
