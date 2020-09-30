@@ -1,20 +1,19 @@
 image: node:latest
 
-stages:
-  - build
-  - deploy
+cache:
+  paths:
+    - node_modules/
 
-build:
-  stage: build
-  script:
-    - npm install
-    - npm build
+stages:
+  - deploy
 
 pages:
   stage: deploy
   script:
-    - mkdir .public
-    - ls
+    - npm run build
+    - rm -rf public
+    - mv build public
+
   artifacts:
     paths:
       - public
