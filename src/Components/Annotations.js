@@ -6,11 +6,11 @@ import * as THREE from 'three';
 const Annotations = (props) => {
   const planeMesh = useRef();
   const annotations = annotationService.getAnnotations();
-  let width = 0;
+  let width = (annotations[0].end - annotations[0].start) * 0.4;
   useEffect(() => {
     let width = (annotations[0].end - annotations[0].start) * 0.4;
     planeMesh.current.rotateX(-Math.PI / 2);
-    planeMesh.current.scale.set(width, 120, 0.1);
+    planeMesh.current.scale.set(80, 120, 0.1);
     planeMesh.current.position.set(0, -25, 60);
     // console.log(planeMesh);
     // let worldPos = new THREE.Vector3();
@@ -20,9 +20,10 @@ const Annotations = (props) => {
   return (
     <group
       position={[
-        (annotations[0].start +
-          (annotations[0].end - annotations[0].start) / 2) *
-          0.004,
+        60,
+        // (annotations[0].start +
+        //   (annotations[0].end - annotations[0].start) / 2) *
+        //   0.004,
         25,
         -60,
       ]}
@@ -32,7 +33,7 @@ const Annotations = (props) => {
         backgroundOpacity={0.3}
         backgroundColor={'0xff0000'}
         backgroundSize={[80, 50]}
-        textSize={2.4}
+        textSize={3.4}
         rotation={[0, 0, 0]}
         depth={0.1}
       >

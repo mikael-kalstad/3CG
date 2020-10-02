@@ -50,7 +50,9 @@ const Text = (props) => {
           0.1
         );
       }
-      planeMesh.current.translateZ(props.depth ? -props.depth / 2 : -0.1);
+      planeMesh.current.translateZ(
+        props.depth ? -props.depth / 2 - 0.01 : -0.1
+      );
     }
     if (props.rotateToCamera == undefined && props.rotation) {
       group.current.setRotationFromEuler(

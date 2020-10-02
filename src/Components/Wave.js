@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useUpdate, useFrame } from 'react-three-fiber';
 import { useSpring } from '@react-spring/core';
@@ -18,7 +18,7 @@ const Wave = (props) => {
   // React-spring animation config
   const { spring } = useSpring({
     spring: hover || clicked,
-    config: { mass: 5, tension: 400, friction: 50, precision: 0.0001 },
+    config: { mass: 0.5, tension: 400, friction: 50, precision: 0.0001 },
   });
 
   // Scale on hover with mouse

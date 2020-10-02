@@ -6,7 +6,7 @@ import MarkWaves from './Marking/MarkWaves';
 import Annotations from './Annotations';
 
 // -- !! This constant will be moved outside when timline-component is ready !! --
-const MAX_POINTS_TO_RENDER = 200;
+const MAX_POINTS_TO_RENDER = 400;
 
 const Ecg = (props) => {
   return (
