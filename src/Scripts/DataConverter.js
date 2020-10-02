@@ -28,7 +28,7 @@ export const formatDataToPoints = (data) => {
       channelPoints.push([
         point * SCALE,
         channelData[point],
-        i * 10 - (10 * (samplesKeys.length - 1)) / 2,
+        -i * 10 + (10 * (samplesKeys.length - 1)) / 2,
       ]);
     }
 

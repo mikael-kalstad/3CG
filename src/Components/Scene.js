@@ -6,7 +6,7 @@ import Ecg from './Ecg';
 const Scene = (props) => {
   return (
     <Canvas
-      camera={{ position: [40, 80, -40], fov: 55 }}
+      camera={{ position: [40, 40, 100], fov: 55 }}
       style={{ background: '#324444' }}
     >
       {!props.markMode && <CameraControls />}

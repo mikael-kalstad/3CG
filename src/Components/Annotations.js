@@ -6,15 +6,16 @@ const Annotations = (props) => {
   return (
     <>
       <Text
-        position={[5, 5, 5]}
-        rotateToCamera={false}
+        position={[80 / 2, 25, -60]}
         background={true}
-        backgroundOpacity={0.4}
-        backgroundColor={0x000000}
-        backgroundScaleByText={1.5}
+        backgroundOpacity={0.3}
+        backgroundColor={'0xff0000'}
+        backgroundSize={[80, 50]}
         textSize={2.4}
+        rotation={[0, 0, 0]}
+        depth={0.3}
       >
-        Hello!
+        Pasienten har ikke betalt skatt
       </Text>
     </>
   );
