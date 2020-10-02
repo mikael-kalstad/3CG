@@ -1,4 +1,4 @@
-image: node:latest
+image: node:alpine
 
 cache:
   paths:
@@ -6,6 +6,9 @@ cache:
 
 stages:
   - deploy
+
+variables:
+  PUBLIC_URL: /su3-3cg
 
 before_script:
   - rm -rf build
@@ -17,6 +20,7 @@ pages:
     - CI=false npm run build
     - rm -rf public
     - cp build/index.html build/404.html
+    - mv public _public
     - mv build public
 
   artifacts:
