@@ -1,23 +1,48 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
+import { annotationService } from '../Services/AnnotationService';
 import Text from './Text';
+import * as THREE from 'three';
 
 const Annotations = (props) => {
-  //console.log('timeprops', props.timeProps);
+  const planeMesh = useRef();
+  const annotations = annotationService.getAnnotations();
+  let width = 0;
+  useEffect(() => {
+    let width = (annotations[0].end - annotations[0].start) * 0.4;
+    planeMesh.current.rotateX(-Math.PI / 2);
+    planeMesh.current.scale.set(width, 120, 0.1);
+    planeMesh.current.position.set(0, -25, 60);
+    // console.log(planeMesh);
+    // let worldPos = new THREE.Vector3();
+    // planeMesh.current.getWorldPosition(worldPos);
+    // console.log(worldPos);
+  }, []);
   return (
-    <>
+    <group
+      position={[
+        (annotations[0].start +
+          (annotations[0].end - annotations[0].start) / 2) *
+          0.004,
+        25,
+        -60,
+      ]}
+    >
       <Text
-        position={[80 / 2, 25, -60]}
         background={true}
         backgroundOpacity={0.3}
         backgroundColor={'0xff0000'}
         backgroundSize={[80, 50]}
         textSize={2.4}
         rotation={[0, 0, 0]}
-        depth={0.3}
+        depth={0.1}
       >
-        Pasienten har ikke betalt skatt
+        AI: Pasienten har ikke betalt skatt
       </Text>
-    </>
+      <mesh ref={planeMesh}>
+        <planeBufferGeometry attach="geometry" />
+        <meshPhongMaterial opacity={0.1} attach="material" transparent={true} />
+      </mesh>
+    </group>
   );
 };
 

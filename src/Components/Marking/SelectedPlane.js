@@ -12,19 +12,25 @@ const WIDTH = 115;
 extend({ MeshLine, MeshLineMaterial });
 
 const SelectedPlane = (props) => {
-  const mesh = useRef();
+  const planeMesh = useRef();
+  const lineMesh = useRef();
 
   useEffect(() => {
-    mesh.current.scale.set(0, YSCALE, 115);
-    mesh.current.position.y = YSCALE / 2;
-    mesh.current.material.color.setHex(0xffffff);
+    planeMesh.current.scale.set(0, YSCALE, 115);
+    planeMesh.current.position.y = YSCALE / 2;
+    planeMesh.current.material.color.setHex(0xffffff);
   }, []);
 
   useEffect(() => {
-    if (Math.abs(props.selected[1] - props.selected[0]) > 0.001) {
-      mesh.current.scale.x = props.selected[1] - props.selected[0];
-      mesh.current.position.x =
+    if (shouldRender(props.selected)) {
+      planeMesh.current.scale.x = props.selected[1] - props.selected[0];
+      planeMesh.current.position.x =
         props.selected[0] + (props.selected[1] - props.selected[0]) / 2;
+      planeMesh.current.visible = true;
+      lineMesh.current.visible = true;
+    } else {
+      planeMesh.current.visible = false;
+      lineMesh.current.visible = false;
     }
   }, [props.selected]);
 
@@ -40,7 +46,7 @@ const SelectedPlane = (props) => {
   };
 
   const shouldRender = (selected) => {
-    return Math.abs(selected[1] - selected[0]) > 0.001;
+    return Math.abs(selected[1] - selected[0]) > 0.01;
   };
   // let points = dataService.getPointsNearestTime(1 / 500);
   // console.log(points);
@@ -69,7 +75,7 @@ const SelectedPlane = (props) => {
 
   return (
     <group>
-      <mesh ref={mesh}>
+      <mesh ref={planeMesh}>
         <boxBufferGeometry attach="geometry" />
         <meshPhongMaterial
           opacity={shouldRender(props.selected) ? TRANSPARANCY_PLANE : 0}
@@ -77,7 +83,7 @@ const SelectedPlane = (props) => {
           transparent={true}
         />
       </mesh>
-      <mesh>
+      <mesh ref={lineMesh}>
         <meshLine attach="geometry" points={calculateEdges()} />
         <meshLineMaterial
           attach="material"

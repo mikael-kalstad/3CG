@@ -1,9 +1,9 @@
-import React, { useState, useEffect, Suspense } from "react";
-import styled from "styled-components";
-import Scene from "./Components/Scene";
-import Layout from "./Components/Layout";
-import { formatDataToPoints } from "./Scripts/DataConverter";
-import { dataService } from "./Services/DataService";
+import React, { useState, useEffect, Suspense } from 'react';
+import styled from 'styled-components';
+import Scene from './Components/Scene';
+import Layout from './Components/Layout';
+import { formatDataToPoints } from './Scripts/DataConverter';
+import { dataService } from './Services/DataService';
 
 const Wrapper = styled.div`
   position: relative;
@@ -11,11 +11,11 @@ const Wrapper = styled.div`
   height: 100vh;
 `;
 
-const POINTS_DEFAULT_LENGTH = 200;
+const POINTS_DEFAULT_LENGTH = 500;
 
 // Get points which will be rendered in 3D
 let renderPoints = formatDataToPoints(dataService.getJSON());
-console.log(renderPoints[0].length, "length");
+console.log(renderPoints[0].length, 'length');
 
 // Get names of ecg-channels
 let channelNames = dataService.getChannelNamesArray();
