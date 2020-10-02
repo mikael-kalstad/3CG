@@ -7,6 +7,10 @@ cache:
 stages:
   - deploy
 
+before_script:
+  - rm -rf build
+  - CI=false npm install
+
 pages:
   stage: deploy
   script:
