@@ -3,6 +3,7 @@ import { Canvas } from "react-three-fiber";
 import CameraControls from "./CameraControls";
 import Ecg from "./Ecg";
 import { useModeStore } from "../Store";
+import Grid from "./Grid";
 
 const Scene = () => {
   const markMode = useModeStore((state) => state.markMode);
@@ -17,7 +18,7 @@ const Scene = () => {
       <pointLight position={[-10, 10, -10]} castShadow />
       <Ecg />
       <axesHelper position={[0, 40, 0]} scale={[40, 40, 40]}></axesHelper>
-      <Grid></Grid>
+      <Grid />
     </Canvas>
   );
 };

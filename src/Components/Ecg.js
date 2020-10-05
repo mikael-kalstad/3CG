@@ -1,10 +1,11 @@
-import React, { useContext, Suspense } from "react";
-import Wave from "./Wave";
-import Note from "./Note";
-import MarkWaves from "./Marking/MarkWaves";
+import React, { Suspense } from "react";
 import { formatDataToPoints } from "../Scripts/DataConverter";
 import { dataService } from "../Services/DataService";
 import { useChannelStore } from "../Store";
+import Wave from "./Wave";
+import Text from "./Text";
+import Annotations from "./Annotations";
+import MarkWaves from "./Marking/MarkWaves";
 
 // Get points which will be rendererd
 let renderPoints = formatDataToPoints(dataService.getJSON());
@@ -38,7 +39,7 @@ const Ecg = () => {
                     backgroundScaleByText={1.5}
                     textSize={2.4}
                   >
-                    {props.channelNames[i]}
+                    {channelNames[i]}
                   </Text>
                   <Wave data={channel} />
                 </React.Fragment>
@@ -47,7 +48,7 @@ const Ecg = () => {
       </mesh>
 
       <MarkWaves renderPoints={renderPoints} maxPointsToRender={200} />
-      <Annotations timeProps={props.timeProps}></Annotations>
+      <Annotations />
     </Suspense>
   );
 };

@@ -1,11 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import { useUpdate, useFrame } from 'react-three-fiber';
-import MarkPlane from './MarkPlane';
-import SelectedPlane from './SelectedPlane';
+import React, { useState, useRef, useEffect } from "react";
+import * as THREE from "three";
+import { useUpdate, useFrame } from "react-three-fiber";
+import MarkPlane from "./MarkPlane";
+import SelectedPlane from "./SelectedPlane";
+import { useModeStore } from "../../Store";
 
 const MarkWaves = (props) => {
   const [selected, setSelected] = useState(new Array(2));
+  const markMode = useModeStore((state) => state.markMode);
 
   const updateXStart = (xStart) => {
     setSelected([xStart, xStart]);
