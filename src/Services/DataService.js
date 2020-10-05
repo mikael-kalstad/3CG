@@ -1,7 +1,7 @@
 class DataService {
   constructor(filename) {
     this.filename = filename;
-    this.json = require('../data/data.json');
+    this.json = require("../data/data.json");
   }
 
   getJSON() {
@@ -10,6 +10,10 @@ class DataService {
 
   getDuration() {
     return this.json.duration;
+  }
+
+  getSampleLength() {
+    return this.json.samples.I.length;
   }
 
   getRecID() {
@@ -28,12 +32,16 @@ class DataService {
     return this.json.samples;
   }
 
+  getNumberOfSamples() {
+    return this.json.samples.length;
+  }
+
   getSamplesInTimeframe(start, end) {
     if (start < 0 || start > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     if (end < 0 || end > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     let samples = this.getSamples();
     let sampleKeys = this.getChannelNamesArray();
@@ -49,10 +57,10 @@ class DataService {
 
   getNumOfSamplesInTimeframe(start, end) {
     if (start < 0 || start > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     if (end < 0 || end > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     return (
       Math.round(this.getSampleRate() * end) -
@@ -66,10 +74,10 @@ class DataService {
 
   getSamplesByChannelInTimeframe(channel, start, end) {
     if (start < 0 || start > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     if (end < 0 || end > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     let samples = this.getSamplesByChannel(channel);
     let channelSamples = samples.slice(
@@ -80,4 +88,4 @@ class DataService {
   }
 }
 
-export let dataService = new DataService('../data/data.json');
+export let dataService = new DataService("../data/data.json");

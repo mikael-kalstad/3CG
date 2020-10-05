@@ -1,4 +1,6 @@
 import React from "react";
+import { useChannelStore } from "../../Store";
+import { dataService } from "../../Services/DataService";
 import { makeStyles } from "@material-ui/core/styles";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
@@ -8,6 +10,8 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import Checkbox from "@material-ui/core/Checkbox";
 import Chip from "@material-ui/core/Chip";
 import styled from "styled-components";
+
+const channelNames = dataService.getChannelNamesArray();
 
 const StyledChip = styled(Chip)`
   justify-content: "center";
@@ -41,25 +45,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CheckList = (props) => {
+const CheckList = () => {
+  const [
+    activeChannels,
+    toggleChannel,
+    toggleAllChannels,
+  ] = useChannelStore((state) => [
+    state.activeChannels,
+    state.toggleChannel,
+    state.toggleAllChannels,
+  ]);
   const classes = useStyles();
+
+  console.log(
+    "%c [Checlist] is rendering (sideDrawer child)",
+    "background: #111; color: #ebd31c"
+  );
+
+  console.log("activechannels in chechlist", activeChannels);
 
   return (
     <div className={classes.root}>
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend">Channels</FormLabel>
         <FormGroup>
-          {props.channelState.map((state, i) => (
+          {activeChannels.map((state, i) => (
             <FormControlLabel
-              key={props.channelNames[i]}
+              key={channelNames[i]}
               control={
                 <Checkbox
                   checked={state}
-                  onChange={() => props.toggleChannel(i)}
-                  name={props.channelNames[i]}
+                  onChange={() => toggleChannel(i)}
+                  name={channelNames[i]}
                 />
               }
-              label={props.channelNames[i]}
+              label={channelNames[i]}
             />
           ))}
         </FormGroup>
@@ -70,11 +90,11 @@ const CheckList = (props) => {
           <StyledChip
             label="Select all"
             color="primary"
-            onClick={() => props.toggleAllChannels(true)}
+            onClick={() => toggleAllChannels(true)}
           />
           <StyledChip
             label="Select none"
-            onClick={() => props.toggleAllChannels(false)}
+            onClick={() => toggleAllChannels(false)}
           />
         </ChipWrapper>
       </FormControl>

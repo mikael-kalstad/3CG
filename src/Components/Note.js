@@ -1,18 +1,18 @@
-import * as THREE from 'three';
-import React, { useMemo, useRef, useEffect } from 'react';
-import { useLoader, useUpdate, useThree, useFrame } from 'react-three-fiber';
-import { PlaneGeometry } from 'three';
-import { noteService } from '../Services/NoteService';
+import * as THREE from "three";
+import React, { useMemo, useRef, useEffect } from "react";
+import { useLoader, useUpdate, useThree, useFrame } from "react-three-fiber";
+import { PlaneGeometry } from "three";
+import { noteService } from "../Services/NoteService";
 
 const Note = (props) => {
-  const font = useLoader(THREE.FontLoader, '/helvetiker_regular.typeface.json');
+  const font = useLoader(THREE.FontLoader, "/helvetiker_regular.typeface.json");
   const config = useMemo(() => ({ font, size: 2, height: 0 }), [font]);
   const { gl, scene, camera } = useThree();
   const textMesh = useRef();
   // const planeMesh = useRef();
 
   //-----------
-  console.log(noteService.getAnnotationsArray());
+  // console.log(noteService.getAnnotationsArray());
   //-----------
   useEffect(() => {
     textMesh.current.geometry.computeBoundingBox();

@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import { Rnd } from "react-rnd";
+import { useTimeStore } from "../../Store";
 
 const Container = styled.div`
   width: 60%;
@@ -27,39 +28,49 @@ const ResizeIcon = styled.div`
     props.position === "left" ? "5px 0 0 5px" : "0 5px 5px 0"};
 `;
 
-const TimeLine = (props) => {
-  const [width, setWidth] = useState("65%");
-  const [xPos, setXPos] = useState(0);
+const TimeLine = () => {
+  const [startTime, setStartTime] = useTimeStore((state) => [
+    state.startTime,
+    state.setStartTime,
+  ]);
+
+  const [endTime, setEndTime] = useTimeStore((state) => [
+    state.endTime,
+    state.setEndTime,
+  ]);
+
   const ContainerRef = useRef();
 
-  const move = (e, data) => {
-    console.log(e, data);
-    let rect = e.target.getBoundingClientRect();
-    let x = e.clientX - rect.left; //x position within the element.
+  const handleResize = (e, dir, ref, delta, position) => {
+    // console.log("resize", e, dir);
+    // Calculate new start time based on x position and window width
+    let newStartTime = position.x;
+    // console.log("new start time", newStartTime);
 
-    let containerWidth = ContainerRef.current.clientWidth;
-    // console.log("container width", containerWidth);
-    let newWidth = containerWidth * 0.65 + x;
-    // console.log(newWidth);
-    setWidth(containerWidth * 0.65 + data.lastX + "px");
-  };
+    // Update global start time state
+    setStartTime(newStartTime);
+    // Update global end time state based on scroller width and new start time
+    let newEndTime =
+      newStartTime + Number.parseInt(ref.style.width.split("px")[0]);
+    // console.log("new end time", newEndTime);
+    setEndTime(newEndTime);
 
-  const handleResize = (e, dir) => {
-    console.log("resize", e, dir);
+    // console.log("ref", ref);
+    // console.log("delta", delta);
+    // console.log("position", position);
   };
 
   const handleDrag = (e, data) => {
-    // console.log("drag", e, data);
-    // setXPos(xPos + e.movementX);
-    console.log(window.innerWidth);
+    // console.log("data", data, e);
+    // Calculate new start time based on x position and window width
+    let newStartTime = (1000 / (window.innerWidth * 0.6)) * (data.x + 1);
 
-    let newStartTime =
-      (props.dataLength / (window.innerWidth * 0.6)) * (data.x + 1);
-    console.log("new start time", newStartTime);
-    props.timeProps.setStartTime(newStartTime);
+    // Update global start time state
+    setStartTime(newStartTime);
+
+    // Update global end time state based on scroller width and new start time
+    setEndTime(newStartTime + data.node.scrollWidth);
   };
-
-  // console.log("xpos", xPos);
 
   const style = {
     width: "200px",
@@ -73,7 +84,7 @@ const TimeLine = (props) => {
       <Rnd
         bounds="parent"
         style={style}
-        default={{ width: "200px", height: "100%", x: 0, y: 0 }}
+        default={{ width: "200px", height: "100%", x: startTime, y: 0 }}
         enableResizing={{
           left: true,
           right: true,
@@ -86,16 +97,7 @@ const TimeLine = (props) => {
         }}
         onResize={handleResize}
         onDrag={handleDrag}
-      >
-        {/* <ResizeIcon
-          position="left"
-         
-        />
-        <ResizeIcon
-          position="right"
-          
-        /> */}
-      </Rnd>
+      />
     </Container>
   );
 };

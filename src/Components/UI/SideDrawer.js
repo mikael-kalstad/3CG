@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import MenuBtn from './Buttons/MenuBtn';
-import CheckList from './CheckList';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from "react";
+import Drawer from "@material-ui/core/Drawer";
+import MenuBtn from "./Buttons/MenuBtn";
+import CheckList from "./CheckList";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   formControl: {
     margin: theme.spacing(3),
   },
   drawerPaper: {
-    width: '250px',
+    width: "250px",
   },
 }));
 
-const SideDrawer = (props) => {
+const SideDrawer = () => {
   const [show, setShow] = useState(false);
   const classes = useStyles();
+  console.log(
+    "%c [SideDrawer] is rendering",
+    "background: #111; color: #ebd31c"
+  );
 
   // Toggle between showing and hiding menu
   const toggleMenu = () => setShow(!show);
@@ -27,7 +31,7 @@ const SideDrawer = (props) => {
     <>
       <MenuBtn onClick={toggleMenu} />
       <Drawer
-        anchor={'right'}
+        anchor={"right"}
         open={show}
         onClose={() => toggleMenu()}
         classes={{
@@ -35,12 +39,7 @@ const SideDrawer = (props) => {
         }}
       >
         {/* <Divider /> */}
-        <CheckList
-          channelNames={props.channelNames}
-          toggleChannel={props.toggleChannel}
-          toggleAllChannels={props.toggleAllChannels}
-          channelState={props.channelState}
-        />
+        <CheckList />
       </Drawer>
     </>
   );

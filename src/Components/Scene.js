@@ -1,25 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Canvas } from "react-three-fiber";
 import CameraControls from "./CameraControls";
 import Ecg from "./Ecg";
+import { useModeStore } from "../Store";
 
-const Scene = (props) => {
+const Scene = () => {
+  const markMode = useModeStore((state) => state.markMode);
+
   return (
     <Canvas
       camera={{ position: [40, 80, -40], fov: 55 }}
       style={{ background: "#324444" }}
     >
-      {!props.markMode && <CameraControls />}
+      {!markMode && <CameraControls />}
       <ambientLight />
       <pointLight position={[-10, 10, -10]} castShadow />
-      <Ecg
-        play={props.play}
-        renderPoints={props.renderPoints}
-        channelNames={props.channelNames}
-        channelState={props.channelState}
-        markMode={props.markMode}
-        timeProps={props.timeProps}
-      />
+      <Ecg />
       <axesHelper position={[0, 40, 0]} scale={[40, 40, 40]}></axesHelper>
     </Canvas>
   );
