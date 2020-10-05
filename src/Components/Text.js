@@ -3,7 +3,10 @@ import React, { useMemo, useRef, useEffect } from 'react';
 import { useLoader, useThree, useFrame } from 'react-three-fiber';
 
 const Text = (props) => {
-  const font = useLoader(THREE.FontLoader, '/helvetiker_regular.typeface.json');
+  const font = useLoader(
+    THREE.FontLoader,
+    process.env.PUBLIC_URL + '/helvetiker_regular.typeface.json'
+  );
   const config = useMemo(
     () => ({
       font,
