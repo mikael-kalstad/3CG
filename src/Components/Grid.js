@@ -4,8 +4,8 @@ import * as THREE from 'three';
 
 const Grid = (props) => {
 
-    let xSize = 100;
-    let ySize = 100;
+    let xSize = 82;
+    let ySize = 82;
     let zSize = 1;
     let n = xSize * ySize * zSize;
 
@@ -57,7 +57,7 @@ const Grid = (props) => {
     })));
 
     return (
-        <primitive object={grid} position={[0, 0, 0.55]} scale={[100, 100, 1]} />
+        <primitive object={grid} position={[60, 0, 55]} scale={[xSize - 1, ySize, 1]} />
         //<primitive object={grid} position={props.position} scale={[100, 100, 1]} />
     );
 };
