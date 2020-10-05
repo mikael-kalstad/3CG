@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Canvas } from 'react-three-fiber';
 import CameraControls from './CameraControls';
 import Ecg from './Ecg';
+import Grid from './Grid'
 
 const Scene = (props) => {
   return (
@@ -21,6 +22,7 @@ const Scene = (props) => {
         timeProps={props.timeProps}
       />
       <axesHelper position={[0, 40, 0]} scale={[40, 40, 40]}></axesHelper>
+      <Grid></Grid>
     </Canvas>
   );
 };
