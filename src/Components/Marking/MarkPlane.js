@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useUpdate, useFrame } from 'react-three-fiber';
-import { SentimentSatisfied } from '@material-ui/icons';
+import { dataService } from '../../Services/DataService';
 
 const MarkPlane = (props) => {
   const mesh = useRef();
@@ -11,6 +11,7 @@ const MarkPlane = (props) => {
   useEffect(() => {
     mesh.current.scale.set(props.width, 0.1, 115);
     mesh.current.position.x = props.middlePoint;
+    mesh.current.position.y = -0.2;
     //mesh.current.material.color.setHex(0xff0000);
   }, []);
 

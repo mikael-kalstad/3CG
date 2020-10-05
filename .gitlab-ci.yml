@@ -1,0 +1,29 @@
+image: node:alpine
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - deploy
+
+variables:
+  PUBLIC_URL: /su3-3cg
+
+before_script:
+  - rm -rf build
+  - CI=false npm install
+
+pages:
+  stage: deploy
+  script:
+    - CI=false npm run build
+    - cp build/index.html build/404.html
+    - mv public _public
+    - mv build public
+
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

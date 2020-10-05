@@ -55,6 +55,17 @@ class DataService {
     return channelSamples;
   }
 
+  getPointsNearestTime(time) {
+    let index = Math.round(this.getSampleRate() * time);
+    let points = [];
+    let samples = this.getSamples();
+    let sampleKeys = this.getChannelNamesArray();
+    for (let i in sampleKeys) {
+      points.push(samples[sampleKeys[i]][index]);
+    }
+    return points;
+  }
+
   getNumOfSamplesInTimeframe(start, end) {
     if (start < 0 || start > this.getDuration()) {
       return "ERROR";

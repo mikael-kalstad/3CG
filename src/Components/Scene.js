@@ -9,7 +9,7 @@ const Scene = () => {
 
   return (
     <Canvas
-      camera={{ position: [40, 80, -40], fov: 55 }}
+      camera={{ position: [40, 40, 100], fov: 55 }}
       style={{ background: "#324444" }}
     >
       {!markMode && <CameraControls />}
@@ -17,6 +17,7 @@ const Scene = () => {
       <pointLight position={[-10, 10, -10]} castShadow />
       <Ecg />
       <axesHelper position={[0, 40, 0]} scale={[40, 40, 40]}></axesHelper>
+      <Grid></Grid>
     </Canvas>
   );
 };

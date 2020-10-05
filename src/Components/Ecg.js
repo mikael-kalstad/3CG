@@ -27,25 +27,27 @@ const Ecg = () => {
             (channel, i) =>
               activeChannels[i] && (
                 <React.Fragment key={i}>
-                  <Note
+                  <Text
                     position={channel[0].map((val, i) =>
-                      i != 2 ? val - 2 : val
+                      i == 0 ? val - 6 : val
                     )}
                     rotateToCamera={true}
+                    background={true}
+                    backgroundOpacity={0.4}
+                    backgroundColor={0x000000}
+                    backgroundScaleByText={1.5}
+                    textSize={2.4}
                   >
-                    {channelNames[i]}
-                  </Note>
+                    {props.channelNames[i]}
+                  </Text>
                   <Wave data={channel} />
                 </React.Fragment>
               )
           )}
       </mesh>
 
-      {/* <MarkWaves
-        renderPoints={renderPoints}
-        maxPointsToRender={200}
-        markMode={markMode}
-      /> */}
+      <MarkWaves renderPoints={renderPoints} maxPointsToRender={200} />
+      <Annotations timeProps={props.timeProps}></Annotations>
     </Suspense>
   );
 };

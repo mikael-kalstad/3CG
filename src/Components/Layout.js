@@ -12,6 +12,7 @@ const Layout = (props) => {
       <PlayAndPauseButton />
       <SideDrawer />
       <TimeLine />
+      {/* <ZoomBar setZoom={props.setZoom} zoom={props.zoom} /> */}
     </>
   );
 };
