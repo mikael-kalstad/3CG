@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   height: 100vh;
 `;
 
-const POINTS_DEFAULT_LENGTH = 500;
+const POINTS_DEFAULT_LENGTH = 200;
 
 // Get points which will be rendered in 3D
 let renderPoints = formatDataToPoints(dataService.getJSON());
@@ -32,6 +32,7 @@ const App = () => {
       ? POINTS_DEFAULT_LENGTH
       : renderPoints[0].length
   );
+  const [zoom, setZoom] = useState(1);
 
   const [currTime, setCurrTime] = useState(0);
 
@@ -85,6 +86,8 @@ const App = () => {
           channelState={channelState}
           markMode={markMode}
           timeProps={timeProps}
+          zoom={zoom}
+          setZoom={setZoom}
         />
         <Layout
           play={play}
@@ -97,6 +100,8 @@ const App = () => {
           toggleMarkMode={toggleMarkMode}
           timeProps={timeProps}
           dataLength={renderPoints[0].length}
+          zoom={zoom}
+          setZoom={setZoom}
         />
       </Wrapper>
     </Suspense>

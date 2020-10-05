@@ -9,7 +9,7 @@ const Scene = (props) => {
       camera={{ position: [40, 40, 100], fov: 55 }}
       style={{ background: '#324444' }}
     >
-      {!props.markMode && <CameraControls />}
+      {!props.markMode && <CameraControls zoom={props.zoom} />}
       <ambientLight />
       {/* <pointLight position={[-10, 10, -10]} castShadow /> */}
       <Ecg

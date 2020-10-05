@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { annotationService } from '../Services/AnnotationService';
 import Text from './Text';
 import * as THREE from 'three';
+const HEIGHT_OVER_XZ = 10;
 
 const Annotations = (props) => {
   const planeMesh = useRef();
@@ -11,7 +12,7 @@ const Annotations = (props) => {
     let width = (annotations[0].end - annotations[0].start) * 0.4;
     planeMesh.current.rotateX(-Math.PI / 2);
     planeMesh.current.scale.set(80, 120, 0.1);
-    planeMesh.current.position.set(0, -25, 60);
+    planeMesh.current.position.set(0, -HEIGHT_OVER_XZ, 60);
     // console.log(planeMesh);
     // let worldPos = new THREE.Vector3();
     // planeMesh.current.getWorldPosition(worldPos);
@@ -24,7 +25,7 @@ const Annotations = (props) => {
         // (annotations[0].start +
         //   (annotations[0].end - annotations[0].start) / 2) *
         //   0.004,
-        25,
+        HEIGHT_OVER_XZ,
         -60,
       ]}
     >
@@ -32,7 +33,7 @@ const Annotations = (props) => {
         background={true}
         backgroundOpacity={0.3}
         backgroundColor={'0xff0000'}
-        backgroundSize={[80, 50]}
+        backgroundSize={[80, 2 * HEIGHT_OVER_XZ]}
         textSize={3.4}
         rotation={[0, 0, 0]}
         depth={0.1}
