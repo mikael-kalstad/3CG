@@ -18,7 +18,7 @@ const Scene = () => {
       <pointLight position={[-10, 10, -10]} castShadow />
       <Ecg />
       <axesHelper position={[0, 40, 0]} scale={[40, 40, 40]}></axesHelper>
-      <Grid />
+      {/* <Grid /> */}
     </Canvas>
   );
 };

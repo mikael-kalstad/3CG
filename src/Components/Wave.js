@@ -5,6 +5,11 @@ import { useSpring } from "@react-spring/core";
 import { a } from "@react-spring/three";
 import { getColorData } from "../Scripts/Color";
 import { useModeStore, useTimeStore } from "../Store";
+import { dataService } from "../Services/DataService";
+
+const dataLength = dataService.getSampleLength();
+
+const SPEED = 0.01;
 
 const Wave = (props) => {
   const [hover, setHover] = useState(0);
@@ -14,15 +19,19 @@ const Wave = (props) => {
   const meshRef = useRef();
 
   // Get mode states from global store
-  const playMode = useModeStore((state) => state.playMode);
+  const [playMode, togglePlayMode] = useModeStore((state) => [
+    state.playMode,
+    state.togglePlayMode,
+  ]);
   const markMode = useModeStore((state) => state.markMode);
 
   // Fetch initial time state
   const startTimeRef = useRef(useTimeStore.getState().startTime);
   const endTimeRef = useRef(useTimeStore.getState().endTime);
 
-  //
+  // Set methods used when "animating" with play feature
   const setStartTime = useTimeStore((state) => state.setStartTime);
+  const setEndTime = useTimeStore((state) => state.setEndTime);
 
   // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
   useEffect(() => {
@@ -38,12 +47,20 @@ const Wave = (props) => {
   }, []);
 
   useFrame((state, delta) => {
-    if (playMode)
-      /*groupRef.current.position.x -= 0.01 * (60 * delta);*/ setStartTime(
-        startTimeRef.current + 0.01 * (60 * delta)
-      );
+    let end = endTimeRef.current >= dataLength;
 
-    ref.current.setDrawRange(startTimeRef.current, endTimeRef.current);
+    // Stop playMode if end of data is reached
+    if (playMode && end) togglePlayMode();
+    // Update start and end time every frame if playMode is active
+    else if (playMode) {
+      setStartTime(startTimeRef.current + SPEED * (60 * delta));
+      setEndTime(endTimeRef.current + SPEED * (60 * delta));
+    }
+
+    ref.current.setDrawRange(
+      startTimeRef.current,
+      endTimeRef.current - startTimeRef.current
+    );
 
     updateColors(ref.current, startTimeRef.current, endTimeRef.current);
 
@@ -79,7 +96,7 @@ const Wave = (props) => {
 
   const updateColors = (geometry, start, end) => {
     // Set gradient color theme to all points that is rendered in setDrawRange method
-    let colors = getColorData(props.data.slice(start, end + start), start);
+    let colors = getColorData(props.data.slice(start, end), start);
     geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
   };
 

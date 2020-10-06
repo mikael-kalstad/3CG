@@ -1,7 +1,10 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Rnd } from "react-rnd";
 import { useTimeStore } from "../../Store";
+import { dataService } from "../../Services/DataService";
+
+const dataLength = dataService.getSampleLength();
 
 const Container = styled.div`
   width: 60%;
@@ -39,52 +42,69 @@ const TimeLine = () => {
     state.setEndTime,
   ]);
 
-  const ContainerRef = useRef();
+  // Fetch initial time state
+  const startTimeRef = useRef(useTimeStore.getState().startTime);
+  const endTimeRef = useRef(useTimeStore.getState().endTime);
+
+  // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
+  useEffect(() => {
+    useTimeStore.subscribe(
+      (startTime) => (startTimeRef.current = startTime),
+      (state) => state.startTime
+    );
+
+    useTimeStore.subscribe(
+      (endTime) => (endTimeRef.current = endTime),
+      (state) => state.endTime
+    );
+  }, []);
+
+  // Ratio used to make dimensions correct according to data size
+  let ratio = dataLength / (window.innerWidth * 0.6);
 
   const handleResize = (e, dir, ref, delta, position) => {
-    // console.log("resize", e, dir);
     // Calculate new start time based on x position and window width
-    let newStartTime = position.x;
-    // console.log("new start time", newStartTime);
+    let newStartTime = ratio * position.x;
 
     // Update global start time state
     setStartTime(newStartTime);
-    // Update global end time state based on scroller width and new start time
-    let newEndTime =
-      newStartTime + Number.parseInt(ref.style.width.split("px")[0]);
-    // console.log("new end time", newEndTime);
-    setEndTime(newEndTime);
 
-    // console.log("ref", ref);
-    // console.log("delta", delta);
-    // console.log("position", position);
+    // Update global end time state based on scroller width and new start time
+    setEndTime(
+      newStartTime + ratio * Number.parseInt(ref.style.width.split("px")[0])
+    );
   };
 
   const handleDrag = (e, data) => {
-    // console.log("data", data, e);
     // Calculate new start time based on x position and window width
-    let newStartTime = (1000 / (window.innerWidth * 0.6)) * (data.x + 1);
+    let newStartTime = ratio * data.x;
 
     // Update global start time state
     setStartTime(newStartTime);
 
     // Update global end time state based on scroller width and new start time
-    setEndTime(newStartTime + data.node.scrollWidth);
+    setEndTime(newStartTime + ratio * data.node.scrollWidth);
   };
 
   const style = {
-    width: "200px",
+    width: startTimeRef.current * ratio + endTimeRef.current * ratio + "px",
     height: "100%",
     background: "rgba(0, 0, 0, 0.3)",
     borderRadius: "5px",
   };
 
   return (
-    <Container ref={ContainerRef}>
+    <Container>
       <Rnd
         bounds="parent"
         style={style}
-        default={{ width: "200px", height: "100%", x: startTime, y: 0 }}
+        default={{
+          width:
+            startTime * ((window.innerWidth * 0.6) / dataLength) +
+            endTime * ((window.innerWidth * 0.6) / dataLength) +
+            "px",
+          height: "100%",
+        }}
         enableResizing={{
           left: true,
           right: true,
@@ -97,6 +117,7 @@ const TimeLine = () => {
         }}
         onResize={handleResize}
         onDrag={handleDrag}
+        position={{ x: startTimeRef.current / ratio, y: 0 }}
       />
     </Container>
   );
