@@ -115,7 +115,7 @@ class DataService {
       let channelPoints = [];
 
       // let MAX_NUM_OF_POINTS = 400;
-      let SCALE = 0.4;
+      // let SCALE = 0.4;
 
       // MAX_NUM_OF_POINTS =
       //   MAX_NUM_OF_POINTS > channelData.length

@@ -7,7 +7,7 @@ import * as THREE from 'three';
 const AnnotationRenderer = (props) => {
   let startTime = useTimeStore((state) => state.startTime);
   let endTime = useTimeStore((state) => state.endTime);
-  let annotations = annotationService.getAnnotationsInTimeframe(
+  let annotations = annotationService.getAnnotationsOnlyInTimeframe(
     startTime,
     endTime
   );

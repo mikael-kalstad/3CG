@@ -4,7 +4,7 @@ import { useUpdate, useFrame } from 'react-three-fiber';
 import { useSpring } from '@react-spring/core';
 import { a } from '@react-spring/three';
 import { getColorData } from '../Scripts/Color';
-import { useModeStore, useTimeStore } from '../Store';
+import { useModeStore, useTimeStore, useScaleStore } from '../Store';
 import { dataService } from '../Services/DataService';
 
 const dataLength = dataService.getSampleLength();
@@ -24,6 +24,7 @@ const Wave = (props) => {
     state.togglePlayMode,
   ]);
   const markMode = useModeStore((state) => state.markMode);
+  const scale = useScaleStore((state) => state.scale);
 
   // Fetch initial time state
   const startTimeRef = useRef(useTimeStore.getState().startTime);
@@ -74,7 +75,7 @@ const Wave = (props) => {
   });
 
   // Scale on hover with mouse
-  const scale = spring.to([0, 1], [1, 5]);
+  const springScale = spring.to([0, 1], [1, 5]);
 
   const ref = useUpdate(
     (self) => {
@@ -108,12 +109,12 @@ const Wave = (props) => {
 
   return (
     <a.group
-      position-y={scale}
+      position-y={springScale}
       onClick={() => setClicked(Number(!clicked))}
       onPointerOver={() => !markMode && !clicked && setHover(Number(1))}
       onPointerOut={() => !markMode && !clicked && setHover(Number(0))}
       ref={groupRef}
-      scale={[0.4, 1, 1]}
+      scale={[scale, 1, 1]}
     >
       <a.mesh ref={meshRef}>
         <line
