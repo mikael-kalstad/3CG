@@ -1,22 +1,21 @@
-import React, { Suspense } from "react";
-import { formatDataToPoints } from "../Scripts/DataConverter";
-import { dataService } from "../Services/DataService";
-import { useChannelStore } from "../Store";
-import Wave from "./Wave";
-import Text from "./Text";
-import Annotations from "./Annotations";
-import MarkWaves from "./Marking/MarkWaves";
+import React, { Suspense } from 'react';
+import { dataService } from '../Services/DataService';
+import { useChannelStore } from '../Store';
+import Wave from './Wave';
+import Text from './Text';
+import Annotations from './Annotations';
+import MarkWaves from './Marking/MarkWaves';
 
 // Get points which will be rendererd
-let renderPoints = formatDataToPoints(dataService.getJSON());
+let renderPoints = dataService.formatDataToPoints();
 let channelNames = dataService.getChannelNamesArray();
 
 const Ecg = () => {
   const activeChannels = useChannelStore((state) => state.activeChannels);
-  console.log("renderpoints", renderPoints);
+  console.log('renderpoints', renderPoints);
 
-  console.log("%c [Ecg] is rendering", "background: #111; color: #ebd31c");
-  console.log("%c [Wave(s)] is rendering", "background: #111; color: #ebd31c");
+  console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
+  console.log('%c [Wave(s)] is rendering', 'background: #111; color: #ebd31c');
 
   return (
     <Suspense fallback={null}>
@@ -47,7 +46,10 @@ const Ecg = () => {
           )}
       </mesh>
 
-      <MarkWaves renderPoints={renderPoints} maxPointsToRender={200} />
+      <MarkWaves
+        renderPoints={renderPoints}
+        maxPointsToRender={renderPoints[0].length}
+      />
       <Annotations />
     </Suspense>
   );

@@ -1,11 +1,12 @@
-import create from "zustand";
-import { dataService } from "./Services/DataService";
+import create from 'zustand';
+import { dataService } from './Services/DataService';
 
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
 
 const POINTS_DEFAULT_LENGTH = 200;
 const dataLength = dataService.getSampleLength();
+const sampleRate = dataService.getSampleRate();
 
 // Store for storing global mode states
 export const useModeStore = create((set) => ({
@@ -34,4 +35,9 @@ export const useTimeStore = create((set) => ({
   endTime:
     dataLength > POINTS_DEFAULT_LENGTH ? POINTS_DEFAULT_LENGTH : dataLength,
   setEndTime: (time) => set((state) => ({ endTime: time })),
+}));
+
+export const useZoomStore = create((set) => ({
+  zoom: 1,
+  setZoom: (zoom) => set((state) => ({ zoom: zoom })),
 }));

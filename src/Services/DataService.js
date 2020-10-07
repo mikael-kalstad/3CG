@@ -1,7 +1,7 @@
 class DataService {
   constructor(filename) {
     this.filename = filename;
-    this.json = require("../data/data.json");
+    this.json = require('../data/data.json');
   }
 
   getJSON() {
@@ -38,10 +38,10 @@ class DataService {
 
   getSamplesInTimeframe(start, end) {
     if (start < 0 || start > this.getDuration()) {
-      return "ERROR";
+      return 'ERROR';
     }
     if (end < 0 || end > this.getDuration()) {
-      return "ERROR";
+      return 'ERROR';
     }
     let samples = this.getSamples();
     let sampleKeys = this.getChannelNamesArray();
@@ -68,10 +68,10 @@ class DataService {
 
   getNumOfSamplesInTimeframe(start, end) {
     if (start < 0 || start > this.getDuration()) {
-      return "ERROR";
+      return 'ERROR';
     }
     if (end < 0 || end > this.getDuration()) {
-      return "ERROR";
+      return 'ERROR';
     }
     return (
       Math.round(this.getSampleRate() * end) -
@@ -85,10 +85,10 @@ class DataService {
 
   getSamplesByChannelInTimeframe(channel, start, end) {
     if (start < 0 || start > this.getDuration()) {
-      return "ERROR";
+      return 'ERROR';
     }
     if (end < 0 || end > this.getDuration()) {
-      return "ERROR";
+      return 'ERROR';
     }
     let samples = this.getSamplesByChannel(channel);
     let channelSamples = samples.slice(
@@ -97,6 +97,46 @@ class DataService {
     );
     return channelSamples;
   }
+
+  formatDataToPoints = () => {
+    let data = this.getJSON();
+    let points = [];
+
+    // Samples contains relevant point data
+    let samples = data['samples'];
+
+    // Samples contains several channels with different "key"names
+    let samplesKeys = Object.keys(samples);
+
+    for (let channel in samplesKeys) {
+      // Get channel data from samples
+      let channelData = samples[samplesKeys[channel]];
+
+      let channelPoints = [];
+
+      // let MAX_NUM_OF_POINTS = 400;
+      let SCALE = 0.4;
+
+      // MAX_NUM_OF_POINTS =
+      //   MAX_NUM_OF_POINTS > channelData.length
+      //     ? channelData.length
+      //     : MAX_NUM_OF_POINTS;
+
+      for (let i in channelData) {
+        // if (i > MAX_NUM_OF_POINTS) break;
+
+        channelPoints.push([
+          i * SCALE,
+          channelData[i],
+          -channel * 10 + (10 * (samplesKeys.length - 1)) / 2,
+        ]);
+      }
+
+      points.push(channelPoints);
+    }
+
+    return points;
+  };
 }
 
-export let dataService = new DataService("../data/data.json");
+export let dataService = new DataService('../data/data.json');

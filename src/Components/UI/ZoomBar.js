@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Slider from '@material-ui/core/Slider';
+import { useZoomStore } from '../../Store';
 
 const ZoomBar = (props) => {
+  const zoom = useZoomStore((state) => state.zoom);
+  const setZoom = useZoomStore((state) => state.setZoom);
   const SliderStyle = {
     width: '50px',
     height: '50px',
@@ -9,6 +12,7 @@ const ZoomBar = (props) => {
     right: '80px',
     position: 'absolute',
   };
+
   return (
     <Slider
       orientation="vertical"
@@ -18,7 +22,7 @@ const ZoomBar = (props) => {
       max={4}
       step={0.01}
       aria-labelledby="vertical-slider"
-      onChange={(e, val) => props.setZoom(val)}
+      onChange={(e, val) => setZoom(val)}
     />
   );
 };

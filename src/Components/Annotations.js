@@ -21,7 +21,7 @@ const Annotations = (props) => {
   return (
     <group
       position={[
-        60,
+        200,
         // (annotations[0].start +
         //   (annotations[0].end - annotations[0].start) / 2) *
         //   0.004,
