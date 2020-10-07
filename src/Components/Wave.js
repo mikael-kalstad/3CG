@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
-import * as THREE from "three";
-import { useUpdate, useFrame } from "react-three-fiber";
-import { useSpring } from "@react-spring/core";
-import { a } from "@react-spring/three";
-import { getColorData } from "../Scripts/Color";
-import { useModeStore, useTimeStore } from "../Store";
-import { dataService } from "../Services/DataService";
+import React, { useState, useRef, useEffect } from 'react';
+import * as THREE from 'three';
+import { useUpdate, useFrame } from 'react-three-fiber';
+import { useSpring } from '@react-spring/core';
+import { a } from '@react-spring/three';
+import { getColorData } from '../Scripts/Color';
+import { useModeStore, useTimeStore } from '../Store';
+import { dataService } from '../Services/DataService';
 
 const dataLength = dataService.getSampleLength();
-
+const sampleRate = dataService.getSampleRate();
 const SPEED = 0.01;
 
 const Wave = (props) => {
@@ -58,13 +58,13 @@ const Wave = (props) => {
     }
 
     ref.current.setDrawRange(
-      startTimeRef.current,
-      endTimeRef.current - startTimeRef.current
+      startTimeRef.current * sampleRate,
+      (endTimeRef.current - startTimeRef.current) * sampleRate
     );
 
     updateColors(ref.current, startTimeRef.current, endTimeRef.current);
 
-    meshRef.current.position.set(-startTimeRef.current * 0.4, 0, 0);
+    meshRef.current.position.set(-startTimeRef.current * sampleRate, 0, 0);
   });
 
   // React-spring animation config
@@ -79,7 +79,10 @@ const Wave = (props) => {
   const ref = useUpdate(
     (self) => {
       // Set specific range which is to be shown
-      self.setDrawRange(startTimeRef.current, endTimeRef.current);
+      self.setDrawRange(
+        startTimeRef.current * sampleRate,
+        endTimeRef.current * sampleRate
+      );
 
       // Set initial points
       self.setFromPoints(
@@ -96,8 +99,11 @@ const Wave = (props) => {
 
   const updateColors = (geometry, start, end) => {
     // Set gradient color theme to all points that is rendered in setDrawRange method
-    let colors = getColorData(props.data.slice(start, end), start);
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    let colors = getColorData(
+      props.data.slice(start * sampleRate, end * sampleRate),
+      start * sampleRate
+    );
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   };
 
   return (
@@ -107,6 +113,7 @@ const Wave = (props) => {
       onPointerOver={() => !markMode && !clicked && setHover(Number(1))}
       onPointerOut={() => !markMode && !clicked && setHover(Number(0))}
       ref={groupRef}
+      scale={[0.4, 1, 1]}
     >
       <a.mesh ref={meshRef}>
         <line
@@ -118,9 +125,9 @@ const Wave = (props) => {
             name="line"
             attach="material"
             linewidth={1000}
-            linecap={"round"}
-            linejoin={"round"}
-            vertexColors={"VertexColors"}
+            linecap={'round'}
+            linejoin={'round'}
+            vertexColors={'VertexColors'}
           />
         </line>
       </a.mesh>

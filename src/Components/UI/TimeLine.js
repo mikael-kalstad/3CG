@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
-import styled from "styled-components";
-import { Rnd } from "react-rnd";
-import { useTimeStore } from "../../Store";
-import { dataService } from "../../Services/DataService";
+import React, { useEffect, useRef } from 'react';
+import styled from 'styled-components';
+import { Rnd } from 'react-rnd';
+import { useTimeStore } from '../../Store';
+import { dataService } from '../../Services/DataService';
 
-const dataLength = dataService.getSampleLength();
+const dataLength = dataService.getDuration();
 
 const Container = styled.div`
   width: 60%;
@@ -25,10 +25,10 @@ const ResizeIcon = styled.div`
   height: 100%;
   position: absolute;
   background: rgba(0, 0, 0, 0.35);
-  left: ${(props) => props.position === "left" && "0"};
-  right: ${(props) => props.position === "right" && "0"};
+  left: ${(props) => props.position === 'left' && '0'};
+  right: ${(props) => props.position === 'right' && '0'};
   border-radius: ${(props) =>
-    props.position === "left" ? "5px 0 0 5px" : "0 5px 5px 0"};
+    props.position === 'left' ? '5px 0 0 5px' : '0 5px 5px 0'};
 `;
 
 const TimeLine = () => {
@@ -71,7 +71,7 @@ const TimeLine = () => {
 
     // Update global end time state based on scroller width and new start time
     setEndTime(
-      newStartTime + ratio * Number.parseInt(ref.style.width.split("px")[0])
+      newStartTime + ratio * Number.parseInt(ref.style.width.split('px')[0])
     );
   };
 
@@ -87,10 +87,10 @@ const TimeLine = () => {
   };
 
   const style = {
-    width: startTimeRef.current * ratio + endTimeRef.current * ratio + "px",
-    height: "100%",
-    background: "rgba(0, 0, 0, 0.3)",
-    borderRadius: "5px",
+    width: startTimeRef.current * ratio + endTimeRef.current * ratio + 'px',
+    height: '100%',
+    background: 'rgba(0, 0, 0, 0.3)',
+    borderRadius: '5px',
   };
 
   return (
@@ -102,8 +102,8 @@ const TimeLine = () => {
           width:
             startTime * ((window.innerWidth * 0.6) / dataLength) +
             endTime * ((window.innerWidth * 0.6) / dataLength) +
-            "px",
-          height: "100%",
+            'px',
+          height: '100%',
         }}
         enableResizing={{
           left: true,

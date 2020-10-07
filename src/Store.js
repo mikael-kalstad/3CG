@@ -33,7 +33,9 @@ export const useTimeStore = create((set) => ({
   startTime: 0,
   setStartTime: (time) => set((state) => ({ startTime: time })),
   endTime:
-    dataLength > POINTS_DEFAULT_LENGTH ? POINTS_DEFAULT_LENGTH : dataLength,
+    dataLength > POINTS_DEFAULT_LENGTH
+      ? POINTS_DEFAULT_LENGTH / sampleRate
+      : dataLength / sampleRate,
   setEndTime: (time) => set((state) => ({ endTime: time })),
 }));
 

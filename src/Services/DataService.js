@@ -126,7 +126,7 @@ class DataService {
         // if (i > MAX_NUM_OF_POINTS) break;
 
         channelPoints.push([
-          i * SCALE,
+          i,
           channelData[i],
           -channel * 10 + (10 * (samplesKeys.length - 1)) / 2,
         ]);
