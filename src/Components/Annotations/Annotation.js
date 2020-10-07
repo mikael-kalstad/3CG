@@ -1,18 +1,28 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
-import { annotationService } from '../Services/AnnotationService';
-import Text from './Text';
+import { annotationService } from '../../Services/AnnotationService';
+import { dataService } from '../../Services/DataService';
+import { useTimeStore } from '../../Store';
+import Text from '../Text';
 import * as THREE from 'three';
 const HEIGHT_OVER_XZ = 10;
+const sampleRate = dataService.getSampleRate();
+let colors = [
+  '0x3498db',
+  '0x2ecc71',
+  '0xe74c3c',
+  '0xf1c40f',
+  '0xf39c12',
+  '0x9c88ff',
+];
 
-const Annotations = (props) => {
+const Annotation = (props) => {
   const planeMesh = useRef();
   const annotations = annotationService.getAnnotations();
-  let width = (annotations[0].end - annotations[0].start) * 0.4;
+  let width = (props.ann.end - props.ann.start) * sampleRate;
   useEffect(() => {
-    let width = (annotations[0].end - annotations[0].start) * 0.4;
     planeMesh.current.rotateX(-Math.PI / 2);
-    planeMesh.current.scale.set(80, 120, 0.1);
-    planeMesh.current.position.set(0, -HEIGHT_OVER_XZ, 60);
+    planeMesh.current.scale.set(width * 0.4, 140, 0.1);
+    planeMesh.current.position.set(0, -HEIGHT_OVER_XZ, 70);
     // console.log(planeMesh);
     // let worldPos = new THREE.Vector3();
     // planeMesh.current.getWorldPosition(worldPos);
@@ -21,24 +31,24 @@ const Annotations = (props) => {
   return (
     <group
       position={[
-        200,
+        ((props.ann.start - props.startTime) * sampleRate + width / 2) * 0.4,
         // (annotations[0].start +
         //   (annotations[0].end - annotations[0].start) / 2) *
         //   0.004,
         HEIGHT_OVER_XZ,
-        -60,
+        -75,
       ]}
     >
       <Text
         background={true}
         backgroundOpacity={0.3}
-        backgroundColor={'0xff0000'}
-        backgroundSize={[80, 2 * HEIGHT_OVER_XZ]}
+        backgroundColor={colors[Math.floor(Math.random() * colors.length)]}
+        backgroundSize={[width * 0.4, 2 * HEIGHT_OVER_XZ]}
         textSize={3.4}
         rotation={[0, 0, 0]}
         depth={0.1}
       >
-        AI: Pasienten har ikke betalt skatt
+        {props.ann.text}
       </Text>
       <mesh ref={planeMesh}>
         <planeBufferGeometry attach="geometry" />
@@ -48,4 +58,4 @@ const Annotations = (props) => {
   );
 };
 
-export default Annotations;
+export default Annotation;

@@ -3,7 +3,7 @@ import { dataService } from '../Services/DataService';
 import { useChannelStore } from '../Store';
 import Wave from './Wave';
 import Text from './Text';
-import Annotations from './Annotations';
+import AnnotationRenderer from './Annotations/AnnotationRenderer';
 import MarkWaves from './Marking/MarkWaves';
 
 // Get points which will be rendererd
@@ -50,7 +50,7 @@ const Ecg = () => {
         renderPoints={renderPoints}
         maxPointsToRender={renderPoints[0].length}
       />
-      <Annotations />
+      <AnnotationRenderer />
     </Suspense>
   );
 };
