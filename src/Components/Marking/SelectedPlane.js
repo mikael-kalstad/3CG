@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import * as THREE from 'three';
-import { useUpdate, useFrame, extend } from 'react-three-fiber';
-import { MeshLine, MeshLineMaterial, MeshLineRaycast } from 'three.meshline';
-import { dataService } from '../../Services/DataService';
-import { Vector3 } from 'three';
+import React, { useRef, useEffect, useMemo } from 'react';
+
+import { extend } from 'react-three-fiber';
+import { MeshLine, MeshLineMaterial } from 'three.meshline';
+
 const TRANSPARANCY_PLANE = 0.3;
 const TRANSPARANCY_LINE = 0.6;
 const YSCALE = 0.2;

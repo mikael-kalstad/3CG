@@ -13,7 +13,7 @@ const Layout = (props) => {
       <PlayAndPauseButton />
       <SideDrawer />
       <TimeLine />
-      {/* <ZoomBar /> */}
+      <ZoomBar />
     </>
   );
 };

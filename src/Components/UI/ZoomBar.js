@@ -9,8 +9,9 @@ const ZoomBar = (props) => {
     width: '50px',
     height: '50px',
     top: '20px',
-    right: '80px',
+    right: '130px',
     position: 'absolute',
+    color: 'white',
   };
 
   return (
@@ -19,10 +20,12 @@ const ZoomBar = (props) => {
       defaultValue={1}
       style={SliderStyle}
       min={0.5}
-      max={4}
-      step={0.01}
+      max={17}
+      step={0.05}
       aria-labelledby="vertical-slider"
       onChange={(e, val) => setZoom(val)}
+      value={zoom}
+      color={'white'}
     />
   );
 };

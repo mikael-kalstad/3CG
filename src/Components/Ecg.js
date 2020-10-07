@@ -1,10 +1,11 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { dataService } from '../Services/DataService';
 import { useChannelStore } from '../Store';
 import Wave from './Wave';
 import Text from './Text';
 import AnnotationRenderer from './Annotations/AnnotationRenderer';
 import MarkWaves from './Marking/MarkWaves';
+import { useThree } from 'react-three-fiber';
 
 // Get points which will be rendererd
 let renderPoints = dataService.formatDataToPoints();
@@ -16,6 +17,9 @@ const Ecg = () => {
 
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
   console.log('%c [Wave(s)] is rendering', 'background: #111; color: #ebd31c');
+
+  const { gl, camera } = useThree();
+  gl.localClippingEnabled = true;
 
   return (
     <Suspense fallback={null}>

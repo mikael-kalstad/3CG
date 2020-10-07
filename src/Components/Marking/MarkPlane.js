@@ -1,7 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import { useUpdate, useFrame } from 'react-three-fiber';
-import { dataService } from '../../Services/DataService';
 
 const MarkPlane = (props) => {
   const mesh = useRef();

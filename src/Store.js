@@ -4,7 +4,7 @@ import { dataService } from './Services/DataService';
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
 
-const POINTS_DEFAULT_LENGTH = 200;
+const POINTS_DEFAULT_LENGTH = 500;
 const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
 

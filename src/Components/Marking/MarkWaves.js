@@ -1,6 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import { useUpdate, useFrame } from 'react-three-fiber';
+import React, { useState } from 'react';
 import MarkPlane from './MarkPlane';
 import SelectedPlane from './SelectedPlane';
 import { useModeStore, useTimeStore, useScaleStore } from '../../Store';
