@@ -9,7 +9,7 @@ import { dataService } from '../Services/DataService';
 
 const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
-const SPEED = 0.01;
+const SPEED = 0.01 / sampleRate;
 
 const Wave = (props) => {
   const [hover, setHover] = useState(0);
@@ -48,7 +48,7 @@ const Wave = (props) => {
   }, []);
 
   useFrame((state, delta) => {
-    let end = endTimeRef.current >= dataLength;
+    let end = endTimeRef.current >= dataLength / sampleRate;
 
     // Stop playMode if end of data is reached
     if (playMode && end) togglePlayMode();

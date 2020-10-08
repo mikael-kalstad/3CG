@@ -33,7 +33,6 @@ const CameraControls = (props) => {
     vec.multiplyScalar(initialDistance);
     vec.negate();
     vec.multiplyScalar(1 / zoom);
-    console.log(1 / zoom);
     camPos.add(vec);
     if (lastZoom != zoom) {
       orbitRef.current.object.position.set(camPos.x, camPos.y, camPos.z);

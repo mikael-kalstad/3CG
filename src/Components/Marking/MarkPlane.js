@@ -20,7 +20,7 @@ const MarkPlane = (props) => {
 
   const onPointerUp = (event) => {
     setPressing(false);
-    console.log('Hello');
+    //console.log('Hello');
   };
 
   const onPointerDrag = (event) => {
