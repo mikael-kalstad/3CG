@@ -46,7 +46,7 @@ const MenuItems = [
 ];
 
 const SideDrawer = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const classes = useStyles();
   console.log(
     "%c [SideDrawer] is rendering",
