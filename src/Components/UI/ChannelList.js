@@ -1,0 +1,77 @@
+import React from "react";
+import { useChannelStore } from "../../Store";
+import { dataService } from "../../Services/DataService";
+import { makeStyles } from "@material-ui/core/styles";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import SelectAllOrNoneBtns from "./Buttons/SelectAllOrNoneBtns";
+import FormHelperText from "@material-ui/core/FormHelperText";
+
+const channelNames = dataService.getChannelNamesArray();
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    // display: "flex",
+  },
+  formControl: {
+    margin: theme.spacing(3),
+  },
+  chip: {
+    justifyContent: "center",
+    flexWrap: "wrap",
+    "& > *": {
+      margin: theme.spacing(0.5),
+    },
+  },
+}));
+
+const ChannelList = () => {
+  const [
+    activeChannels,
+    toggleChannel,
+    toggleAllChannels,
+  ] = useChannelStore((state) => [
+    state.activeChannels,
+    state.toggleChannel,
+    state.toggleAllChannels,
+  ]);
+  const classes = useStyles();
+
+  console.log(
+    "%c [Checlist] is rendering (sideDrawer child)",
+    "background: #111; color: #ebd31c"
+  );
+
+  return (
+    <div className={classes.root}>
+      <FormHelperText>
+        Click on checkbox to toggle channel on/off
+      </FormHelperText>
+
+      <FormControl component="fieldset" className={classes.formControl}>
+        <FormGroup>
+          {activeChannels.map((state, i) => (
+            <FormControlLabel
+              key={channelNames[i]}
+              control={
+                <Checkbox
+                  checked={state}
+                  onChange={() => toggleChannel(i)}
+                  name={channelNames[i]}
+                />
+              }
+              label={channelNames[i]}
+            />
+          ))}
+        </FormGroup>
+
+        {/* Buttons with select all or none functionality */}
+        <SelectAllOrNoneBtns toggleAll={toggleAllChannels} type="channels" />
+      </FormControl>
+    </div>
+  );
+};
+
+export default ChannelList;

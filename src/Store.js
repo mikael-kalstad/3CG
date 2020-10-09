@@ -1,5 +1,6 @@
-import create from 'zustand';
-import { dataService } from './Services/DataService';
+import create from "zustand";
+import { dataService } from "./Services/DataService";
+import { annotationService } from "./Services/AnnotationService";
 
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
@@ -7,6 +8,9 @@ let numOfSamples = dataService.getChannelNamesArray();
 const POINTS_DEFAULT_LENGTH = 500;
 const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
+
+// Get all annotations from file
+const annotationData = annotationService.getAnnotations();
 
 // Store for storing global mode states
 export const useModeStore = create((set) => ({
@@ -37,6 +41,21 @@ export const useTimeStore = create((set) => ({
       ? POINTS_DEFAULT_LENGTH / sampleRate
       : dataLength / sampleRate,
   setEndTime: (time) => set((state) => ({ endTime: time })),
+}));
+
+export const useAnnotationStore = create((set) => ({
+  annotations: annotationData,
+  editAnnotation: (i, newAnnotation) =>
+    set((state) => ({ annotations: newAnnotation })),
+  activeAnnotations: annotationData.map(() => true),
+  toggleAnnotation: (index) =>
+    set((state) => ({
+      activeAnnotations: state.activeAnnotations.map((state, i) =>
+        i === index ? !state : state
+      ),
+    })),
+  toggleAllAnnotations: (newState) =>
+    set((state) => ({ activeAnnotations: annotationData.map(() => newState) })),
 }));
 
 export const useZoomStore = create((set) => ({
