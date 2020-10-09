@@ -1,7 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import { useUpdate, useFrame } from 'react-three-fiber';
-import { dataService } from '../../Services/DataService';
 
 const MarkPlane = (props) => {
   const mesh = useRef();
@@ -23,7 +20,7 @@ const MarkPlane = (props) => {
 
   const onPointerUp = (event) => {
     setPressing(false);
-    console.log('Hello');
+    //console.log('Hello');
   };
 
   const onPointerDrag = (event) => {

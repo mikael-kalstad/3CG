@@ -1,13 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
-import * as THREE from "three";
-import { useUpdate, useFrame } from "react-three-fiber";
-import MarkPlane from "./MarkPlane";
-import SelectedPlane from "./SelectedPlane";
-import { useModeStore } from "../../Store";
+import React, { useState } from 'react';
+import MarkPlane from './MarkPlane';
+import SelectedPlane from './SelectedPlane';
+import { useModeStore, useTimeStore, useScaleStore } from '../../Store';
+import { dataService } from '../../Services/DataService';
+
+const sampleRate = dataService.getSampleRate();
 
 const MarkWaves = (props) => {
   const [selected, setSelected] = useState(new Array(2));
   const markMode = useModeStore((state) => state.markMode);
+  const startTime = useTimeStore((state) => state.startTime);
+  const endTime = useTimeStore((state) => state.endTime);
+  const scale = useScaleStore((state) => state.scale);
 
   const updateXStart = (xStart) => {
     setSelected([xStart, xStart]);
@@ -17,14 +21,12 @@ const MarkWaves = (props) => {
     setSelected([selected[0], xEnd]);
   };
 
-  let width =
-    props.renderPoints[0][props.maxPointsToRender - 1][0] -
-    props.renderPoints[0][0][0];
+  let width = (endTime - startTime) * sampleRate * scale;
   let middlePoint = width / 2;
   return (
     <>
       <>
-        {props.markMode && (
+        {markMode && (
           <MarkPlane
             width={width}
             middlePoint={middlePoint}

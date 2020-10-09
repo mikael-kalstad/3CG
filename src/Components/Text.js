@@ -15,7 +15,7 @@ const Text = (props) => {
     }),
     [font]
   );
-  const { gl, scene, camera } = useThree();
+  const { camera } = useThree();
   const textMesh = useRef();
   const planeMesh = useRef();
   const group = useRef();
@@ -57,7 +57,7 @@ const Text = (props) => {
         props.depth ? -props.depth / 2 - 0.01 : -0.1
       );
     }
-    if (props.rotateToCamera == undefined && props.rotation) {
+    if (props.rotateToCamera === undefined && props.rotation) {
       group.current.setRotationFromEuler(
         new THREE.Euler(props.rotation[0], props.rotation[1], props.rotation[2])
       );
@@ -73,12 +73,19 @@ const Text = (props) => {
     <group ref={group} position={props.position}>
       <mesh ref={textMesh}>
         <textBufferGeometry attach="geometry" args={[props.children, config]} />
-        <meshPhongMaterial attach="material" />
+        <meshPhongMaterial
+          attach="material"
+          clippingPlanes={props.clippingPlanes ? props.clippingPlanes : null}
+        />
       </mesh>
       {props.background && (
         <mesh ref={planeMesh}>
           <planeBufferGeometry attach="geometry" />
-          <meshPhongMaterial attach="material" transparent={true} />
+          <meshPhongMaterial
+            attach="material"
+            transparent={true}
+            clippingPlanes={props.clippingPlanes ? props.clippingPlanes : null}
+          />
         </mesh>
       )}
     </group>

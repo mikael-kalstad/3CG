@@ -1,14 +1,26 @@
 [
   {
-    "onset": "00:02:18.280",
-    "duration": 2.442,
+    "onset": "00:00:1.280",
+    "duration": 0.842,
     "code": "(SBR",
     "text": "Sinus bradycardia"
   },
   {
-    "onset": "00:01:32.350",
-    "duration": 11.6,
+    "onset": "00:00:5.350",
+    "duration": 0.4,
     "code": "(AFIB",
     "text": "Atrial fibrillation"
+  },
+  {
+    "onset": "00:00:6.350",
+    "duration": 0.5,
+    "code": "(TEST",
+    "text": "Wingardium Leviosa"
+  },
+  {
+    "onset": "00:00:8.350",
+    "duration": 2,
+    "code": "(TEST",
+    "text": "TEEEEEST"
   }
 ]

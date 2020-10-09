@@ -5,8 +5,9 @@ import { annotationService } from "./Services/AnnotationService";
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
 
-const POINTS_DEFAULT_LENGTH = 200;
+const POINTS_DEFAULT_LENGTH = 500;
 const dataLength = dataService.getSampleLength();
+const sampleRate = dataService.getSampleRate();
 
 // Get all annotations from file
 const annotationData = annotationService.getAnnotations();
@@ -36,7 +37,9 @@ export const useTimeStore = create((set) => ({
   startTime: 0,
   setStartTime: (time) => set((state) => ({ startTime: time })),
   endTime:
-    dataLength > POINTS_DEFAULT_LENGTH ? POINTS_DEFAULT_LENGTH : dataLength,
+    dataLength > POINTS_DEFAULT_LENGTH
+      ? POINTS_DEFAULT_LENGTH / sampleRate
+      : dataLength / sampleRate,
   setEndTime: (time) => set((state) => ({ endTime: time })),
 }));
 
@@ -53,4 +56,14 @@ export const useAnnotationStore = create((set) => ({
     })),
   toggleAllAnnotations: (newState) =>
     set((state) => ({ activeAnnotations: annotationData.map(() => newState) })),
+}));
+
+export const useZoomStore = create((set) => ({
+  zoom: 1,
+  setZoom: (zoom) => set((state) => ({ zoom: zoom })),
+}));
+
+export const useScaleStore = create((set) => ({
+  scale: 0.4,
+  setScale: (scale) => set((state) => ({ scale: scale })),
 }));
