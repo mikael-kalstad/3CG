@@ -4,7 +4,7 @@ import { useZoomStore } from '../../Store';
 
 const ZoomBar = (props) => {
   const zoom = useZoomStore((state) => state.zoom);
-  const setZoom = useZoomStore((state) => state.setZoom);
+  const setZoom = useZoomStore((state) => state.setZoom)
   const SliderStyle = {
     width: '50px',
     height: '50px',

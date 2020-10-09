@@ -1,16 +1,22 @@
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useRef, useEffect } from 'react';
 
-import { extend } from 'react-three-fiber';
+import { extend, useFrame } from 'react-three-fiber';
 import { MeshLine, MeshLineMaterial } from 'three.meshline';
+import { dataService } from '../../Services/DataService';
+import { useTimeStore, useScaleStore } from '../../Store';
+
+extend({ MeshLine, MeshLineMaterial });
 
 const TRANSPARANCY_PLANE = 0.3;
 const TRANSPARANCY_LINE = 0.6;
 const YSCALE = 0.2;
 const WIDTH = 115;
-
-extend({ MeshLine, MeshLineMaterial });
+const sampleRate = dataService.getSampleRate();
 
 const SelectedPlane = (props) => {
+  const startTime = useTimeStore((state) => state.startTime);
+  const endTime = useTimeStore((state) => state.endTime);
+  const scale = useScaleStore((state) => state.scale);
   const planeMesh = useRef();
   const lineMesh = useRef();
 
@@ -20,33 +26,36 @@ const SelectedPlane = (props) => {
     planeMesh.current.material.color.setHex(0xffffff);
   }, []);
 
-  useEffect(() => {
+  useFrame(() => {
     if (shouldRender(props.selected)) {
-      planeMesh.current.scale.x = props.selected[1] - props.selected[0];
+      planeMesh.current.scale.x =
+        (props.selected[1] - props.selected[0]) * sampleRate;
       planeMesh.current.position.x =
-        props.selected[0] + (props.selected[1] - props.selected[0]) / 2;
+        (props.selected[0] + (props.selected[1] - props.selected[0]) / 2) *
+        sampleRate;
       planeMesh.current.visible = true;
       lineMesh.current.visible = true;
     } else {
       planeMesh.current.visible = false;
       lineMesh.current.visible = false;
     }
-  }, [props.selected]);
+  });
 
   const calculateEdges = () => {
     let points = [];
-    points.push(props.selected[0], 0, WIDTH / 2);
-    points.push(props.selected[0], 0, -WIDTH / 2);
-    points.push(props.selected[1], 0, -WIDTH / 2);
-    points.push(props.selected[1], 0, WIDTH / 2);
-    points.push(props.selected[0], 0, WIDTH / 2);
+    points.push(props.selected[0] * sampleRate, 0, WIDTH / 2);
+    points.push(props.selected[0] * sampleRate, 0, -WIDTH / 2);
+    points.push(props.selected[1] * sampleRate, 0, -WIDTH / 2);
+    points.push(props.selected[1] * sampleRate, 0, WIDTH / 2);
+    points.push(props.selected[0] * sampleRate, 0, WIDTH / 2);
 
     return points;
   };
 
   const shouldRender = (selected) => {
-    return Math.abs(selected[1] - selected[0]) > 0.01;
+    return Math.abs(selected[1] - selected[0]) > 0.001;
   };
+  console.log(props.selected);
   // let points = dataService.getPointsNearestTime(1 / 500);
   // console.log(points);
   // let vectors = new Float32Array(points.length * 3);
@@ -94,6 +103,7 @@ const SelectedPlane = (props) => {
           // dashArray={0.04}
           // dashRatio={0.4}
           sizeAttenuation={true}
+          visible={false}
         />
       </mesh>
       {/* <mesh>

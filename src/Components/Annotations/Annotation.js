@@ -6,24 +6,17 @@ import Text from '../Text';
 
 const HEIGHT_OVER_XZ = 10;
 const sampleRate = dataService.getSampleRate();
-let colors = [0x3498db, 0x2ecc71, 0xe74c3c, 0xf1c40f, 0xf39c12, 0x9c88ff];
 
 const Annotation = (props) => {
   const planeMesh = useRef();
-  const annotations = annotationService.getAnnotations();
   const scale = useScaleStore((state) => state.scale);
   let width = (props.ann.end - props.ann.start) * sampleRate;
-
-  // Setting color
-  let sum = 0;
-  props.ann.code.split('').forEach((val) => (sum += val.charCodeAt(0) * 2));
-  let color = colors[sum % colors.length];
 
   useEffect(() => {
     planeMesh.current.rotateX(-Math.PI / 2);
     planeMesh.current.scale.set(width * scale, 140, 0.1);
     planeMesh.current.position.set(0, -HEIGHT_OVER_XZ, 70);
-    planeMesh.current.material.color.setHex(color);
+    planeMesh.current.material.color.setHex(props.color);
   }, []);
 
   console.log();
@@ -41,7 +34,7 @@ const Annotation = (props) => {
       <Text
         background={true}
         backgroundOpacity={0.6}
-        backgroundColor={color}
+        backgroundColor={props.color}
         backgroundSize={[width * scale, 2 * HEIGHT_OVER_XZ]}
         textSize={scale * 15}
         rotation={[0, 0, 0]}
@@ -57,7 +50,6 @@ const Annotation = (props) => {
           attach="material"
           transparent={true}
           clippingPlanes={props.clippingPlanes}
-          color={color}
         />
       </mesh>
     </group>

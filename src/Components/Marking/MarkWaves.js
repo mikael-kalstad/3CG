@@ -14,21 +14,23 @@ const MarkWaves = (props) => {
   const scale = useScaleStore((state) => state.scale);
 
   const updateXStart = (xStart) => {
+    xStart = startTime + xStart / sampleRate;
     setSelected([xStart, xStart]);
   };
 
   const updateXEnd = (xEnd) => {
+    xEnd = startTime + xEnd / sampleRate;
     setSelected([selected[0], xEnd]);
   };
 
-  let width = (endTime - startTime) * sampleRate * scale;
-  let middlePoint = width / 2;
+  let markPlaneWidth = (endTime - startTime) * sampleRate;
+  let middlePoint = markPlaneWidth / 2;
   return (
     <>
       <>
         {markMode && (
           <MarkPlane
-            width={width}
+            width={markPlaneWidth}
             middlePoint={middlePoint}
             updateXStart={updateXStart}
             updateXEnd={updateXEnd}
