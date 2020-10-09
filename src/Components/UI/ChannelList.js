@@ -2,36 +2,18 @@ import React from "react";
 import { useChannelStore } from "../../Store";
 import { dataService } from "../../Services/DataService";
 import { makeStyles } from "@material-ui/core/styles";
-import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import Checkbox from "@material-ui/core/Checkbox";
-import Chip from "@material-ui/core/Chip";
-import styled from "styled-components";
+import SelectAllOrNoneBtns from "./Buttons/SelectAllOrNoneBtns";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const channelNames = dataService.getChannelNamesArray();
 
-const StyledChip = styled(Chip)`
-  justify-content: "center";
-  flex-wrap: "wrap";
-  width: 100%;
-`;
-
-const ChipWrapper = styled.div`
-  width: 100%;
-  height: 50px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-items: center;
-  align-items: center;
-  grid-gap: 10px;
-`;
-
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    // display: "flex",
   },
   formControl: {
     margin: theme.spacing(3),
@@ -45,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CheckList = () => {
+const ChannelList = () => {
   const [
     activeChannels,
     toggleChannel,
@@ -62,12 +44,13 @@ const CheckList = () => {
     "background: #111; color: #ebd31c"
   );
 
-  console.log("activechannels in chechlist", activeChannels);
-
   return (
     <div className={classes.root}>
+      <FormHelperText>
+        Click on checkbox to toggle channel on/off
+      </FormHelperText>
+
       <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Channels</FormLabel>
         <FormGroup>
           {activeChannels.map((state, i) => (
             <FormControlLabel
@@ -83,23 +66,12 @@ const CheckList = () => {
             />
           ))}
         </FormGroup>
-        <FormHelperText>Be careful</FormHelperText>
 
         {/* Buttons with select all or none functionality */}
-        <ChipWrapper>
-          <StyledChip
-            label="Select all"
-            color="primary"
-            onClick={() => toggleAllChannels(true)}
-          />
-          <StyledChip
-            label="Select none"
-            onClick={() => toggleAllChannels(false)}
-          />
-        </ChipWrapper>
+        <SelectAllOrNoneBtns toggleAll={toggleAllChannels} type="channels" />
       </FormControl>
     </div>
   );
 };
 
-export default CheckList;
+export default ChannelList;
