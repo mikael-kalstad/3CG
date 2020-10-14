@@ -67,8 +67,8 @@ const SideDrawer = () => {
           paper: classes.drawerPaper,
         }}
       >
-        {MenuItems.map((item) => (
-          <Accordion TransitionProps={{ unmountOnExit: true }}>
+        {MenuItems.map((item, i) => (
+          <Accordion TransitionProps={{ unmountOnExit: true }} key={i}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"

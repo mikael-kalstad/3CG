@@ -56,6 +56,10 @@ export const useAnnotationStore = create((set) => ({
     })),
   toggleAllAnnotations: (newState) =>
     set((state) => ({ activeAnnotations: annotationData.map(() => newState) })),
+
+  showFullAnnotation: true,
+  toggleShowFullAnnotation: () =>
+    set((state) => ({ showFullAnnotation: !state.showFullAnnotation })),
 }));
 
 export const useZoomStore = create((set) => ({
@@ -66,4 +70,8 @@ export const useZoomStore = create((set) => ({
 export const useScaleStore = create((set) => ({
   scale: 0.4,
   setScale: (scale) => set((state) => ({ scale: scale })),
+  vChannelScaling: true,
+  vChannelScaleFactor: 10,
+  toggleVChannelScaling: () =>
+    set((state) => ({ vChannelScaling: !state.vChannelScaling })),
 }));

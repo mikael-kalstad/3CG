@@ -16,6 +16,7 @@ const ButtonStyle = {
 const PlayAndPauseBtn = () => {
   const playMode = useModeStore((state) => state.playMode);
   const togglePlayMode = useModeStore((state) => state.togglePlayMode);
+  const markMode = useModeStore(state => state.markMode);
 
   console.log(
     "%c [PlayAndPauseBtn] is rendering",
@@ -27,6 +28,7 @@ const PlayAndPauseBtn = () => {
       aria-label="Play"
       style={ButtonStyle}
       onClick={() => togglePlayMode()}
+      disabled={markMode}
     >
       {playMode ? <PauseIcon /> : <PlayArrowIcon />}
     </IconButton>

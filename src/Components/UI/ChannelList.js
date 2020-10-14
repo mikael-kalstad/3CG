@@ -1,5 +1,5 @@
 import React from "react";
-import { useChannelStore } from "../../Store";
+import { useChannelStore, useScaleStore } from "../../Store";
 import { dataService } from "../../Services/DataService";
 import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
@@ -8,13 +8,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import SelectAllOrNoneBtns from "./Buttons/SelectAllOrNoneBtns";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import SettingsCheck from "./SettingsCheck";
 
 const channelNames = dataService.getChannelNamesArray();
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    // display: "flex",
-  },
   formControl: {
     margin: theme.spacing(3),
   },
@@ -37,6 +35,12 @@ const ChannelList = () => {
     state.toggleChannel,
     state.toggleAllChannels,
   ]);
+
+  const [vChannelScaling, toggleVChannelScaling] = useScaleStore((state) => [
+    state.vChannelScaling,
+    state.toggleVChannelScaling,
+  ]);
+
   const classes = useStyles();
 
   console.log(
@@ -70,6 +74,14 @@ const ChannelList = () => {
         {/* Buttons with select all or none functionality */}
         <SelectAllOrNoneBtns toggleAll={toggleAllChannels} type="channels" />
       </FormControl>
+
+      <SettingsCheck
+        state={vChannelScaling}
+        onClick={toggleVChannelScaling}
+        name="vScaling-checkbox"
+        label="Scale V-channels"
+        description="Scale V1-V6 channels down by a factor of 10"
+      />
     </div>
   );
 };

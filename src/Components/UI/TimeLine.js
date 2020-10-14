@@ -9,7 +9,7 @@ const dataLength = dataService.getDuration();
 const Container = styled.div`
   width: 60%;
   max-width: 1000px;
-  height: 80px;
+  height: 20px;
   border-radius: 5px;
   position: absolute;
   bottom: 20px;
