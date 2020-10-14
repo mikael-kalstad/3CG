@@ -56,7 +56,6 @@ const SelectedPlane = (props) => {
   const shouldRender = (selected) => {
     return Math.abs(selected[1] - selected[0]) > 0.001;
   };
-  console.log(props.selected);
   // let points = dataService.getPointsNearestTime(1 / 500);
   // console.log(points);
   // let vectors = new Float32Array(points.length * 3);

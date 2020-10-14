@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
-import * as THREE from "three";
-import { useUpdate, useFrame } from "react-three-fiber";
-import { useSpring } from "@react-spring/core";
-import { a } from "@react-spring/three";
-import { getColorData } from "../Scripts/Color";
-import { useModeStore, useTimeStore, useScaleStore } from "../Store";
-import { dataService } from "../Services/DataService";
+import React, { useState, useRef, useEffect } from 'react';
+import * as THREE from 'three';
+import { useUpdate, useFrame } from 'react-three-fiber';
+import { useSpring } from '@react-spring/core';
+import { a } from '@react-spring/three';
+import { getColorData } from '../Scripts/Color';
+import { useModeStore, useTimeStore, useScaleStore } from '../Store';
+import { dataService } from '../Services/DataService';
 
 const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
@@ -112,7 +112,7 @@ const Wave = (props) => {
       props.data.slice(start * sampleRate, end * sampleRate),
       start * sampleRate
     );
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   };
 
   return (
@@ -133,9 +133,9 @@ const Wave = (props) => {
             name="line"
             attach="material"
             linewidth={1000}
-            linecap={"round"}
-            linejoin={"round"}
-            vertexColors={"VertexColors"}
+            linecap={'round'}
+            linejoin={'round'}
+            vertexColors={'VertexColors'}
           />
         </line>
       </a.mesh>
