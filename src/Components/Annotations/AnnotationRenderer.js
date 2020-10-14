@@ -2,7 +2,7 @@ import Annotation from './Annotation';
 import React from 'react';
 import { annotationService } from '../../Services/AnnotationService';
 import { dataService } from '../../Services/DataService';
-import { useTimeStore, useScaleStore } from '../../Store';
+import { useTimeStore, useScaleStore, useAnnotationStore } from '../../Store';
 import * as THREE from 'three';
 
 const sampleRate = dataService.getSampleRate();
@@ -21,6 +21,9 @@ const AnnotationRenderer = (props) => {
   let endTime = useTimeStore((state) => state.endTime);
   let annotations = annotationService.getAnnotations();
   const scale = useScaleStore((state) => state.scale);
+  let activeAnnotations = useAnnotationStore(
+    (state) => state.activeAnnotations
+  );
 
   const shouldRender = (start, end) => start <= endTime && startTime <= end;
 
@@ -46,7 +49,8 @@ const AnnotationRenderer = (props) => {
     <>
       {annotations.map(
         (ann, i) =>
-          shouldRender(ann.start, ann.end) && (
+          shouldRender(ann.start, ann.end) &&
+          activeAnnotations[i] && (
             <React.Fragment key={i}>
               <Annotation
                 ann={ann}

@@ -30,9 +30,10 @@ const SelectedPlane = (props) => {
     if (shouldRender(props.selected)) {
       planeMesh.current.scale.x =
         (props.selected[1] - props.selected[0]) * sampleRate;
+      let start = props.selected[0];
+      let end = props.selected[1];
       planeMesh.current.position.x =
-        (props.selected[0] + (props.selected[1] - props.selected[0]) / 2) *
-        sampleRate;
+        (start + (end - start) / 2 - startTime) * sampleRate;
       planeMesh.current.visible = true;
       lineMesh.current.visible = true;
     } else {

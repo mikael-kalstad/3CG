@@ -1,6 +1,6 @@
-import create from "zustand";
-import { dataService } from "./Services/DataService";
-import { annotationService } from "./Services/AnnotationService";
+import create from 'zustand';
+import { dataService } from './Services/DataService';
+import { annotationService } from './Services/AnnotationService';
 
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
