@@ -2,13 +2,16 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useThree, useFrame, extend, useUpdate } from 'react-three-fiber';
 import * as THREE from 'three';
 import { OrbitControls } from '../utils/OrbitControls';
-import { useZoomStore } from '../Store';
+import { useZoomStore, useModeStore } from '../Store';
 
 extend({ OrbitControls });
 const MAX_DISTANCE = 700;
 const MIN_DISTANCE = 10;
+
 const CameraControls = (props) => {
   const [initialDistance, setInitialDistance] = useState(0);
+  const markMode = useModeStore(state => state.markMode);
+
   const zoom = useZoomStore((state) => state.zoom);
   const setZoom = useZoomStore((state) => state.setZoom);
   const orbitRef = useRef();
@@ -17,6 +20,7 @@ const CameraControls = (props) => {
   let lastZoom = 1;
 
   let camPos = new THREE.Vector3();
+
   useEffect(() => {
     computeVec();
     setInitialDistance(vec.length());
@@ -61,7 +65,7 @@ const CameraControls = (props) => {
       orbitRef.current.target.z - orbitRef.current.object.position.z
     );
   };
-
+  
   return (
     <orbitControls
       zoomSpeed={1}
@@ -72,6 +76,7 @@ const CameraControls = (props) => {
       ref={orbitRef}
       minDistance={MIN_DISTANCE}
       maxDistance={MAX_DISTANCE}
+      enabled={!markMode}
     />
   );
 };

@@ -1,20 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { useUpdate, useFrame } from "react-three-fiber";
-import { useSpring } from "@react-spring/core";
 import { a } from "@react-spring/three";
-import { getColorData } from "../Scripts/Color";
-import { useModeStore, useTimeStore, useScaleStore } from "../Store";
+import { useModeStore, useTimeStore } from "../Store";
 import { dataService } from "../Services/DataService";
+import { getColorData } from "../Scripts/Color";
+import { matrix, multiply, transpose } from "mathjs";
 
 const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
 const SPEED = 0.01 / sampleRate;
 
-const Wave = (props) => {
-  const [hover, setHover] = useState(0);
-  const [clicked, setClicked] = useState(0);
-
+const Vcg = (props) => {
+  console.log("%c [Vcg] is rendering", "background: #111; color: #ebd31c");
   const meshRef = useRef();
 
   // Get mode states from global store
@@ -24,15 +22,6 @@ const Wave = (props) => {
   ]);
 
   const markMode = useModeStore((state) => state.markMode);
-  const [
-    scale,
-    vChannelScaleFactor,
-    vChannelScaling,
-  ] = useScaleStore((state) => [
-    state.scale,
-    state.vChannelScaleFactor,
-    state.vChannelScaling,
-  ]);
 
   // Fetch initial time state
   const startTimeRef = useRef(useTimeStore.getState().startTime);
@@ -71,32 +60,65 @@ const Wave = (props) => {
       (endTimeRef.current - startTimeRef.current) * sampleRate
     );
 
-    updateColors(ref.current, startTimeRef.current, endTimeRef.current);
+    // updateColors(ref.current, startTimeRef.current, endTimeRef.current);
 
-    meshRef.current.position.set(-startTimeRef.current * sampleRate, 0, 0);
+    // meshRef.current.position.set(-startTimeRef.current * sampleRate, 0, 0);
   });
 
-  // React-spring animation config
-  const { spring } = useSpring({
-    spring: hover || clicked,
-    config: { mass: 0.5, tension: 400, friction: 50, precision: 0.0001 },
-  });
+  const convertData = (data) => {
+    let D = matrix([
+      [-0.172, -0.074, 0.122, 0.231, 0.239, 0.194, 0.156, -0.01],
+      [0.057, -0.019, -0.106, -0.022, 0.041, 0.048, -0.227, 0.887],
+      [-0.229, -0.31, -0.246, -0.063, 0.055, 0.108, 0.022, 0.102],
+    ]);
 
-  // Scale on hover with mouse
-  const springScale = spring.to([0, 1], [1, 5]);
+    let arr = [];
+
+    for (let i = 0; i < data[0].length; i++) {
+      // [V1 V2 V3 V4 V5 V6 I II]
+      let matrixA = matrix([
+        data[3][i],
+        data[4][i],
+        data[5][i],
+        data[6][i],
+        data[7][i],
+        data[8][i],
+        data[0][i],
+        data[1][i],
+      ]);
+
+      let matrixXYZ = multiply(D, matrixA);
+      arr.push(matrixXYZ._data);
+    }
+
+    return arr;
+  };
 
   const ref = useUpdate(
     (self) => {
       // Set specific range which is to be shown
-      self.setDrawRange(
-        startTimeRef.current * sampleRate,
-        endTimeRef.current * sampleRate
-      );
+      // self.setDrawRange(
+      //   startTimeRef.current * sampleRate,
+      //   endTimeRef.current * sampleRate
+      // );
+      let vcgPoints = convertData(props.data, 0);
+      console.log(vcgPoints);
 
       // Set initial points
       self.setFromPoints(
-        props.data.map((p) => new THREE.Vector3(p[0], p[1], p[2]))
+        vcgPoints.map(
+          (p, i) =>
+            new THREE.Vector3(
+              // props.data[8][i][0],
+              // props.data[1][i][1],
+              // -0.5 * props.data[4][i][2]
+              p[0][0],
+              p[1][0],
+              p[2][0]
+            )
+        )
       );
+      console.log("data[0]", props.data[0]);
 
       // Set initial colors
       updateColors(self, startTimeRef.current, endTimeRef.current);
@@ -116,31 +138,23 @@ const Wave = (props) => {
   };
 
   return (
-    <a.group
-      position-y={springScale}
-      onClick={() => setClicked(Number(!clicked))}
-      onPointerOver={() => !markMode && !clicked && setHover(Number(1))}
-      onPointerOut={() => !markMode && !clicked && setHover(Number(0))}
-      scale={[scale, 1, 1]}
-    >
-      <a.mesh ref={meshRef}>
-        <line
-          // position={[-startTimeRef.current * 0.4, 0, 0]}
-          scale={[1, 100, 1]}
-        >
-          <bufferGeometry attach="geometry" ref={ref} />
-          <lineBasicMaterial
-            name="line"
-            attach="material"
-            linewidth={1000}
-            linecap={"round"}
-            linejoin={"round"}
-            vertexColors={"VertexColors"}
-          />
-        </line>
-      </a.mesh>
-    </a.group>
+    <a.mesh ref={meshRef}>
+      <line
+        // position={[-startTimeRef.current * 0.4, 0, 0]}
+        scale={[1, 100, 1]}
+      >
+        <bufferGeometry attach="geometry" ref={ref} />
+        <lineBasicMaterial
+          name="line"
+          attach="material"
+          linewidth={1000}
+          linecap={"round"}
+          linejoin={"round"}
+          vertexColors={"VertexColors"}
+        />
+      </line>
+    </a.mesh>
   );
 };
 
-export default Wave;
+export default Vcg;

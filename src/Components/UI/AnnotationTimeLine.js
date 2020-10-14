@@ -8,12 +8,13 @@ import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 import Typography from "@material-ui/core/Typography";
 import AnnotationCard from "./AnnotationCard";
-import { useAnnotationStore } from "../../Store";
 import CircleCheckedFilled from "@material-ui/icons/CheckCircle";
 import { makeStyles } from "@material-ui/core/styles";
 import SelectAllOrNoneBtns from "./Buttons/SelectAllOrNoneBtns";
 import styled from "styled-components";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import SettingsCheck from "./SettingsCheck";
+import { useAnnotationStore, useTimeStore } from "../../Store";
 
 const SelectWrapper = styled.div`
   margin: 24px;
@@ -31,14 +32,45 @@ const AnnotationTimeline = () => {
     activeAnnotations,
     toggleAnnotation,
     toggleAllAnnotations,
+    showFullAnnotation,
+    toggleShowFullAnnotation
   ] = useAnnotationStore((state) => [
     state.annotations,
     state.activeAnnotations,
     state.toggleAnnotation,
     state.toggleAllAnnotations,
+    state.showFullAnnotation,
+    state.toggleShowFullAnnotation
+  ]);
+
+  const [
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+  ] = useTimeStore((state) => [
+    state.startTime,
+    state.setStartTime,
+    state.endTime,
+    state.setEndTime,
   ]);
 
   const classes = useStyles();
+
+  const goToAnnotation = (index) => {
+    console.log("going to annotation index:", index);
+    const a = annotations[index];
+
+    // Save current graph length
+    const diff = endTime - startTime;
+
+    // Change startTime to annotation start
+    setStartTime(a.start);
+
+    // Only change endTime if necessary
+    if (showFullAnnotation && a.start + diff < a.end) setEndTime(a.end);
+    else setEndTime(a.start + diff);
+  };
 
   return (
     <div>
@@ -76,7 +108,12 @@ const AnnotationTimeline = () => {
               </TimelineSeparator>
 
               <TimelineContent>
-                <AnnotationCard title={a.code} text={a.text} />
+                <AnnotationCard
+                  title={a.code}
+                  text={a.text}
+                  onClick={goToAnnotation}
+                  index={i}
+                />
               </TimelineContent>
             </TimelineItem>
           ))}
@@ -88,6 +125,14 @@ const AnnotationTimeline = () => {
           type="annotations"
         />
       </SelectWrapper>
+
+      <SettingsCheck
+        state={showFullAnnotation}
+        onClick={toggleShowFullAnnotation}
+        name="endTimeChange"
+        label="Show full annotation"
+        description="When clicking too see annotation in 3D, change length of graph dynamically to show full length of annotation"
+      />
     </div>
   );
 };
