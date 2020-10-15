@@ -28,5 +28,11 @@
     "duration": 2,
     "code": "(KODE",
     "text": "TEEEEEST"
+  },
+  {
+    "onset": "00:00:8.50",
+    "duration": 0.3,
+    "code": "(KODEee",
+    "text": "TEEEEEST2"
   }
 ]

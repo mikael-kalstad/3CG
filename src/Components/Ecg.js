@@ -21,7 +21,7 @@ const Ecg = () => {
 
   const { gl, camera } = useThree();
   gl.localClippingEnabled = true;
-
+  console.log('Hei');
   return (
     <Suspense fallback={null}>
       <mesh>

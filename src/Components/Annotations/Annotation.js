@@ -15,7 +15,7 @@ const Annotation = (props) => {
   useEffect(() => {
     planeMesh.current.rotateX(-Math.PI / 2);
     planeMesh.current.scale.set(width * scale, 140, 0.1);
-    planeMesh.current.position.set(0, -HEIGHT_OVER_XZ, 70);
+    planeMesh.current.position.set(0, -HEIGHT_OVER_XZ - props.level * 0.1, 70);
     planeMesh.current.material.color.setHex(props.color);
   }, []);
 
@@ -24,14 +24,12 @@ const Annotation = (props) => {
     <group
       position={[
         ((props.ann.start - props.startTime) * sampleRate + width / 2) * scale,
-        // (annotations[0].start +
-        //   (annotations[0].end - annotations[0].start) / 2) *
-        //   0.004,
         HEIGHT_OVER_XZ,
         -75,
       ]}
     >
       <Text
+        position={[0, 2 * HEIGHT_OVER_XZ * props.level, 0]}
         background={true}
         backgroundOpacity={0.6}
         backgroundColor={props.color}

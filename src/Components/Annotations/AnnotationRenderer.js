@@ -1,5 +1,5 @@
 import Annotation from './Annotation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { annotationService } from '../../Services/AnnotationService';
 import { dataService } from '../../Services/DataService';
 import { useTimeStore, useScaleStore, useAnnotationStore } from '../../Store';
@@ -19,14 +19,49 @@ let colorSelection = [
 const AnnotationRenderer = (props) => {
   let startTime = useTimeStore((state) => state.startTime);
   let endTime = useTimeStore((state) => state.endTime);
-  let annotations = useAnnotationStore((state) => state.annotations);
-  const scale = useScaleStore((state) => state.scale);
-  let activeAnnotations = useAnnotationStore(
+  const activeAnnotations = useAnnotationStore(
     (state) => state.activeAnnotations
   );
+  const [annotations, setAnnotations] = useState(
+    useAnnotationStore((state) => state.annotations)
+  );
+
+  const [levels, setLevels] = useState(0);
+
+  // Pushes annotations that are overlapping up
+  // After one iteration of pushes, it runs again to check if pushed annotations are overlapping again
+  useEffect(() => {
+    let levelsArr = new Array(annotations.length).fill(0);
+    for (let k = 0; k < 10; k++) {
+      let changed = false;
+      for (let i = 0; i < annotations.length - 1; i++) {
+        for (let j = i + 1; j < annotations.length; j++) {
+          if (
+            levelsArr[i] === k &&
+            levelsArr[j] === k &&
+            levelsArr[i] === levelsArr[j] &&
+            activeAnnotations[i] &&
+            activeAnnotations[j]
+          ) {
+            let anni = annotations[i];
+            let annj = annotations[j];
+            let overlap = annj.start <= anni.end && anni.start <= annj.end;
+            if (overlap) {
+              levelsArr[j] += 1;
+              changed = true;
+            }
+          }
+        }
+      }
+      if (!changed) break;
+    }
+    setLevels(levelsArr);
+  }, [annotations, activeAnnotations]);
+
+  //let annotations = useAnnotationStore((state) => state.annotations);
+  const scale = useScaleStore((state) => state.scale);
   const shouldRender = (start, end) => start <= endTime && startTime <= end;
 
-  // Setting color
   let colorsIndex = [];
   let sum = 0;
   for (let i = 0; i < annotations.length; i++) {
@@ -57,6 +92,7 @@ const AnnotationRenderer = (props) => {
                 endTime={endTime}
                 clippingPlanes={[startPlane, endPlane]}
                 color={colorSelection[colorsIndex[i]]}
+                level={levels[i]}
               />
             </React.Fragment>
           )
