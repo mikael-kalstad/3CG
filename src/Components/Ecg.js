@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
 import { dataService } from '../Services/DataService';
 import { annotationService } from '../Services/AnnotationService';
-import { useChannelStore } from '../Store';
+import { useChannelStore, useAnnotationStore } from '../Store';
 import Wave from './Wave';
 import Vcg from './Vcg';
 import Text from './Text';

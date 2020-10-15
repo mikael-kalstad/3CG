@@ -26,10 +26,6 @@ class AnnotationService {
     return this.annotations;
   }
 
-  addAnnotation(start, end, code, text) {
-    this.annotations.push({ start, end, code, text });
-  }
-
   getAnnotationsOnlyInTimeframe(start, end) {
     let result = [];
     for (let i in this.annotations) {

@@ -1,20 +1,20 @@
-import React from "react";
-import Timeline from "@material-ui/lab/Timeline";
-import TimelineItem from "@material-ui/lab/TimelineItem";
-import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
-import TimelineConnector from "@material-ui/lab/TimelineConnector";
-import TimelineContent from "@material-ui/lab/TimelineContent";
-import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
-import TimelineDot from "@material-ui/lab/TimelineDot";
-import Typography from "@material-ui/core/Typography";
-import AnnotationCard from "./AnnotationCard";
-import CircleCheckedFilled from "@material-ui/icons/CheckCircle";
-import { makeStyles } from "@material-ui/core/styles";
-import SelectAllOrNoneBtns from "./Buttons/SelectAllOrNoneBtns";
-import styled from "styled-components";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import SettingsCheck from "./SettingsCheck";
-import { useAnnotationStore, useTimeStore } from "../../Store";
+import React from 'react';
+import Timeline from '@material-ui/lab/Timeline';
+import TimelineItem from '@material-ui/lab/TimelineItem';
+import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
+import TimelineConnector from '@material-ui/lab/TimelineConnector';
+import TimelineContent from '@material-ui/lab/TimelineContent';
+import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
+import TimelineDot from '@material-ui/lab/TimelineDot';
+import Typography from '@material-ui/core/Typography';
+import AnnotationCard from './AnnotationCard';
+import CircleCheckedFilled from '@material-ui/icons/CheckCircle';
+import { makeStyles } from '@material-ui/core/styles';
+import SelectAllOrNoneBtns from './Buttons/SelectAllOrNoneBtns';
+import styled from 'styled-components';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import SettingsCheck from './SettingsCheck';
+import { useAnnotationStore, useTimeStore } from '../../Store';
 
 const SelectWrapper = styled.div`
   margin: 24px;
@@ -33,14 +33,14 @@ const AnnotationTimeline = () => {
     toggleAnnotation,
     toggleAllAnnotations,
     showFullAnnotation,
-    toggleShowFullAnnotation
+    toggleShowFullAnnotation,
   ] = useAnnotationStore((state) => [
     state.annotations,
     state.activeAnnotations,
     state.toggleAnnotation,
     state.toggleAllAnnotations,
     state.showFullAnnotation,
-    state.toggleShowFullAnnotation
+    state.toggleShowFullAnnotation,
   ]);
 
   const [
@@ -58,7 +58,7 @@ const AnnotationTimeline = () => {
   const classes = useStyles();
 
   const goToAnnotation = (index) => {
-    console.log("going to annotation index:", index);
+    console.log('going to annotation index:', index);
     const a = annotations[index];
 
     // Save current graph length
@@ -79,7 +79,7 @@ const AnnotationTimeline = () => {
         3D visualization
       </FormHelperText>
 
-      <Timeline align="left" style={{ padding: "6px 0px" }}>
+      <Timeline align="left" style={{ padding: '6px 0px' }}>
         {annotations &&
           annotations.map((a, i) => (
             <TimelineItem key={i}>
@@ -93,7 +93,7 @@ const AnnotationTimeline = () => {
 
                 <TimelineDot
                   color="primary"
-                  style={{ cursor: "pointer", padding: 0 }}
+                  style={{ cursor: 'pointer', padding: 0 }}
                   onClick={() => toggleAnnotation(i)}
                 >
                   {
@@ -131,7 +131,7 @@ const AnnotationTimeline = () => {
         onClick={toggleShowFullAnnotation}
         name="endTimeChange"
         label="Show full annotation"
-        description="When clicking too see annotation in 3D, change length of graph dynamically to show full length of annotation"
+        description="When clicking to see annotation in 3D, change length of graph dynamically to show full length of annotation"
       />
     </div>
   );

@@ -45,8 +45,21 @@ export const useTimeStore = create((set) => ({
 
 export const useAnnotationStore = create((set) => ({
   annotations: annotationData,
-  editAnnotation: (i, newAnnotation) =>
-    set((state) => ({ annotations: newAnnotation })),
+  addAnnotation: (newAnnotation) =>
+    set((state) => {
+      state.annotations.push(newAnnotation);
+      state.updateActiveAnnotations();
+    }),
+  updateActiveAnnotations: () => {
+    set((state) => {
+      let newActiveAnnotations = state.annotations.map((i) =>
+        i < state.activeAnnotations.length ? state.activeAnnotations[i] : true
+      );
+      state.activeAnnotations = newActiveAnnotations;
+    });
+  },
+  editAnnotation: (i, edited) =>
+    set((state) => (state.annotations[i] = edited)),
   activeAnnotations: annotationData.map(() => true),
   toggleAnnotation: (index) =>
     set((state) => ({
