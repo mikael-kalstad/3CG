@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import { dataService } from '../Services/DataService';
+import { annotationService } from '../Services/AnnotationService';
 import { useChannelStore } from '../Store';
 import Wave from './Wave';
 import Vcg from './Vcg';
@@ -15,7 +16,6 @@ let channelNames = dataService.getChannelNamesArray();
 
 const Ecg = () => {
   const activeChannels = useChannelStore((state) => state.activeChannels);
-
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
   console.log('%c [Wave(s)] is rendering', 'background: #111; color: #ebd31c');
 
@@ -51,7 +51,6 @@ const Ecg = () => {
           )}
 
         {/* <Vcg data={renderPoints} /> */}
-        
       </mesh>
 
       <MarkWaves

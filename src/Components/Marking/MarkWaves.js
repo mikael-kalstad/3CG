@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MarkPlane from './MarkPlane';
 import SelectedPlane from './SelectedPlane';
 import { useModeStore, useTimeStore, useScaleStore } from '../../Store';
@@ -13,17 +13,16 @@ const MarkWaves = (props) => {
   const endTime = useTimeStore((state) => state.endTime);
   const scale = useScaleStore((state) => state.scale);
 
-  const updateXStart = (xStart) => {
-    xStart = startTime + xStart / sampleRate;
-    setSelected([xStart, xStart]);
+  const updateXStart = (xStartPos) => {
+    let xStartTime = startTime + xStartPos / (sampleRate * scale); // Converting to time
+    setSelected([xStartTime, xStartTime]);
   };
 
-  const updateXEnd = (xEnd) => {
-    xEnd = startTime + xEnd / sampleRate;
-    setSelected([selected[0], xEnd]);
+  const updateXEnd = (xEndPos) => {
+    let xEndTime = startTime + xEndPos / (sampleRate * scale); // Converting to time
+    setSelected([selected[0], xEndTime]);
   };
-
-  let markPlaneWidth = (endTime - startTime) * sampleRate;
+  let markPlaneWidth = (endTime - startTime) * sampleRate * scale;
   let middlePoint = markPlaneWidth / 2;
   return (
     <>

@@ -36,7 +36,6 @@ const Vcg2 = (props) => {
     );
   }, []);
   let values = dataService.getSamples();
-  console.log(values);
   // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
 
   const dowersTransform = (data) => {
@@ -57,9 +56,7 @@ const Vcg2 = (props) => {
       values['I'],
       values['II'],
     ]);
-    console.log(matrixA);
     let transformed = multiply(invD, matrixA);
-    console.log(transformed._data);
 
     let output = [];
     for (let i = 0; i < transformed._data[0].length; i++) {
@@ -69,7 +66,6 @@ const Vcg2 = (props) => {
         transformed._data[2][i],
       ]);
     }
-    console.log(output);
     return output;
   };
 
@@ -84,11 +80,9 @@ const Vcg2 = (props) => {
     // Set initial points
     self.setFromPoints(
       vcgPoints.map((p, i) => {
-        console.log(p[0]);
         return new THREE.Vector3(p[0], p[1], p[2]);
       })
     );
-    console.log(self);
 
     // Set initial colors
     // updateColors(self, startTimeRef.current, endTimeRef.current);

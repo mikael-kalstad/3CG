@@ -5,7 +5,7 @@ import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import { dataService } from '../../Services/DataService';
 import { useTimeStore, useScaleStore } from '../../Store';
 
-extend({ MeshLine, MeshLineMaterial });
+// extend({ MeshLine, MeshLineMaterial });
 
 const TRANSPARANCY_PLANE = 0.3;
 const TRANSPARANCY_LINE = 0.6;
@@ -29,16 +29,16 @@ const SelectedPlane = (props) => {
   useFrame(() => {
     if (shouldRender(props.selected)) {
       planeMesh.current.scale.x =
-        (props.selected[1] - props.selected[0]) * sampleRate;
-      let start = props.selected[0];
-      let end = props.selected[1];
-      planeMesh.current.position.x =
-        (start + (end - start) / 2 - startTime) * sampleRate;
+        (props.selected[1] - props.selected[0]) * sampleRate * scale;
+      let start = (props.selected[0] - startTime) * sampleRate * scale;
+      let end = (props.selected[1] - startTime) * sampleRate * scale;
+      let middlePos = start + (end - start) / 2;
+      planeMesh.current.position.x = middlePos;
       planeMesh.current.visible = true;
-      lineMesh.current.visible = true;
+      // lineMesh.current.visible = true;
     } else {
       planeMesh.current.visible = false;
-      lineMesh.current.visible = false;
+      // lineMesh.current.visible = false;
     }
   });
 
@@ -91,7 +91,7 @@ const SelectedPlane = (props) => {
           transparent={true}
         />
       </mesh>
-      <mesh ref={lineMesh}>
+      {/* <mesh ref={lineMesh}>
         <meshLine attach="geometry" points={calculateEdges()} />
         <meshLineMaterial
           attach="material"
@@ -105,7 +105,7 @@ const SelectedPlane = (props) => {
           sizeAttenuation={true}
           visible={false}
         />
-      </mesh>
+      </mesh> */}
       {/* <mesh>
         <bufferGeometry attach="geometry" vertices={vectors} />
         <meshPhongMaterial attach="material" />

@@ -19,12 +19,11 @@ let colorSelection = [
 const AnnotationRenderer = (props) => {
   let startTime = useTimeStore((state) => state.startTime);
   let endTime = useTimeStore((state) => state.endTime);
-  let annotations = annotationService.getAnnotations();
+  let annotations = useAnnotationStore((state) => state.annotations);
   const scale = useScaleStore((state) => state.scale);
   let activeAnnotations = useAnnotationStore(
     (state) => state.activeAnnotations
   );
-
   const shouldRender = (start, end) => start <= endTime && startTime <= end;
 
   // Setting color
