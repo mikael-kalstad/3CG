@@ -18,6 +18,8 @@ export const useModeStore = create((set) => ({
   togglePlayMode: () => set((state) => ({ playMode: !state.playMode })),
   markMode: false,
   toggleMarkMode: () => set((state) => ({ markMode: !state.markMode })),
+  ortoMode: false,
+  toggleOrtoMode: () => set((state) => ({ ortoMode: !state.ortoMode })),
 }));
 
 // Store for storing global all states related to ecg-data and timing

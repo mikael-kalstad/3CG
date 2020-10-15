@@ -8,11 +8,12 @@ import Vcg2 from './Vcg2';
 
 const Scene = () => {
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
-
+  const ortoMode = useModeStore((state) => state.ortoMode);
   return (
     <Canvas
-      camera={{ position: [100, 80, 150], fov: 55 }}
+      // camera={{ position: [100, 80, 150], fov: 55 }}
       style={{ background: '#324444' }}
+      // orthographic={ortoMode}
     >
       <CameraControls />
       <ambientLight />

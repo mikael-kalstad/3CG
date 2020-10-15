@@ -6,6 +6,7 @@ import { useModeStore } from '../../../Store';
 const MarkBtn = () => {
   const markMode = useModeStore((state) => state.markMode);
   const toggleMarkMode = useModeStore((state) => state.toggleMarkMode);
+  const toggleOrtoMode = useModeStore((state) => state.toggleOrtoMode);
 
   console.log('%c [MarkBtn] is rendering', 'background: #111; color: #ebd31c');
 
@@ -22,7 +23,10 @@ const MarkBtn = () => {
     <IconButton
       aria-label="Play"
       style={ButtonStyle}
-      onClick={() => toggleMarkMode()}
+      onClick={() => {
+        toggleMarkMode();
+        toggleOrtoMode();
+      }}
     >
       <SpaceBar />
     </IconButton>

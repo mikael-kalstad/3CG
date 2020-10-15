@@ -83,7 +83,7 @@ const Wave = (props) => {
   });
 
   // Scale on hover with mouse
-  const springScale = spring.to([0, 1], [1, 5]);
+  const springScale = spring.to([0, 1], [0, 100]);
 
   const ref = useUpdate(
     (self) => {
@@ -118,15 +118,21 @@ const Wave = (props) => {
   return (
     <a.group
       position-y={springScale}
-      onClick={() => setClicked(Number(!clicked))}
-      onPointerOver={() => !markMode && !clicked && setHover(Number(1))}
-      onPointerOut={() => !markMode && !clicked && setHover(Number(0))}
+      onClick={() => !markMode && setClicked(Number(!clicked))}
+      // onPointerOver={() => !markMode && !clicked && setHover(Number(1))}
+      // onPointerOut={() => !markMode && !clicked && setHover(Number(0))}
       scale={[scale, 1, 1]}
     >
       <a.mesh ref={meshRef}>
         <line
           // position={[-startTimeRef.current * 0.4, 0, 0]}
-          scale={[1, 100, 1]}
+          scale={[
+            1,
+            props.channelName[0] === 'V' && vChannelScaling
+              ? vChannelScaleFactor
+              : 100,
+            1,
+          ]}
         >
           <bufferGeometry attach="geometry" ref={ref} />
           <lineBasicMaterial

@@ -24,6 +24,7 @@ const CameraControls = (props) => {
   useEffect(() => {
     computeVec();
     setInitialDistance(vec.length());
+    camera.position.set(100, 80, 150);
   }, []);
 
   useFrame(() => {

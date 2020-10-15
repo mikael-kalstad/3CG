@@ -21,7 +21,6 @@ const Ecg = () => {
 
   const { gl, camera } = useThree();
   gl.localClippingEnabled = true;
-  console.log('Hei');
   return (
     <Suspense fallback={null}>
       <mesh>
@@ -45,7 +44,7 @@ const Ecg = () => {
                   >
                     {channelNames[i]}
                   </Text>
-                  <Wave data={channel} />
+                  <Wave data={channel} channelName={channelNames[i]} />
                 </React.Fragment>
               )
           )}
