@@ -6,6 +6,12 @@
     "text": "Sinus bradycardia"
   },
   {
+    "onset": "00:00:3.50",
+    "duration": 0.3,
+    "code": "OVER",
+    "text": "TEEEEEST2"
+  },
+  {
     "onset": "00:00:5.350",
     "duration": 0.4,
     "code": "(AFIB",
@@ -32,7 +38,7 @@
   {
     "onset": "00:00:8.50",
     "duration": 0.3,
-    "code": "(KODEee",
+    "code": "OVER",
     "text": "TEEEEEST2"
   }
 ]

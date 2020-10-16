@@ -87,8 +87,17 @@ const AnnotationTimeline = () => {
                 className={classes.root}
               ></TimelineOppositeContent>
               <TimelineSeparator>
-                <Typography variant="body2" color="textSecondary">
-                  {/* {a.start} */} 20s
+                <Typography
+                  variant="subtitle1"
+                  color="textSecondary"
+                  style={{
+                    fontSize: 15,
+                    width: 30,
+                    height: 20,
+                    textAlign: 'center',
+                  }}
+                >
+                  {a.start.toFixed(2) + 's'}
                 </Typography>
 
                 <TimelineDot

@@ -1,18 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
-import { useTimeStore } from '../../Store';
-import { dataService } from '../../Services/DataService';
+import AnnotationMark from './AnnotationMark';
+import { useTimeStore } from '../../../Store';
+import { dataService } from '../../../Services/DataService';
+import { useAnnotationStore } from '../../../Store';
 
 const dataLength = dataService.getDuration();
 
 const Container = styled.div`
   width: 60%;
   max-width: 1000px;
-  height: 20px;
+  height: 30px;
   border-radius: 5px;
-  position: absolute;
-  bottom: 20px;
+  position: relative;
+  bottom: 60px;
   left: 0;
   right: 0;
   margin: auto;
@@ -45,6 +47,9 @@ const TimeLine = () => {
   // Fetch initial time state
   const startTimeRef = useRef(useTimeStore.getState().startTime);
   const endTimeRef = useRef(useTimeStore.getState().endTime);
+
+  // Fetch annotations
+  const annotations = useAnnotationStore((state) => state.annotations);
 
   // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
   useEffect(() => {
@@ -95,6 +100,10 @@ const TimeLine = () => {
 
   return (
     <Container>
+      {annotations.map((ann) => (
+        <AnnotationMark ann={ann} ratio={ratio} />
+      ))}
+
       <Rnd
         bounds="parent"
         style={style}
