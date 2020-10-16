@@ -11,7 +11,7 @@ const Scene = () => {
   const ortoMode = useModeStore((state) => state.ortoMode);
   return (
     <Canvas
-      // camera={{ position: [100, 80, 150], fov: 55 }}
+      camera={{ fov: 55 }}
       style={{ background: '#324444' }}
       // orthographic={ortoMode}
     >
