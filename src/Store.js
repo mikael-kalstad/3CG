@@ -18,6 +18,9 @@ export const useModeStore = create((set) => ({
   togglePlayMode: () => set((state) => ({ playMode: !state.playMode })),
   markMode: false,
   toggleMarkMode: () => set((state) => ({ markMode: !state.markMode })),
+  inspectMode: false,
+  toggleInspectMode: () =>
+    set((state) => ({ inspectMode: !state.inspectMode })),
   ortoMode: false,
   toggleOrtoMode: () => set((state) => ({ ortoMode: !state.ortoMode })),
 }));

@@ -24,6 +24,7 @@ const Wave = (props) => {
   ]);
 
   const markMode = useModeStore((state) => state.markMode);
+  const toggleInspectMode = useModeStore((state) => state.toggleInspectMode);
   const [
     scale,
     vChannelScaleFactor,
@@ -83,7 +84,7 @@ const Wave = (props) => {
   });
 
   // Scale on hover with mouse
-  const springScale = spring.to([0, 1], [0, 100]);
+  const springScale = spring.to([0, 1], [0, 150]);
 
   const ref = useUpdate(
     (self) => {
@@ -118,7 +119,9 @@ const Wave = (props) => {
   return (
     <a.group
       position-y={springScale}
-      onClick={() => !markMode && setClicked(Number(!clicked))}
+      onClick={() => {
+        !markMode && setClicked(Number(!clicked));
+      }}
       // onPointerOver={() => !markMode && !clicked && setHover(Number(1))}
       // onPointerOut={() => !markMode && !clicked && setHover(Number(0))}
       scale={[scale, 1, 1]}

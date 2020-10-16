@@ -3,6 +3,7 @@ import { useThree, useFrame, extend, useUpdate } from 'react-three-fiber';
 import * as THREE from 'three';
 import { OrbitControls } from '../utils/OrbitControls';
 import { useZoomStore, useModeStore } from '../Store';
+import { useSpring, useSprings } from 'react-spring';
 
 extend({ OrbitControls });
 const MAX_DISTANCE = 500;
@@ -11,7 +12,8 @@ const MIN_DISTANCE = 10;
 const CameraControls = (props) => {
   const [initialDistance, setInitialDistance] = useState(0);
   const markMode = useModeStore((state) => state.markMode);
-
+  const inspectMode = useModeStore((state) => state.inspectMode);
+  const ortoMode = useModeStore((state) => state.ortoMode);
   const zoom = useZoomStore((state) => state.zoom);
   const setZoom = useZoomStore((state) => state.setZoom);
   const orbitRef = useRef();
@@ -20,7 +22,14 @@ const CameraControls = (props) => {
   let lastZoom = 1;
 
   let camPos = new THREE.Vector3();
-
+  const orto = new THREE.OrthographicCamera(
+    window.innerWidth / -2,
+    window.innerWidth / 2,
+    window.innerHeight / 2,
+    window.innerHeight / -2,
+    1,
+    1000
+  );
   useEffect(() => {
     computeVec();
     setInitialDistance(vec.length());
@@ -70,6 +79,15 @@ const CameraControls = (props) => {
     );
   };
 
+  useSpring({
+    spring: !inspectMode,
+    from: { y: camera.position.y },
+    to: { y: 100 },
+    onFrame: ({ y }) => {
+      camera.position.y = y;
+      console.log(inspectMode);
+    },
+  });
   return (
     <orbitControls
       zoomSpeed={1}
