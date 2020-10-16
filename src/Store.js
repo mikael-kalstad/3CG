@@ -1,6 +1,6 @@
-import create from 'zustand';
-import { dataService } from './Services/DataService';
-import { annotationService } from './Services/AnnotationService';
+import create from "zustand";
+import { dataService } from "./Services/DataService";
+import { annotationService } from "./Services/AnnotationService";
 
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
@@ -57,16 +57,8 @@ export const useAnnotationStore = create((set) => ({
   addAnnotation: (newAnnotation) =>
     set((state) => {
       state.annotations.push(newAnnotation);
-      state.updateActiveAnnotations();
+      state.activeAnnotations.push(true);
     }),
-  updateActiveAnnotations: () => {
-    set((state) => {
-      let newActiveAnnotations = state.annotations.map((i) =>
-        i < state.activeAnnotations.length ? state.activeAnnotations[i] : true
-      );
-      state.activeAnnotations = newActiveAnnotations;
-    });
-  },
   editAnnotation: (i, edited) =>
     set((state) => (state.annotations[i] = edited)),
   activeAnnotations: annotationData.map(() => true),
