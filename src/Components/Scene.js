@@ -1,18 +1,18 @@
-import React, { useRef, useEffect } from "react";
-import { Canvas, useThree } from "react-three-fiber";
-import CameraControls from "./CameraControls";
-import Ecg from "./Ecg";
-import { useModeStore } from "../Store";
-import Grid from "./Grid";
-import Vcg2 from "./Vcg2";
+import React, { useRef, useEffect } from 'react';
+import { Canvas, useThree } from 'react-three-fiber';
+import CameraControls from './CameraControls';
+import Ecg from './Ecg';
+import { useModeStore } from '../Store';
+import Grid from './Grid';
+import Vcg2 from './Vcg2';
 
 const Scene = () => {
-  console.log("%c [Ecg] is rendering", "background: #111; color: #ebd31c");
+  console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
   const ortoMode = useModeStore((state) => state.ortoMode);
   return (
     <Canvas
-      // camera={{ position: [100, 80, 150], fov: 55 }}
-      style={{ background: "#324444" }}
+      camera={{ fov: 55 }}
+      style={{ background: '#324444' }}
       // orthographic={ortoMode}
     >
       <CameraControls />

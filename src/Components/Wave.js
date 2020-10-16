@@ -1,11 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import * as THREE from "three";
-import { useUpdate, useFrame } from "react-three-fiber";
-import { useSpring } from "@react-spring/core";
-import { a } from "@react-spring/three";
-import { getColorData } from "../Scripts/Color";
-import { useModeStore, useTimeStore, useScaleStore } from "../Store";
-import { dataService } from "../Services/DataService";
+import React, { useState, useRef, useEffect } from 'react';
+import * as THREE from 'three';
+import { useUpdate, useFrame } from 'react-three-fiber';
+import { useSpring } from '@react-spring/core';
+import { a } from '@react-spring/three';
+import { getColorData } from '../Scripts/Color';
+import {
+  useModeStore,
+  useTimeStore,
+  useScaleStore,
+  useInspectStore,
+} from '../Store';
+import { dataService } from '../Services/DataService';
 
 const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
@@ -24,7 +29,10 @@ const Wave = (props) => {
   ]);
 
   const markMode = useModeStore((state) => state.markMode);
-  const toggleInspectMode = useModeStore((state) => state.toggleInspectMode);
+  const [inspectMode, toggleInspectMode] = useModeStore((state) => [
+    state.inspectMode,
+    state.toggleInspectMode,
+  ]);
   const [
     scale,
     vChannelScaleFactor,
@@ -33,6 +41,10 @@ const Wave = (props) => {
     state.scale,
     state.vChannelScaleFactor,
     state.vChannelScaling,
+  ]);
+  const [inspected, setInspected] = useInspectStore((state) => [
+    state.inspected,
+    state.setInspected,
   ]);
 
   // Fetch initial time state
@@ -77,14 +89,17 @@ const Wave = (props) => {
     meshRef.current.position.set(-startTimeRef.current * sampleRate, 0, 0);
   });
 
+  const isInspected = () => {
+    return props.i === inspected;
+  };
   // React-spring animation config
   const { spring } = useSpring({
-    spring: hover || clicked,
-    config: { mass: 0.5, tension: 400, friction: 50, precision: 0.0001 },
+    spring: inspectMode && !isInspected(),
+    config: { mass: 0.5, tension: 400, friction: 50, precision: 0.001 },
   });
 
   // Scale on hover with mouse
-  const springScale = spring.to([0, 1], [0, 150]);
+  const springScale = spring.to([0, 1], [0, -100]);
 
   const ref = useUpdate(
     (self) => {
@@ -113,7 +128,7 @@ const Wave = (props) => {
       props.data.slice(start * sampleRate, end * sampleRate),
       start * sampleRate
     );
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   };
 
   return (
@@ -122,9 +137,8 @@ const Wave = (props) => {
       onClick={() => {
         !markMode && setClicked(Number(!clicked));
         toggleInspectMode();
+        setInspected(props.i);
       }}
-      // onPointerOver={() => !markMode && !clicked && setHover(Number(1))}
-      // onPointerOut={() => !markMode && !clicked && setHover(Number(0))}
       scale={[scale, 1, 1]}
     >
       <a.mesh ref={meshRef}>
@@ -132,7 +146,7 @@ const Wave = (props) => {
           // position={[-startTimeRef.current * 0.4, 0, 0]}
           scale={[
             1,
-            props.channelName[0] === "V" && vChannelScaling
+            props.channelName[0] === 'V' && vChannelScaling
               ? vChannelScaleFactor
               : 100,
             1,
@@ -143,9 +157,9 @@ const Wave = (props) => {
             name="line"
             attach="material"
             linewidth={1000}
-            linecap={"round"}
-            linejoin={"round"}
-            vertexColors={"VertexColors"}
+            linecap={'round'}
+            linejoin={'round'}
+            vertexColors={'VertexColors'}
           />
         </line>
       </a.mesh>

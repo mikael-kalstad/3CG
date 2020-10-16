@@ -25,6 +25,10 @@ export const useModeStore = create((set) => ({
   toggleOrtoMode: () => set((state) => ({ ortoMode: !state.ortoMode })),
 }));
 
+export const useInspectStore = create((set) => ({
+  inspected: -1,
+  setInspected: (i) => set((state) => (state.inspected = i)),
+}));
 // Store for storing global all states related to ecg-data and timing
 export const useChannelStore = create((set) => ({
   activeChannels: numOfSamples.map(() => true),

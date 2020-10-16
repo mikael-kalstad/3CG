@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useThree, useFrame, extend, useUpdate } from "react-three-fiber";
-import * as THREE from "three";
-import { OrbitControls } from "../utils/OrbitControls";
-import { useZoomStore, useModeStore } from "../Store";
-import { useSpring, useSprings } from "react-spring-three";
+import React, { useRef, useEffect, useState } from 'react';
+import { useThree, useFrame, extend, useUpdate } from 'react-three-fiber';
+import * as THREE from 'three';
+import { OrbitControls } from '../utils/OrbitControls';
+import { useZoomStore, useModeStore, useInspectStore } from '../Store';
+import { useSpring, useSprings } from 'react-spring-three';
 
 extend({ OrbitControls });
 const MAX_DISTANCE = 500;
@@ -13,23 +13,17 @@ const CameraControls = (props) => {
   const [initialDistance, setInitialDistance] = useState(0);
   const markMode = useModeStore((state) => state.markMode);
   const inspectMode = useModeStore((state) => state.inspectMode);
-  const ortoMode = useModeStore((state) => state.ortoMode);
+  const inspected = useInspectStore((state) => state.inspected);
   const zoom = useZoomStore((state) => state.zoom);
   const setZoom = useZoomStore((state) => state.setZoom);
   const orbitRef = useRef();
   const { camera, gl } = useThree();
+
+  // Variables for zooming
   let vec = new THREE.Vector3();
   let lastZoom = 1;
-
   let camPos = new THREE.Vector3();
-  const orto = new THREE.OrthographicCamera(
-    window.innerWidth / -2,
-    window.innerWidth / 2,
-    window.innerHeight / 2,
-    window.innerHeight / -2,
-    1,
-    1000
-  );
+
   useEffect(() => {
     computeVec();
     setInitialDistance(vec.length());
@@ -55,18 +49,6 @@ const CameraControls = (props) => {
       orbitRef.current.object.position.set(camPos.x, camPos.y, camPos.z);
       lastZoom = zoom;
     }
-    // if (
-    //   Math.abs(orbitRef.current.object.position.length() - camPos.length()) >
-    //   0.1
-    // ) {
-    //   computeVec();
-    //   setNewZoom(
-    //     Math.pow(
-    //       Math.abs(orbitRef.current.object.position.length()) / vec.length(),
-    //       -1
-    //     )
-    //   );
-    // }
 
     //console.log(orbitRef.current.target);
 
@@ -82,12 +64,10 @@ const CameraControls = (props) => {
   };
   console.log(orbitRef);
   useSpring({
-    from: inspectMode && { y: camera.position.y },
-    to: inspectMode ? { y: 100 } : { y: 0 },
+    from: inspectMode && inspected != -1 && { y: camera.position.y },
+    to: inspectMode && inspected != 0 ? { y: 100 } : { y: 80 },
     onFrame: ({ y }) => {
-      orbitRef.current.target.y = y;
-      console.log(inspectMode);
-      console.log(orbitRef.current.target.y);
+      camera.position.y = y;
     },
     // Turn off camera controls while animation is running
     onStart: () => {
@@ -127,6 +107,8 @@ const CameraControls = (props) => {
       minAzimuthAngle={-Math.PI / 2}
       maxAzimuthAngle={Math.PI / 2}
       enabled={!markMode}
+      enableDamping={true}
+      dampingFactor={0.2}
     />
   );
 };
