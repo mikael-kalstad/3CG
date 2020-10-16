@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import { Rnd } from 'react-rnd';
-import { useTimeStore } from '../../Store';
-import { dataService } from '../../Services/DataService';
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { Rnd } from "react-rnd";
+import { useTimeStore } from "../../Store";
+import { dataService } from "../../Services/DataService";
 
 const dataLength = dataService.getDuration();
 
@@ -25,13 +25,15 @@ const ResizeIcon = styled.div`
   height: 100%;
   position: absolute;
   background: rgba(0, 0, 0, 0.35);
-  left: ${(props) => props.position === 'left' && '0'};
-  right: ${(props) => props.position === 'right' && '0'};
+  left: ${(props) => props.position === "left" && "0"};
+  right: ${(props) => props.position === "right" && "0"};
   border-radius: ${(props) =>
-    props.position === 'left' ? '5px 0 0 5px' : '0 5px 5px 0'};
+    props.position === "left" ? "5px 0 0 5px" : "0 5px 5px 0"};
 `;
 
 const TimeLine = () => {
+  const [windowWitdth, setWindowWitdth] = useState(window.innerWidth);
+
   const [startTime, setStartTime] = useTimeStore((state) => [
     state.startTime,
     state.setStartTime,
@@ -59,8 +61,15 @@ const TimeLine = () => {
     );
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, [windowWitdth]);
+
   // Ratio used to make dimensions correct according to data size
-  let ratio = dataLength / (window.innerWidth * 0.6);
+  const updateSize = (e) => setWindowWitdth(e.currentTarget.innerWidth);
+
+  let ratio = dataLength / (windowWitdth * 0.6);
 
   const handleResize = (e, dir, ref, delta, position) => {
     // Calculate new start time based on x position and window width
@@ -71,7 +80,7 @@ const TimeLine = () => {
 
     // Update global end time state based on scroller width and new start time
     setEndTime(
-      newStartTime + ratio * Number.parseInt(ref.style.width.split('px')[0])
+      newStartTime + ratio * Number.parseInt(ref.style.width.split("px")[0])
     );
   };
 
@@ -87,11 +96,13 @@ const TimeLine = () => {
   };
 
   const style = {
-    width: startTimeRef.current * ratio + endTimeRef.current * ratio + 'px',
-    height: '100%',
-    background: 'rgba(0, 0, 0, 0.3)',
-    borderRadius: '5px',
+    width: startTimeRef.current * ratio + endTimeRef.current * ratio + "px",
+    height: "100%",
+    background: "rgba(0, 0, 0, 0.3)",
+    borderRadius: "5px",
   };
+
+  console.log("window width", windowWitdth);
 
   return (
     <Container>
@@ -100,10 +111,10 @@ const TimeLine = () => {
         style={style}
         default={{
           width:
-            startTime * ((window.innerWidth * 0.6) / dataLength) +
-            endTime * ((window.innerWidth * 0.6) / dataLength) +
-            'px',
-          height: '100%',
+            startTime * ((windowWitdth * 0.6) / dataLength) +
+            endTime * ((windowWitdth * 0.6) / dataLength) +
+            "px",
+          height: "100%",
         }}
         enableResizing={{
           left: true,
