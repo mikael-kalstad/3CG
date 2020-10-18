@@ -11,8 +11,9 @@ import Text from './Text';
 // 
 
 const Grid = (props) => {
-  let xSize = 25;
-  let ySize = 20;
+  let xSize = 26;
+  //let xSize = 25;
+  let ySize = 21;
 
   let zSize = 1;
   let n = xSize * ySize * zSize;
@@ -106,10 +107,10 @@ const Grid = (props) => {
       </Text>
       <primitive
         object={grid}
-        //position={[100, 10, 55]}
-        position={[100, 10, -54.6]}
-        //scale={[xSize, ySize, 1]}
-        scale={[200, 200, 1]}
+        //front position z=55
+        position={[104, 5, -54.6]}
+        //Scale is 8.04*xSize, and 8.05*ySize
+        scale={[208, 210, 1]}
       />
     </Suspense>
   );
