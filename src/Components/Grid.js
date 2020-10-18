@@ -1,9 +1,19 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useEffect, useMemo, Suspense } from 'react';
 import * as THREE from 'three';
+import Text from './Text';
+
+
+
+// The standard grid for ECG uses 0.04s per square in the x-axis, and 0.1mV in the y-axis.
+// The mV in this grid ranges from 
+// This grid shows that standard using a 25x20 grid, the scale which is set at the end of the code
+// is 200 for both x and y. Position is 100 for x and 10 for y. Z-position is 55 for the I-channel (first).
+// 
 
 const Grid = (props) => {
-  let xSize = 82;
-  let ySize = 82;
+  let xSize = 25;
+  let ySize = 20;
+
   let zSize = 1;
   let n = xSize * ySize * zSize;
 
@@ -59,13 +69,49 @@ const Grid = (props) => {
       )
   );
 
+  const grid2 = useMemo(
+    () =>
+      new THREE.LineSegments(
+        geometry,
+        new THREE.MeshNormalMaterial({
+          color: '#FF0000',
+          //opacity: 0.12,
+        })
+      )
+  );
+
   return (
-    <primitive
-      object={grid}
-      position={[60, 0, 55]}
-      scale={[xSize - 1, ySize, 1]}
-    />
-    //<primitive object={grid} position={props.position} scale={[100, 100, 1]} />
+    <Suspense fallback={null}>
+      <Text
+        position={[-10, 105, -75]}
+        rotateToCamera={true}
+        background={true}
+        backgroundOpacity={0.2}
+        backgroundColor={0x000000}
+        backgroundScaleByText={1.5}
+        textSize={3.5}
+      >
+        1.0 mV
+      </Text>
+      <Text
+        position={[-10, 0, -75]}
+        rotateToCamera={true}
+        background={true}
+        backgroundOpacity={0.2}
+        backgroundColor={0x000000}
+        backgroundScaleByText={1.5}
+        textSize={3.5}
+      >
+        0 mV
+      </Text>
+      <primitive
+        object={grid}
+        //position={[100, 10, 55]}
+        position={[100, 10, -54.6]}
+        //scale={[xSize, ySize, 1]}
+        scale={[200, 200, 1]}
+      />
+    </Suspense>
   );
 };
 
