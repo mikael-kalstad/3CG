@@ -1,6 +1,6 @@
-import create from 'zustand';
-import { dataService } from './Services/DataService';
-import { annotationService } from './Services/AnnotationService';
+import create from "zustand";
+import { dataService } from "./Services/DataService";
+import { annotationService } from "./Services/AnnotationService";
 
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
@@ -18,10 +18,17 @@ export const useModeStore = create((set) => ({
   togglePlayMode: () => set((state) => ({ playMode: !state.playMode })),
   markMode: false,
   toggleMarkMode: () => set((state) => ({ markMode: !state.markMode })),
+  inspectMode: false,
+  toggleInspectMode: () =>
+    set((state) => ({ inspectMode: !state.inspectMode })),
   ortoMode: false,
   toggleOrtoMode: () => set((state) => ({ ortoMode: !state.ortoMode })),
 }));
 
+export const useInspectStore = create((set) => ({
+  inspected: -1,
+  setInspected: (i) => set((state) => (state.inspected = i)),
+}));
 // Store for storing global all states related to ecg-data and timing
 export const useChannelStore = create((set) => ({
   activeChannels: numOfSamples.map(() => true),
@@ -50,16 +57,8 @@ export const useAnnotationStore = create((set) => ({
   addAnnotation: (newAnnotation) =>
     set((state) => {
       state.annotations.push(newAnnotation);
-      state.updateActiveAnnotations();
+      state.activeAnnotations.push(true);
     }),
-  updateActiveAnnotations: () => {
-    set((state) => {
-      let newActiveAnnotations = state.annotations.map((i) =>
-        i < state.activeAnnotations.length ? state.activeAnnotations[i] : true
-      );
-      state.activeAnnotations = newActiveAnnotations;
-    });
-  },
   editAnnotation: (i, edited) =>
     set((state) => (state.annotations[i] = edited)),
   activeAnnotations: annotationData.map(() => true),

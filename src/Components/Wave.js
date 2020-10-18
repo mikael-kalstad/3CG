@@ -4,7 +4,12 @@ import { useUpdate, useFrame } from 'react-three-fiber';
 import { useSpring } from '@react-spring/core';
 import { a } from '@react-spring/three';
 import { getColorData } from '../Scripts/Color';
-import { useModeStore, useTimeStore, useScaleStore } from '../Store';
+import {
+  useModeStore,
+  useTimeStore,
+  useScaleStore,
+  useInspectStore,
+} from '../Store';
 import { dataService } from '../Services/DataService';
 
 const dataLength = dataService.getSampleLength();
@@ -24,6 +29,10 @@ const Wave = (props) => {
   ]);
 
   const markMode = useModeStore((state) => state.markMode);
+  const [inspectMode, toggleInspectMode] = useModeStore((state) => [
+    state.inspectMode,
+    state.toggleInspectMode,
+  ]);
   const [
     scale,
     vChannelScaleFactor,
@@ -32,6 +41,10 @@ const Wave = (props) => {
     state.scale,
     state.vChannelScaleFactor,
     state.vChannelScaling,
+  ]);
+  const [inspected, setInspected] = useInspectStore((state) => [
+    state.inspected,
+    state.setInspected,
   ]);
 
   // Fetch initial time state
@@ -76,14 +89,17 @@ const Wave = (props) => {
     meshRef.current.position.set(-startTimeRef.current * sampleRate, 0, 0);
   });
 
+  const isInspected = () => {
+    return props.i === inspected;
+  };
   // React-spring animation config
   const { spring } = useSpring({
-    spring: hover || clicked,
-    config: { mass: 0.5, tension: 400, friction: 50, precision: 0.0001 },
+    spring: inspectMode && !isInspected(),
+    config: { mass: 0.5, tension: 400, friction: 50, precision: 0.001 },
   });
 
   // Scale on hover with mouse
-  const springScale = spring.to([0, 1], [0, 100]);
+  const springScale = spring.to([0, 1], [0, -100]);
 
   const ref = useUpdate(
     (self) => {
@@ -118,9 +134,11 @@ const Wave = (props) => {
   return (
     <a.group
       position-y={springScale}
-      onClick={() => !markMode && setClicked(Number(!clicked))}
-      // onPointerOver={() => !markMode && !clicked && setHover(Number(1))}
-      // onPointerOut={() => !markMode && !clicked && setHover(Number(0))}
+      onClick={() => {
+        !markMode && setClicked(Number(!clicked));
+        toggleInspectMode();
+        setInspected(props.i);
+      }}
       scale={[scale, 1, 1]}
     >
       <a.mesh ref={meshRef}>

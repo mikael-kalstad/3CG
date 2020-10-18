@@ -44,7 +44,11 @@ const Ecg = () => {
                   >
                     {channelNames[i]}
                   </Text>
-                  <Wave data={channel} channelName={channelNames[i]} />
+                  <Wave
+                    data={channel}
+                    channelName={channelNames[i]}
+                    index={i}
+                  />
                 </React.Fragment>
               )
           )}

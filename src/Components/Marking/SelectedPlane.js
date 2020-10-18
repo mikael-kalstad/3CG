@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-
+import * as THREE from 'three';
 import { extend, useFrame } from 'react-three-fiber';
 import { MeshLine, MeshLineMaterial } from 'three.meshline';
 import { dataService } from '../../Services/DataService';
@@ -81,6 +81,12 @@ const SelectedPlane = (props) => {
 
   // var object = new THREE.Mesh(geom, new THREE.MeshNormalMaterial());
 
+  // Two planes for clipping the annotations
+  let startPlane = new THREE.Plane(new THREE.Vector3(1, 0, 0), 0);
+  let endPlane = new THREE.Plane(
+    new THREE.Vector3(-1, 0, 0),
+    (endTime - startTime) * sampleRate * scale
+  );
   return (
     <group>
       <mesh ref={planeMesh}>
@@ -89,6 +95,7 @@ const SelectedPlane = (props) => {
           opacity={shouldRender(props.selected) ? TRANSPARANCY_PLANE : 0}
           attach="material"
           transparent={true}
+          clippingPlanes={[startPlane, endPlane]}
         />
       </mesh>
       {/* <mesh ref={lineMesh}>

@@ -1,18 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
-import { useTimeStore } from '../../Store';
-import { dataService } from '../../Services/DataService';
+import AnnotationMark from './AnnotationMark';
+import { useTimeStore } from '../../../Store';
+import { dataService } from '../../../Services/DataService';
+import { useAnnotationStore } from '../../../Store';
 
 const dataLength = dataService.getDuration();
 
 const Container = styled.div`
   width: 60%;
   max-width: 1000px;
-  height: 20px;
+  height: 30px;
   border-radius: 5px;
-  position: absolute;
-  bottom: 20px;
+  position: relative;
+  bottom: 60px;
   left: 0;
   right: 0;
   margin: auto;
@@ -32,6 +34,8 @@ const ResizeIcon = styled.div`
 `;
 
 const TimeLine = () => {
+  const [windowWitdth, setWindowWitdth] = useState(window.innerWidth);
+
   const [startTime, setStartTime] = useTimeStore((state) => [
     state.startTime,
     state.setStartTime,
@@ -46,6 +50,9 @@ const TimeLine = () => {
   const startTimeRef = useRef(useTimeStore.getState().startTime);
   const endTimeRef = useRef(useTimeStore.getState().endTime);
 
+  // Fetch annotations
+  const annotations = useAnnotationStore((state) => state.annotations);
+
   // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
   useEffect(() => {
     useTimeStore.subscribe(
@@ -59,8 +66,15 @@ const TimeLine = () => {
     );
   }, []);
 
+  useEffect(() => {
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, [windowWitdth]);
+
   // Ratio used to make dimensions correct according to data size
-  let ratio = dataLength / (window.innerWidth * 0.6);
+  const updateSize = (e) => setWindowWitdth(e.currentTarget.innerWidth);
+
+  let ratio = dataLength / (windowWitdth * 0.6);
 
   const handleResize = (e, dir, ref, delta, position) => {
     // Calculate new start time based on x position and window width
@@ -93,15 +107,21 @@ const TimeLine = () => {
     borderRadius: '5px',
   };
 
+  console.log('window width', windowWitdth);
+
   return (
     <Container>
+      {annotations.map((ann) => (
+        <AnnotationMark ann={ann} ratio={ratio} />
+      ))}
+
       <Rnd
         bounds="parent"
         style={style}
         default={{
           width:
-            startTime * ((window.innerWidth * 0.6) / dataLength) +
-            endTime * ((window.innerWidth * 0.6) / dataLength) +
+            startTime * ((windowWitdth * 0.6) / dataLength) +
+            endTime * ((windowWitdth * 0.6) / dataLength) +
             'px',
           height: '100%',
         }}
