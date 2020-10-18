@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useMemo, Suspense } from 'react';
 import * as THREE from 'three';
 import Text from './Text';
+import { useModeStore } from '../Store';
 
 
 
@@ -80,6 +81,11 @@ const Grid = (props) => {
         })
       )
   );
+  //Conditional rendering
+  const ortoMode = useModeStore((state) => state.ortoMode);
+  if (!ortoMode) {
+    return null
+  }
 
   return (
     <Suspense fallback={null}>
