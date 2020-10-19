@@ -1,13 +1,31 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useEffect, useMemo, Suspense } from 'react';
 import * as THREE from 'three';
+import Text from './Text';
+import { useModeStore } from '../Store';
+
+
+
+// The standard grid for ECG uses 0.04s per square in the x-axis, and 0.1mV in the y-axis.
+// The mV in this grid ranges from 
+// This grid shows that standard using a 25x20 grid, the scale which is set at the end of the code
+// is 200 for both x and y. Position is 100 for x and 10 for y. Z-position is 55 for the I-channel (first).
+// 
 
 const Grid = (props) => {
-  let xSize = 82;
-  let ySize = 82;
+  let xSize = 26;
+  //let xSize = 25;
+  let ySize = 21;
+
+  let xSize2 = 6
+  let ySize2 = 5
+
   let zSize = 1;
+  let zSize2 = 1;
   let n = xSize * ySize * zSize;
+  let n2 = xSize2 * ySize2 * zSize2
 
   let geometry = new THREE.BufferGeometry();
+  let geometry2 = new THREE.BufferGeometry();
 
   function mapTo3D(i) {
     let z = Math.floor(i / (xSize * ySize));
@@ -17,8 +35,20 @@ const Grid = (props) => {
     return { x: x, y: y, z: z };
   }
 
+  function mapTo3D2(i2) {
+    let z2 = Math.floor(i2 / (xSize2 * ySize2));
+    i2 -= z2 * xSize2 * ySize2;
+    let y2 = Math.floor(i2 / xSize2);
+    let x2 = i2 % xSize2;
+    return { x2: x2, y2: y2, z2: z2 };
+  }
+
   function mapFrom3D(x, y, z) {
     return x + y * xSize + z * xSize * ySize;
+  }
+
+  function mapFrom3D2(x2, y2, z2) {
+    return x2 + y2 * xSize2 + z2 * xSize2 * ySize2;
   }
 
   let positions = [];
@@ -30,6 +60,17 @@ const Grid = (props) => {
   }
   let positionAttribute = new THREE.Float32BufferAttribute(positions, 3);
   geometry.setAttribute('position', positionAttribute);
+
+  let positions2 = [];
+  for (let i2 = 0; i2 < n2; i2++) {
+    let p2 = mapTo3D2(i2);
+    positions2.push((p2.x2 - xSize2 / 2) / xSize2);
+    positions2.push((p2.y2 - ySize2 / 2) / ySize2);
+    positions2.push((p2.z2 - zSize2 / 2) / zSize2);
+  }
+
+  let positionAttribute2 = new THREE.Float32BufferAttribute(positions2, 3);
+  geometry2.setAttribute('position', positionAttribute2);
 
   let indexPairs = [];
   for (let i = 0; i < n; i++) {
@@ -47,6 +88,23 @@ const Grid = (props) => {
       indexPairs.push(mapFrom3D(p.x, p.y, p.z + 1));
     }
   }
+
+  let indexPairs2 = [];
+  for (let i2 = 0; i2 < n2; i2++) {
+    let p2 = mapTo3D2(i2);
+    if (p2.x2 + 1 < xSize2) {
+      indexPairs2.push(i2);
+      indexPairs2.push(mapFrom3D2(p2.x2 + 1, p2.y2, p2.z2));
+    }
+    if (p2.y2 + 1 < ySize2) {
+      indexPairs2.push(i2);
+      indexPairs2.push(mapFrom3D2(p2.x2, p2.y2 + 1, p2.z2));
+    }
+    if (p2.z2 + 1 < zSize2) {
+      indexPairs2.push(i2);
+      indexPairs2.push(mapFrom3D2(p2.x2, p2.y2, p2.z2 + 1));
+    }
+  }
   geometry.setIndex(indexPairs);
   const grid = useMemo(
     () =>
@@ -58,14 +116,73 @@ const Grid = (props) => {
         })
       )
   );
+  geometry2.setIndex(indexPairs2);
+  const grid2 = useMemo(
+    () =>
+      new THREE.LineSegments(
+        geometry2,
+        new THREE.LineBasicMaterial({
+          color: '#ff0000',
+          //opacity: 0.12,
+        })
+      )
+  );
+  //Conditional rendering
+  const ortoMode = useModeStore((state) => state.ortoMode);
+  if (!ortoMode) {
+    return null
+  }
 
   return (
-    <primitive
-      object={grid}
-      position={[60, 0, 55]}
-      scale={[xSize - 1, ySize, 1]}
-    />
-    //<primitive object={grid} position={props.position} scale={[100, 100, 1]} />
+    <Suspense fallback={null}>
+      <Text
+        position={[-10, 105, -75]}
+        rotateToCamera={true}
+        background={true}
+        backgroundOpacity={0.2}
+        backgroundColor={0x000000}
+        backgroundScaleByText={1.5}
+        textSize={3.5}
+      >
+        1.0 mV
+      </Text>
+      <Text
+        position={[-10, 50, -75]}
+        rotateToCamera={true}
+        background={true}
+        backgroundOpacity={0.2}
+        backgroundColor={0x000000}
+        backgroundScaleByText={1.5}
+        textSize={3.5}
+      >
+        0.5 mV
+      </Text>
+      <Text
+        position={[-10, 0, -75]}
+        rotateToCamera={true}
+        background={true}
+        backgroundOpacity={0.2}
+        backgroundColor={0x000000}
+        backgroundScaleByText={1.5}
+        textSize={3.5}
+      >
+        0 mV
+      </Text>
+      <primitive
+        object={grid}
+        //front position z=55
+        position={[104, 5, -54.6]}
+        //Scale is 8.04*xSize, and 8.05*ySize
+        scale={[208, 210, 1]}
+      />
+      <primitive
+        object={grid2}
+        //front position z=55
+        position={[120, 25, -54.5]}
+        //Scale is 8.04*xSize, and 8.05*ySize
+        scale={[240, 250, 1]}
+      />
+    </Suspense>
   );
 };
 

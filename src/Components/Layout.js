@@ -4,6 +4,7 @@ import SideDrawer from './UI/SideDrawer';
 import TimeLine from './UI/TimeLine/TimeLine';
 import MarkBtn from './UI/Buttons/MarkBtn';
 import ZoomBar from './UI/ZoomBar';
+import GridBtn from './UI/Buttons/GridBtn';
 
 const Layout = (props) => {
   console.log('%c [Layout] is rendering', 'background: #111; color: #ebd31c');
@@ -14,6 +15,7 @@ const Layout = (props) => {
       <SideDrawer />
       <TimeLine />
       <ZoomBar />
+      <GridBtn />
     </>
   );
 };

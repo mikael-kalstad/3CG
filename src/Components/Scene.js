@@ -14,7 +14,7 @@ const Scene = () => {
     <Canvas
       camera={{ fov: 55 }}
       style={{ background: '#324444' }}
-      // orthographic={ortoMode}
+      orthographic={ortoMode}
     >
       <CameraControls />
       <ambientLight />
@@ -22,7 +22,7 @@ const Scene = () => {
       <Vcg2 />
       <CircularVisualization />
       <axesHelper position={[0, 40, 0]} scale={[40, 40, 40]} />
-      {/* <Grid /> */}
+      <Grid />
     </Canvas>
   );
 };
