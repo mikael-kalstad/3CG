@@ -5,6 +5,7 @@ import Ecg from './Ecg';
 import { useModeStore } from '../Store';
 import Grid from './Grid';
 import Vcg2 from './Vcg2';
+import CircularVisualization from './CircularVisualization';
 
 const Scene = () => {
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
@@ -13,14 +14,15 @@ const Scene = () => {
     <Canvas
       camera={{ fov: 55 }}
       style={{ background: '#324444' }}
-      // orthographic={ortoMode}
+      orthographic={ortoMode}
     >
       <CameraControls />
       <ambientLight />
       <Ecg />
       <Vcg2 />
+      {/* <CircularVisualization /> */}
       <axesHelper position={[0, 40, 0]} scale={[40, 40, 40]} />
-      {/* <Grid /> */}
+      <Grid />
     </Canvas>
   );
 };

@@ -1,0 +1,59 @@
+import * as THREE from 'three';
+import React, { useMemo, useRef, useEffect, useState } from 'react';
+import { useLoader, useThree, useFrame, useUpdate } from 'react-three-fiber';
+import { dataService } from '../Services/DataService';
+import { useTimeStore } from '../Store';
+
+const sampleRate = dataService.getSampleRate();
+const CircularVisualization = (props) => {
+  const points = dataService.getSamplesByChannel('I');
+  const [renderPoints, setRenderPoints] = useState([]);
+  const startTime = useTimeStore((state) => state.startTime);
+  const endTime = useTimeStore((state) => state.endTime);
+
+  useEffect(() => {
+    let newPoints = [];
+    let theta = 0;
+    let r = 30;
+    for (let i = 0; i < points.length; i++) {
+      theta = (i / 150) * Math.PI;
+      newPoints.push(
+        new THREE.Vector3(Math.cos(theta) * r, points[i], Math.sin(theta) * r)
+      );
+      setRenderPoints(newPoints);
+    }
+    // console.log(newPoints);
+  }, []);
+  const geom = useUpdate(
+    (self) => {
+      // Set specific range which is to be shown
+      self.setDrawRange(startTime * sampleRate, endTime * sampleRate);
+
+      // Set initial points
+      self.setFromPoints(renderPoints);
+
+      // Set initial colors
+      //updateColors(self, startTimeRef.current, endTimeRef.current);
+
+      self.verticesNeedUpdate = true;
+    },
+    [renderPoints, startTime, endTime]
+  );
+  return (
+    <group position={[170, 40, -120]}>
+      <line scale={[1, 100, 1]} color={0xffffff}>
+        <bufferGeometry attach="geometry" ref={geom} />
+        <lineBasicMaterial
+          name="line"
+          attach="material"
+          linewidth={1000}
+          linecap={'round'}
+          linejoin={'round'}
+          needsUpdate={true}
+        />
+      </line>
+    </group>
+  );
+};
+
+export default CircularVisualization;
