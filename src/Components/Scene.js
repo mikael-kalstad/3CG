@@ -9,6 +9,7 @@ import CircularVisualization from './CircularVisualization';
 
 const Scene = () => {
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
+  const canvas = useRef();
   const ortoMode = useModeStore((state) => state.ortoMode);
   return (
     <Canvas

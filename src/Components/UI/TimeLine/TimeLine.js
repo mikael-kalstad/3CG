@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
 import AnnotationMark from './AnnotationMark';
+import TimeGraph from './TimeGraph';
 import { useTimeStore } from '../../../Store';
 import { dataService } from '../../../Services/DataService';
 import { useAnnotationStore } from '../../../Store';
@@ -139,6 +140,7 @@ const TimeLine = () => {
         onDrag={handleDrag}
         position={{ x: startTimeRef.current / ratio, y: 0 }}
       />
+      <TimeGraph ratio={ratio} intervals ={8}/>
     </Container>
   );
 };

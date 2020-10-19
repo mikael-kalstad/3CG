@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import Popper from '@material-ui/core/Popper';
-import Paper from '@material-ui/core/Paper';
-import Fade from '@material-ui/core/Fade';
+
 import AnnotationPopper from './AnnotationPopper';
 const Wrapper = styled.div``;
 
 const Mark = styled.div`
   ${Wrapper}:hover & {
-    border: solid 3px #0086dc;
+    background-color: #0086dc;
     z-index: 100;
   }
   display: grid;
@@ -19,11 +17,11 @@ const Mark = styled.div`
   text-align: center;
   font-weight: bold;
   align-items: center;
-  height: 24px;
+  height: 30px;
   user-select: none;
   border-radius: 5px;
   font-size: 0.7vw;
-  border: solid 3px #00a8ff;
+  // border: solid 3px #00a8ff;
   opacity: 0.8;
   transition: 0.2s ease;
 `;
