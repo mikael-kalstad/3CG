@@ -21,10 +21,10 @@ const Mark = styled.div`
   user-select: none;
   border-radius: 5px;
   font-size: 0.7vw;
-  // border: solid 3px #00a8ff;
-  opacity: 0.8;
+  opacity: 0.5;
   transition: 0.2s ease;
 `;
+
 const AnnotationMark = (props) => {
   const [anchor, setAnchor] = useState(null);
   const [open, setOpen] = useState(Boolean(anchor));

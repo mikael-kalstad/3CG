@@ -22,26 +22,18 @@ const Container = styled.div`
   background: #fff;
 `;
 
-const ResizeIcon = styled.div`
-  cursor: e-resize;
-  width: 5px;
-  height: 100%;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.35);
-  left: ${(props) => props.position === 'left' && '0'};
-  right: ${(props) => props.position === 'right' && '0'};
-  border-radius: ${(props) =>
-    props.position === 'left' ? '5px 0 0 5px' : '0 5px 5px 0'};
-`;
-
 const TimeLine = () => {
-  const [windowWitdth, setWindowWitdth] = useState(window.innerWidth);
+  const containerRef = useRef();
+  const rndRef = useRef();
+  const [containerWidth, setContainerWidth] = useState(500);
+  const [rndWidth, setRndWidth] = useState(0);
+
+  console.log('%c [Timeline] is rendering', 'background: #111; color: #ebd31c');
 
   const [startTime, setStartTime] = useTimeStore((state) => [
     state.startTime,
     state.setStartTime,
   ]);
-
   const [endTime, setEndTime] = useTimeStore((state) => [
     state.endTime,
     state.setEndTime,
@@ -54,8 +46,8 @@ const TimeLine = () => {
   // Fetch annotations
   const annotations = useAnnotationStore((state) => state.annotations);
 
-  // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
   useEffect(() => {
+    // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
     useTimeStore.subscribe(
       (startTime) => (startTimeRef.current = startTime),
       (state) => state.startTime
@@ -65,17 +57,55 @@ const TimeLine = () => {
       (endTime) => (endTimeRef.current = endTime),
       (state) => state.endTime
     );
+
+    // Remove all listeners on unmount
+    // return () => useTimeStore.destroy();
   }, []);
 
   useEffect(() => {
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
-  }, [windowWitdth]);
+    // Handle reisizing of the window
+    const handleResize = () => {
+      // Update containerwidth
+      setContainerWidth(containerRef.current.offsetWidth);
+
+      // Set width of rnd drag component based on containerwidth
+      setRndWidth(
+        (endTimeRef.current - startTimeRef.current) *
+          (containerRef.current.offsetWidth / dataLength)
+      );
+      updateRnd();
+    };
+
+    // Run handleresize to set initial width of rnd and containerWidth states
+    if (containerRef.current) handleResize();
+
+    // Update states on resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const updateRnd = (e) => {
+    // if (containerRef) {
+    console.log('updating rnd...');
+    let width =
+      (endTimeRef.current - startTimeRef.current) *
+      (containerRef.current.offsetWidth / dataLength);
+    console.log('width', width);
+
+    rndRef.current.updatePosition({ x: startTimeRef.current / ratio, y: 0 });
+    rndRef.current.updateSize({
+      width: width,
+      height: '100%',
+    });
+    // }
+  };
 
   // Ratio used to make dimensions correct according to data size
-  const updateSize = (e) => setWindowWitdth(e.currentTarget.innerWidth);
-
-  let ratio = dataLength / (windowWitdth * 0.6);
+  let ratio = dataLength / containerWidth;
 
   const handleResize = (e, dir, ref, delta, position) => {
     // Calculate new start time based on x position and window width
@@ -88,6 +118,7 @@ const TimeLine = () => {
     setEndTime(
       newStartTime + ratio * Number.parseInt(ref.style.width.split('px')[0])
     );
+    console.log('new Endtime:', endTimeRef.current);
   };
 
   const handleDrag = (e, data) => {
@@ -96,36 +127,44 @@ const TimeLine = () => {
 
     // Update global start time state
     setStartTime(newStartTime);
+    console.log('new startTime:', startTimeRef.current);
 
     // Update global end time state based on scroller width and new start time
     setEndTime(newStartTime + ratio * data.node.scrollWidth);
   };
 
+  console.log(
+    'startTime',
+    startTimeRef.current,
+    'endtime',
+    endTimeRef.current,
+    'posiion',
+    startTimeRef.current / ratio
+  );
+
   const style = {
-    width: startTimeRef.current * ratio + endTimeRef.current * ratio + 'px',
     height: '100%',
-    background: 'rgba(0, 0, 0, 0.3)',
+    background: 'rgba(0, 0, 0, 0.5)',
     borderRadius: '5px',
   };
-
-  console.log('window width', windowWitdth);
+  console.log('ratio', ratio);
 
   return (
-    <Container>
-      {annotations.map((ann) => (
-        <AnnotationMark ann={ann} ratio={ratio} />
+    <Container ref={containerRef}>
+      {annotations.map((ann, i) => (
+        <AnnotationMark ann={ann} ratio={ratio} key={i} />
       ))}
 
       <Rnd
+        ref={rndRef}
         bounds="parent"
         style={style}
-        default={{
-          width:
-            startTime * ((windowWitdth * 0.6) / dataLength) +
-            endTime * ((windowWitdth * 0.6) / dataLength) +
-            'px',
-          height: '100%',
-        }}
+        // default={{
+        //   width:
+        //     (startTime * containerWidth) / dataLength +
+        //     (endTime * containerWidth) / dataLength,
+        //   height: "100%",
+        // }}
         enableResizing={{
           left: true,
           right: true,
@@ -140,7 +179,7 @@ const TimeLine = () => {
         onDrag={handleDrag}
         position={{ x: startTimeRef.current / ratio, y: 0 }}
       />
-      <TimeGraph ratio={ratio} intervals ={8}/>
+      <TimeGraph ratio={ratio} intervals={8} />
     </Container>
   );
 };
