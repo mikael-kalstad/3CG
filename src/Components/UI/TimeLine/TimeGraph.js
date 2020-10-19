@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { dataService } from '../../../Services/DataService';
 import { range } from 'mathjs';
+import Popper from '@material-ui/core/Popper';
 
 const duration = dataService.getDuration();
 
 const Wrapper = styled.div`
-  bottom: 30px;
-  height: 30px;
+  bottom: -30px;
+  height: 25px;
   display: grid;
   align-items: center;
   position: relative;
   background-color: white;
+  border-radius: 5px;
 `;
 
 const Line = styled.div`

@@ -30,6 +30,7 @@ const AnnotationMark = (props) => {
   const [open, setOpen] = useState(Boolean(anchor));
   const handlePointerOver = (event) => {
     setAnchor(anchor ? null : event.currentTarget);
+    console.log(event.currentTarget);
     // setOpen(true);
   };
   const handlePointerOut = (event) => {

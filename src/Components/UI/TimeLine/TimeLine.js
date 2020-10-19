@@ -6,6 +6,8 @@ import TimeGraph from './TimeGraph';
 import { useTimeStore } from '../../../Store';
 import { dataService } from '../../../Services/DataService';
 import { useAnnotationStore } from '../../../Store';
+import Popper from '@material-ui/core/Popper';
+import Card from '@material-ui/core/Card';
 
 const dataLength = dataService.getDuration();
 
@@ -13,9 +15,9 @@ const Container = styled.div`
   width: 60%;
   max-width: 1000px;
   height: 30px;
-  border-radius: 5px;
+  border-radius: 5px 5px 0px 0px;
   position: relative;
-  bottom: 60px;
+  bottom: 75px;
   left: 0;
   right: 0;
   margin: auto;
@@ -27,6 +29,8 @@ const TimeLine = () => {
   const rndRef = useRef();
   const [containerWidth, setContainerWidth] = useState(500);
   const [rndWidth, setRndWidth] = useState(0);
+  const [popperOpen, setPopperOpen] = useState(false);
+  const [anchor, setAnchor] = useState(null);
 
   console.log('%c [Timeline] is rendering', 'background: #111; color: #ebd31c');
 
@@ -57,6 +61,8 @@ const TimeLine = () => {
       (endTime) => (endTimeRef.current = endTime),
       (state) => state.endTime
     );
+
+    setAnchor(rndRef.current.resizableElement.current);
 
     // Remove all listeners on unmount
     // return () => useTimeStore.destroy();
@@ -133,6 +139,10 @@ const TimeLine = () => {
     setEndTime(newStartTime + ratio * data.node.scrollWidth);
   };
 
+  const togglePopper = () => {
+    setPopperOpen(!popperOpen);
+  };
+
   console.log(
     'startTime',
     startTimeRef.current,
@@ -148,7 +158,6 @@ const TimeLine = () => {
     borderRadius: '5px',
   };
   console.log('ratio', ratio);
-
   return (
     <Container ref={containerRef}>
       {annotations.map((ann, i) => (
@@ -177,8 +186,18 @@ const TimeLine = () => {
         }}
         onResize={handleResize}
         onDrag={handleDrag}
+        onDragStart={togglePopper}
+        onDragStop={togglePopper}
         position={{ x: startTimeRef.current / ratio, y: 0 }}
       />
+      <Popper
+        open={popperOpen}
+        anchorEl={anchor}
+        placement={'bottom'}
+        modifiers={{ offset: { enabled: true, offset: '0, 4' } }}
+      >
+        <Card>{(startTimeRef.current + endTimeRef.current) / 2}</Card>
+      </Popper>
       <TimeGraph ratio={ratio} intervals={8} />
     </Container>
   );
