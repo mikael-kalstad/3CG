@@ -8,6 +8,7 @@ const Mark = styled.div`
   ${Wrapper}:hover & {
     background-color: #0086dc;
     z-index: 100;
+    opacity: 0.8;
   }
   display: grid;
   background-color: #00a8ff;

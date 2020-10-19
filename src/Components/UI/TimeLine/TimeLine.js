@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
 import AnnotationMark from './AnnotationMark';
 import TimeGraph from './TimeGraph';
+import TimePopper from './TimePopper';
 import { useTimeStore } from '../../../Store';
 import { dataService } from '../../../Services/DataService';
 import { useAnnotationStore } from '../../../Store';
-import Popper from '@material-ui/core/Popper';
-import Card from '@material-ui/core/Card';
 
 const dataLength = dataService.getDuration();
 
@@ -16,8 +15,9 @@ const Container = styled.div`
   max-width: 1000px;
   height: 30px;
   border-radius: 5px 5px 0px 0px;
+  // border-bottom: solid 10px #cdcdcd;
   position: relative;
-  bottom: 75px;
+  bottom: 80px;
   left: 0;
   right: 0;
   margin: auto;
@@ -29,7 +29,9 @@ const TimeLine = () => {
   const rndRef = useRef();
   const [containerWidth, setContainerWidth] = useState(500);
   const [rndWidth, setRndWidth] = useState(0);
-  const [popperOpen, setPopperOpen] = useState(false);
+  const [middlePopperOpen, setMiddlePopperOpen] = useState(false);
+  const [startPopperOpen, setStartPopperOpen] = useState(false);
+  const [endPopperOpen, setEndPopperOpen] = useState(false);
   const [anchor, setAnchor] = useState(null);
 
   console.log('%c [Timeline] is rendering', 'background: #111; color: #ebd31c');
@@ -127,6 +129,22 @@ const TimeLine = () => {
     console.log('new Endtime:', endTimeRef.current);
   };
 
+  const resizeStart = (e, dir, ref, delta, position) => {
+    if (dir === 'left') {
+      toggleStartPopper();
+    } else if (dir === 'right') {
+      toggleEndPopper();
+    }
+  };
+
+  const resizeStop = (e, dir, ref, delta, position) => {
+    if (dir === 'left') {
+      toggleStartPopper();
+    } else if (dir === 'right') {
+      toggleEndPopper();
+    }
+  };
+
   const handleDrag = (e, data) => {
     // Calculate new start time based on x position and window width
     let newStartTime = ratio * data.x;
@@ -139,8 +157,14 @@ const TimeLine = () => {
     setEndTime(newStartTime + ratio * data.node.scrollWidth);
   };
 
-  const togglePopper = () => {
-    setPopperOpen(!popperOpen);
+  const toggleMiddlePopper = () => {
+    setMiddlePopperOpen(!middlePopperOpen);
+  };
+  const toggleStartPopper = () => {
+    setStartPopperOpen(!startPopperOpen);
+  };
+  const toggleEndPopper = () => {
+    setEndPopperOpen(!endPopperOpen);
   };
 
   console.log(
@@ -185,20 +209,36 @@ const TimeLine = () => {
           topRight: false,
         }}
         onResize={handleResize}
+        onResizeStart={resizeStart}
+        onResizeStop={resizeStop}
         onDrag={handleDrag}
-        onDragStart={togglePopper}
-        onDragStop={togglePopper}
+        onDragStart={toggleMiddlePopper}
+        onDragStop={toggleMiddlePopper}
         position={{ x: startTimeRef.current / ratio, y: 0 }}
       />
-      <Popper
-        open={popperOpen}
-        anchorEl={anchor}
+      <TimePopper
+        anchor={anchor}
+        open={middlePopperOpen}
         placement={'bottom'}
-        modifiers={{ offset: { enabled: true, offset: '0, 4' } }}
-      >
-        <Card>{(startTimeRef.current + endTimeRef.current) / 2}</Card>
-      </Popper>
-      <TimeGraph ratio={ratio} intervals={8} />
+        text={
+          ((startTimeRef.current + endTimeRef.current) / 2).toFixed(2) + 's'
+        }
+      />
+
+      <TimePopper
+        anchor={anchor}
+        open={startPopperOpen}
+        placement={'bottom-start'}
+        text={startTimeRef.current.toFixed(2) + 's'}
+      />
+
+      <TimePopper
+        anchor={anchor}
+        open={endPopperOpen}
+        placement={'bottom-end'}
+        text={endTimeRef.current.toFixed(2) + 's'}
+      />
+      <TimeGraph ratio={ratio} intervals={12} />
     </Container>
   );
 };
