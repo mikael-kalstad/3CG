@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import Popper from '@material-ui/core/Popper';
-import Paper from '@material-ui/core/Paper';
-import Fade from '@material-ui/core/Fade';
-import AnnotationPopper from './AnnotationPopper';
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import Popper from "@material-ui/core/Popper";
+import Paper from "@material-ui/core/Paper";
+import Fade from "@material-ui/core/Fade";
+import AnnotationPopper from "./AnnotationPopper";
 const Wrapper = styled.div``;
 
 const Mark = styled.div`
@@ -13,9 +13,9 @@ const Mark = styled.div`
   }
   display: grid;
   background-color: #00a8ff;
-  width: ${(props) => props.width + 'px'};
+  width: ${(props) => props.width + "px"};
   position: absolute;
-  left: ${(props) => props.left + 'px'};
+  left: ${(props) => props.left + "px"};
   text-align: center;
   font-weight: bold;
   align-items: center;
@@ -24,9 +24,10 @@ const Mark = styled.div`
   border-radius: 5px;
   font-size: 0.7vw;
   border: solid 3px #00a8ff;
-  opacity: 0.8;
+  opacity: 0.5;
   transition: 0.2s ease;
 `;
+
 const AnnotationMark = (props) => {
   const [anchor, setAnchor] = useState(null);
   const [open, setOpen] = useState(Boolean(anchor));
