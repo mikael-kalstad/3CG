@@ -62,22 +62,22 @@ const CameraControls = (props) => {
       orbitRef.current.target.z - orbitRef.current.object.position.z
     );
   };
-  useSpring({
-    from: inspectMode && inspected != -1 && { y: camera.position.y },
-    to: inspectMode && inspected != 0 ? { y: 100 } : { y: 80 },
-    onFrame: ({ y }) => {
-      camera.position.y = y;
-    },
-    // Turn off camera controls while animation is running
-    onStart: () => {
-      if (orbitRef.current) orbitRef.current.enabled = false;
-    },
-    // Turn on camera controls after animation is finished
-    onRest: () => {
-      if (orbitRef.current) orbitRef.current.enabled = true;
-    },
-    config: { mass: 10, tension: 1500, friction: 300, precision: 0.00001 },
-  });
+  // useSpring({
+  //   from: inspectMode && inspected != -1 && { y: camera.position.y },
+  //   to: inspectMode && inspected != 0 ? { y: 100 } : { y: 80 },
+  //   onFrame: ({ y }) => {
+  //     camera.position.y = y;
+  //   },
+  //   // Turn off camera controls while animation is running
+  //   onStart: () => {
+  //     if (orbitRef.current) orbitRef.current.enabled = false;
+  //   },
+  //   // Turn on camera controls after animation is finished
+  //   onRest: () => {
+  //     if (orbitRef.current) orbitRef.current.enabled = true;
+  //   },
+  //   config: { mass: 10, tension: 1500, friction: 300, precision: 0.00001 },
+  // });
 
   // useSpring({
   //   spring: !inspectMode,

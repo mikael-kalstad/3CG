@@ -26,7 +26,6 @@ const MarkBtn = () => {
       style={ButtonStyle}
       onClick={() => {
         toggleMarkMode();
-        toggleInspectMode();
         console.log(inspectMode);
       }}
     >

@@ -20,7 +20,7 @@ const Scene = () => {
       <ambientLight />
       <Ecg />
       <Vcg2 />
-      <CircularVisualization />
+      {/* <CircularVisualization /> */}
       <axesHelper position={[0, 40, 0]} scale={[40, 40, 40]} />
       <Grid />
     </Canvas>
