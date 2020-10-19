@@ -19,20 +19,12 @@ const Container = styled.div`
   background: #fff;
 `;
 
-const ResizeIcon = styled.div`
-  cursor: e-resize;
-  width: 5px;
-  height: 100%;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.35);
-  left: ${(props) => props.position === "left" && "0"};
-  right: ${(props) => props.position === "right" && "0"};
-  border-radius: ${(props) =>
-    props.position === "left" ? "5px 0 0 5px" : "0 5px 5px 0"};
-`;
-
 const TimeLine = () => {
-  const [windowWitdth, setWindowWitdth] = useState(window.innerWidth);
+  const containerRef = useRef();
+  const [containerWidth, setContainerWidth] = useState(500);
+  const [rndWidth, setRndWidth] = useState(0);
+
+  console.log("%c [Timeline] is rendering", "background: #111; color: #ebd31c");
 
   const [startTime, setStartTime] = useTimeStore((state) => [
     state.startTime,
@@ -48,8 +40,8 @@ const TimeLine = () => {
   const startTimeRef = useRef(useTimeStore.getState().startTime);
   const endTimeRef = useRef(useTimeStore.getState().endTime);
 
-  // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
   useEffect(() => {
+    // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
     useTimeStore.subscribe(
       (startTime) => (startTimeRef.current = startTime),
       (state) => state.startTime
@@ -59,17 +51,40 @@ const TimeLine = () => {
       (endTime) => (endTimeRef.current = endTime),
       (state) => state.endTime
     );
+
+    // Remove all listeners on unmount
+    return () => useTimeStore.destroy();
   }, []);
 
   useEffect(() => {
-    window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
-  }, [windowWitdth]);
+    // Handle reisizing of the window
+    const handleResize = () => {
+      // Update containerwidth
+      setContainerWidth(containerRef.current.offsetWidth);
+
+      // Set width of rnd drag component based on containerwidth
+      setRndWidth(
+        (endTimeRef.current - startTimeRef.current) *
+          (containerRef.current.offsetWidth / dataLength)
+      );
+    };
+
+    // Run handleresize to set initial width of rnd and containerWidth states
+    if (containerRef.current) {
+      handleResize();
+    }
+
+    // Update states on resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [containerRef]);
 
   // Ratio used to make dimensions correct according to data size
-  const updateSize = (e) => setWindowWitdth(e.currentTarget.innerWidth);
-
-  let ratio = dataLength / (windowWitdth * 0.6);
+  let ratio = dataLength / containerWidth;
 
   const handleResize = (e, dir, ref, delta, position) => {
     // Calculate new start time based on x position and window width
@@ -102,18 +117,17 @@ const TimeLine = () => {
     borderRadius: "5px",
   };
 
-  console.log("window width", windowWitdth);
-
   return (
-    <Container>
+    <Container ref={containerRef}>
       <Rnd
         bounds="parent"
         style={style}
         default={{
-          width:
-            startTime * ((windowWitdth * 0.6) / dataLength) +
-            endTime * ((windowWitdth * 0.6) / dataLength) +
-            "px",
+          width: (endTime - startTime) * (containerWidth / dataLength),
+          height: "100%",
+        }}
+        size={{
+          width: rndWidth,
           height: "100%",
         }}
         enableResizing={{
