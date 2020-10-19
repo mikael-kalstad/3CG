@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, useMemo, Suspense } from 'react';
+import { Canvas, useFrame, useThree } from 'react-three-fiber';
 import * as THREE from 'three';
 import Text from './Text';
 import { useModeStore } from '../Store';
@@ -9,7 +10,7 @@ import { useModeStore } from '../Store';
 // The mV in this grid ranges from 
 // This grid shows that standard using a 25x20 grid, the scale which is set at the end of the code
 // is 200 for both x and y. Position is 100 for x and 10 for y. Z-position is 55 for the I-channel (first).
-// 
+
 
 const Grid = (props) => {
   let xSize = 26;
@@ -127,14 +128,38 @@ const Grid = (props) => {
         })
       )
   );
-  //Conditional rendering
+
+  function PerspectiveCamera(props) {
+    const ref = useRef()
+    const { setDefaultCamera } = useThree()
+    // Make the camera known to the system
+    useEffect(() => void setDefaultCamera(ref.current), [])
+    // Update it every frame
+    useFrame(() => ref.current.updateMatrixWorld())
+    return <perspectiveCamera ref={ref} {...props} />
+  }
+
+  //Conditional rendering to turn on grid and change between orthographic and perspective camera
   const ortoMode = useModeStore((state) => state.ortoMode);
   if (!ortoMode) {
-    return null
+    return (
+      <PerspectiveCamera position={[100, 80, 150]} zoom={1} />
+    )
+  }
+
+  function OrthographicCamera(props) {
+    const ref = useRef()
+    const { setDefaultCamera } = useThree()
+    // Make the camera known to the system
+    useEffect(() => void setDefaultCamera(ref.current), [])
+    // Update it every frame
+    useFrame(() => ref.current.updateMatrixWorld())
+    return <orthographicCamera ref={ref} {...props} />
   }
 
   return (
     <Suspense fallback={null}>
+      <OrthographicCamera position={[100, 0, 100]} zoom={3} />
       <Text
         position={[-10, 105, -75]}
         rotateToCamera={true}
