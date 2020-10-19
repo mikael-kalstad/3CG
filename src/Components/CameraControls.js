@@ -62,7 +62,6 @@ const CameraControls = (props) => {
       orbitRef.current.target.z - orbitRef.current.object.position.z
     );
   };
-  console.log(orbitRef);
   useSpring({
     from: inspectMode && inspected != -1 && { y: camera.position.y },
     to: inspectMode && inspected != 0 ? { y: 100 } : { y: 80 },

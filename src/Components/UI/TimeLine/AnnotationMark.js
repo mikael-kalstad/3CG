@@ -3,9 +3,14 @@ import styled from 'styled-components';
 import Popper from '@material-ui/core/Popper';
 import Paper from '@material-ui/core/Paper';
 import Fade from '@material-ui/core/Fade';
+import AnnotationPopper from './AnnotationPopper';
 const Wrapper = styled.div``;
 
 const Mark = styled.div`
+  ${Wrapper}:hover & {
+    border: solid 3px #0086dc;
+    z-index: 100;
+  }
   display: grid;
   background-color: #00a8ff;
   width: ${(props) => props.width + 'px'};
@@ -18,19 +23,22 @@ const Mark = styled.div`
   user-select: none;
   border-radius: 5px;
   font-size: 0.7vw;
-  border: solid 3px #00a6fc;
+  border: solid 3px #00a8ff;
   opacity: 0.8;
+  transition: 0.2s ease;
 `;
 const AnnotationMark = (props) => {
   const [anchor, setAnchor] = useState(null);
+  const [open, setOpen] = useState(Boolean(anchor));
   const handlePointerOver = (event) => {
     setAnchor(anchor ? null : event.currentTarget);
+    // setOpen(true);
   };
   const handlePointerOut = (event) => {
     setAnchor(null);
+    // setOpen(false);
   };
-  const open = Boolean(anchor);
-  const id = open ? 'popper' : undefined;
+
   return (
     <Wrapper>
       <Mark
@@ -41,14 +49,7 @@ const AnnotationMark = (props) => {
       >
         {props.ann.code}
       </Mark>
-
-      <Popper open={open} anchorEl={anchor} placement={'top'} transition>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={200}>
-            <Paper>{props.ann.text}</Paper>
-          </Fade>
-        )}
-      </Popper>
+      <AnnotationPopper ann={props.ann} anchor={anchor} />
     </Wrapper>
   );
 };
