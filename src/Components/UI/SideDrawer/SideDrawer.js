@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import MenuBtn from "./Buttons/MenuBtn";
+import MenuBtn from "../Buttons/MenuBtn";
 import MuiAccordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChannelList from "./ChannelList";
 import AnnotationTimeLine from "./AnnotationTimeLine";
+import TimeLineOptions from "./TimeLineOptions";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -42,6 +43,10 @@ const MenuItems = [
   {
     title: "Annotations",
     component: <AnnotationTimeLine />,
+  },
+  {
+    title: "Timeline",
+    component: <TimeLineOptions />,
   },
 ];
 
