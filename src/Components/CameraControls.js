@@ -24,6 +24,10 @@ const CameraControls = (props) => {
   let lastZoom = 1;
   let camPos = new THREE.Vector3();
 
+  // Variables for limiting camera rotation and movement
+  let minPan = new THREE.Vector3(-1000, -1000, -55);
+  let maxPan = new THREE.Vector3(1000, 1000, 1000);
+
   useEffect(() => {
     computeVec();
     setInitialDistance(vec.length());
@@ -50,8 +54,7 @@ const CameraControls = (props) => {
       lastZoom = zoom;
     }
 
-    //console.log(orbitRef.current.target);
-
+    orbitRef.current.target.clamp(minPan, maxPan);
     orbitRef.current.update();
   });
 
