@@ -103,16 +103,16 @@ const Vcg2 = (props) => {
 
   return (
     <a.mesh ref={meshRef}>
-      <line position={[100, 20, -150]} scale={[50, 50, 50]}>
+      <line position={[70, 20, -150]} scale={[50, 50, 50]}>
         <bufferGeometry attach="geometry" ref={ref} />
-        <meshBasicMaterial
+        <lineBasicMaterial
           name="line"
           attach="material"
           linewidth={1000}
           linecap={'round'}
           linejoin={'round'}
-          vertexColors={'VertexColors'}
-          color={'0xff0000'}
+          needsUpdate={true}
+          vertexColors={0xff0000}
         />
       </line>
     </a.mesh>

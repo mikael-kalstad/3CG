@@ -54,6 +54,7 @@ const Text = styled.p`
   font-size: ${(props) => (13 * 12) / Math.max(props.intervals, 11) + "px"};
 `;
 
+// Component for displaying a time-graph under the timeline
 const TimeGraph = (props) => {
   const linspace = (start, end, steps) => {
     let arr = [];

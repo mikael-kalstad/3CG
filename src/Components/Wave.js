@@ -9,8 +9,10 @@ import {
   useTimeStore,
   useScaleStore,
   useInspectStore,
+  useChannelStore,
 } from "../Store";
 import { dataService } from "../Services/DataService";
+import Text from "./Text";
 
 const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
@@ -34,6 +36,11 @@ const Wave = (props) => {
     state.inspectMode,
     state.toggleInspectMode,
   ]);
+
+  const toggleOrtoMode = useModeStore((state) => state.toggleOrtoMode);
+
+  const activeChannels = useChannelStore((state) => state.activeChannels);
+  const setChannel = useChannelStore((state) => state.setChannel);
 
   const [
     scale,
@@ -95,6 +102,16 @@ const Wave = (props) => {
   const isInspected = () => {
     return props.i === inspected;
   };
+
+  const inspectChannel = (channelIndex) => {
+    setInspected(channelIndex);
+    for (let i = 0; i < activeChannels.length; i++) {
+      if (i != channelIndex) {
+        setChannel(i, false);
+      }
+    }
+    toggleOrtoMode();
+  };
   // React-spring animation config
   const { spring } = useSpring({
     spring: inspectMode && !isInspected(),
@@ -135,38 +152,50 @@ const Wave = (props) => {
   };
 
   return (
-    <a.group
-      position-y={springScale}
-      onClick={() => {
-        !markMode && setClicked(Number(!clicked));
-        // toggleInspectMode();
-        // setInspected(props.i);
-      }}
-      scale={[scale, 1, 1]}
-    >
-      <a.mesh ref={meshRef}>
-        <line
-          // position={[-startTimeRef.current * 0.4, 0, 0]}
-          scale={[
-            1,
-            props.channelName[0] === "V" && vChannelScaling
-              ? vChannelScaleFactor
-              : 100,
-            1,
-          ]}
-        >
-          <bufferGeometry attach="geometry" ref={ref} />
-          <lineBasicMaterial
-            name="line"
-            attach="material"
-            linewidth={1000}
-            linecap={"round"}
-            linejoin={"round"}
-            vertexColors={"VertexColors"}
-          />
-        </line>
-      </a.mesh>
-    </a.group>
+    <group>
+      <Text
+        onClick={() => inspectChannel(props.index)}
+        position={props.data[0].map((val, i) => (i == 0 ? val - 6 : val))}
+        rotateToCamera={true}
+        background={true}
+        backgroundOpacity={0.4}
+        backgroundColor={0x000000}
+        backgroundScaleByText={1.5}
+        textSize={2.4}
+      >
+        {props.channelName}
+      </Text>
+      <a.group
+        position-y={springScale}
+        onClick={() => {
+          !markMode && setClicked(Number(!clicked));
+        }}
+        scale={[scale, 1, 1]}
+      >
+        <a.mesh ref={meshRef}>
+          <line
+            // position={[-startTimeRef.current * 0.4, 0, 0]}
+            scale={[
+              1,
+              props.channelName[0] === "V" && vChannelScaling
+                ? vChannelScaleFactor
+                : 100,
+              1,
+            ]}
+          >
+            <bufferGeometry attach="geometry" ref={ref} />
+            <lineBasicMaterial
+              name="line"
+              attach="material"
+              linewidth={1000}
+              linecap={"round"}
+              linejoin={"round"}
+              vertexColors={"VertexColors"}
+            />
+          </line>
+        </a.mesh>
+      </a.group>
+    </group>
   );
 };
 

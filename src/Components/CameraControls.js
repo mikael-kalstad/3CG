@@ -12,8 +12,7 @@ const MIN_DISTANCE = 10;
 const CameraControls = (props) => {
   const [initialDistance, setInitialDistance] = useState(0);
   const markMode = useModeStore((state) => state.markMode);
-  const inspectMode = useModeStore((state) => state.inspectMode);
-  const inspected = useInspectStore((state) => state.inspected);
+  const ortoMode = useModeStore((state) => state.ortoMode);
   const zoom = useZoomStore((state) => state.zoom);
   const setZoom = useZoomStore((state) => state.setZoom);
   const orbitRef = useRef();
@@ -23,6 +22,10 @@ const CameraControls = (props) => {
   let vec = new THREE.Vector3();
   let lastZoom = 1;
   let camPos = new THREE.Vector3();
+
+  // Variables for limiting camera rotation and movement
+  let minPan = new THREE.Vector3(-1000, -1000, -55);
+  let maxPan = new THREE.Vector3(1000, 1000, 1000);
 
   useEffect(() => {
     computeVec();
@@ -35,23 +38,29 @@ const CameraControls = (props) => {
 
     computeVec();
     if (lastZoom != zoom) {
-      camPos.set(
-        orbitRef.current.target.x,
-        orbitRef.current.target.y,
-        orbitRef.current.target.z
-      );
-      vec.normalize();
-      vec.multiplyScalar(initialDistance);
-      vec.negate();
-      vec.multiplyScalar(1 / zoom);
-      camPos.add(vec);
+      if (!ortoMode) {
+        camPos.set(
+          orbitRef.current.target.x,
+          orbitRef.current.target.y,
+          orbitRef.current.target.z
+        );
+        vec.normalize();
+        vec.multiplyScalar(initialDistance);
+        vec.negate();
+        vec.multiplyScalar(1 / zoom);
+        camPos.add(vec);
 
-      orbitRef.current.object.position.set(camPos.x, camPos.y, camPos.z);
+        orbitRef.current.object.position.set(camPos.x, camPos.y, camPos.z);
+      }
+      if (ortoMode) {
+        console.log('In cameracontrols if ortomode');
+        orbitRef.current.object.zoom = zoom;
+        orbitRef.current.object.updateProjectionMatrix();
+      }
       lastZoom = zoom;
     }
 
-    //console.log(orbitRef.current.target);
-
+    orbitRef.current.target.clamp(minPan, maxPan);
     orbitRef.current.update();
   });
 

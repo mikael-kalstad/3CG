@@ -32,7 +32,7 @@ const AnnotationRenderer = (props) => {
   // After one iteration of pushes, it runs again to check if pushed annotations are overlapping again
   useEffect(() => {
     let levelsArr = new Array(annotations.length).fill(0);
-    for (let k = 0; k < 10; k++) {
+    for (let k = 0; k < 5; k++) {
       let changed = false;
       for (let i = 0; i < annotations.length - 1; i++) {
         for (let j = i + 1; j < annotations.length; j++) {

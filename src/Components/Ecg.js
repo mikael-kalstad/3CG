@@ -1,7 +1,12 @@
 import React, { Suspense, useEffect } from 'react';
 import { dataService } from '../Services/DataService';
 import { annotationService } from '../Services/AnnotationService';
-import { useChannelStore, useAnnotationStore } from '../Store';
+import {
+  useChannelStore,
+  useAnnotationStore,
+  useInspectStore,
+  useModeStore,
+} from '../Store';
 import Wave from './Wave';
 import Vcg from './Vcg';
 import Text from './Text';
@@ -19,8 +24,11 @@ const Ecg = () => {
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
   console.log('%c [Wave(s)] is rendering', 'background: #111; color: #ebd31c');
 
+  const toggleOrtoMode = useModeStore((state) => state.toggleOrtoMode);
+
   const { gl, camera } = useThree();
   gl.localClippingEnabled = true;
+
   return (
     <Suspense fallback={null}>
       <mesh>
@@ -31,19 +39,6 @@ const Ecg = () => {
             (channel, i) =>
               activeChannels[i] && (
                 <React.Fragment key={i}>
-                  <Text
-                    position={channel[0].map((val, i) =>
-                      i == 0 ? val - 6 : val
-                    )}
-                    rotateToCamera={true}
-                    background={true}
-                    backgroundOpacity={0.4}
-                    backgroundColor={0x000000}
-                    backgroundScaleByText={1.5}
-                    textSize={2.4}
-                  >
-                    {channelNames[i]}
-                  </Text>
                   <Wave
                     data={channel}
                     channelName={channelNames[i]}

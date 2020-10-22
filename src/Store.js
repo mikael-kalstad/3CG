@@ -1,6 +1,6 @@
-import create from "zustand";
-import { dataService } from "./Services/DataService";
-import { annotationService } from "./Services/AnnotationService";
+import create from 'zustand';
+import { dataService } from './Services/DataService';
+import { annotationService } from './Services/AnnotationService';
 
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
@@ -23,11 +23,13 @@ export const useModeStore = create((set) => ({
     set((state) => ({ inspectMode: !state.inspectMode })),
   ortoMode: false,
   toggleOrtoMode: () => set((state) => ({ ortoMode: !state.ortoMode })),
+  gridMode: false,
+  toggleGridMode: () => set((state) => ({ gridMode: !state.gridMode }))
 }));
 
 export const useInspectStore = create((set) => ({
-  inspected: -1,
-  setInspected: (i) => set((state) => (state.inspected = i)),
+  inspected: '',
+  setInspected: (channel) => set((state) => (state.inspected = channel)),
 }));
 
 // Store for storing global all states related to ecg-data and timing
@@ -41,6 +43,12 @@ export const useChannelStore = create((set) => ({
     })),
   toggleAllChannels: (newState) =>
     set((state) => ({ activeChannels: numOfSamples.map(() => newState) })),
+  setChannel: (index, newActive) =>
+    set((state) => ({
+      activeChannels: state.activeChannels.map((e, i) =>
+        i === index ? newActive : e
+      ),
+    })),
 }));
 
 export const useTimeStore = create((set) => ({

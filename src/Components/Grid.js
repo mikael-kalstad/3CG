@@ -129,37 +129,17 @@ const Grid = (props) => {
       )
   );
 
-  function PerspectiveCamera(props) {
-    const ref = useRef()
-    const { setDefaultCamera } = useThree()
-    // Make the camera known to the system
-    useEffect(() => void setDefaultCamera(ref.current), [])
-    // Update it every frame
-    useFrame(() => ref.current.updateMatrixWorld())
-    return <perspectiveCamera ref={ref} {...props} />
-  }
-
-  //Conditional rendering to turn on grid and change between orthographic and perspective camera
-  const ortoMode = useModeStore((state) => state.ortoMode);
-  if (!ortoMode) {
+  //Conditional rendering to turn grid on/off
+  const gridMode = useModeStore((state) => state.gridMode);
+  if (!gridMode) {
     return (
-      <PerspectiveCamera position={[100, 80, 150]} zoom={1} />
+      <>
+      </>
     )
-  }
-
-  function OrthographicCamera(props) {
-    const ref = useRef()
-    const { setDefaultCamera } = useThree()
-    // Make the camera known to the system
-    useEffect(() => void setDefaultCamera(ref.current), [])
-    // Update it every frame
-    useFrame(() => ref.current.updateMatrixWorld())
-    return <orthographicCamera ref={ref} {...props} />
   }
 
   return (
     <Suspense fallback={null}>
-      <OrthographicCamera position={[100, 0, 100]} zoom={3} />
       <Text
         position={[-10, 105, -75]}
         rotateToCamera={true}
@@ -183,7 +163,7 @@ const Grid = (props) => {
         0.5 mV
       </Text>
       <Text
-        position={[-10, 0, -75]}
+        position={[-20, 0, -75]}
         rotateToCamera={true}
         background={true}
         backgroundOpacity={0.2}

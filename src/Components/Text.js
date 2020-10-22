@@ -70,7 +70,11 @@ const Text = (props) => {
     }
   });
   return (
-    <group ref={group} position={props.position}>
+    <group
+      ref={group}
+      position={props.position}
+      onClick={props.onClick ? props.onClick : null}
+    >
       <mesh ref={textMesh}>
         <textBufferGeometry attach="geometry" args={[props.children, config]} />
         <meshPhongMaterial

@@ -17,6 +17,7 @@ const PopperDiv = styled.div`
   align-items: center;
 `;
 
+// Component for showing time when changing the timeline
 const TimePopper = (props) => {
   return (
     <Popper
