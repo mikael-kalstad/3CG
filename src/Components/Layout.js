@@ -6,6 +6,7 @@ import MarkBtn from './UI/Buttons/MarkBtn';
 import ZoomBar from './UI/ZoomBar';
 import GridBtn from './UI/Buttons/GridBtn';
 import OrtoBtn from './UI/Buttons/OrtoBtn';
+import InfoText from './UI/InfoText';
 
 const Layout = (props) => {
   console.log('%c [Layout] is rendering', 'background: #111; color: #ebd31c');
@@ -18,6 +19,7 @@ const Layout = (props) => {
       <ZoomBar />
       <GridBtn />
       <OrtoBtn />
+      <InfoText />
     </>
   );
 };

@@ -108,7 +108,7 @@ const Wave = (props) => {
         setChannel(i, false);
       }
     }
-    toggleOrtoMode();
+    //toggleOrtoMode();
   };
   // React-spring animation config
   const { spring } = useSpring({

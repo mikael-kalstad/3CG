@@ -24,8 +24,6 @@ const Ecg = () => {
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
   console.log('%c [Wave(s)] is rendering', 'background: #111; color: #ebd31c');
 
-  const toggleOrtoMode = useModeStore((state) => state.toggleOrtoMode);
-
   const { gl, camera } = useThree();
   gl.localClippingEnabled = true;
 
