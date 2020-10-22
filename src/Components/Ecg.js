@@ -1,7 +1,12 @@
 import React, { Suspense, useEffect } from 'react';
 import { dataService } from '../Services/DataService';
 import { annotationService } from '../Services/AnnotationService';
-import { useChannelStore, useAnnotationStore } from '../Store';
+import {
+  useChannelStore,
+  useAnnotationStore,
+  useInspectStore,
+  useModeStore,
+} from '../Store';
 import Wave from './Wave';
 import Vcg from './Vcg';
 import Text from './Text';
@@ -16,11 +21,28 @@ let channelNames = dataService.getChannelNamesArray();
 
 const Ecg = () => {
   const activeChannels = useChannelStore((state) => state.activeChannels);
+  const setChannel = useChannelStore((state) => state.setChannel);
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
   console.log('%c [Wave(s)] is rendering', 'background: #111; color: #ebd31c');
 
+  const [inspected, setInspected] = useInspectStore((state) => [
+    state.inspected,
+    state.setInspected,
+  ]);
+  const toggleOrtoMode = useModeStore((state) => state.toggleOrtoMode);
+
   const { gl, camera } = useThree();
   gl.localClippingEnabled = true;
+
+  const inspectChannel = (channelIndex) => {
+    setInspected(channelIndex);
+    for (let i = 0; i < activeChannels.length; i++) {
+      if (i != channelIndex) {
+        setChannel(i, false);
+      }
+    }
+    toggleOrtoMode();
+  };
   return (
     <Suspense fallback={null}>
       <mesh>
@@ -32,6 +54,7 @@ const Ecg = () => {
               activeChannels[i] && (
                 <React.Fragment key={i}>
                   <Text
+                    onClick={() => inspectChannel(i)}
                     position={channel[0].map((val, i) =>
                       i == 0 ? val - 6 : val
                     )}

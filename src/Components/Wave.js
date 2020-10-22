@@ -136,8 +136,6 @@ const Wave = (props) => {
       position-y={springScale}
       onClick={() => {
         !markMode && setClicked(Number(!clicked));
-        // toggleInspectMode();
-        // setInspected(props.i);
       }}
       scale={[scale, 1, 1]}
     >
