@@ -6,6 +6,7 @@ import { useModeStore } from '../Store';
 import Grid from './Grid';
 import Vcg2 from './Vcg2';
 import CircularVisualization from './CircularVisualization';
+import OrtoCam from './OrtoCam'
 
 const Scene = () => {
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
@@ -24,6 +25,7 @@ const Scene = () => {
       {/* <CircularVisualization /> */}
       <axesHelper position={[0, 40, 0]} scale={[40, 40, 40]} />
       <Grid />
+      <OrtoCam />
     </Canvas>
   );
 };

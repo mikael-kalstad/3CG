@@ -23,6 +23,8 @@ export const useModeStore = create((set) => ({
     set((state) => ({ inspectMode: !state.inspectMode })),
   ortoMode: false,
   toggleOrtoMode: () => set((state) => ({ ortoMode: !state.ortoMode })),
+  gridMode: false,
+  toggleGridMode: () => set((state) => ({ gridMode: !state.gridMode }))
 }));
 
 export const useInspectStore = create((set) => ({
