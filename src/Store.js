@@ -31,6 +31,7 @@ export const useInspectStore = create((set) => ({
   inspected: '',
   setInspected: (channel) => set((state) => (state.inspected = channel)),
 }));
+
 // Store for storing global all states related to ecg-data and timing
 export const useChannelStore = create((set) => ({
   activeChannels: numOfSamples.map(() => true),
@@ -78,7 +79,6 @@ export const useAnnotationStore = create((set) => ({
     })),
   toggleAllAnnotations: (newState) =>
     set((state) => ({ activeAnnotations: annotationData.map(() => newState) })),
-
   showFullAnnotation: true,
   toggleShowFullAnnotation: () =>
     set((state) => ({ showFullAnnotation: !state.showFullAnnotation })),
@@ -96,4 +96,16 @@ export const useScaleStore = create((set) => ({
   vChannelScaleFactor: 10,
   toggleVChannelScaling: () =>
     set((state) => ({ vChannelScaling: !state.vChannelScaling })),
+}));
+
+export const useTimelineOptionsStore = create((set) => ({
+  showAnnotations: true,
+  toggleShowAnnotations: () =>
+    set((state) => ({ showAnnotations: !state.showAnnotations })),
+  showTimeOnDrag: true,
+  toggleShowTimeOnDrag: () =>
+    set((state) => ({ showTimeOnDrag: !state.showTimeOnDrag })),
+  showTotalTime: true,
+  toggleShowTotalTime: () =>
+    set((state) => ({ showTotalTime: !state.showTotalTime })),
 }));

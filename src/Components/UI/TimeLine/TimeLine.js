@@ -1,27 +1,34 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { Rnd } from 'react-rnd';
-import AnnotationMark from './AnnotationMark';
-import TimeGraph from './TimeGraph';
-import TimePopper from './TimePopper';
-import { useTimeStore } from '../../../Store';
-import { dataService } from '../../../Services/DataService';
-import { useAnnotationStore } from '../../../Store';
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { Rnd } from "react-rnd";
+import AnnotationMark from "./AnnotationMark";
+import TimeGraph from "./TimeGraph";
+import TimeLineGraph from "./TimeLineGraph";
+import TimePopper from "./TimePopper";
+import { useTimeStore } from "../../../Store";
+import { dataService } from "../../../Services/DataService";
+import { useAnnotationStore, useTimelineOptionsStore } from "../../../Store";
 
 const dataLength = dataService.getDuration();
 
 const Container = styled.div`
   width: 60%;
   max-width: 1000px;
-  height: 30px;
-  border-radius: 5px 5px 0px 0px;
-  // border-bottom: solid 10px #cdcdcd;
+  height: ${(props) => (props.showTotalTime ? "60px" : "30px")};
+  border-radius: "5px";
   position: relative;
   bottom: 80px;
   left: 0;
   right: 0;
   margin: auto;
-  background: #fff;
+  background: #333;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+`;
+
+const AnnotationWrapper = styled.div`
+  display: block;
+  width: 100%;
 `;
 
 const TimeLine = () => {
@@ -34,16 +41,18 @@ const TimeLine = () => {
   const [endPopperOpen, setEndPopperOpen] = useState(false);
   const [anchor, setAnchor] = useState(null);
 
-  console.log('%c [Timeline] is rendering', 'background: #111; color: #ebd31c');
+  console.log("%c [Timeline] is rendering", "background: #111; color: #ebd31c");
 
-  const [startTime, setStartTime] = useTimeStore((state) => [
-    state.startTime,
-    state.setStartTime,
-  ]);
-  const [endTime, setEndTime] = useTimeStore((state) => [
-    state.endTime,
-    state.setEndTime,
-  ]);
+  const setStartTime = useTimeStore((state) => state.setStartTime);
+  const setEndTime = useTimeStore((state) => state.setEndTime);
+
+  // THIS SHOULD NOT BE HERE. RERENDER ON EVRY STARTTIME CHANGE, FIX LATER!
+  const startTime = useTimeStore((state) => state.startTime);
+
+  const useTimeLineOptionsStore = useTimelineOptionsStore();
+  const activeAnnotations = useAnnotationStore(
+    (state) => state.activeAnnotations
+  );
 
   // Fetch initial time state
   const startTimeRef = useRef(useTimeStore.getState().startTime);
@@ -88,26 +97,26 @@ const TimeLine = () => {
     if (containerRef.current) handleResize();
 
     // Update states on resize
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Cleanup on unmount
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   const updateRnd = (e) => {
     // if (containerRef) {
-    console.log('updating rnd...');
+    console.log("updating rnd...");
     let width =
       (endTimeRef.current - startTimeRef.current) *
       (containerRef.current.offsetWidth / dataLength);
-    console.log('width', width);
+    console.log("width", width);
 
     rndRef.current.updatePosition({ x: startTimeRef.current / ratio, y: 0 });
     rndRef.current.updateSize({
       width: width,
-      height: '100%',
+      height: "100%",
     });
     // }
   };
@@ -124,23 +133,23 @@ const TimeLine = () => {
 
     // Update global end time state based on scroller width and new start time
     setEndTime(
-      newStartTime + ratio * Number.parseInt(ref.style.width.split('px')[0])
+      newStartTime + ratio * Number.parseInt(ref.style.width.split("px")[0])
     );
-    console.log('new Endtime:', endTimeRef.current);
+    console.log("new Endtime:", endTimeRef.current);
   };
 
   const resizeStart = (e, dir, ref, delta, position) => {
-    if (dir === 'left') {
+    if (dir === "left") {
       toggleStartPopper();
-    } else if (dir === 'right') {
+    } else if (dir === "right") {
       toggleEndPopper();
     }
   };
 
   const resizeStop = (e, dir, ref, delta, position) => {
-    if (dir === 'left') {
+    if (dir === "left") {
       toggleStartPopper();
-    } else if (dir === 'right') {
+    } else if (dir === "right") {
       toggleEndPopper();
     }
   };
@@ -151,7 +160,6 @@ const TimeLine = () => {
 
     // Update global start time state
     setStartTime(newStartTime);
-    console.log('new startTime:', startTimeRef.current);
 
     // Update global end time state based on scroller width and new start time
     setEndTime(newStartTime + ratio * data.node.scrollWidth);
@@ -167,37 +175,45 @@ const TimeLine = () => {
     setEndPopperOpen(!endPopperOpen);
   };
 
-  console.log(
-    'startTime',
-    startTimeRef.current,
-    'endtime',
-    endTimeRef.current,
-    'posiion',
-    startTimeRef.current / ratio
-  );
-
   const style = {
-    height: '100%',
-    background: 'rgba(0, 0, 0, 0.5)',
-    borderRadius: '5px',
+    height: "100%",
+    background: "RGBA(197, 192, 26, 0.3)",
+    borderRadius: "5px",
+    border: "solid RGBA(197, 192, 26, 1)",
+    borderWidth: "0 1px 0 1px",
+    zIndex: 900,
   };
-  console.log('ratio', ratio);
+
   return (
-    <Container ref={containerRef}>
-      {annotations.map((ann, i) => (
-        <AnnotationMark ann={ann} ratio={ratio} key={i} />
-      ))}
+    <Container
+      ref={containerRef}
+      showTotalTime={useTimeLineOptionsStore.showTotalTime}
+    >
+      {/* Only render timegraph in timeline if option is enabled */}
+      {useTimeLineOptionsStore.showTotalTime && (
+        <>
+          {/* <TimeGraph ratio={ratio} intervals={Math.min(containerWidth / 60)} /> */}
+          <TimeLineGraph ratio={ratio} containerWidth={containerWidth} />
+        </>
+      )}
+
+      {/* Only render annotations in timeline if option is enabled */}
+      {useTimeLineOptionsStore.showAnnotations && (
+        <AnnotationWrapper>
+          {annotations.map((ann, i) => {
+            // Only render annotationmark if the annotation is active
+            if (activeAnnotations[i])
+              return (
+                <AnnotationMark ann={ann} ratio={ratio} key={i} index={i} />
+              );
+          })}
+        </AnnotationWrapper>
+      )}
 
       <Rnd
         ref={rndRef}
         bounds="parent"
         style={style}
-        // default={{
-        //   width:
-        //     (startTime * containerWidth) / dataLength +
-        //     (endTime * containerWidth) / dataLength,
-        //   height: "100%",
-        // }}
         enableResizing={{
           left: true,
           right: true,
@@ -208,6 +224,7 @@ const TimeLine = () => {
           topLeft: false,
           topRight: false,
         }}
+        dragAxis={"x"}
         onResize={handleResize}
         onResizeStart={resizeStart}
         onResizeStop={resizeStop}
@@ -216,29 +233,33 @@ const TimeLine = () => {
         onDragStop={toggleMiddlePopper}
         position={{ x: startTimeRef.current / ratio, y: 0 }}
       />
-      <TimePopper
-        anchor={anchor}
-        open={middlePopperOpen}
-        placement={'bottom'}
-        text={
-          ((startTimeRef.current + endTimeRef.current) / 2).toFixed(2) + 's'
-        }
-      />
 
-      <TimePopper
-        anchor={anchor}
-        open={startPopperOpen}
-        placement={'bottom-start'}
-        text={startTimeRef.current.toFixed(2) + 's'}
-      />
+      {useTimeLineOptionsStore.showTimeOnDrag && (
+        <>
+          <TimePopper
+            anchor={anchor}
+            open={middlePopperOpen}
+            placement={"bottom"}
+            text={
+              ((startTimeRef.current + endTimeRef.current) / 2).toFixed(2) + "s"
+            }
+          />
 
-      <TimePopper
-        anchor={anchor}
-        open={endPopperOpen}
-        placement={'bottom-end'}
-        text={endTimeRef.current.toFixed(2) + 's'}
-      />
-      <TimeGraph ratio={ratio} intervals={12} />
+          <TimePopper
+            anchor={anchor}
+            open={startPopperOpen}
+            placement={"bottom-start"}
+            text={startTimeRef.current.toFixed(2) + "s"}
+          />
+
+          <TimePopper
+            anchor={anchor}
+            open={endPopperOpen}
+            placement={"bottom-end"}
+            text={endTimeRef.current.toFixed(2) + "s"}
+          />
+        </>
+      )}
     </Container>
   );
 };
