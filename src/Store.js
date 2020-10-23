@@ -24,11 +24,11 @@ export const useModeStore = create((set) => ({
   ortoMode: false,
   toggleOrtoMode: () => set((state) => ({ ortoMode: !state.ortoMode })),
   gridMode: false,
-  toggleGridMode: () => set((state) => ({ gridMode: !state.gridMode }))
+  toggleGridMode: () => set((state) => ({ gridMode: !state.gridMode })),
 }));
 
 export const useInspectStore = create((set) => ({
-  inspected: '',
+  inspected: -1,
   setInspected: (channel) => set((state) => (state.inspected = channel)),
 }));
 

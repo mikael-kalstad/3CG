@@ -20,6 +20,8 @@ const Text = (props) => {
   const planeMesh = useRef();
   const group = useRef();
 
+  let initialBackgroundColor = props.backgroundColor;
+
   useEffect(() => {
     textMesh.current.geometry.computeBoundingBox();
     let boundingBox = textMesh.current.geometry.boundingBox.max;
@@ -64,6 +66,16 @@ const Text = (props) => {
     }
   }, []);
 
+  const handlePointerOver = () => {
+    if (props.hoverEffect)
+      planeMesh.current.material.color.setHex(props.hoverBackgroundColor);
+  };
+
+  const handlePointerOut = () => {
+    if (props.hoverEffect)
+      planeMesh.current.material.color.setHex(initialBackgroundColor);
+  };
+
   useFrame(() => {
     if (props.rotateToCamera) {
       group.current.setRotationFromEuler(camera.rotation);
@@ -74,6 +86,8 @@ const Text = (props) => {
       ref={group}
       position={props.position}
       onClick={props.onClick ? props.onClick : null}
+      onPointerOver={props.hoverEffect ? handlePointerOver : null}
+      onPointerOut={props.hoverEffect ? handlePointerOut : null}
     >
       <mesh ref={textMesh}>
         <textBufferGeometry attach="geometry" args={[props.children, config]} />
