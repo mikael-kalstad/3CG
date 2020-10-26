@@ -45,3 +45,40 @@ export const getColorData = (data, offset) => {
   // 3D-points uses Float32Array to add colors to geometry
   return new Float32Array(arr);
 };
+
+export const getColorDataHeat = (data, offset) => {
+  let arr = [];
+
+  // Add empty colors if there is a set offset
+  if (offset && offset > 0) {
+    for (let i = 0; i < offset; i++) {
+      arr.push(0.0, 0.0, 0.0);
+    }
+  }
+
+  // Go through all data and add colors for each data point
+  let values = [];
+  for (let i = 0; i < data.length; i++) {
+    values.push(data[i][1]);
+  }
+
+  let maxValue = Math.max(...values);
+  let minValue = Math.min(...values);
+  let range = Math.abs(maxValue) + Math.abs(minValue);
+  for (let i = 0; i < data.length; i++) {
+    arr.push(
+      colors[0][0] +
+        ((colors[1][0] - colors[0][0]) * (data[i][1] + Math.abs(minValue))) /
+          range,
+      colors[0][1] +
+        ((colors[1][1] - colors[0][1]) * (data[i][1] + Math.abs(minValue))) /
+          range,
+      colors[0][2] +
+        ((colors[1][2] - colors[0][2]) * (data[i][1] + Math.abs(minValue))) /
+          range
+    );
+  }
+
+  // 3D-points uses Float32Array to add colors to geometry
+  return new Float32Array(arr);
+};

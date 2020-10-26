@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { useUpdate, useFrame } from 'react-three-fiber';
 import { useSpring } from '@react-spring/core';
 import { a } from '@react-spring/three';
-import { getColorData } from '../Scripts/Color';
+import { getColorData, getColorDataHeat } from '../Scripts/Color';
 import {
   useModeStore,
   useTimeStore,
@@ -144,7 +144,7 @@ const Wave = (props) => {
 
   const updateColors = (geometry, start, end) => {
     // Set gradient color theme to all points that is rendered in setDrawRange method
-    let colors = getColorData(
+    let colors = getColorDataHeat(
       props.data.slice(start * sampleRate, end * sampleRate),
       start * sampleRate
     );

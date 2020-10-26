@@ -18,6 +18,8 @@ const CameraControls = (props) => {
   const orbitRef = useRef();
   const { camera, gl } = useThree();
 
+  const [camTarget, setCamTarget] = useState(new THREE.Vector3(100, 0, 0));
+
   // Variables for zooming
   let vec = new THREE.Vector3();
   let lastZoom = 1;
@@ -32,6 +34,12 @@ const CameraControls = (props) => {
     setInitialDistance(vec.length());
     camera.position.set(100, 80, 150);
   }, []);
+
+  /* Incase bug appears again */
+  // useEffect(() => {
+  //   /* Updating camera target before rerender */
+  //   setCamTarget(orbitRef.current.target.clone());
+  // }, [markMode]);
 
   useFrame(() => {
     // console.log("inspect mode", inspectMode);
@@ -53,7 +61,6 @@ const CameraControls = (props) => {
         orbitRef.current.object.position.set(camPos.x, camPos.y, camPos.z);
       }
       if (ortoMode) {
-        console.log('In cameracontrols if ortomode');
         orbitRef.current.object.zoom = zoom;
         orbitRef.current.object.updateProjectionMatrix();
       }
@@ -104,7 +111,7 @@ const CameraControls = (props) => {
     <orbitControls
       zoomSpeed={1}
       panSpeed={1.6}
-      target={new THREE.Vector3(100, 0, 0)}
+      target={camTarget}
       rotateSpeed={1}
       args={[camera, gl.domElement]}
       ref={orbitRef}

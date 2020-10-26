@@ -7,7 +7,6 @@ import { useModeStore } from '../../../Store';
 const MarkBtn = () => {
   const markMode = useModeStore((state) => state.markMode);
   const toggleMarkMode = useModeStore((state) => state.toggleMarkMode);
-  const inspectMode = useModeStore((state) => state.inspectMode);
 
   console.log('%c [MarkBtn] is rendering', 'background: #111; color: #ebd31c');
 

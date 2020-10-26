@@ -67,13 +67,19 @@ const Text = (props) => {
   }, []);
 
   const handlePointerOver = () => {
+    if (props.onClick) document.body.style.cursor = 'pointer';
     if (props.hoverEffect)
       planeMesh.current.material.color.setHex(props.hoverBackgroundColor);
   };
 
   const handlePointerOut = () => {
+    if (props.onClick) document.body.style.cursor = 'default';
     if (props.hoverEffect)
       planeMesh.current.material.color.setHex(initialBackgroundColor);
+  };
+
+  const handlePointerMove = () => {
+    if (props.onClick) document.body.style.cursor = 'pointer';
   };
 
   useFrame(() => {
@@ -88,6 +94,7 @@ const Text = (props) => {
       onClick={props.onClick ? props.onClick : null}
       onPointerOver={props.hoverEffect ? handlePointerOver : null}
       onPointerOut={props.hoverEffect ? handlePointerOut : null}
+      onPointerMove={handlePointerMove}
     >
       <mesh ref={textMesh}>
         <textBufferGeometry attach="geometry" args={[props.children, config]} />

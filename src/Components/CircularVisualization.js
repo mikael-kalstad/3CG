@@ -24,10 +24,18 @@ const CircularVisualization = (props) => {
     }
     // console.log(newPoints);
   }, []);
+
+  useFrame(() => {
+    geom.current.setDrawRange(
+      startTime * sampleRate,
+      (endTime - startTime) * sampleRate
+    );
+  });
+
   const geom = useUpdate(
     (self) => {
       // Set specific range which is to be shown
-      self.setDrawRange(startTime * sampleRate, endTime * sampleRate);
+      self.setDrawRange(0 * sampleRate, 1 * sampleRate);
 
       // Set initial points
       self.setFromPoints(renderPoints);
@@ -39,6 +47,7 @@ const CircularVisualization = (props) => {
     },
     [renderPoints, startTime, endTime]
   );
+
   return (
     <group position={[170, 40, -120]}>
       <line scale={[1, 100, 1]} color={0xffffff}>

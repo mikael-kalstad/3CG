@@ -49,7 +49,6 @@ const IconWrapper = styled.div`
 `;
 
 const InspectedText = (props) => {
-  console.log('InspectedText rendering');
   const [canceled, setCanceled] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
 
@@ -86,7 +85,6 @@ const InspectedText = (props) => {
   };
 
   let inspectedChannel = dataService.getChannelNamesArray()[inspected];
-  console.log('Inspected channel is ' + inspectedChannel);
   return (
     <>
       {shouldRender && (
