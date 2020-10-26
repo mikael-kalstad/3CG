@@ -9,8 +9,7 @@ import {
   useInspectStore,
   useModeStore,
   useScaleStore,
-  useInspectStore,
-  useChannelStore,
+  useTimeStore,
 } from "../Store";
 import { dataService } from "../Services/DataService";
 import Text from "./Text";
