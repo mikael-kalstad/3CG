@@ -127,7 +127,7 @@ class DataService {
         // if (i > MAX_NUM_OF_POINTS) break;
 
         channelPoints.push([
-          i,
+          Number(i),
           channelData[i],
           -channel * 10 + (10 * (samplesKeys.length - 1)) / 2,
         ]);
@@ -135,7 +135,7 @@ class DataService {
 
       points.push(channelPoints);
     }
-
+    console.log(points);
     return points;
   };
 }

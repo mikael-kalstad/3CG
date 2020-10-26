@@ -1,17 +1,18 @@
+import React, { useState, useRef, useEffect } from "react";
+import * as THREE from "three";
+import { useUpdate, useFrame } from "react-three-fiber";
 import { useSpring } from "@react-spring/core";
 import { a } from "@react-spring/three";
-import React, { useEffect, useRef, useState } from "react";
-import { useFrame, useUpdate } from "react-three-fiber";
-import * as THREE from "three";
-import { getColorData } from "../Scripts/Color";
-import { dataService } from "../Services/DataService";
+import { getColorData, getColorDataHeat } from "../Scripts/Color";
 import {
   useChannelStore,
   useInspectStore,
   useModeStore,
   useScaleStore,
-  useTimeStore,
+  useInspectStore,
+  useChannelStore,
 } from "../Store";
+import { dataService } from "../Services/DataService";
 import Text from "./Text";
 
 const dataLength = dataService.getSampleLength();
@@ -113,7 +114,7 @@ const Wave = (props) => {
         setChannel(i, false);
       }
     }
-    toggleOrtoMode();
+    //toggleOrtoMode();
   };
   // React-spring animation config
   const { spring } = useSpring({
@@ -147,7 +148,7 @@ const Wave = (props) => {
 
   const updateColors = (geometry, start, end) => {
     // Set gradient color theme to all points that is rendered in setDrawRange method
-    let colors = getColorData(
+    let colors = getColorDataHeat(
       props.data.slice(start * sampleRate, end * sampleRate),
       start * sampleRate
     );
@@ -157,14 +158,18 @@ const Wave = (props) => {
   return (
     <group>
       <Text
-        onClick={() => inspectChannel(props.index)}
+        onClick={() => {
+          inspectChannel(props.index);
+        }}
         position={props.data[0].map((val, i) => (i == 0 ? val - 6 : val))}
         rotateToCamera={true}
         background={true}
         backgroundOpacity={0.4}
         backgroundColor={0x000000}
         backgroundScaleByText={1.5}
-        textSize={2.4}
+        textSize={3.05}
+        hoverEffect={true}
+        hoverBackgroundColor={0x888888}
       >
         {props.channelName}
       </Text>

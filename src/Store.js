@@ -28,7 +28,7 @@ export const useModeStore = create((set) => ({
 }));
 
 export const useInspectStore = create((set) => ({
-  inspected: "",
+  inspected: -1,
   setInspected: (channel) => set((state) => (state.inspected = channel)),
 }));
 

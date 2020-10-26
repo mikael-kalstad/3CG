@@ -1,7 +1,7 @@
-import Chip from "@material-ui/core/Chip";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import React from "react";
 import styled from "styled-components";
+import Chip from "@material-ui/core/Chip";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const StyledChip = styled(Chip)`
   justify-content: "center";
@@ -21,14 +21,19 @@ const ChipWrapper = styled.div`
 
 const SelectAllOrNoneBtns = (props) => (
   <>
-    <FormHelperText>Toogle all {props.type} on/off</FormHelperText>
+    <FormHelperText>Toggle all {props.type} on/off</FormHelperText>
     <ChipWrapper>
       <StyledChip
         label="Select all"
         color="primary"
         onClick={() => props.toggleAll(true)}
+        disabled={props.disabled}
       />
-      <StyledChip label="Select none" onClick={() => props.toggleAll(false)} />
+      <StyledChip
+        label="Select none"
+        onClick={() => props.toggleAll(false)}
+        disabled={props.disabled}
+      />
     </ChipWrapper>
   </>
 );

@@ -2,14 +2,14 @@
   {
     "onset": "00:00:1.280",
     "duration": 0.842,
-    "code": "(SBR",
-    "text": "Sinus bradycardia"
+    "code": "SB",
+    "text": "Sinus Bradycardia"
   },
   {
     "onset": "00:00:3.50",
     "duration": 0.3,
-    "code": "OVER",
-    "text": "TEEEEEST2"
+    "code": "STC",
+    "text": "S T Changes"
   },
   {
     "onset": "00:00:5.350",
@@ -26,19 +26,19 @@
   {
     "onset": "00:00:8.000",
     "duration": 0.7,
-    "code": "(Code",
-    "text": "Heisann"
+    "code": "Brady",
+    "text": "Bradycardia"
   },
   {
     "onset": "00:00:8.350",
     "duration": 2,
-    "code": "(KODE",
-    "text": "TEEEEEST"
+    "code": "AVJR",
+    "text": "Atrioventricular Junctional Rhythm"
   },
   {
     "onset": "00:00:8.50",
-    "duration": 0.3,
-    "code": "OVER",
-    "text": "TEEEEEST2"
+    "duration": 0.4,
+    "code": "QAb",
+    "text": "Qwave Abnormal"
   }
 ]
