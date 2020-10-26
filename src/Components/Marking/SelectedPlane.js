@@ -1,9 +1,8 @@
-import React, { useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import { extend, useFrame } from 'react-three-fiber';
-import { MeshLine, MeshLineMaterial } from 'three.meshline';
-import { dataService } from '../../Services/DataService';
-import { useTimeStore, useScaleStore } from '../../Store';
+import React, { useEffect, useRef } from "react";
+import { useFrame } from "react-three-fiber";
+import * as THREE from "three";
+import { dataService } from "../../Services/DataService";
+import { useScaleStore, useTimeStore } from "../../Store";
 
 // extend({ MeshLine, MeshLineMaterial });
 

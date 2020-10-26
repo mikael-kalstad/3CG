@@ -1,22 +1,22 @@
-import React, { useState, useRef, useEffect } from "react";
-import * as THREE from "three";
-import { useUpdate, useFrame } from "react-three-fiber";
 import { useSpring } from "@react-spring/core";
 import { a } from "@react-spring/three";
+import React, { useEffect, useRef, useState } from "react";
+import { useFrame, useUpdate } from "react-three-fiber";
+import * as THREE from "three";
 import { getColorData } from "../Scripts/Color";
-import {
-  useModeStore,
-  useTimeStore,
-  useScaleStore,
-  useInspectStore,
-  useChannelStore,
-} from "../Store";
 import { dataService } from "../Services/DataService";
+import {
+  useChannelStore,
+  useInspectStore,
+  useModeStore,
+  useScaleStore,
+  useTimeStore,
+} from "../Store";
 import Text from "./Text";
 
 const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
-const SPEED = 0.01 / sampleRate;
+// const SPEED = 0.01 / sampleRate;
 
 const Wave = (props) => {
   const [hover, setHover] = useState(0);
@@ -57,6 +57,9 @@ const Wave = (props) => {
     state.setInspected,
   ]);
 
+  // Speed when playMode is activated
+  const speed = useTimeStore((state) => state.speed);
+
   // Fetch initial time state
   const startTimeRef = useRef(useTimeStore.getState().startTime);
   const endTimeRef = useRef(useTimeStore.getState().endTime);
@@ -85,8 +88,8 @@ const Wave = (props) => {
     if (playMode && end) togglePlayMode();
     // Update start and end time every frame if playMode is active
     else if (playMode) {
-      setStartTime(startTimeRef.current + SPEED * (60 * delta));
-      setEndTime(endTimeRef.current + SPEED * (60 * delta));
+      setStartTime(startTimeRef.current + speed * (60 * delta));
+      setEndTime(endTimeRef.current + speed * (60 * delta));
     }
 
     ref.current.setDrawRange(

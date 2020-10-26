@@ -1,9 +1,8 @@
-import Annotation from './Annotation';
-import React, { useEffect, useState } from 'react';
-import { annotationService } from '../../Services/AnnotationService';
-import { dataService } from '../../Services/DataService';
-import { useTimeStore, useScaleStore, useAnnotationStore } from '../../Store';
-import * as THREE from 'three';
+import React, { useEffect, useState } from "react";
+import * as THREE from "three";
+import { dataService } from "../../Services/DataService";
+import { useAnnotationStore, useScaleStore, useTimeStore } from "../../Store";
+import Annotation from "./Annotation";
 
 const sampleRate = dataService.getSampleRate();
 
@@ -66,7 +65,7 @@ const AnnotationRenderer = (props) => {
   let sum = 0;
   for (let i = 0; i < annotations.length; i++) {
     annotations[i].code
-      .split('')
+      .split("")
       .forEach((val) => (sum += val.charCodeAt(0) * 2));
     colorsIndex.push(sum % colorSelection.length);
     sum = 0;

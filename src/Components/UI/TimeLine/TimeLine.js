@@ -1,13 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Rnd } from "react-rnd";
 import AnnotationMark from "./AnnotationMark";
-import TimeGraph from "./TimeGraph";
 import TimeLineGraph from "./TimeLineGraph";
 import TimePopper from "./TimePopper";
-import { useTimeStore } from "../../../Store";
+import TimeLineBar from "./TimeLineBar";
 import { dataService } from "../../../Services/DataService";
-import { useAnnotationStore, useTimelineOptionsStore } from "../../../Store";
+import {
+  useAnnotationStore,
+  useTimelineOptionsStore,
+  useTimeStore,
+} from "../../../Store";
+import { useFrame } from "react-three-fiber";
 
 const dataLength = dataService.getDuration();
 
@@ -15,7 +19,7 @@ const Container = styled.div`
   width: 60%;
   max-width: 1000px;
   height: ${(props) => (props.showTotalTime ? "60px" : "30px")};
-  border-radius: "5px";
+  border-radius: "0 0 5px 5px";
   position: relative;
   bottom: 80px;
   left: 0;
@@ -76,7 +80,7 @@ const TimeLine = () => {
     setAnchor(rndRef.current.resizableElement.current);
 
     // Remove all listeners on unmount
-    // return () => useTimeStore.destroy();
+    return () => useTimeStore.destroy();
   }, []);
 
   useEffect(() => {
@@ -118,6 +122,7 @@ const TimeLine = () => {
       width: width,
       height: "100%",
     });
+    console.log("rndRef", rndRef);
     // }
   };
 
@@ -135,7 +140,6 @@ const TimeLine = () => {
     setEndTime(
       newStartTime + ratio * Number.parseInt(ref.style.width.split("px")[0])
     );
-    console.log("new Endtime:", endTimeRef.current);
   };
 
   const resizeStart = (e, dir, ref, delta, position) => {
@@ -177,9 +181,9 @@ const TimeLine = () => {
 
   const style = {
     height: "100%",
-    background: "RGBA(197, 192, 26, 0.3)",
+    background: "rgba(247, 152, 29, 0.3)",
     borderRadius: "5px",
-    border: "solid RGBA(197, 192, 26, 1)",
+    border: "solid rgba(247, 152, 29, 1)",
     borderWidth: "0 1px 0 1px",
     zIndex: 900,
   };
@@ -189,10 +193,11 @@ const TimeLine = () => {
       ref={containerRef}
       showTotalTime={useTimeLineOptionsStore.showTotalTime}
     >
+      <TimeLineBar />
+
       {/* Only render timegraph in timeline if option is enabled */}
       {useTimeLineOptionsStore.showTotalTime && (
         <>
-          {/* <TimeGraph ratio={ratio} intervals={Math.min(containerWidth / 60)} /> */}
           <TimeLineGraph ratio={ratio} containerWidth={containerWidth} />
         </>
       )}
@@ -204,7 +209,13 @@ const TimeLine = () => {
             // Only render annotationmark if the annotation is active
             if (activeAnnotations[i])
               return (
-                <AnnotationMark ann={ann} ratio={ratio} key={i} index={i} />
+                <AnnotationMark
+                  ann={ann}
+                  ratio={ratio}
+                  key={i}
+                  index={i}
+                  onClick={updateRnd}
+                />
               );
           })}
         </AnnotationWrapper>
@@ -231,6 +242,7 @@ const TimeLine = () => {
         onDrag={handleDrag}
         onDragStart={toggleMiddlePopper}
         onDragStop={toggleMiddlePopper}
+        minWidth={50}
         position={{ x: startTimeRef.current / ratio, y: 0 }}
       />
 

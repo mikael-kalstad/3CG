@@ -1,13 +1,13 @@
-import React from "react";
-import { useChannelStore, useScaleStore } from "../../../Store";
-import { dataService } from "../../../Services/DataService";
-import { makeStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import SelectAllOrNoneBtns from "../Buttons/SelectAllOrNoneBtns";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormGroup from "@material-ui/core/FormGroup";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import { dataService } from "../../../Services/DataService";
+import { useChannelStore, useScaleStore } from "../../../Store";
+import SelectAllOrNoneBtns from "../Buttons/SelectAllOrNoneBtns";
 import SettingsCheck from "../SettingsCheck";
 
 const channelNames = dataService.getChannelNamesArray();

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import MarkPlane from './MarkPlane';
-import SelectedPlane from './SelectedPlane';
-import { useModeStore, useTimeStore, useScaleStore } from '../../Store';
-import { dataService } from '../../Services/DataService';
+import React, { useState } from "react";
+import { dataService } from "../../Services/DataService";
+import { useModeStore, useScaleStore, useTimeStore } from "../../Store";
+import MarkPlane from "./MarkPlane";
+import SelectedPlane from "./SelectedPlane";
 
 const sampleRate = dataService.getSampleRate();
 

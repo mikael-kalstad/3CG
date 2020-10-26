@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
 import Chip from "@material-ui/core/Chip";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import React from "react";
+import styled from "styled-components";
 
 const StyledChip = styled(Chip)`
   justify-content: "center";
