@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 import {
   useChannelStore,
   useScaleStore,
   useInspectStore,
-} from '../../../Store';
-import { dataService } from '../../../Services/DataService';
-import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import SelectAllOrNoneBtns from '../Buttons/SelectAllOrNoneBtns';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import SettingsCheck from '../SettingsCheck';
+} from "../../../Store";
+import { dataService } from "../../../Services/DataService";
+import { makeStyles } from "@material-ui/core/styles";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import SelectAllOrNoneBtns from "../Buttons/SelectAllOrNoneBtns";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import SettingsCheck from "../SettingsCheck";
 
 const channelNames = dataService.getChannelNamesArray();
 
@@ -21,9 +21,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3),
   },
   chip: {
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    '& > *': {
+    justifyContent: "center",
+    flexWrap: "wrap",
+    "& > *": {
       margin: theme.spacing(0.5),
     },
   },
@@ -50,8 +50,8 @@ const ChannelList = () => {
   const classes = useStyles();
 
   console.log(
-    '%c [Checlist] is rendering (sideDrawer child)',
-    'background: #111; color: #ebd31c'
+    "%c [Checlist] is rendering (sideDrawer child)",
+    "background: #111; color: #ebd31c"
   );
   console.log(inspected);
 

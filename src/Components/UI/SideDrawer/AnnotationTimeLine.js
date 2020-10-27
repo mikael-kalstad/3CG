@@ -1,20 +1,20 @@
-import React from "react";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import CircleCheckedFilled from "@material-ui/icons/CheckCircle";
 import Timeline from "@material-ui/lab/Timeline";
-import TimelineItem from "@material-ui/lab/TimelineItem";
-import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
-import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
-import Typography from "@material-ui/core/Typography";
-import AnnotationCard from "../AnnotationCard";
-import CircleCheckedFilled from "@material-ui/icons/CheckCircle";
-import { makeStyles } from "@material-ui/core/styles";
-import SelectAllOrNoneBtns from "../Buttons/SelectAllOrNoneBtns";
+import TimelineItem from "@material-ui/lab/TimelineItem";
+import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
+import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
+import React from "react";
 import styled from "styled-components";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import SettingsCheck from "../SettingsCheck";
 import { useAnnotationStore, useTimeStore } from "../../../Store";
+import AnnotationCard from "../AnnotationCard";
+import SelectAllOrNoneBtns from "../Buttons/SelectAllOrNoneBtns";
+import SettingsCheck from "../SettingsCheck";
 
 const SelectWrapper = styled.div`
   margin: 24px;

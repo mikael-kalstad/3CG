@@ -69,6 +69,8 @@ const AnnotationMark = (props) => {
     // Only change endTime if necessary
     if (showFullAnnotation && a.start + diff < a.end) setEndTime(a.end);
     else setEndTime(a.start + diff);
+
+    props.onClick();
   };
   return (
     <Wrapper onClick={() => goToAnnotation(props.index)}>

@@ -1,22 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import { useUpdate, useFrame } from 'react-three-fiber';
-import { useSpring } from '@react-spring/core';
-import { a } from '@react-spring/three';
-import { getColorData, getColorDataHeat } from '../Scripts/Color';
+import React, { useState, useRef, useEffect } from "react";
+import * as THREE from "three";
+import { useUpdate, useFrame } from "react-three-fiber";
+import { useSpring } from "@react-spring/core";
+import { a } from "@react-spring/three";
+import { getColorData, getColorDataHeat } from "../Scripts/Color";
 import {
-  useModeStore,
-  useTimeStore,
-  useScaleStore,
-  useInspectStore,
   useChannelStore,
-} from '../Store';
-import { dataService } from '../Services/DataService';
-import Text from './Text';
+  useInspectStore,
+  useModeStore,
+  useScaleStore,
+  useTimeStore,
+} from "../Store";
+import { dataService } from "../Services/DataService";
+import Text from "./Text";
 
 const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
-const SPEED = 0.01 / sampleRate;
+// const SPEED = 0.01 / sampleRate;
 
 const Wave = (props) => {
   const [hover, setHover] = useState(0);
@@ -57,6 +57,9 @@ const Wave = (props) => {
     state.setInspected,
   ]);
 
+  // Speed when playMode is activated
+  const speed = useTimeStore((state) => state.speed);
+
   // Fetch initial time state
   const startTimeRef = useRef(useTimeStore.getState().startTime);
   const endTimeRef = useRef(useTimeStore.getState().endTime);
@@ -85,8 +88,8 @@ const Wave = (props) => {
     if (playMode && end) togglePlayMode();
     // Update start and end time every frame if playMode is active
     else if (playMode) {
-      setStartTime(startTimeRef.current + SPEED * (60 * delta));
-      setEndTime(endTimeRef.current + SPEED * (60 * delta));
+      setStartTime(startTimeRef.current + speed * (60 * delta));
+      setEndTime(endTimeRef.current + speed * (60 * delta));
     }
 
     ref.current.setDrawRange(
@@ -148,7 +151,7 @@ const Wave = (props) => {
       props.data.slice(start * sampleRate, end * sampleRate),
       start * sampleRate
     );
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
   };
 
   return (
@@ -181,7 +184,7 @@ const Wave = (props) => {
             // position={[-startTimeRef.current * 0.4, 0, 0]}
             scale={[
               1,
-              props.channelName[0] === 'V' && vChannelScaling
+              props.channelName[0] === "V" && vChannelScaling
                 ? vChannelScaleFactor
                 : 100,
               1,
@@ -192,9 +195,9 @@ const Wave = (props) => {
               name="line"
               attach="material"
               linewidth={1000}
-              linecap={'round'}
-              linejoin={'round'}
-              vertexColors={'VertexColors'}
+              linecap={"round"}
+              linejoin={"round"}
+              vertexColors={"VertexColors"}
             />
           </line>
         </a.mesh>

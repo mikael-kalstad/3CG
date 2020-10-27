@@ -1,8 +1,6 @@
-import React from 'react';
-
-import Popper from '@material-ui/core/Popper';
-import Card from '@material-ui/core/Card';
-import styled from 'styled-components';
+import Popper from "@material-ui/core/Popper";
+import React from "react";
+import styled from "styled-components";
 
 const PopperDiv = styled.div`
   height: 21px;

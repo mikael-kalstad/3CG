@@ -1,6 +1,6 @@
-import create from 'zustand';
-import { dataService } from './Services/DataService';
-import { annotationService } from './Services/AnnotationService';
+import create from "zustand";
+import { dataService } from "./Services/DataService";
+import { annotationService } from "./Services/AnnotationService";
 
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
@@ -59,6 +59,8 @@ export const useTimeStore = create((set) => ({
       ? POINTS_DEFAULT_LENGTH / sampleRate
       : dataLength / sampleRate,
   setEndTime: (time) => set((state) => ({ endTime: time })),
+  speed: 0.01 / sampleRate,
+  setSpeed: (newSpeed) => set({ speed: newSpeed / sampleRate }),
 }));
 
 export const useAnnotationStore = create((set) => ({
