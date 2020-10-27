@@ -1,11 +1,18 @@
 // Constant with colors in RGB format with values from 0.0 to 1.0
 // Add more colors or change colors in this array to change output of method below
+
 const colors = [
   [1.0, 0.0, 0.0],
   [1.0, 1.0, 0.0],
   [0.0, 1.0, 1.0],
   [0.125, 0.694, 0.141],
 ];
+
+const red = [1.0, 0.0, 0.0];
+const yellow = [1.0, 1.0, 0.0];
+const green = [0.0, 1.0, 0.0];
+const turq = [0.0, 1.0, 1.0];
+const blue = [0.0, 0.0, 1.0];
 
 // Method that will create an array with RGB colors used with points in a line
 export const getColorData = (data, offset) => {
@@ -66,16 +73,11 @@ export const getColorDataHeat = (data, offset) => {
   let minValue = Math.min(...values);
   let range = Math.abs(maxValue) + Math.abs(minValue);
   for (let i = 0; i < data.length; i++) {
+    let ratio = (data[i][1] + Math.abs(minValue)) / range;
     arr.push(
-      colors[0][0] +
-        ((colors[1][0] - colors[0][0]) * (data[i][1] + Math.abs(minValue))) /
-          range,
-      colors[0][1] +
-        ((colors[1][1] - colors[0][1]) * (data[i][1] + Math.abs(minValue))) /
-          range,
-      colors[0][2] +
-        ((colors[1][2] - colors[0][2]) * (data[i][1] + Math.abs(minValue))) /
-          range
+      yellow[0] + (red[0] - yellow[0]) * ratio,
+      yellow[1] + (red[1] - yellow[1]) * ratio,
+      yellow[2] + (red[2] - yellow[2]) * ratio
     );
   }
 

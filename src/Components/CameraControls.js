@@ -35,6 +35,10 @@ const CameraControls = (props) => {
     camera.position.set(100, 80, 150);
   }, []);
 
+  useEffect(() => {
+    console.log(initialDistance);
+  }, [initialDistance]);
+
   /* Incase bug appears again */
   // useEffect(() => {
   //   /* Updating camera target before rerender */
@@ -55,7 +59,8 @@ const CameraControls = (props) => {
         vec.normalize();
         vec.multiplyScalar(initialDistance);
         vec.negate();
-        vec.multiplyScalar(1 / zoom);
+        // vec.multiplyScalar(1 / zoom);
+        vec.multiplyScalar(0.1 * Math.exp((Math.log(5 / 0.1) / 80) * zoom));
         camPos.add(vec);
 
         orbitRef.current.object.position.set(camPos.x, camPos.y, camPos.z);
@@ -66,7 +71,20 @@ const CameraControls = (props) => {
       }
       lastZoom = zoom;
     }
-
+    if (
+      Math.abs(orbitRef.current.object.position.length() - camPos.length()) >
+      0.01
+    ) {
+      console.log('Zoom changed without zoombar');
+      camPos.set(
+        orbitRef.current.object.position.x,
+        orbitRef.current.object.position.y,
+        orbitRef.current.object.position.z
+      );
+      computeVec();
+      console.log('Length', vec.length());
+      console.log(40 + (80 * Math.log(10 * vec.length())) / Math.log(5 / 0.1));
+    }
     orbitRef.current.target.clamp(minPan, maxPan);
     orbitRef.current.update();
   });

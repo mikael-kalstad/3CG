@@ -85,7 +85,7 @@ export const useAnnotationStore = create((set) => ({
 }));
 
 export const useZoomStore = create((set) => ({
-  zoom: 1,
+  zoom: 60,
   setZoom: (zoom) => set((state) => ({ zoom: zoom })),
 }));
 
