@@ -1,7 +1,7 @@
-import React, { useCallback } from "react";
 import IconButton from "@material-ui/core/IconButton";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import React from "react";
 import { useModeStore } from "../../../Store";
 
 const ButtonStyle = {

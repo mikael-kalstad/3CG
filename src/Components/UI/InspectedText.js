@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useInspectStore, useChannelStore } from '../../Store';
-import { dataService } from '../../Services/DataService';
-import styled, { keyframes } from 'styled-components';
+import React, { useRef, useEffect, useState } from "react";
+import { useInspectStore, useChannelStore } from "../../Store";
+import { dataService } from "../../Services/DataService";
+import styled, { keyframes } from "styled-components";
 
-import CrossBtn from './Buttons/CrossBtn';
+import CrossBtn from "./Buttons/CrossBtn";
 
 const slideIn = keyframes`
   from {
@@ -66,7 +66,7 @@ const InspectedText = (props) => {
   }, []);
 
   useEffect(() => {
-    if (inspected != -1) {
+    if (inspected !== -1) {
       setShouldRender(true);
     }
   }, [inspected]);

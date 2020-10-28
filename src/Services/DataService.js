@@ -1,7 +1,7 @@
 class DataService {
   constructor(filename) {
     this.filename = filename;
-    this.json = require('../data/data.json');
+    this.json = require("../data/data.json");
   }
 
   getJSON() {
@@ -38,10 +38,10 @@ class DataService {
 
   getSamplesInTimeframe(start, end) {
     if (start < 0 || start > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     if (end < 0 || end > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     let samples = this.getSamples();
     let sampleKeys = this.getChannelNamesArray();
@@ -68,10 +68,10 @@ class DataService {
 
   getNumOfSamplesInTimeframe(start, end) {
     if (start < 0 || start > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     if (end < 0 || end > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     return (
       Math.round(this.getSampleRate() * end) -
@@ -85,10 +85,10 @@ class DataService {
 
   getSamplesByChannelInTimeframe(channel, start, end) {
     if (start < 0 || start > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     if (end < 0 || end > this.getDuration()) {
-      return 'ERROR';
+      return "ERROR";
     }
     let samples = this.getSamplesByChannel(channel);
     let channelSamples = samples.slice(
@@ -100,11 +100,11 @@ class DataService {
 
   formatDataToPoints = () => {
     let data = this.getJSON();
-    console.log('data', data);
+
     let points = [];
 
     // Samples contains relevant point data
-    let samples = data['samples'];
+    let samples = data["samples"];
 
     // Samples contains several channels with different "key"names
     let samplesKeys = Object.keys(samples);
@@ -135,9 +135,8 @@ class DataService {
 
       points.push(channelPoints);
     }
-    console.log(points);
     return points;
   };
 }
 
-export let dataService = new DataService('../data/data.json');
+export let dataService = new DataService("../data/data.json");

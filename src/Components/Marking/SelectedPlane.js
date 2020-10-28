@@ -7,9 +7,9 @@ import { useScaleStore, useTimeStore } from "../../Store";
 // extend({ MeshLine, MeshLineMaterial });
 
 const TRANSPARANCY_PLANE = 0.3;
-const TRANSPARANCY_LINE = 0.6;
+// const TRANSPARANCY_LINE = 0.6;
 const YSCALE = 0.2;
-const WIDTH = 115;
+// const WIDTH = 115;
 const sampleRate = dataService.getSampleRate();
 
 const SelectedPlane = (props) => {
@@ -17,7 +17,7 @@ const SelectedPlane = (props) => {
   const endTime = useTimeStore((state) => state.endTime);
   const scale = useScaleStore((state) => state.scale);
   const planeMesh = useRef();
-  const lineMesh = useRef();
+  // const lineMesh = useRef();
 
   useEffect(() => {
     planeMesh.current.scale.set(0, YSCALE, 115);
@@ -41,16 +41,16 @@ const SelectedPlane = (props) => {
     }
   });
 
-  const calculateEdges = () => {
-    let points = [];
-    points.push(props.selected[0] * sampleRate, 0, WIDTH / 2);
-    points.push(props.selected[0] * sampleRate, 0, -WIDTH / 2);
-    points.push(props.selected[1] * sampleRate, 0, -WIDTH / 2);
-    points.push(props.selected[1] * sampleRate, 0, WIDTH / 2);
-    points.push(props.selected[0] * sampleRate, 0, WIDTH / 2);
+  // const calculateEdges = () => {
+  //   let points = [];
+  //   points.push(props.selected[0] * sampleRate, 0, WIDTH / 2);
+  //   points.push(props.selected[0] * sampleRate, 0, -WIDTH / 2);
+  //   points.push(props.selected[1] * sampleRate, 0, -WIDTH / 2);
+  //   points.push(props.selected[1] * sampleRate, 0, WIDTH / 2);
+  //   points.push(props.selected[0] * sampleRate, 0, WIDTH / 2);
 
-    return points;
-  };
+  //   return points;
+  // };
 
   const shouldRender = (selected) => {
     return Math.abs(selected[1] - selected[0]) > 0.001;

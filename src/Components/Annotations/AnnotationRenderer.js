@@ -14,10 +14,7 @@ const AnnotationRenderer = (props) => {
   const activeAnnotations = useAnnotationStore(
     (state) => state.activeAnnotations
   );
-  const [annotations, setAnnotations] = useState(
-    useAnnotationStore((state) => state.annotations)
-  );
-
+  const annotations = useAnnotationStore((state) => state.annotations);
   const [levels, setLevels] = useState(0);
 
   // Pushes annotations that are overlapping up

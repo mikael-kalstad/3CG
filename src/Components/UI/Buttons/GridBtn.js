@@ -22,10 +22,7 @@ const GridBtn = () => {
     <IconButton
       aria-label="Play"
       style={ButtonStyle}
-      onClick={() => {
-        toggleGridMode();
-        console.log(gridMode);
-      }}
+      onClick={() => toggleGridMode()}
     >
       <GridOnIcon />
     </IconButton>

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useTimeStore, useAnnotationStore } from '../../../Store';
-import AnnotationPopper from './AnnotationPopper';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useTimeStore, useAnnotationStore } from "../../../Store";
+import AnnotationPopper from "./AnnotationPopper";
 
 // Empty wrapper used to control hover functionality in Mark styled div
 const Wrapper = styled.div``;
@@ -15,9 +15,9 @@ const Mark = styled.div`
   }
   display: grid;
   background-color: ${(props) => props.color};
-  width: ${(props) => props.width + 'px'};
+  width: ${(props) => props.width + "px"};
   position: absolute;
-  left: ${(props) => props.left + 'px'};
+  left: ${(props) => props.left + "px"};
   text-align: center;
   font-weight: bold;
   align-items: center;
@@ -70,7 +70,7 @@ const AnnotationMark = (props) => {
     if (showFullAnnotation && a.start + diff < a.end) setEndTime(a.end);
     else setEndTime(a.start + diff);
 
-    props.onClick();
+    props.onClick && props.onClick();
   };
   return (
     <Wrapper onClick={() => goToAnnotation(props.index)}>
@@ -79,7 +79,7 @@ const AnnotationMark = (props) => {
         onPointerOut={handlePointerOut}
         left={props.ann.start / props.ratio}
         width={(props.ann.end - props.ann.start) / props.ratio}
-        color={props.ann.ai ? '#2ecc71' : '#00a8ff'}
+        color={props.ann.ai ? "#2ecc71" : "#00a8ff"}
       >
         {props.ann.code}
       </Mark>

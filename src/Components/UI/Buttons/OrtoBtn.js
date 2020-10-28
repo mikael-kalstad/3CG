@@ -22,10 +22,7 @@ const OrtoBtn = () => {
     <IconButton
       aria-label="Play"
       style={ButtonStyle}
-      onClick={() => {
-        toggleOrtoMode();
-        console.log(ortoMode);
-      }}
+      onClick={() => toggleOrtoMode()}
     >
       <StreetviewIcon />
     </IconButton>

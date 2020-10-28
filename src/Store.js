@@ -86,18 +86,22 @@ export const useAnnotationStore = create((set) => ({
     set((state) => ({ showFullAnnotation: !state.showFullAnnotation })),
 }));
 
-export const useZoomStore = create((set) => ({
-  zoom: 1,
-  setZoom: (zoom) => set((state) => ({ zoom: zoom })),
+export const useCameraStore = create((set) => ({
+  zoomValue: 1,
+  setZoomValue: (newValue) => set(() => ({ zoomValue: newValue })),
+  fov: 55,
+  setFov: (newValue) => set(() => ({ fov: newValue })),
 }));
 
 export const useScaleStore = create((set) => ({
   scale: 0.4,
   setScale: (scale) => set((state) => ({ scale: scale })),
   vChannelScaling: true,
-  vChannelScaleFactor: 10,
   toggleVChannelScaling: () =>
     set((state) => ({ vChannelScaling: !state.vChannelScaling })),
+  vChannelScaleFactor: 90,
+  setVChannelScaleFactor: (newScale) =>
+    set(() => ({ vChannelScaleFactor: newScale })),
 }));
 
 export const useTimelineOptionsStore = create((set) => ({

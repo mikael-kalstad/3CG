@@ -1,11 +1,10 @@
-import React from 'react';
-import { useTimelineOptionsStore } from '../../../Store';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import SettingsCheck from '../SettingsCheck';
+import React from "react";
+import { useTimelineOptionsStore } from "../../../Store";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import SettingsCheck from "../SettingsCheck";
 
 const TimeLineOptions = () => {
   const store = useTimelineOptionsStore();
-  console.log(store);
 
   return (
     <div>

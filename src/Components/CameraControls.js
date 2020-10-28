@@ -1,39 +1,45 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useThree, useFrame, extend, useUpdate } from 'react-three-fiber';
-import * as THREE from 'three';
-import { OrbitControls } from '../utils/OrbitControls';
-import { useZoomStore, useModeStore, useInspectStore } from '../Store';
-import { useSpring, useSprings } from 'react-spring-three';
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { extend, useFrame, useThree } from "react-three-fiber";
+import * as THREE from "three";
+import { useCameraStore, useModeStore } from "../Store";
+import { OrbitControls } from "../utils/OrbitControls";
 
 extend({ OrbitControls });
 const MAX_DISTANCE = 500;
 const MIN_DISTANCE = 10;
 
-const CameraControls = (props) => {
+const CameraControls = () => {
   const [initialDistance, setInitialDistance] = useState(0);
   const markMode = useModeStore((state) => state.markMode);
   const ortoMode = useModeStore((state) => state.ortoMode);
-  const zoom = useZoomStore((state) => state.zoom);
-  const setZoom = useZoomStore((state) => state.setZoom);
+  const zoomValue = useCameraStore((state) => state.zoomValue);
   const orbitRef = useRef();
   const { camera, gl } = useThree();
 
-  const [camTarget, setCamTarget] = useState(new THREE.Vector3(100, 0, 0));
+  const [camTarget] = useState(new THREE.Vector3(100, 0, 0));
 
-  // Variables for zooming
+  // Variables for zoomValueing
   let vec = new THREE.Vector3();
-  let lastZoom = 1;
+  let lastzoomValue = 1;
   let camPos = new THREE.Vector3();
 
   // Variables for limiting camera rotation and movement
   let minPan = new THREE.Vector3(-1000, -1000, -55);
   let maxPan = new THREE.Vector3(1000, 1000, 1000);
 
+  const computeVec = useCallback(() => {
+    vec.set(
+      orbitRef.current.target.x - orbitRef.current.object.position.x,
+      orbitRef.current.target.y - orbitRef.current.object.position.y,
+      orbitRef.current.target.z - orbitRef.current.object.position.z
+    );
+  }, [vec]);
+
   useEffect(() => {
     computeVec();
     setInitialDistance(vec.length());
     camera.position.set(100, 80, 150);
-  }, []);
+  }, [camera.position, computeVec, vec]);
 
   /* Incase bug appears again */
   // useEffect(() => {
@@ -42,10 +48,8 @@ const CameraControls = (props) => {
   // }, [markMode]);
 
   useFrame(() => {
-    // console.log("inspect mode", inspectMode);
-
     computeVec();
-    if (lastZoom != zoom) {
+    if (lastzoomValue !== zoomValue) {
       if (!ortoMode) {
         camPos.set(
           orbitRef.current.target.x,
@@ -55,29 +59,22 @@ const CameraControls = (props) => {
         vec.normalize();
         vec.multiplyScalar(initialDistance);
         vec.negate();
-        vec.multiplyScalar(1 / zoom);
+        vec.multiplyScalar(1 / zoomValue);
         camPos.add(vec);
 
         orbitRef.current.object.position.set(camPos.x, camPos.y, camPos.z);
       }
       if (ortoMode) {
-        orbitRef.current.object.zoom = zoom;
+        orbitRef.current.object.zoomValue = zoomValue;
         orbitRef.current.object.updateProjectionMatrix();
       }
-      lastZoom = zoom;
+      lastzoomValue = zoomValue;
     }
 
     orbitRef.current.target.clamp(minPan, maxPan);
     orbitRef.current.update();
   });
 
-  const computeVec = () => {
-    vec.set(
-      orbitRef.current.target.x - orbitRef.current.object.position.x,
-      orbitRef.current.target.y - orbitRef.current.object.position.y,
-      orbitRef.current.target.z - orbitRef.current.object.position.z
-    );
-  };
   // useSpring({
   //   from: inspectMode && inspected != -1 && { y: camera.position.y },
   //   to: inspectMode && inspected != 0 ? { y: 100 } : { y: 80 },
@@ -109,7 +106,7 @@ const CameraControls = (props) => {
 
   return (
     <orbitControls
-      zoomSpeed={1}
+      zoomValueSpeed={1}
       panSpeed={1.6}
       target={camTarget}
       rotateSpeed={1}

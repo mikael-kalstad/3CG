@@ -4,8 +4,8 @@ import React, {
   useCallback,
   useState,
   useEffect,
-} from 'react';
-import * as THREE from 'three';
+} from "react";
+import * as THREE from "three";
 
 const SineWave = (props) => {
   const [timeSteps, setTimeSteps] = useState(new Array(1000).fill(0));
@@ -27,18 +27,16 @@ const SineWave = (props) => {
 
   const onUpdate = useCallback((self) => self.setFromPoints(points), [points]);
 
-  console.log(timeSteps);
-  console.log(ySteps);
   return (
     <group>
       <line position={[0, 0, 0]}>
         <bufferGeometry attach="geometry" onUpdate={onUpdate} />
         <lineBasicMaterial
           attach="material"
-          color={'#9c88ff'}
+          color={"#9c88ff"}
           linewidth={10}
-          linecap={'round'}
-          linejoin={'round'}
+          linecap={"round"}
+          linejoin={"round"}
         />
       </line>
     </group>

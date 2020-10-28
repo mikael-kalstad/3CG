@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { useUpdate, useFrame } from "react-three-fiber";
 import { useSpring } from "@react-spring/core";
 import { a } from "@react-spring/three";
-import { getColorData, getColorDataHeat } from "../Scripts/Color";
+import { /*getColorData*/ getColorDataHeat } from "../Scripts/Color";
 import {
   useChannelStore,
   useInspectStore,
@@ -19,9 +19,7 @@ const sampleRate = dataService.getSampleRate();
 // const SPEED = 0.01 / sampleRate;
 
 const Wave = (props) => {
-  const [hover, setHover] = useState(0);
   const [clicked, setClicked] = useState(0);
-
   const meshRef = useRef();
 
   // Get mode states from global store
@@ -32,12 +30,7 @@ const Wave = (props) => {
 
   const markMode = useModeStore((state) => state.markMode);
 
-  const [inspectMode, toggleInspectMode] = useModeStore((state) => [
-    state.inspectMode,
-    state.toggleInspectMode,
-  ]);
-
-  const toggleOrtoMode = useModeStore((state) => state.toggleOrtoMode);
+  const [inspectMode] = useModeStore((state) => [state.inspectMode]);
 
   const activeChannels = useChannelStore((state) => state.activeChannels);
   const setChannel = useChannelStore((state) => state.setChannel);
@@ -109,12 +102,12 @@ const Wave = (props) => {
   const inspectChannel = (channelIndex) => {
     setInspected(channelIndex);
     for (let i = 0; i < activeChannels.length; i++) {
-      if (i != channelIndex) {
+      if (i !== channelIndex) {
         setChannel(i, false);
       }
     }
-    //toggleOrtoMode();
   };
+
   // React-spring animation config
   const { spring } = useSpring({
     spring: inspectMode && !isInspected(),
@@ -160,7 +153,7 @@ const Wave = (props) => {
         onClick={() => {
           inspectChannel(props.index);
         }}
-        position={props.data[0].map((val, i) => (i == 0 ? val - 6 : val))}
+        position={props.data[0].map((val, i) => (i === 0 ? val - 6 : val))}
         rotateToCamera={true}
         background={true}
         backgroundOpacity={0.4}
@@ -185,7 +178,7 @@ const Wave = (props) => {
             scale={[
               1,
               props.channelName[0] === "V" && vChannelScaling
-                ? vChannelScaleFactor
+                ? 100 - vChannelScaleFactor
                 : 100,
               1,
             ]}
