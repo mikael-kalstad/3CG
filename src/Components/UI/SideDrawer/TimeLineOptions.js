@@ -35,6 +35,14 @@ const TimeLineOptions = () => {
         label="Show time under timeline"
         description="Show total time underneath the timeline"
       />
+
+      <SettingsCheck
+        state={store.showSnackbar}
+        onClick={store.toggleShowSnackbar}
+        name="show-snackbar-option"
+        label="Show snackbar popup"
+        description="Show snackbar popup when changing speed with fast forward/backward buttons"
+      />
     </div>
   );
 };

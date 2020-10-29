@@ -18,6 +18,7 @@ const Container = styled.div`
   width: 60%;
   max-width: 1000px;
   height: ${(props) => (props.showTotalTime ? "60px" : "30px")};
+  border-bottom: "2px solid white";
   border-radius: "0 0 5px 5px";
   position: relative;
   bottom: 80px;
@@ -192,7 +193,7 @@ const TimeLine = (props) => {
       ref={containerRef}
       showTotalTime={useTimeLineOptionsStore.showTotalTime}
     >
-      <TimeLineBar />
+      <TimeLineBar showTotalTime={useTimeLineOptionsStore.showTotalTime} />
 
       {/* Only render timegraph in timeline if option is enabled */}
       {useTimeLineOptionsStore.showTotalTime && (

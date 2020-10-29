@@ -51,7 +51,9 @@ export const useChannelStore = create((set) => ({
     })),
 }));
 
-export const useTimeStore = create((set) => ({
+const DEFAULT_SPEED = 0.00001;
+
+export const useTimeStore = create((set, get) => ({
   startTime: 0,
   setStartTime: (time) => set((state) => ({ startTime: time })),
   endTime:
@@ -59,8 +61,9 @@ export const useTimeStore = create((set) => ({
       ? POINTS_DEFAULT_LENGTH / sampleRate
       : dataLength / sampleRate,
   setEndTime: (time) => set((state) => ({ endTime: time })),
-  speed: 0.01 / sampleRate,
-  setSpeed: (newSpeed) => set({ speed: newSpeed / sampleRate }),
+  defaultSpeed: DEFAULT_SPEED,
+  speed: DEFAULT_SPEED,
+  setSpeed: (newSpeed) => set(() => ({ speed: newSpeed })),
 }));
 
 export const useAnnotationStore = create((set) => ({
@@ -114,4 +117,7 @@ export const useTimelineOptionsStore = create((set) => ({
   showTotalTime: true,
   toggleShowTotalTime: () =>
     set((state) => ({ showTotalTime: !state.showTotalTime })),
+  showSnackbar: true,
+  toggleShowSnackbar: () =>
+    set((state) => ({ showSnackbar: !state.showSnackbar })),
 }));

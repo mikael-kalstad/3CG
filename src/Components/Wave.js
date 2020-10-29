@@ -16,7 +16,6 @@ import Text from "./Text";
 
 const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
-// const SPEED = 0.01 / sampleRate;
 
 const Wave = (props) => {
   const [clicked, setClicked] = useState(0);
