@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef } from "react";
-import { useFrame, useLoader, useThree } from "react-three-fiber";
-import * as THREE from "three";
+import React, { useEffect, useMemo, useRef } from 'react';
+import { useFrame, useLoader, useThree } from 'react-three-fiber';
+import * as THREE from 'three';
 
 const Text = (props) => {
   const font = useLoader(
     THREE.FontLoader,
-    process.env.PUBLIC_URL + "/helvetiker_regular.typeface.json"
+    process.env.PUBLIC_URL + '/helvetiker_regular.typeface.json'
   );
 
   const config = useMemo(
@@ -23,7 +23,7 @@ const Text = (props) => {
 
   let initialBackgroundColor = props.backgroundColor;
 
-  useEffect(() => {
+  const onMount = () => {
     textMesh.current.geometry.computeBoundingBox();
     let boundingBox = textMesh.current.geometry.boundingBox.max;
     textMesh.current.geometry.translate(
@@ -65,22 +65,24 @@ const Text = (props) => {
         new THREE.Euler(props.rotation[0], props.rotation[1], props.rotation[2])
       );
     }
-  }, [props]);
+  };
+
+  useEffect(onMount, []);
 
   const handlePointerOver = () => {
-    if (props.onClick) document.body.style.cursor = "pointer";
+    if (props.onClick) document.body.style.cursor = 'pointer';
     if (props.hoverEffect)
       planeMesh.current.material.color.setHex(props.hoverBackgroundColor);
   };
 
   const handlePointerOut = () => {
-    if (props.onClick) document.body.style.cursor = "default";
+    if (props.onClick) document.body.style.cursor = 'default';
     if (props.hoverEffect)
       planeMesh.current.material.color.setHex(initialBackgroundColor);
   };
 
   const handlePointerMove = () => {
-    if (props.onClick) document.body.style.cursor = "pointer";
+    if (props.onClick) document.body.style.cursor = 'pointer';
   };
 
   useFrame(() => {

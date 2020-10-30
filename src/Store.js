@@ -90,7 +90,7 @@ export const useAnnotationStore = create((set) => ({
 }));
 
 export const useCameraStore = create((set) => ({
-  zoomValue: 50,
+  zoomValue: 35,
   setZoomValue: (newValue) => set(() => ({ zoomValue: newValue })),
   fov: 55,
   setFov: (newValue) => set(() => ({ fov: newValue })),

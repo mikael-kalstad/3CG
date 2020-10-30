@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
-import { useFrame, useThree } from "react-three-fiber";
-import { useModeStore } from "../Store";
+import React, { useRef, useEffect } from 'react';
+import { useFrame, useThree } from 'react-three-fiber';
+import { useModeStore } from '../Store';
 
 const OrtoCam = () => {
   // Normal camera
