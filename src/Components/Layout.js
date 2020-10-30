@@ -1,5 +1,4 @@
 import React from "react";
-import PlayAndPauseButton from "./UI/Buttons/PlayAndPauseBtn";
 import SideDrawer from "./UI/SideDrawer/SideDrawer";
 import TimeLine from "./UI/TimeLine/TimeLine";
 import MarkBtn from "./UI/Buttons/MarkBtn";
@@ -13,7 +12,6 @@ const Layout = (props) => {
   return (
     <>
       <MarkBtn />
-      {/* <PlayAndPauseButton /> */}
       <SideDrawer />
       <TimeLine />
       <ZoomBar />

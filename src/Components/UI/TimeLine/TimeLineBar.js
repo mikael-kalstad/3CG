@@ -11,6 +11,8 @@ const Container = styled.div`
   height: 20px;
   border-radius: 5px 5px 0 0;
   background: #333;
+  border-bottom: ${(props) =>
+    !props.showTotalTime && "1px solid rgba(255,255,255,0.4)"};
 `;
 
 const ControlsWrapper = styled.div`
@@ -26,9 +28,9 @@ const ControlsWrapper = styled.div`
 
 const ICON_SIZE = 20;
 
-const TimeLineBar = () => {
+const TimeLineBar = (props) => {
   return (
-    <Container>
+    <Container showTotalTime={props.showTotalTime}>
       <ControlsWrapper>
         <MiniSKipBtn iconSize={ICON_SIZE} />
         <MiniFastForwardBtn iconSize={ICON_SIZE} />

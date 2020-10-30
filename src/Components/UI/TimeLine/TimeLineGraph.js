@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useTimeStore } from "../../../Store";
 import { dataService } from "../../../Services/DataService";
 
 const duration = dataService.getDuration();

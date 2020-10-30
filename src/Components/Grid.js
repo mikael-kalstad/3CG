@@ -1,29 +1,25 @@
-import React, { useRef, useState, useEffect, useMemo, Suspense } from 'react';
-import { Canvas, useFrame, useThree } from 'react-three-fiber';
-import * as THREE from 'three';
-import Text from './Text';
-import { useModeStore } from '../Store';
-
-
+import React, { Suspense, useMemo } from "react";
+import * as THREE from "three";
+import { useModeStore } from "../Store";
+import Text from "./Text";
 
 // The standard grid for ECG uses 0.04s per square in the x-axis, and 0.1mV in the y-axis.
-// The mV in this grid ranges from 
+// The mV in this grid ranges from
 // This grid shows that standard using a 25x20 grid, the scale which is set at the end of the code
 // is 200 for both x and y. Position is 100 for x and 10 for y. Z-position is 55 for the I-channel (first).
 
-
-const Grid = (props) => {
+const Grid = () => {
   let xSize = 26;
   //let xSize = 25;
   let ySize = 21;
 
-  let xSize2 = 6
-  let ySize2 = 5
+  let xSize2 = 6;
+  let ySize2 = 5;
 
   let zSize = 1;
   let zSize2 = 1;
   let n = xSize * ySize * zSize;
-  let n2 = xSize2 * ySize2 * zSize2
+  let n2 = xSize2 * ySize2 * zSize2;
 
   let geometry = new THREE.BufferGeometry();
   let geometry2 = new THREE.BufferGeometry();
@@ -60,7 +56,7 @@ const Grid = (props) => {
     positions.push((p.z - zSize / 2) / zSize);
   }
   let positionAttribute = new THREE.Float32BufferAttribute(positions, 3);
-  geometry.setAttribute('position', positionAttribute);
+  geometry.setAttribute("position", positionAttribute);
 
   let positions2 = [];
   for (let i2 = 0; i2 < n2; i2++) {
@@ -71,7 +67,7 @@ const Grid = (props) => {
   }
 
   let positionAttribute2 = new THREE.Float32BufferAttribute(positions2, 3);
-  geometry2.setAttribute('position', positionAttribute2);
+  geometry2.setAttribute("position", positionAttribute2);
 
   let indexPairs = [];
   for (let i = 0; i < n; i++) {
@@ -112,30 +108,31 @@ const Grid = (props) => {
       new THREE.LineSegments(
         geometry,
         new THREE.MeshNormalMaterial({
-          color: '#ff0000',
+          color: "#ff0000",
           opacity: 0.12,
         })
-      )
+      ),
+    [geometry]
   );
+
   geometry2.setIndex(indexPairs2);
   const grid2 = useMemo(
     () =>
       new THREE.LineSegments(
         geometry2,
         new THREE.LineBasicMaterial({
-          color: '#ff0000',
+          color: "#ff0000",
           //opacity: 0.12,
         })
-      )
+      ),
+    [geometry2]
   );
 
-  //Conditional rendering to turn grid on/off
+  // Conditional rendering to turn grid on/off
   const gridMode = useModeStore((state) => state.gridMode);
+
   if (!gridMode) {
-    return (
-      <>
-      </>
-    )
+    return <></>;
   }
 
   return (

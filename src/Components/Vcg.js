@@ -102,7 +102,6 @@ const Vcg = (props) => {
       //   endTimeRef.current * sampleRate
       // );
       let vcgPoints = convertData(props.data, 0);
-      console.log(vcgPoints);
 
       // Set initial points
       self.setFromPoints(
@@ -118,7 +117,6 @@ const Vcg = (props) => {
             )
         )
       );
-      console.log("data[0]", props.data[0]);
 
       // Set initial colors
       updateColors(self, startTimeRef.current, endTimeRef.current);
