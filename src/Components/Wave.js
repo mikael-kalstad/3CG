@@ -9,7 +9,8 @@ import {
   useInspectStore,
   useModeStore,
   useScaleStore,
-  useMousePositionStore
+  useMousePositionStore,
+  useTimeStore,
 } from '../Store';
 import { dataService } from '../Services/DataService';
 import Text from './Text';
