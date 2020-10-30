@@ -109,3 +109,10 @@ export const useTimelineOptionsStore = create((set) => ({
   toggleShowTotalTime: () =>
     set((state) => ({ showTotalTime: !state.showTotalTime })),
 }));
+
+export const useMousePositionStore = create((set) => ({
+  xPos: 0,
+  setxPos: (x) => set((state) => ({ xPos: x })),
+  yPos: 0,
+  setyPos: (y) => set((state) => ({ yPos: y }))
+}));

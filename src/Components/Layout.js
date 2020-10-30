@@ -7,6 +7,7 @@ import ZoomBar from './UI/ZoomBar';
 import GridBtn from './UI/Buttons/GridBtn';
 import OrtoBtn from './UI/Buttons/OrtoBtn';
 import InspectedText from './UI/InspectedText';
+import StockView from './StockView'
 
 const Layout = (props) => {
   console.log('%c [Layout] is rendering', 'background: #111; color: #ebd31c');
@@ -20,6 +21,7 @@ const Layout = (props) => {
       <GridBtn />
       <OrtoBtn />
       <InspectedText />
+      <StockView />
     </>
   );
 };
