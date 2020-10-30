@@ -9,6 +9,7 @@ import {
   useInspectStore,
   useModeStore,
   useScaleStore,
+  useMousePositionStore,
   useTimeStore,
 } from '../Store';
 import { dataService } from '../Services/DataService';
@@ -20,6 +21,19 @@ const sampleRate = dataService.getSampleRate();
 const Wave = (props) => {
   const [clicked, setClicked] = useState(0);
   const meshRef = useRef();
+
+  const handleHover = (e) => {
+    setxPos(e.point.x);
+    setyPos(e.point.y);
+  }
+
+  const [xPos, setxPos, yPos, setyPos] = useMousePositionStore((state) => [
+    state.xPos,
+    state.setxPos,
+    state.yPos,
+    state.setyPos,
+  ]);
+
 
   // Get mode states from global store
   const [playMode, togglePlayMode] = useModeStore((state) => [
@@ -172,7 +186,10 @@ const Wave = (props) => {
         }}
         scale={[scale, 1, 1]}
       >
-        <a.mesh ref={meshRef}>
+        <a.mesh
+          onPointerMove={inspected != -1 ? handleHover : null}
+          ref={meshRef}>
+
           <line
             // position={[-startTimeRef.current * 0.4, 0, 0]}
             scale={[

@@ -121,3 +121,10 @@ export const useTimelineOptionsStore = create((set) => ({
   toggleShowSnackbar: () =>
     set((state) => ({ showSnackbar: !state.showSnackbar })),
 }));
+
+export const useMousePositionStore = create((set) => ({
+  xPos: 0,
+  setxPos: (x) => set((state) => ({ xPos: x })),
+  yPos: 0,
+  setyPos: (y) => set((state) => ({ yPos: y }))
+}));
