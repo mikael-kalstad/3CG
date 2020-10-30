@@ -1,19 +1,20 @@
+import React, { useEffect, useMemo, useRef } from 'react';
+import { useFrame, useLoader, useThree } from 'react-three-fiber';
 import * as THREE from 'three';
-import React, { useMemo, useRef, useEffect } from 'react';
-import { useLoader, useThree, useFrame } from 'react-three-fiber';
 
 const Text = (props) => {
   const font = useLoader(
     THREE.FontLoader,
     process.env.PUBLIC_URL + '/helvetiker_regular.typeface.json'
   );
+
   const config = useMemo(
     () => ({
       font,
       size: props.textSize,
       height: props.depth ? props.depth : 0,
     }),
-    [font]
+    [font, props.depth, props.textSize]
   );
   const { camera } = useThree();
   const textMesh = useRef();
@@ -22,7 +23,7 @@ const Text = (props) => {
 
   let initialBackgroundColor = props.backgroundColor;
 
-  useEffect(() => {
+  const onMount = () => {
     textMesh.current.geometry.computeBoundingBox();
     let boundingBox = textMesh.current.geometry.boundingBox.max;
     textMesh.current.geometry.translate(
@@ -64,16 +65,24 @@ const Text = (props) => {
         new THREE.Euler(props.rotation[0], props.rotation[1], props.rotation[2])
       );
     }
-  }, []);
+  };
+
+  useEffect(onMount, []);
 
   const handlePointerOver = () => {
+    if (props.onClick) document.body.style.cursor = 'pointer';
     if (props.hoverEffect)
       planeMesh.current.material.color.setHex(props.hoverBackgroundColor);
   };
 
   const handlePointerOut = () => {
+    if (props.onClick) document.body.style.cursor = 'default';
     if (props.hoverEffect)
       planeMesh.current.material.color.setHex(initialBackgroundColor);
+  };
+
+  const handlePointerMove = () => {
+    if (props.onClick) document.body.style.cursor = 'pointer';
   };
 
   useFrame(() => {
@@ -81,6 +90,7 @@ const Text = (props) => {
       group.current.setRotationFromEuler(camera.rotation);
     }
   });
+
   return (
     <group
       ref={group}
@@ -88,6 +98,7 @@ const Text = (props) => {
       onClick={props.onClick ? props.onClick : null}
       onPointerOver={props.hoverEffect ? handlePointerOver : null}
       onPointerOut={props.hoverEffect ? handlePointerOut : null}
+      onPointerMove={handlePointerMove}
     >
       <mesh ref={textMesh}>
         <textBufferGeometry attach="geometry" args={[props.children, config]} />

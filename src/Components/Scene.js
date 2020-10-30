@@ -1,24 +1,21 @@
-import React, { useRef, useEffect, Suspense } from 'react';
-import { Canvas, useThree } from 'react-three-fiber';
+import React, { Suspense } from 'react';
+import { Canvas } from 'react-three-fiber';
+import { useCameraStore } from '../Store';
 import CameraControls from './CameraControls';
-import Ecg from './Ecg';
-import { useModeStore } from '../Store';
-import Grid from './Grid';
-import Vcg2 from './Vcg2';
 import CircularVisualization from './CircularVisualization';
+import Ecg from './Ecg';
+import Grid from './Grid';
 import OrtoCam from './OrtoCam';
 import Text from './Text';
+import Vcg2 from './Vcg2';
 
 const Scene = () => {
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
-  const canvas = useRef();
-  const ortoMode = useModeStore((state) => state.ortoMode);
+
+  const fov = useCameraStore((state) => state.fov);
+
   return (
-    <Canvas
-      camera={{ fov: 55 }}
-      style={{ background: '#324444' }}
-      orthographic={ortoMode}
-    >
+    <Canvas camera={{ fov: fov }} style={{ background: '#324444' }}>
       <CameraControls />
       <ambientLight />
       <Ecg />

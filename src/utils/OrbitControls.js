@@ -6,7 +6,7 @@ import {
   TOUCH,
   Vector2,
   Vector3,
-} from 'three';
+} from "three";
 
 // This set of controls performs orbiting, dollying (zooming), and panning.
 // Unlike TrackballControls, it maintains the "up" direction object.up (+Y by default).
@@ -262,27 +262,27 @@ var OrbitControls = function (object, domElement) {
   })();
 
   this.dispose = function () {
-    scope.domElement.removeEventListener('contextmenu', onContextMenu, false);
+    scope.domElement.removeEventListener("contextmenu", onContextMenu, false);
 
-    scope.domElement.removeEventListener('pointerdown', onPointerDown, false);
-    scope.domElement.removeEventListener('wheel', onMouseWheel, false);
+    scope.domElement.removeEventListener("pointerdown", onPointerDown, false);
+    scope.domElement.removeEventListener("wheel", onMouseWheel, false);
 
-    scope.domElement.removeEventListener('touchstart', onTouchStart, false);
-    scope.domElement.removeEventListener('touchend', onTouchEnd, false);
-    scope.domElement.removeEventListener('touchmove', onTouchMove, false);
+    scope.domElement.removeEventListener("touchstart", onTouchStart, false);
+    scope.domElement.removeEventListener("touchend", onTouchEnd, false);
+    scope.domElement.removeEventListener("touchmove", onTouchMove, false);
 
     scope.domElement.ownerDocument.removeEventListener(
-      'pointermove',
+      "pointermove",
       onPointerMove,
       false
     );
     scope.domElement.ownerDocument.removeEventListener(
-      'pointerup',
+      "pointerup",
       onPointerUp,
       false
     );
 
-    scope.domElement.removeEventListener('keydown', onKeyDown, false);
+    scope.domElement.removeEventListener("keydown", onKeyDown, false);
 
     //scope.dispatchEvent( { type: 'dispose' } ); // should this be added here?
   };
@@ -293,9 +293,9 @@ var OrbitControls = function (object, domElement) {
 
   var scope = this;
 
-  var changeEvent = { type: 'change' };
-  var startEvent = { type: 'start' };
-  var endEvent = { type: 'end' };
+  var changeEvent = { type: "change" };
+  var startEvent = { type: "start" };
+  var endEvent = { type: "end" };
 
   var STATE = {
     NONE: -1,
@@ -418,7 +418,7 @@ var OrbitControls = function (object, domElement) {
       } else {
         // camera neither orthographic nor perspective
         console.warn(
-          'WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.'
+          "WARNING: OrbitControls.js encountered an unknown camera type - pan disabled."
         );
         scope.enablePan = false;
       }
@@ -438,7 +438,7 @@ var OrbitControls = function (object, domElement) {
       zoomChanged = true;
     } else {
       console.warn(
-        'WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.'
+        "WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled."
       );
       scope.enableZoom = false;
     }
@@ -456,7 +456,7 @@ var OrbitControls = function (object, domElement) {
       zoomChanged = true;
     } else {
       console.warn(
-        'WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.'
+        "WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled."
       );
       scope.enableZoom = false;
     }
@@ -561,6 +561,7 @@ var OrbitControls = function (object, domElement) {
         pan(-scope.keyPanSpeed, 0);
         needsUpdate = true;
         break;
+      default:
     }
 
     if (needsUpdate) {
@@ -572,7 +573,7 @@ var OrbitControls = function (object, domElement) {
   }
 
   function handleTouchStartRotate(event) {
-    if (event.touches.length == 1) {
+    if (event.touches.length === 1) {
       rotateStart.set(event.touches[0].pageX, event.touches[0].pageY);
     } else {
       var x = 0.5 * (event.touches[0].pageX + event.touches[1].pageX);
@@ -583,7 +584,7 @@ var OrbitControls = function (object, domElement) {
   }
 
   function handleTouchStartPan(event) {
-    if (event.touches.length == 1) {
+    if (event.touches.length === 1) {
       panStart.set(event.touches[0].pageX, event.touches[0].pageY);
     } else {
       var x = 0.5 * (event.touches[0].pageX + event.touches[1].pageX);
@@ -615,7 +616,7 @@ var OrbitControls = function (object, domElement) {
   }
 
   function handleTouchMoveRotate(event) {
-    if (event.touches.length == 1) {
+    if (event.touches.length === 1) {
       rotateEnd.set(event.touches[0].pageX, event.touches[0].pageY);
     } else {
       var x = 0.5 * (event.touches[0].pageX + event.touches[1].pageX);
@@ -638,7 +639,7 @@ var OrbitControls = function (object, domElement) {
   }
 
   function handleTouchMovePan(event) {
-    if (event.touches.length == 1) {
+    if (event.touches.length === 1) {
       panEnd.set(event.touches[0].pageX, event.touches[0].pageY);
     } else {
       var x = 0.5 * (event.touches[0].pageX + event.touches[1].pageX);
@@ -693,11 +694,11 @@ var OrbitControls = function (object, domElement) {
     if (scope.enabled === false) return;
 
     switch (event.pointerType) {
-      case 'mouse':
+      case "mouse":
         onMouseDown(event);
         break;
 
-      // TODO touch
+      default:
     }
   }
 
@@ -705,11 +706,11 @@ var OrbitControls = function (object, domElement) {
     if (scope.enabled === false) return;
 
     switch (event.pointerType) {
-      case 'mouse':
+      case "mouse":
         onMouseMove(event);
         break;
 
-      // TODO touch
+      default:
     }
   }
 
@@ -717,11 +718,11 @@ var OrbitControls = function (object, domElement) {
     if (scope.enabled === false) return;
 
     switch (event.pointerType) {
-      case 'mouse':
+      case "mouse":
         onMouseUp(event);
         break;
 
-      // TODO touch
+      default:
     }
   }
 
@@ -803,12 +804,12 @@ var OrbitControls = function (object, domElement) {
 
     if (state !== STATE.NONE) {
       scope.domElement.ownerDocument.addEventListener(
-        'pointermove',
+        "pointermove",
         onPointerMove,
         false
       );
       scope.domElement.ownerDocument.addEventListener(
-        'pointerup',
+        "pointerup",
         onPointerUp,
         false
       );
@@ -843,6 +844,7 @@ var OrbitControls = function (object, domElement) {
         handleMouseMovePan(event);
 
         break;
+      default:
     }
   }
 
@@ -852,12 +854,12 @@ var OrbitControls = function (object, domElement) {
     handleMouseUp(event);
 
     scope.domElement.ownerDocument.removeEventListener(
-      'pointermove',
+      "pointermove",
       onPointerMove,
       false
     );
     scope.domElement.ownerDocument.removeEventListener(
-      'pointerup',
+      "pointerup",
       onPointerUp,
       false
     );
@@ -1030,16 +1032,16 @@ var OrbitControls = function (object, domElement) {
 
   //
 
-  scope.domElement.addEventListener('contextmenu', onContextMenu, false);
+  scope.domElement.addEventListener("contextmenu", onContextMenu, false);
 
-  scope.domElement.addEventListener('pointerdown', onPointerDown, false);
-  scope.domElement.addEventListener('wheel', onMouseWheel, false);
+  scope.domElement.addEventListener("pointerdown", onPointerDown, false);
+  scope.domElement.addEventListener("wheel", onMouseWheel, false);
 
-  scope.domElement.addEventListener('touchstart', onTouchStart, false);
-  scope.domElement.addEventListener('touchend', onTouchEnd, false);
-  scope.domElement.addEventListener('touchmove', onTouchMove, false);
+  scope.domElement.addEventListener("touchstart", onTouchStart, false);
+  scope.domElement.addEventListener("touchend", onTouchEnd, false);
+  scope.domElement.addEventListener("touchmove", onTouchMove, false);
 
-  scope.domElement.addEventListener('keydown', onKeyDown, false);
+  scope.domElement.addEventListener("keydown", onKeyDown, false);
 
   // make sure element can receive keys.
 

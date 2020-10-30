@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import Chip from '@material-ui/core/Chip';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import React from "react";
+import styled from "styled-components";
+import Chip from "@material-ui/core/Chip";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const StyledChip = styled(Chip)`
-  justify-content: 'center';
-  flex-wrap: 'wrap';
+  justify-content: "center";
+  flex-wrap: "wrap";
   width: 95px;
 `;
 

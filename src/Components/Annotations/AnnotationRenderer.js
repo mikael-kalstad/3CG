@@ -1,20 +1,12 @@
-import Annotation from './Annotation';
-import React, { useEffect, useState } from 'react';
-import { annotationService } from '../../Services/AnnotationService';
-import { dataService } from '../../Services/DataService';
-import { useTimeStore, useScaleStore, useAnnotationStore } from '../../Store';
-import * as THREE from 'three';
+import React, { useEffect, useState } from "react";
+import * as THREE from "three";
+import { dataService } from "../../Services/DataService";
+import { useAnnotationStore, useScaleStore, useTimeStore } from "../../Store";
+import Annotation from "./Annotation";
 
 const sampleRate = dataService.getSampleRate();
 
-let colorSelection = [
-  0x3498db,
-  0x2ecc71,
-  0xe74c3c,
-  0xf1c40f,
-  0xf39c12,
-  0x9c88ff,
-];
+let colorSelection = [0x00a8ff, 0x2ecc71];
 
 const AnnotationRenderer = (props) => {
   let startTime = useTimeStore((state) => state.startTime);
@@ -22,10 +14,7 @@ const AnnotationRenderer = (props) => {
   const activeAnnotations = useAnnotationStore(
     (state) => state.activeAnnotations
   );
-  const [annotations, setAnnotations] = useState(
-    useAnnotationStore((state) => state.annotations)
-  );
-
+  const annotations = useAnnotationStore((state) => state.annotations);
   const [levels, setLevels] = useState(0);
 
   // Pushes annotations that are overlapping up
@@ -62,16 +51,6 @@ const AnnotationRenderer = (props) => {
   const scale = useScaleStore((state) => state.scale);
   const shouldRender = (start, end) => start <= endTime && startTime <= end;
 
-  let colorsIndex = [];
-  let sum = 0;
-  for (let i = 0; i < annotations.length; i++) {
-    annotations[i].code
-      .split('')
-      .forEach((val) => (sum += val.charCodeAt(0) * 2));
-    colorsIndex.push(sum % colorSelection.length);
-    sum = 0;
-  }
-
   // Two planes for clipping the annotations
   let startPlane = new THREE.Plane(new THREE.Vector3(1, 0, 0), 0);
   let endPlane = new THREE.Plane(
@@ -91,7 +70,7 @@ const AnnotationRenderer = (props) => {
                 startTime={startTime}
                 endTime={endTime}
                 clippingPlanes={[startPlane, endPlane]}
-                color={colorSelection[colorsIndex[i]]}
+                color={colorSelection[ann.ai ? 1 : 0]}
                 level={levels[i]}
               />
             </React.Fragment>

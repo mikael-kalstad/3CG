@@ -1,12 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import Popper from "@material-ui/core/Popper";
-
-import Fade from "@material-ui/core/Fade";
 import Card from "@material-ui/core/Card";
-
 import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
+import Fade from "@material-ui/core/Fade";
+import Popper from "@material-ui/core/Popper";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import React from "react";
 
 const useStyles = makeStyles({
   root: {},
@@ -21,7 +19,6 @@ const useStyles = makeStyles({
 });
 
 const AnnotationPopper = (props) => {
-  const id = props.open ? "popper" : undefined;
   const classes = useStyles();
 
   return (

@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
 import { Rnd } from "react-rnd";
+import styled from "styled-components";
+import { dataService } from "../../../Services/DataService";
+import {
+  useAnnotationStore,
+  useTimelineOptionsStore,
+  useTimeStore,
+} from "../../../Store";
 import AnnotationMark from "./AnnotationMark";
-import TimeGraph from "./TimeGraph";
+import TimeLineBar from "./TimeLineBar";
 import TimeLineGraph from "./TimeLineGraph";
 import TimePopper from "./TimePopper";
-import { useTimeStore } from "../../../Store";
-import { dataService } from "../../../Services/DataService";
-import { useAnnotationStore, useTimelineOptionsStore } from "../../../Store";
 
 const dataLength = dataService.getDuration();
 
@@ -15,7 +18,8 @@ const Container = styled.div`
   width: 60%;
   max-width: 1000px;
   height: ${(props) => (props.showTotalTime ? "60px" : "30px")};
-  border-radius: "5px";
+  border-bottom: "2px solid white";
+  border-radius: "0 0 5px 5px";
   position: relative;
   bottom: 80px;
   left: 0;
@@ -31,11 +35,11 @@ const AnnotationWrapper = styled.div`
   width: 100%;
 `;
 
-const TimeLine = () => {
+const TimeLine = (props) => {
   const containerRef = useRef();
   const rndRef = useRef();
   const [containerWidth, setContainerWidth] = useState(500);
-  const [rndWidth, setRndWidth] = useState(0);
+  // const [rndWidth, setRndWidth] = useState(0);
   const [middlePopperOpen, setMiddlePopperOpen] = useState(false);
   const [startPopperOpen, setStartPopperOpen] = useState(false);
   const [endPopperOpen, setEndPopperOpen] = useState(false);
@@ -47,7 +51,11 @@ const TimeLine = () => {
   const setEndTime = useTimeStore((state) => state.setEndTime);
 
   // THIS SHOULD NOT BE HERE. RERENDER ON EVRY STARTTIME CHANGE, FIX LATER!
-  const startTime = useTimeStore((state) => state.startTime);
+  const [startTime, endTime] = useTimeStore((state) => [
+    state.startTime,
+    state.endTime,
+  ]);
+  console.log("Start time", startTime, "End Time", endTime);
 
   const useTimeLineOptionsStore = useTimelineOptionsStore();
   const activeAnnotations = useAnnotationStore(
@@ -60,6 +68,9 @@ const TimeLine = () => {
 
   // Fetch annotations
   const annotations = useAnnotationStore((state) => state.annotations);
+
+  // Ratio used to make dimensions correct according to data size
+  let ratio = dataLength / containerWidth;
 
   useEffect(() => {
     // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
@@ -76,20 +87,33 @@ const TimeLine = () => {
     setAnchor(rndRef.current.resizableElement.current);
 
     // Remove all listeners on unmount
-    // return () => useTimeStore.destroy();
+    return () => useTimeStore.destroy();
   }, []);
 
   useEffect(() => {
+    const updateRnd = (e) => {
+      // if (containerRef) {
+      let width =
+        (endTimeRef.current - startTimeRef.current) *
+        (containerRef.current.offsetWidth / dataLength);
+
+      rndRef.current.updatePosition({ x: startTimeRef.current / ratio, y: 0 });
+      rndRef.current.updateSize({
+        width: width,
+        height: "100%",
+      });
+    };
+
     // Handle reisizing of the window
     const handleResize = () => {
       // Update containerwidth
       setContainerWidth(containerRef.current.offsetWidth);
 
       // Set width of rnd drag component based on containerwidth
-      setRndWidth(
-        (endTimeRef.current - startTimeRef.current) *
-          (containerRef.current.offsetWidth / dataLength)
-      );
+      // setRndWidth(
+      //   (endTimeRef.current - startTimeRef.current) *
+      //     (containerRef.current.offsetWidth / dataLength)
+      // );
       updateRnd();
     };
 
@@ -103,26 +127,7 @@ const TimeLine = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
-
-  const updateRnd = (e) => {
-    // if (containerRef) {
-    console.log("updating rnd...");
-    let width =
-      (endTimeRef.current - startTimeRef.current) *
-      (containerRef.current.offsetWidth / dataLength);
-    console.log("width", width);
-
-    rndRef.current.updatePosition({ x: startTimeRef.current / ratio, y: 0 });
-    rndRef.current.updateSize({
-      width: width,
-      height: "100%",
-    });
-    // }
-  };
-
-  // Ratio used to make dimensions correct according to data size
-  let ratio = dataLength / containerWidth;
+  }, [ratio]);
 
   const handleResize = (e, dir, ref, delta, position) => {
     // Calculate new start time based on x position and window width
@@ -135,7 +140,6 @@ const TimeLine = () => {
     setEndTime(
       newStartTime + ratio * Number.parseInt(ref.style.width.split("px")[0])
     );
-    console.log("new Endtime:", endTimeRef.current);
   };
 
   const resizeStart = (e, dir, ref, delta, position) => {
@@ -177,9 +181,9 @@ const TimeLine = () => {
 
   const style = {
     height: "100%",
-    background: "RGBA(197, 192, 26, 0.3)",
+    background: "rgba(247, 152, 29, 0.3)",
     borderRadius: "5px",
-    border: "solid RGBA(197, 192, 26, 1)",
+    border: "solid rgba(247, 152, 29, 1)",
     borderWidth: "0 1px 0 1px",
     zIndex: 900,
   };
@@ -189,10 +193,11 @@ const TimeLine = () => {
       ref={containerRef}
       showTotalTime={useTimeLineOptionsStore.showTotalTime}
     >
+      <TimeLineBar showTotalTime={useTimeLineOptionsStore.showTotalTime} />
+
       {/* Only render timegraph in timeline if option is enabled */}
       {useTimeLineOptionsStore.showTotalTime && (
         <>
-          {/* <TimeGraph ratio={ratio} intervals={Math.min(containerWidth / 60)} /> */}
           <TimeLineGraph ratio={ratio} containerWidth={containerWidth} />
         </>
       )}
@@ -200,13 +205,19 @@ const TimeLine = () => {
       {/* Only render annotations in timeline if option is enabled */}
       {useTimeLineOptionsStore.showAnnotations && (
         <AnnotationWrapper>
-          {annotations.map((ann, i) => {
-            // Only render annotationmark if the annotation is active
-            if (activeAnnotations[i])
-              return (
-                <AnnotationMark ann={ann} ratio={ratio} key={i} index={i} />
-              );
-          })}
+          {annotations.map(
+            (ann, i) =>
+              // Only render annotationmark if the annotation is active
+              activeAnnotations[i] && (
+                <AnnotationMark
+                  ann={ann}
+                  ratio={ratio}
+                  key={i}
+                  index={i}
+                  // onClick={updateRnd}
+                />
+              )
+          )}
         </AnnotationWrapper>
       )}
 
@@ -231,6 +242,7 @@ const TimeLine = () => {
         onDrag={handleDrag}
         onDragStart={toggleMiddlePopper}
         onDragStop={toggleMiddlePopper}
+        minWidth={50}
         position={{ x: startTimeRef.current / ratio, y: 0 }}
       />
 

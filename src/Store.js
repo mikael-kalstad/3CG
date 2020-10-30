@@ -51,7 +51,9 @@ export const useChannelStore = create((set) => ({
     })),
 }));
 
-export const useTimeStore = create((set) => ({
+const DEFAULT_SPEED = 0.00001;
+
+export const useTimeStore = create((set, get) => ({
   startTime: 0,
   setStartTime: (time) => set((state) => ({ startTime: time })),
   endTime:
@@ -59,6 +61,9 @@ export const useTimeStore = create((set) => ({
       ? POINTS_DEFAULT_LENGTH / sampleRate
       : dataLength / sampleRate,
   setEndTime: (time) => set((state) => ({ endTime: time })),
+  defaultSpeed: DEFAULT_SPEED,
+  speed: DEFAULT_SPEED,
+  setSpeed: (newSpeed) => set(() => ({ speed: newSpeed })),
 }));
 
 export const useAnnotationStore = create((set) => ({
@@ -84,18 +89,22 @@ export const useAnnotationStore = create((set) => ({
     set((state) => ({ showFullAnnotation: !state.showFullAnnotation })),
 }));
 
-export const useZoomStore = create((set) => ({
-  zoom: 1,
-  setZoom: (zoom) => set((state) => ({ zoom: zoom })),
+export const useCameraStore = create((set) => ({
+  zoomValue: 35,
+  setZoomValue: (newValue) => set(() => ({ zoomValue: newValue })),
+  fov: 55,
+  setFov: (newValue) => set(() => ({ fov: newValue })),
 }));
 
 export const useScaleStore = create((set) => ({
   scale: 0.4,
   setScale: (scale) => set((state) => ({ scale: scale })),
   vChannelScaling: true,
-  vChannelScaleFactor: 10,
   toggleVChannelScaling: () =>
     set((state) => ({ vChannelScaling: !state.vChannelScaling })),
+  vChannelScaleFactor: 90,
+  setVChannelScaleFactor: (newScale) =>
+    set(() => ({ vChannelScaleFactor: newScale })),
 }));
 
 export const useTimelineOptionsStore = create((set) => ({
@@ -108,6 +117,9 @@ export const useTimelineOptionsStore = create((set) => ({
   showTotalTime: true,
   toggleShowTotalTime: () =>
     set((state) => ({ showTotalTime: !state.showTotalTime })),
+  showSnackbar: true,
+  toggleShowSnackbar: () =>
+    set((state) => ({ showSnackbar: !state.showSnackbar })),
 }));
 
 export const useMousePositionStore = create((set) => ({

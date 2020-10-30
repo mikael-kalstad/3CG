@@ -1,15 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import Slider from '@material-ui/core/Slider';
-import { useZoomStore } from '../../Store';
+
+import { useCameraStore } from '../../Store';
 
 const ZoomBar = (props) => {
-  const zoom = useZoomStore((state) => state.zoom);
-  const setZoom = useZoomStore((state) => state.setZoom);
+  const [zoomValue, setZoomValue] = useCameraStore((state) => [
+    state.zoomValue,
+    state.setZoomValue,
+  ]);
+
   const SliderStyle = {
-    width: '50px',
-    height: '50px',
-    top: '20px',
-    right: '150px',
+    height: '200px',
+    top: '120px',
+    right: '30px',
     position: 'absolute',
     color: 'white',
   };
@@ -17,14 +20,16 @@ const ZoomBar = (props) => {
   return (
     <Slider
       orientation="vertical"
-      defaultValue={1}
+      // defaultValue={0}
       style={SliderStyle}
-      min={0.5}
-      max={17}
-      step={0.05}
+      // min={0.25}
+      // max={10.05}
+      min={-80}
+      max={0}
+      step={0.2}
       aria-labelledby="vertical-slider"
-      onChange={(e, val) => setZoom(val)}
-      value={zoom}
+      onChange={(e, val) => setZoomValue(Math.abs(val))}
+      value={-zoomValue}
       color={'white'}
     />
   );

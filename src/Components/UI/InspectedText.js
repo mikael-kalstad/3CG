@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useInspectStore, useChannelStore } from '../../Store';
-import { dataService } from '../../Services/DataService';
-import styled, { keyframes } from 'styled-components';
+import React, { useRef, useEffect, useState } from "react";
+import { useInspectStore, useChannelStore } from "../../Store";
+import { dataService } from "../../Services/DataService";
+import styled, { keyframes } from "styled-components";
 
-import CrossBtn from './Buttons/CrossBtn';
+import CrossBtn from "./Buttons/CrossBtn";
 
 const slideIn = keyframes`
   from {
@@ -49,7 +49,6 @@ const IconWrapper = styled.div`
 `;
 
 const InspectedText = (props) => {
-  console.log('InspectedText rendering');
   const [canceled, setCanceled] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
 
@@ -67,7 +66,7 @@ const InspectedText = (props) => {
   }, []);
 
   useEffect(() => {
-    if (inspected != -1) {
+    if (inspected !== -1) {
       setShouldRender(true);
     }
   }, [inspected]);
@@ -86,7 +85,6 @@ const InspectedText = (props) => {
   };
 
   let inspectedChannel = dataService.getChannelNamesArray()[inspected];
-  console.log('Inspected channel is ' + inspectedChannel);
   return (
     <>
       {shouldRender && (

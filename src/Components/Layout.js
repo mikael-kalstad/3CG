@@ -10,11 +10,10 @@ import InspectedText from './UI/InspectedText';
 import StockView from './StockView'
 
 const Layout = (props) => {
-  console.log('%c [Layout] is rendering', 'background: #111; color: #ebd31c');
+  console.log("%c [Layout] is rendering", "background: #111; color: #ebd31c");
   return (
     <>
       <MarkBtn />
-      <PlayAndPauseButton />
       <SideDrawer />
       <TimeLine />
       <ZoomBar />

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useTimeStore } from "../../../Store";
 import { dataService } from "../../../Services/DataService";
 
 const duration = dataService.getDuration();
@@ -9,7 +8,7 @@ const Container = styled.div`
   position: relative;
   width: 100%;
   height: 30px;
-  background: #333;
+  background: #444;
   border-radius: 5px 5px 0 0;
   border-bottom: 2px solid white;
 `;
@@ -81,36 +80,6 @@ const TimeLineGraph = (props) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Fetch initial time state
-  const startTimeRef = useRef(useTimeStore.getState().startTime);
-  const endTimeRef = useRef(useTimeStore.getState().endTime);
-
-  // Set methods used when "animating" with play feature
-  const setStartTime = useTimeStore((state) => state.setStartTime);
-  const setEndTime = useTimeStore((state) => state.setEndTime);
-
-  // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
-  useEffect(() => {
-    useTimeStore.subscribe(
-      (startTime) => (startTimeRef.current = startTime),
-      (state) => state.startTime
-    );
-
-    useTimeStore.subscribe(
-      (endTime) => (endTimeRef.current = endTime),
-      (state) => state.endTime
-    );
-  }, []);
-
-  const CurentTimeLine = styled.div`
-    position: absolute;
-    left: ${startTimeRef.current / props.ratio + "px"};
-    height: 200%;
-    bottom: -100%;
-    width: 2px;
-    background: RGBA(197, 192, 26, 0.8);
-  `;
-
   console.log(
     "%c [TimeLineGraph] is rendering",
     "background: #111; color: #ebd31c"
@@ -160,8 +129,6 @@ const TimeLineGraph = (props) => {
           </VerticalLineWithText>
         </LineWrapper>
       </Wrapper>
-
-      {/* <CurentTimeLine /> */}
     </Container>
   );
 };

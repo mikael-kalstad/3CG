@@ -1,5 +1,5 @@
 const onsetToSeconds = (onset) => {
-  let split = onset.split(':');
+  let split = onset.split(":");
   let sec = Number(split[0]) * 3.6 * Math.pow(10, 3);
   sec += Number(split[1]) * 60;
   sec += Number(split[2]);
@@ -9,17 +9,33 @@ const onsetToSeconds = (onset) => {
 class AnnotationService {
   constructor(filename) {
     this.filename = filename;
-    this.json = require('../data/annotations.json');
-    this.annotations = this.json.map((obj) => {
+    this.json = require("../data/annotations.json");
+    this.jsonAi = require("../data/aiAnnotations.json");
+    this.json = this.json.map((obj) => {
       let start = onsetToSeconds(obj.onset);
       let newObj = {
         start,
         end: start + obj.duration,
         code: obj.code,
         text: obj.text,
+        ai: false,
       };
       return newObj;
     });
+
+    this.jsonAi = this.jsonAi.map((obj) => {
+      let start = onsetToSeconds(obj.onset);
+      let newObj = {
+        start,
+        end: start + obj.duration,
+        code: obj.code,
+        text: obj.text,
+        ai: true,
+      };
+      return newObj;
+    });
+    this.json = this.json.concat(this.jsonAi);
+    this.annotations = this.json;
   }
 
   getAnnotations() {
@@ -50,5 +66,5 @@ class AnnotationService {
 }
 
 export let annotationService = new AnnotationService(
-  '../data/annotations.json'
+  "../data/annotations.json"
 );

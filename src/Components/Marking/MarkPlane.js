@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
 const MarkPlane = (props) => {
   const mesh = useRef();
@@ -10,7 +10,7 @@ const MarkPlane = (props) => {
     mesh.current.position.x = props.middlePoint;
     mesh.current.position.y = -0.2;
     // mesh.current.material.color.setHex(0xff0000);
-  }, []);
+  }, [props.middlePoint, props.width]);
 
   const onPointerDown = (event) => {
     props.updateXStart(event.point.x);

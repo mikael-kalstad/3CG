@@ -1,27 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import { useUpdate, useFrame } from 'react-three-fiber';
-import { a } from '@react-spring/three';
-import { useModeStore, useTimeStore } from '../Store';
-import { dataService } from '../Services/DataService';
-import { getColorData } from '../Scripts/Color';
-import { matrix, multiply, transpose } from 'mathjs';
+import { a } from "@react-spring/three";
+import { matrix, multiply } from "mathjs";
+import React, { useEffect, useRef } from "react";
+import { useUpdate } from "react-three-fiber";
+import * as THREE from "three";
+import { dataService } from "../Services/DataService";
+import { useTimeStore } from "../Store";
 
-const dataLength = dataService.getSampleLength();
-const sampleRate = dataService.getSampleRate();
-const SPEED = 0.01 / sampleRate;
-
-const Vcg2 = (props) => {
-  console.log('%c [Vcg2] is rendering', 'background: #111; color: #ebd31c');
+const Vcg2 = () => {
+  console.log("%c [Vcg2] is rendering", "background: #111; color: #ebd31c");
   const meshRef = useRef();
 
   // Fetch initial time state
   const startTimeRef = useRef(useTimeStore.getState().startTime);
   const endTimeRef = useRef(useTimeStore.getState().endTime);
-
-  // Set methods used when "animating" with play feature
-  const setStartTime = useTimeStore((state) => state.setStartTime);
-  const setEndTime = useTimeStore((state) => state.setEndTime);
 
   // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
   useEffect(() => {
@@ -47,14 +38,14 @@ const Vcg2 = (props) => {
 
     // [V1 V2 V3 V4 V5 V6 I II]
     let matrixA = matrix([
-      values['V1'],
-      values['V2'],
-      values['V3'],
-      values['V4'],
-      values['V5'],
-      values['V6'],
-      values['I'],
-      values['II'],
+      values["V1"],
+      values["V2"],
+      values["V3"],
+      values["V4"],
+      values["V5"],
+      values["V6"],
+      values["I"],
+      values["II"],
     ]);
     let transformed = multiply(invD, matrixA);
 
@@ -109,8 +100,8 @@ const Vcg2 = (props) => {
           name="line"
           attach="material"
           linewidth={1000}
-          linecap={'round'}
-          linejoin={'round'}
+          linecap={"round"}
+          linejoin={"round"}
           needsUpdate={true}
           vertexColors={0xff0000}
         />

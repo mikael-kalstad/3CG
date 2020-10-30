@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import MenuBtn from "../Buttons/MenuBtn";
 import MuiAccordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import Drawer from "@material-ui/core/Drawer";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ChannelList from "./ChannelList";
+import React, { useState } from "react";
+import MenuBtn from "../Buttons/MenuBtn";
 import AnnotationTimeLine from "./AnnotationTimeLine";
+import ChannelList from "./ChannelList";
+import GeneralOptions from "./GeneralOptions";
 import TimeLineOptions from "./TimeLineOptions";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +37,10 @@ const Accordion = withStyles({
 })(MuiAccordion);
 
 const MenuItems = [
+  {
+    title: "General",
+    component: <GeneralOptions />,
+  },
   {
     title: "Channels",
     component: <ChannelList />,

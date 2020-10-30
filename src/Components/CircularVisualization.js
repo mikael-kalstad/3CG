@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from 'react';
+import { useFrame, useUpdate } from 'react-three-fiber';
 import * as THREE from 'three';
-import React, { useMemo, useRef, useEffect, useState } from 'react';
-import { useLoader, useThree, useFrame, useUpdate } from 'react-three-fiber';
 import { dataService } from '../Services/DataService';
 import { useTimeStore } from '../Store';
 
@@ -22,12 +22,19 @@ const CircularVisualization = (props) => {
       );
       setRenderPoints(newPoints);
     }
-    // console.log(newPoints);
-  }, []);
+  }, [points]);
+
+  useFrame(() => {
+    geom.current.setDrawRange(
+      startTime * sampleRate,
+      (endTime - startTime) * sampleRate
+    );
+  });
+
   const geom = useUpdate(
     (self) => {
       // Set specific range which is to be shown
-      self.setDrawRange(startTime * sampleRate, endTime * sampleRate);
+      self.setDrawRange(0 * sampleRate, 1 * sampleRate);
 
       // Set initial points
       self.setFromPoints(renderPoints);
@@ -39,6 +46,7 @@ const CircularVisualization = (props) => {
     },
     [renderPoints, startTime, endTime]
   );
+
   return (
     <group position={[170, 40, -120]}>
       <line scale={[1, 100, 1]} color={0xffffff}>
