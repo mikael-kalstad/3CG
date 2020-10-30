@@ -69,7 +69,8 @@ const Text = (props) => {
 
   useEffect(onMount, []);
 
-  const handlePointerOver = () => {
+  const handlePointerOver = (e) => {
+    e.stopPropagation();
     if (props.onClick) document.body.style.cursor = 'pointer';
     if (props.hoverEffect)
       planeMesh.current.material.color.setHex(props.hoverBackgroundColor);
@@ -81,7 +82,8 @@ const Text = (props) => {
       planeMesh.current.material.color.setHex(initialBackgroundColor);
   };
 
-  const handlePointerMove = () => {
+  const handlePointerMove = (e) => {
+    e.stopPropagation();
     if (props.onClick) document.body.style.cursor = 'pointer';
   };
 

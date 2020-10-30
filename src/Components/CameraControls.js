@@ -46,9 +46,9 @@ const CameraControls = () => {
 
   useEffect(onMount, []);
 
-  useEffect(() => {
-    console.log(initialDistance);
-  }, []);
+  // useEffect(() => {
+  //   console.log(initialDistance);
+  // }, []);
 
   /* Incase bug appears again */
   // useEffect(() => {
@@ -124,9 +124,9 @@ const CameraControls = () => {
     return 30 * Math.exp((Math.log(100 / 10) / 80) * -zoom);
   };
 
-  const orthoDistanceToZoom = (initial, current) => {
-    return (-80 * Math.log(2 * initial) * current) / Math.log(100 / 10);
-  };
+  // const orthoDistanceToZoom = (initial, current) => {
+  //   return (-80 * Math.log(2 * initial) * current) / Math.log(100 / 10);
+  // };
 
   // useSpring({
   //   from: inspectMode && inspected != -1 && { y: camera.position.y },
