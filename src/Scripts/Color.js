@@ -10,9 +10,9 @@ const colors = [
 
 const red = [1.0, 0.0, 0.0];
 const yellow = [1.0, 1.0, 0.0];
-const green = [0.0, 1.0, 0.0];
-const turq = [0.0, 1.0, 1.0];
-const blue = [0.0, 0.0, 1.0];
+// const green = [0.0, 1.0, 0.0];
+// const turq = [0.0, 1.0, 1.0];
+// const blue = [0.0, 0.0, 1.0];
 
 // Method that will create an array with RGB colors used with points in a line
 export const getColorData = (data, offset) => {

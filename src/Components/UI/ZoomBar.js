@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from '@material-ui/core/Slider';
-import { withStyles } from '@material-ui/core/styles';
+
 import { useCameraStore } from '../../Store';
 
 const ZoomBar = (props) => {
