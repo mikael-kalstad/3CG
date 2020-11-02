@@ -69,10 +69,10 @@ export const useTimeStore = create((set, get) => ({
 export const useAnnotationStore = create((set) => ({
   annotations: annotationData,
   addAnnotation: (newAnnotation) =>
-    set((state) => {
-      state.annotations.push(newAnnotation);
-      state.activeAnnotations.push(true);
-    }),
+    set((state) => ({
+      annotations: state.annotations.concat([newAnnotation]),
+      activeAnnotations: state.activeAnnotations.concat([true]),
+    })),
   editAnnotation: (i, edited) =>
     set((state) => (state.annotations[i] = edited)),
   activeAnnotations: annotationData.map(() => true),
@@ -126,5 +126,12 @@ export const useMousePositionStore = create((set) => ({
   xPos: 0,
   setxPos: (x) => set((state) => ({ xPos: x })),
   yPos: 0,
-  setyPos: (y) => set((state) => ({ yPos: y }))
+  setyPos: (y) => set((state) => ({ yPos: y })),
+}));
+
+export const useMarkStore = create((set) => ({
+  startSelected: 0,
+  setStartSelected: (start) => set((state) => ({ startSelected: start })),
+  endSelected: 0,
+  setEndSelected: (end) => set((state) => ({ endSelected: end })),
 }));

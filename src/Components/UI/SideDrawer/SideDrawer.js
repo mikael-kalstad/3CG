@@ -1,23 +1,24 @@
-import MuiAccordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import Drawer from "@material-ui/core/Drawer";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import React, { useState } from "react";
-import MenuBtn from "../Buttons/MenuBtn";
-import AnnotationTimeLine from "./AnnotationTimeLine";
-import ChannelList from "./ChannelList";
-import GeneralOptions from "./GeneralOptions";
-import TimeLineOptions from "./TimeLineOptions";
+import MuiAccordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import Drawer from '@material-ui/core/Drawer';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import React, { useState } from 'react';
+import MenuBtn from '../Buttons/MenuBtn';
+import AnnotationMenu from './AnnotationMenu';
+import ChannelList from './ChannelList';
+import GeneralOptions from './GeneralOptions';
+import TimeLineOptions from './TimeLineOptions';
+import FileUpload from './FileUpload';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(3),
   },
   drawerPaper: {
-    width: "300px",
+    width: '300px',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Accordion = withStyles({
   root: {
-    "&$expanded": {
+    '&$expanded': {
       margin: 0,
     },
   },
@@ -38,19 +39,19 @@ const Accordion = withStyles({
 
 const MenuItems = [
   {
-    title: "General",
+    title: 'General',
     component: <GeneralOptions />,
   },
   {
-    title: "Channels",
+    title: 'Channels',
     component: <ChannelList />,
   },
   {
-    title: "Annotations",
-    component: <AnnotationTimeLine />,
+    title: 'Annotations',
+    component: <AnnotationMenu />,
   },
   {
-    title: "Timeline",
+    title: 'Timeline',
     component: <TimeLineOptions />,
   },
 ];
@@ -59,8 +60,8 @@ const SideDrawer = () => {
   const [show, setShow] = useState(false);
   const classes = useStyles();
   console.log(
-    "%c [SideDrawer] is rendering",
-    "background: #111; color: #ebd31c"
+    '%c [SideDrawer] is rendering',
+    'background: #111; color: #ebd31c'
   );
 
   // Toggle between showing and hiding menu
@@ -70,7 +71,7 @@ const SideDrawer = () => {
     <>
       <MenuBtn onClick={toggleMenu} />
       <Drawer
-        anchor={"right"}
+        anchor={'right'}
         open={show}
         onClose={() => toggleMenu()}
         classes={{
@@ -90,6 +91,7 @@ const SideDrawer = () => {
             <AccordionDetails>{item.component}</AccordionDetails>
           </Accordion>
         ))}
+        <FileUpload />
       </Drawer>
     </>
   );

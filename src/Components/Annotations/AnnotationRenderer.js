@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import * as THREE from "three";
-import { dataService } from "../../Services/DataService";
-import { useAnnotationStore, useScaleStore, useTimeStore } from "../../Store";
-import Annotation from "./Annotation";
+import React, { useEffect, useState } from 'react';
+import * as THREE from 'three';
+import { dataService } from '../../Services/DataService';
+import { useAnnotationStore, useScaleStore, useTimeStore } from '../../Store';
+import Annotation from './Annotation';
 
 const sampleRate = dataService.getSampleRate();
 

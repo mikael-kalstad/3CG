@@ -8,6 +8,7 @@ const sampleRate = dataService.getSampleRate();
 
 const Annotation = (props) => {
   const planeMesh = useRef();
+  console.log(planeMesh);
   const scale = useScaleStore((state) => state.scale);
   let width = (props.ann.end - props.ann.start) * sampleRate;
 
