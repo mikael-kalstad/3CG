@@ -1,5 +1,11 @@
 [
   {
+    "onset": "00:00:0.280",
+    "duration": 1.242,
+    "code": "HA",
+    "text": "Cosinus test"
+  },
+  {
     "onset": "00:00:1.280",
     "duration": 0.842,
     "code": "SB",

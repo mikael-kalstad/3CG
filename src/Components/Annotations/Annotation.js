@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
-import { dataService } from "../../Services/DataService";
-import { useScaleStore } from "../../Store";
-import Text from "../Text";
+import React, { useEffect, useRef } from 'react';
+import { dataService } from '../../Services/DataService';
+import { useScaleStore } from '../../Store';
+import Text from '../Text';
 
 const HEIGHT_OVER_XZ = 10;
 const sampleRate = dataService.getSampleRate();
@@ -16,9 +16,8 @@ const Annotation = (props) => {
     planeMesh.current.scale.set(width * scale, 140, 0.1);
     planeMesh.current.position.set(0, -HEIGHT_OVER_XZ - props.level * 0.2, 70);
     planeMesh.current.material.color.setHex(props.color);
-  }, [props.level, props.color, scale, width]);
+  }, []);
 
-  console.log();
   return (
     <group
       position={[

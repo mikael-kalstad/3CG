@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useFrame, useUpdate } from "react-three-fiber";
-import * as THREE from "three";
-import { dataService } from "../Services/DataService";
-import { useTimeStore } from "../Store";
+import React, { useEffect, useState } from 'react';
+import { useFrame, useUpdate } from 'react-three-fiber';
+import * as THREE from 'three';
+import { dataService } from '../Services/DataService';
+import { useTimeStore } from '../Store';
 
 const sampleRate = dataService.getSampleRate();
 
 const CircularVisualization = (props) => {
-  const points = dataService.getSamplesByChannel("I");
+  const points = dataService.getSamplesByChannel('I');
   const [renderPoints, setRenderPoints] = useState([]);
   const startTime = useTimeStore((state) => state.startTime);
   const endTime = useTimeStore((state) => state.endTime);
@@ -56,8 +56,8 @@ const CircularVisualization = (props) => {
           name="line"
           attach="material"
           linewidth={1000}
-          linecap={"round"}
-          linejoin={"round"}
+          linecap={'round'}
+          linejoin={'round'}
           needsUpdate={true}
         />
       </line>

@@ -1,13 +1,28 @@
-import React, { useState } from "react";
-import { dataService } from "../../Services/DataService";
-import { useModeStore, useScaleStore, useTimeStore } from "../../Store";
-import MarkPlane from "./MarkPlane";
-import SelectedPlane from "./SelectedPlane";
+import React from 'react';
+import { dataService } from '../../Services/DataService';
+import {
+  useModeStore,
+  useScaleStore,
+  useTimeStore,
+  useMarkStore,
+} from '../../Store';
+import MarkPlane from './MarkPlane';
+import SelectedPlane from './SelectedPlane';
 
 const sampleRate = dataService.getSampleRate();
 
 const MarkWaves = (props) => {
-  const [selected, setSelected] = useState(new Array(2));
+  const [
+    startSelected,
+    setStartSelected,
+    endSelected,
+    setEndSelected,
+  ] = useMarkStore((state) => [
+    state.startSelected,
+    state.setStartSelected,
+    state.endSelected,
+    state.setEndSelected,
+  ]);
   const markMode = useModeStore((state) => state.markMode);
   const startTime = useTimeStore((state) => state.startTime);
   const endTime = useTimeStore((state) => state.endTime);
@@ -15,12 +30,13 @@ const MarkWaves = (props) => {
 
   const updateXStart = (xStartPos) => {
     let xStartTime = startTime + xStartPos / (sampleRate * scale); // Converting to time
-    setSelected([xStartTime, xStartTime]);
+    setStartSelected(xStartTime);
+    setEndSelected(xStartTime);
   };
 
   const updateXEnd = (xEndPos) => {
     let xEndTime = startTime + xEndPos / (sampleRate * scale); // Converting to time
-    setSelected([selected[0], xEndTime]);
+    setEndSelected(xEndTime);
   };
   let markPlaneWidth = (endTime - startTime) * sampleRate * scale;
   let middlePoint = markPlaneWidth / 2;
@@ -35,7 +51,7 @@ const MarkWaves = (props) => {
             updateXEnd={updateXEnd}
           />
         )}
-        <SelectedPlane selected={selected} />
+        <SelectedPlane selected={[startSelected, endSelected]} />
       </>
     </>
   );

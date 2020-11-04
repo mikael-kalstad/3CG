@@ -7,11 +7,12 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { useState } from 'react';
 import MenuBtn from '../Buttons/MenuBtn';
-import AnnotationTimeLine from './AnnotationTimeLine';
+import AnnotationMenu from './AnnotationMenu';
 import ChannelList from './ChannelList';
+import FileUpload from './FileUpload';
 import GeneralOptions from './GeneralOptions';
-import TimeLineOptions from './TimeLineOptions';
 import RenderTypeOptions from './RenderTypeOptions';
+import TimeLineOptions from './TimeLineOptions';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -52,7 +53,7 @@ const MenuItems = [
   },
   {
     title: 'Annotations',
-    component: <AnnotationTimeLine />,
+    component: <AnnotationMenu />,
   },
   {
     title: 'Timeline',
@@ -97,6 +98,7 @@ const SideDrawer = () => {
             </AccordionDetails>
           </Accordion>
         ))}
+        <FileUpload />
       </Drawer>
     </>
   );
