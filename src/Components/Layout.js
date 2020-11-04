@@ -8,19 +8,20 @@ import GridBtn from './UI/Buttons/GridBtn';
 import OrtoBtn from './UI/Buttons/OrtoBtn';
 import InspectedText from './UI/InspectedText';
 import StockView from './StockView';
+import ToolBar from './UI/ToolBar';
 
 const Layout = (props) => {
   console.log('%c [Layout] is rendering', 'background: #111; color: #ebd31c');
   return (
     <>
-      <MarkBtn />
+      
       <SideDrawer />
       <TimeLine />
       <ZoomBar />
-      <GridBtn />
-      <OrtoBtn />
+      
       <InspectedText />
       <StockView />
+      <ToolBar />
     </>
   );
 };
