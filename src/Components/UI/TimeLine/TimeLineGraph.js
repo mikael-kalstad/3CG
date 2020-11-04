@@ -101,7 +101,7 @@ const TimeLineGraph = (props) => {
   let linesBetween = [];
 
   for (let i = 0; i < numOfLinesBetween; i++)
-    linesBetween.push(<VerticalLine />);
+    linesBetween.push(<VerticalLine key={i} />);
 
   return (
     <Container>
@@ -115,13 +115,13 @@ const TimeLineGraph = (props) => {
             <VerticalLine withText={true} />
           </VerticalLineWithText>
           {numsToDisplay.map((e, i) => (
-            <>
+            <React.Fragment key={i}>
               {linesBetween}
               <VerticalLineWithText>
                 <Text position={i + 1}>{e}</Text>
                 <VerticalLine withText={true} />
               </VerticalLineWithText>
-            </>
+            </React.Fragment>
           ))}
           {linesBetween}
           <VerticalLineWithText>

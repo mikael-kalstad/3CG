@@ -11,9 +11,11 @@ import CloseMenuBtn from '../Buttons/CloseMenuBtn';
 import AnnotationMenu from './AnnotationMenu';
 import ChannelList from './ChannelList';
 import GeneralOptions from './GeneralOptions';
+import RenderTypeOptions from './RenderTypeOptions';
 import TimeLineOptions from './TimeLineOptions';
 import FileUpload from './FileUpload';
 import styled from 'styled-components';
+
 const Header = styled.div`
   display: grid;
   grid-auto-flow: column;
@@ -57,6 +59,10 @@ const MenuItems = [
   {
     title: 'General',
     component: <GeneralOptions />,
+  },
+  {
+    title: 'Render view',
+    component: <RenderTypeOptions />,
   },
   {
     title: 'Channels',
@@ -108,7 +114,9 @@ const SideDrawer = () => {
               <Typography className={classes.heading}>{item.title}</Typography>
             </AccordionSummary>
 
-            <AccordionDetails>{item.component}</AccordionDetails>
+            <AccordionDetails style={{ display: 'block' }}>
+              {item.component}
+            </AccordionDetails>
           </Accordion>
         ))}
         <FileUpload />

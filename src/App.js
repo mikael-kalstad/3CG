@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import styled from "styled-components";
-import Scene from "./Components/Scene";
+import RenderView from "./Components/RenderView";
 import Layout from "./Components/Layout";
 
 const Wrapper = styled.div`
@@ -15,7 +15,7 @@ const App = () => {
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <Wrapper>
-        <Scene />
+        <RenderView />
         <Layout />
       </Wrapper>
     </Suspense>

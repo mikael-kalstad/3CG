@@ -1,0 +1,26 @@
+diff --git a/node_modules/split.js/dist/split.es.js b/node_modules/split.js/dist/split.es.js
+index 16192ad..ea951ea 100644
+--- a/node_modules/split.js/dist/split.es.js
++++ b/node_modules/split.js/dist/split.es.js
+@@ -697,6 +697,8 @@ var Split = function (idsOption, options) {
+     });
+ 
+     function setSizes(newSizes) {
++        console.log("new sizes", newSizes);
++
+         var trimmed = trimToMin(newSizes);
+         trimmed.forEach(function (newSize, i) {
+             if (i > 0) {
+diff --git a/node_modules/split.js/dist/split.js b/node_modules/split.js/dist/split.js
+index 0bfe9be..5638b41 100644
+--- a/node_modules/split.js/dist/split.js
++++ b/node_modules/split.js/dist/split.js
+@@ -705,6 +705,8 @@
+         });
+ 
+         function setSizes(newSizes) {
++            console.log("new Sizes", setSizes);
++
+             var trimmed = trimToMin(newSizes);
+             trimmed.forEach(function (newSize, i) {
+                 if (i > 0) {
