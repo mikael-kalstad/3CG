@@ -1,35 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
-import * as THREE from "three";
-import { useUpdate, useFrame } from "react-three-fiber";
 import { a } from "@react-spring/three";
-import { useModeStore, useTimeStore } from "../Store";
+import { matrix, multiply } from "mathjs";
+import React, { useEffect, useRef } from "react";
+import { useUpdate, useFrame } from "react-three-fiber";
+import * as THREE from "three";
 import { dataService } from "../Services/DataService";
+import { useTimeStore } from "../Store";
 import { getColorData } from "../Scripts/Color";
-import { matrix, multiply, transpose } from "mathjs";
 
-const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
-const SPEED = 0.01 / sampleRate;
 
-const Vcg = (props) => {
-  console.log("%c [Vcg] is rendering", "background: #111; color: #ebd31c");
+const Vcg = () => {
+  console.log("%c [Vcg2] is rendering", "background: #111; color: #ebd31c");
   const meshRef = useRef();
-
-  // Get mode states from global store
-  const [playMode, togglePlayMode] = useModeStore((state) => [
-    state.playMode,
-    state.togglePlayMode,
-  ]);
-
-  const markMode = useModeStore((state) => state.markMode);
 
   // Fetch initial time state
   const startTimeRef = useRef(useTimeStore.getState().startTime);
   const endTimeRef = useRef(useTimeStore.getState().endTime);
-
-  // Set methods used when "animating" with play feature
-  const setStartTime = useTimeStore((state) => state.setStartTime);
-  const setEndTime = useTimeStore((state) => state.setEndTime);
 
   // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
   useEffect(() => {
@@ -44,103 +30,108 @@ const Vcg = (props) => {
     );
   }, []);
 
-  useFrame((state, delta) => {
-    let end = endTimeRef.current >= dataLength / sampleRate;
+  let values = dataService.getSamples();
 
-    // Stop playMode if end of data is reached
-    if (playMode && end) togglePlayMode();
-    // Update start and end time every frame if playMode is active
-    else if (playMode) {
-      setStartTime(startTimeRef.current + SPEED * (60 * delta));
-      setEndTime(endTimeRef.current + SPEED * (60 * delta));
-    }
-
-    ref.current.setDrawRange(
-      startTimeRef.current * sampleRate,
-      (endTimeRef.current - startTimeRef.current) * sampleRate
-    );
-
-    // updateColors(ref.current, startTimeRef.current, endTimeRef.current);
-
-    // meshRef.current.position.set(-startTimeRef.current * sampleRate, 0, 0);
-  });
-
-  const convertData = (data) => {
-    let D = matrix([
+  const dowersTransform = () => {
+    let invD = matrix([
       [-0.172, -0.074, 0.122, 0.231, 0.239, 0.194, 0.156, -0.01],
       [0.057, -0.019, -0.106, -0.022, 0.041, 0.048, -0.227, 0.887],
       [-0.229, -0.31, -0.246, -0.063, 0.055, 0.108, 0.022, 0.102],
     ]);
 
-    let arr = [];
+    // [V1 V2 V3 V4 V5 V6 I II]
+    let matrixA = matrix([
+      values["V1"],
+      values["V2"],
+      values["V3"],
+      values["V4"],
+      values["V5"],
+      values["V6"],
+      values["I"],
+      values["II"],
+    ]);
 
-    for (let i = 0; i < data[0].length; i++) {
-      // [V1 V2 V3 V4 V5 V6 I II]
-      let matrixA = matrix([
-        data[3][i],
-        data[4][i],
-        data[5][i],
-        data[6][i],
-        data[7][i],
-        data[8][i],
-        data[0][i],
-        data[1][i],
+    let transformed = multiply(invD, matrixA);
+
+    let output = [];
+
+    for (let i = 0; i < transformed._data[0].length; i++) {
+      output.push([
+        transformed._data[0][i],
+        transformed._data[1][i],
+        transformed._data[2][i],
       ]);
-
-      let matrixXYZ = multiply(D, matrixA);
-      arr.push(matrixXYZ._data);
     }
-
-    return arr;
+    return output;
   };
 
-  const ref = useUpdate(
-    (self) => {
-      // Set specific range which is to be shown
-      // self.setDrawRange(
-      //   startTimeRef.current * sampleRate,
-      //   endTimeRef.current * sampleRate
-      // );
-      let vcgPoints = convertData(props.data, 0);
+  let previousStartTime = startTimeRef.current;
+  let previousEndTime = endTimeRef.current;
 
-      // Set initial points
-      self.setFromPoints(
-        vcgPoints.map(
-          (p, i) =>
-            new THREE.Vector3(
-              // props.data[8][i][0],
-              // props.data[1][i][1],
-              // -0.5 * props.data[4][i][2]
-              p[0][0],
-              p[1][0],
-              p[2][0]
-            )
-        )
+  let vcgPoints = dowersTransform(values);
+
+  useFrame(() => {
+    if (
+      previousStartTime !== startTimeRef.current &&
+      previousEndTime !== endTimeRef.current
+    ) {
+      previousStartTime = startTimeRef.current;
+      previousEndTime = endTimeRef.current;
+
+      ref.current.setDrawRange(
+        startTimeRef.current * sampleRate,
+        endTimeRef.current * sampleRate
       );
 
-      // Set initial colors
-      updateColors(self, startTimeRef.current, endTimeRef.current);
+      updateColors(
+        ref.current,
+        startTimeRef.current,
+        endTimeRef.current,
+        vcgPoints
+      );
+    }
+  });
 
-      self.verticesNeedUpdate = true;
-    },
-    [props.data]
-  );
-
-  const updateColors = (geometry, start, end) => {
-    // Set gradient color theme to all points that is rendered in setDrawRange method
-    let colors = getColorData(
-      props.data.slice(start * sampleRate, end * sampleRate),
-      start * sampleRate
+  const ref = useUpdate((self) => {
+    // Set specific range which is to be shown
+    self.setDrawRange(
+      startTimeRef.current * sampleRate,
+      endTimeRef.current * sampleRate
     );
+
+    // Set initial points
+    self.setFromPoints(
+      vcgPoints.map((p, i) => {
+        return new THREE.Vector3(p[0], p[1], p[2]);
+      })
+    );
+
+    // Set initial colors
+    updateColors(self, startTimeRef.current, endTimeRef.current, vcgPoints);
+
+    self.verticesNeedUpdate = true;
+  }, []);
+
+  const updateColors = (geometry, start, end, points) => {
+    // Set gradient color theme to all points that is rendered in setDrawRange method
+    let colors = getColorData(points.slice(start, end), start);
     geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
   };
 
+  // const updateColors = (geometry, start, end) => {
+  //   // Set gradient color theme to all points that is rendered in setDrawRange method
+  //   let colors = getColorData(
+  //     dataService
+  //       .formatDataToPoints()
+  //       .slice(start * sampleRate * 10, end * sampleRate * 10),
+  //     start * sampleRate * 10
+  //   );
+  //   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  // };
+
   return (
     <a.mesh ref={meshRef}>
-      <line
-        // position={[-startTimeRef.current * 0.4, 0, 0]}
-        scale={[1, 100, 1]}
-      >
+      <line position={[70, 20, -150]} scale={[50, 50, 50]}>
         <bufferGeometry attach="geometry" ref={ref} />
         <lineBasicMaterial
           name="line"
@@ -148,7 +139,8 @@ const Vcg = (props) => {
           linewidth={1000}
           linecap={"round"}
           linejoin={"round"}
-          vertexColors={"VertexColors"}
+          needsUpdate={true}
+          vertexColors={0xff0000}
         />
       </line>
     </a.mesh>

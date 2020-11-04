@@ -5,6 +5,7 @@ import { dataService } from "../Services/DataService";
 import { useTimeStore } from "../Store";
 
 const sampleRate = dataService.getSampleRate();
+
 const CircularVisualization = (props) => {
   const points = dataService.getSamplesByChannel("I");
   const [renderPoints, setRenderPoints] = useState([]);

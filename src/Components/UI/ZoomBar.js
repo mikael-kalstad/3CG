@@ -28,7 +28,7 @@ const ZoomBar = (props) => {
       aria-labelledby="vertical-slider"
       onChange={(e, val) => setZoomValue(val)}
       value={zoomValue}
-      color={"white"}
+      // color={"white"}
     />
   );
 };

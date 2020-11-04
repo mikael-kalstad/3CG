@@ -1,6 +1,6 @@
-import create from "zustand";
-import { dataService } from "./Services/DataService";
-import { annotationService } from "./Services/AnnotationService";
+import create from 'zustand';
+import { dataService } from './Services/DataService';
+import { annotationService } from './Services/AnnotationService';
 
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
@@ -120,4 +120,40 @@ export const useTimelineOptionsStore = create((set) => ({
   showSnackbar: true,
   toggleShowSnackbar: () =>
     set((state) => ({ showSnackbar: !state.showSnackbar })),
+}));
+
+export const useRenderTypeStore = create((set) => ({
+  activeRenders: ['Ecg', 'Vcg'],
+  renderNames: ['Ecg', 'Vcg', 'Circle'],
+  toggleActiveRenders: (index) =>
+    set((state) => ({
+      activeRenders: state.activeRenders.map((a, i) => (i === index ? !a : a)),
+    })),
+  reorderRenders: (sourceIndex, newIndex) => {
+    set((state) => ({
+      activeRenders: state.activeRenders.map((a, i) =>
+        i === sourceIndex
+          ? state.activeRenders[newIndex]
+          : i === newIndex
+          ? state.activeRender[sourceIndex]
+          : a
+      ),
+    }));
+  },
+  editRender: (index, newRender) =>
+    set((state) => (state.activeRenders[index] = newRender)),
+  addActiveRender: (newRender) =>
+    set((state) => state.activeRenders.push(newRender)),
+  removeActiveRender: (index) =>
+    set((state) => state.activeRenders.splice(index, 1)),
+
+  // 0 = vertical, 1 = horizontal
+  orientation: 0,
+  toggleOrientation: () =>
+    set((state) => ({
+      orientation: state.orientation === 0 ? 1 : 0,
+    })),
+  showRenderviewIndex: true,
+  toggleShowRenderviewIndex: () =>
+    set((state) => ({ showRenderviewIndex: !state.showRenderviewIndex })),
 }));
