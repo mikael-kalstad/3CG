@@ -8,7 +8,6 @@ const sampleRate = dataService.getSampleRate();
 
 const Annotation = (props) => {
   const planeMesh = useRef();
-  console.log(planeMesh);
   const scale = useScaleStore((state) => state.scale);
   let width = (props.ann.end - props.ann.start) * sampleRate;
 
@@ -17,9 +16,8 @@ const Annotation = (props) => {
     planeMesh.current.scale.set(width * scale, 140, 0.1);
     planeMesh.current.position.set(0, -HEIGHT_OVER_XZ - props.level * 0.2, 70);
     planeMesh.current.material.color.setHex(props.color);
-  }, [props.level, props.color, scale, width]);
+  }, []);
 
-  console.log();
   return (
     <group
       position={[

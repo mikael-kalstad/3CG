@@ -15,7 +15,7 @@ const AnnotationRenderer = (props) => {
     (state) => state.activeAnnotations
   );
   const annotations = useAnnotationStore((state) => state.annotations);
-  const [levels, setLevels] = useState(0);
+  const [levels, setLevels] = useState(new Array(annotations.length).fill(0));
 
   // Pushes annotations that are overlapping up
   // After one iteration of pushes, it runs again to check if pushed annotations are overlapping again
@@ -71,7 +71,7 @@ const AnnotationRenderer = (props) => {
                 endTime={endTime}
                 clippingPlanes={[startPlane, endPlane]}
                 color={colorSelection[ann.ai ? 1 : 0]}
-                level={levels[i]}
+                level={levels[i] !== undefined ? levels[i] : 0}
               />
             </React.Fragment>
           )
