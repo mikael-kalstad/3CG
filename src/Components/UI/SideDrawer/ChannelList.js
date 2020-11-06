@@ -1,19 +1,29 @@
-import React from "react";
+import React from 'react';
 import {
   useChannelStore,
   useScaleStore,
   useInspectStore,
-} from "../../../Store";
-import { dataService } from "../../../Services/DataService";
-import { makeStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import SelectAllOrNoneBtns from "../Buttons/SelectAllOrNoneBtns";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import SettingsCheck from "../SettingsCheck";
-import SettingsSlider from "../SettingsSlider";
+} from '../../../Store';
+import { dataService } from '../../../Services/DataService';
+import { makeStyles } from '@material-ui/core/styles';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import SelectAllOrNoneBtns from '../Buttons/SelectAllOrNoneBtns';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import SettingsCheck from '../SettingsCheck';
+import SettingsSlider from '../SettingsSlider';
+import Button from '@material-ui/core/Button';
+import styled from 'styled-components';
+
+const ChannelElementWrapper = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 3fr 2fr;
+  align-content: center;
+  margin: 5px 0px 5px 0px;
+`;
 
 const channelNames = dataService.getChannelNamesArray();
 
@@ -22,23 +32,30 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3),
   },
   chip: {
-    justifyContent: "center",
-    flexWrap: "wrap",
-    "& > *": {
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    '& > *': {
       margin: theme.spacing(0.5),
     },
   },
 }));
+
+const InspectButtonStyle = {
+  height: '35px',
+  alignSelf: 'center',
+};
 
 const ChannelList = () => {
   const [
     activeChannels,
     toggleChannel,
     toggleAllChannels,
+    setChannel,
   ] = useChannelStore((state) => [
     state.activeChannels,
     state.toggleChannel,
     state.toggleAllChannels,
+    state.setChannel,
   ]);
 
   const [
@@ -53,14 +70,26 @@ const ChannelList = () => {
     state.setVChannelScaleFactor,
   ]);
 
-  const inspected = useInspectStore((state) => state.inspected);
+  const [inspected, setInspected] = useInspectStore((state) => [
+    state.inspected,
+    state.setInspected,
+  ]);
 
   const classes = useStyles();
 
   console.log(
-    "%c [Checlist] is rendering (sideDrawer child)",
-    "background: #111; color: #ebd31c"
+    '%c [Checlist] is rendering (sideDrawer child)',
+    'background: #111; color: #ebd31c'
   );
+
+  const inspectChannel = (channelIndex) => {
+    setInspected(channelIndex);
+    for (let i = 0; i < activeChannels.length; i++) {
+      if (i !== channelIndex) {
+        setChannel(i, false);
+      }
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -75,17 +104,30 @@ const ChannelList = () => {
       >
         <FormGroup>
           {activeChannels.map((state, i) => (
-            <FormControlLabel
-              key={channelNames[i]}
-              control={
-                <Checkbox
-                  checked={state}
-                  onChange={() => toggleChannel(i)}
-                  name={channelNames[i]}
+            <React.Fragment key={i}>
+              <ChannelElementWrapper>
+                <FormControlLabel
+                  key={channelNames[i]}
+                  control={
+                    <Checkbox
+                      checked={state}
+                      onChange={() => toggleChannel(i)}
+                      name={channelNames[i]}
+                    />
+                  }
+                  label={channelNames[i]}
                 />
-              }
-              label={channelNames[i]}
-            />
+                <Button
+                  variant="contained"
+                  style={InspectButtonStyle}
+                  disableElevation={true}
+                  onClick={() => inspectChannel(i)}
+                  disabled={inspected !== -1}
+                >
+                  Inspect
+                </Button>
+              </ChannelElementWrapper>
+            </React.Fragment>
           ))}
         </FormGroup>
 
@@ -103,14 +145,14 @@ const ChannelList = () => {
         name="vScaling-checkbox"
         label="Scale V-channels"
         description={
-          "Scale V1-V6 channels down by a factor of " + vChannelScaleFactor
+          'Scale V1-V6 channels down by a factor of ' + vChannelScaleFactor
         }
       />
 
       <SettingsSlider
-        title={"V-channels scale factor"}
+        title={'V-channels scale factor'}
         description={
-          "Use the slider to select the factor by which the V-channels should be scaled by, if the option is enabled"
+          'Use the slider to select the factor by which the V-channels should be scaled by, if the option is enabled'
         }
         value={vChannelScaleFactor}
         minValue={5}

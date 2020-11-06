@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useFrame, useLoader, useThree } from 'react-three-fiber';
 import * as THREE from 'three';
 
 const Text = (props) => {
+  const [maxRepeat, setMaxRepeat] = useState(1);
   const font = useLoader(
     THREE.FontLoader,
     process.env.PUBLIC_URL + '/helvetiker_regular.typeface.json'
@@ -56,6 +57,16 @@ const Text = (props) => {
           0.1
         );
       }
+      planeMesh.current.geometry.computeBoundingBox();
+
+      setMaxRepeat(
+        Math.floor(
+          planeMesh.current.scale.x /
+            textMesh.current.geometry.boundingBox.max.x
+        )
+      );
+      console.log('Max repeat is', textMesh.current.geometry.boundingBox.max.x);
+
       planeMesh.current.translateZ(
         props.depth ? -props.depth / 2 - 0.01 : -0.1
       );
@@ -65,6 +76,7 @@ const Text = (props) => {
         new THREE.Euler(props.rotation[0], props.rotation[1], props.rotation[2])
       );
     }
+    console.log(textMesh.current.geometry.parameters);
   };
 
   useEffect(onMount, []);
@@ -103,7 +115,10 @@ const Text = (props) => {
       onPointerMove={handlePointerMove}
     >
       <mesh ref={textMesh}>
-        <textBufferGeometry attach="geometry" args={[props.children, config]} />
+        <textBufferGeometry
+          attach="geometry"
+          args={[props.children.repeat(1), config]}
+        />
         <meshPhongMaterial
           attach="material"
           clippingPlanes={props.clippingPlanes ? props.clippingPlanes : null}
