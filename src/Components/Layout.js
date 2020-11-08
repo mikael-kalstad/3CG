@@ -8,20 +8,21 @@ import SideDrawer from './UI/SideDrawer/SideDrawer';
 import TimeLine from './UI/TimeLine/TimeLine';
 import ZoomBar from './UI/Zooming/ZoomBar';
 import AddAnnotationContainer from './UI/AddAnnotationContainer';
+import StockView from './StockView';
+import ToolBar from './UI/ToolBar';
 
 const Layout = (props) => {
   console.log('%c [Layout] is rendering', 'background: #111; color: #ebd31c');
   return (
     <>
-      <MarkBtn />
       <SideDrawer />
       <TimeLine />
       <ZoomBar />
-      <GridBtn />
-      <OrtoBtn />
+
       <InspectedText />
       <StockView />
       <AddAnnotationContainer />
+      <ToolBar />
     </>
   );
 };

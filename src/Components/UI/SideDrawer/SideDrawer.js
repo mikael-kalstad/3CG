@@ -7,12 +7,29 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { useState } from 'react';
 import MenuBtn from '../Buttons/MenuBtn';
+import CloseMenuBtn from '../Buttons/CloseMenuBtn';
 import AnnotationMenu from './AnnotationMenu';
 import ChannelList from './ChannelList';
-import FileUpload from './FileUpload';
 import GeneralOptions from './GeneralOptions';
 import RenderTypeOptions from './RenderTypeOptions';
 import TimeLineOptions from './TimeLineOptions';
+import FileUpload from './FileUpload';
+import styled from 'styled-components';
+
+const Header = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 10px;
+  grid-template-columns: 1fr 8fr;
+  align-content: center;
+  height: 60px;
+`;
+
+const Title = styled.h1`
+  // vertical-align: middle;
+  margin: 0;
+  padding: 0;
+`;
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -83,12 +100,16 @@ const SideDrawer = () => {
           paper: classes.drawerPaper,
         }}
       >
+        <Header>
+          <CloseMenuBtn onClick={toggleMenu} /> <Title>Menu</Title>
+        </Header>
+
         {MenuItems.map((item, i) => (
           <Accordion TransitionProps={{ unmountOnExit: true }} key={i}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
-              aria-controls='panel1a-content'
-              id='panel1a-header'
+              aria-controls="panel1a-content"
+              id="panel1a-header"
             >
               <Typography className={classes.heading}>{item.title}</Typography>
             </AccordionSummary>

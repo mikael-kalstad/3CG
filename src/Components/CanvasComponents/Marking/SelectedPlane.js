@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import { useFrame } from "react-three-fiber";
-import * as THREE from "three";
-import { dataService } from "../../Services/DataService";
-import { useScaleStore, useTimeStore } from "../../Store";
+import React, { useEffect, useRef } from 'react';
+import { useFrame } from 'react-three-fiber';
+import * as THREE from 'three';
+import { dataService } from '../../../Services/DataService';
+import { useScaleStore, useTimeStore } from '../../../Store';
 
 // extend({ MeshLine, MeshLineMaterial });
 
@@ -20,7 +20,8 @@ const SelectedPlane = (props) => {
   // const lineMesh = useRef();
 
   useEffect(() => {
-    planeMesh.current.scale.set(0, YSCALE, 115);
+    planeMesh.current.scale.set(0, YSCALE, 150);
+    // planeMesh.current.position.z = -(150 - 115) / 4;
     planeMesh.current.position.y = YSCALE / 2;
     planeMesh.current.material.color.setHex(0xffffff);
   }, []);

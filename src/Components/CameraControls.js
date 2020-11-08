@@ -172,8 +172,8 @@ const CameraControls = () => {
       minAzimuthAngle={-Math.PI / 2}
       maxAzimuthAngle={Math.PI / 2}
       enabled={!markMode}
-      enableDamping={true}
-      dampingFactor={0.2}
+      // enableDamping={true}
+      // dampingFactor={0.6}
     />
   );
 };

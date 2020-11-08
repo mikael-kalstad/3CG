@@ -7,7 +7,7 @@ const MarkPlane = (props) => {
 
   /* Setting initial values */
   useEffect(() => {
-    mesh.current.scale.set(props.width, 0.1, 115);
+    mesh.current.scale.set(props.width, 0.1, 3 * 115);
     mesh.current.position.x = props.middlePoint;
     mesh.current.position.y = -0.2;
     // mesh.current.material.color.setHex(0xff0000);

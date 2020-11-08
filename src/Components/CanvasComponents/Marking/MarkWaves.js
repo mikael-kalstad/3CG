@@ -1,11 +1,11 @@
 import React from 'react';
-import { dataService } from '../../Services/DataService';
+import { dataService } from '../../../Services/DataService';
 import {
   useModeStore,
   useScaleStore,
   useTimeStore,
   useMarkStore,
-} from '../../Store';
+} from '../../../Store';
 import MarkPlane from './MarkPlane';
 import SelectedPlane from './SelectedPlane';
 

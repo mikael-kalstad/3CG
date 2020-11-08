@@ -126,7 +126,7 @@ export const useTimelineOptionsStore = create((set) => ({
 }));
 
 export const useRenderTypeStore = create((set) => ({
-  activeRenders: ['Ecg', 'Vcg'],
+  activeRenders: ['Ecg'],
   renderNames: ['Ecg', 'Vcg', 'Circle'],
   toggleActiveRenders: (index) =>
     set((state) => ({

@@ -12,8 +12,18 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import SelectAllOrNoneBtns from '../Buttons/SelectAllOrNoneBtns';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import SettingsCheck from '../Settings/SettingsCheck';
-import SettingsSlider from '../Settings/SettingsSlider';
+import SettingsCheck from '../SettingsCheck';
+import SettingsSlider from '../SettingsSlider';
+import Button from '@material-ui/core/Button';
+import styled from 'styled-components';
+
+const ChannelElementWrapper = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 3fr 2fr;
+  align-content: center;
+  margin: 5px 0px 5px 0px;
+`;
 
 const channelNames = dataService.getChannelNamesArray();
 
@@ -30,15 +40,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const InspectButtonStyle = {
+  height: '35px',
+  alignSelf: 'center',
+};
+
 const ChannelList = () => {
   const [
     activeChannels,
     toggleChannel,
     toggleAllChannels,
+    setChannel,
   ] = useChannelStore((state) => [
     state.activeChannels,
     state.toggleChannel,
     state.toggleAllChannels,
+    state.setChannel,
   ]);
 
   const [
@@ -53,7 +70,10 @@ const ChannelList = () => {
     state.setVChannelScaleFactor,
   ]);
 
-  const inspected = useInspectStore((state) => state.inspected);
+  const [inspected, setInspected] = useInspectStore((state) => [
+    state.inspected,
+    state.setInspected,
+  ]);
 
   const classes = useStyles();
 
@@ -61,6 +81,15 @@ const ChannelList = () => {
     '%c [Checlist] is rendering (sideDrawer child)',
     'background: #111; color: #ebd31c'
   );
+
+  const inspectChannel = (channelIndex) => {
+    setInspected(channelIndex);
+    for (let i = 0; i < activeChannels.length; i++) {
+      if (i !== channelIndex) {
+        setChannel(i, false);
+      }
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -75,17 +104,30 @@ const ChannelList = () => {
       >
         <FormGroup>
           {activeChannels.map((state, i) => (
-            <FormControlLabel
-              key={channelNames[i]}
-              control={
-                <Checkbox
-                  checked={state}
-                  onChange={() => toggleChannel(i)}
-                  name={channelNames[i]}
+            <React.Fragment key={i}>
+              <ChannelElementWrapper>
+                <FormControlLabel
+                  key={channelNames[i]}
+                  control={
+                    <Checkbox
+                      checked={state}
+                      onChange={() => toggleChannel(i)}
+                      name={channelNames[i]}
+                    />
+                  }
+                  label={channelNames[i]}
                 />
-              }
-              label={channelNames[i]}
-            />
+                <Button
+                  variant='contained'
+                  style={InspectButtonStyle}
+                  disableElevation={true}
+                  onClick={() => inspectChannel(i)}
+                  disabled={inspected !== -1}
+                >
+                  Inspect
+                </Button>
+              </ChannelElementWrapper>
+            </React.Fragment>
           ))}
         </FormGroup>
 
