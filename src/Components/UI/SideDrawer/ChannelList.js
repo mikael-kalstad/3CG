@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 import {
   useChannelStore,
   useScaleStore,
   useInspectStore,
-} from "../../../Store";
-import { dataService } from "../../../Services/DataService";
-import { makeStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import SelectAllOrNoneBtns from "../Buttons/SelectAllOrNoneBtns";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import SettingsCheck from "../SettingsCheck";
-import SettingsSlider from "../SettingsSlider";
+} from '../../../Store';
+import { dataService } from '../../../Services/DataService';
+import { makeStyles } from '@material-ui/core/styles';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import SelectAllOrNoneBtns from '../Buttons/SelectAllOrNoneBtns';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import SettingsCheck from '../Settings/SettingsCheck';
+import SettingsSlider from '../Settings/SettingsSlider';
 
 const channelNames = dataService.getChannelNamesArray();
 
@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3),
   },
   chip: {
-    justifyContent: "center",
-    flexWrap: "wrap",
-    "& > *": {
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    '& > *': {
       margin: theme.spacing(0.5),
     },
   },
@@ -58,8 +58,8 @@ const ChannelList = () => {
   const classes = useStyles();
 
   console.log(
-    "%c [Checlist] is rendering (sideDrawer child)",
-    "background: #111; color: #ebd31c"
+    '%c [Checlist] is rendering (sideDrawer child)',
+    'background: #111; color: #ebd31c'
   );
 
   return (
@@ -69,7 +69,7 @@ const ChannelList = () => {
       </FormHelperText>
 
       <FormControl
-        component="fieldset"
+        component='fieldset'
         className={classes.formControl}
         disabled={inspected !== -1}
       >
@@ -92,7 +92,7 @@ const ChannelList = () => {
         {/* Buttons with select all or none functionality */}
         <SelectAllOrNoneBtns
           toggleAll={toggleAllChannels}
-          type="channels"
+          type='channels'
           disabled={inspected !== -1}
         />
       </FormControl>
@@ -100,17 +100,17 @@ const ChannelList = () => {
       <SettingsCheck
         state={vChannelScaling}
         onClick={toggleVChannelScaling}
-        name="vScaling-checkbox"
-        label="Scale V-channels"
+        name='vScaling-checkbox'
+        label='Scale V-channels'
         description={
-          "Scale V1-V6 channels down by a factor of " + vChannelScaleFactor
+          'Scale V1-V6 channels down by a factor of ' + vChannelScaleFactor
         }
       />
 
       <SettingsSlider
-        title={"V-channels scale factor"}
+        title={'V-channels scale factor'}
         description={
-          "Use the slider to select the factor by which the V-channels should be scaled by, if the option is enabled"
+          'Use the slider to select the factor by which the V-channels should be scaled by, if the option is enabled'
         }
         value={vChannelScaleFactor}
         minValue={5}

@@ -1,13 +1,13 @@
 import React from 'react';
-import PlayAndPauseButton from './UI/Buttons/PlayAndPauseBtn';
-import SideDrawer from './UI/SideDrawer/SideDrawer';
-import TimeLine from './UI/TimeLine/TimeLine';
-import MarkBtn from './UI/Buttons/MarkBtn';
-import ZoomBar from './UI/Zooming/ZoomBar';
+import StockView from './StockView';
 import GridBtn from './UI/Buttons/GridBtn';
+import MarkBtn from './UI/Buttons/MarkBtn';
 import OrtoBtn from './UI/Buttons/OrtoBtn';
 import InspectedText from './UI/InspectedText';
-import StockView from './StockView';
+import SideDrawer from './UI/SideDrawer/SideDrawer';
+import TimeLine from './UI/TimeLine/TimeLine';
+import ZoomBar from './UI/Zooming/ZoomBar';
+import AddAnnotationContainer from './UI/AddAnnotationContainer';
 
 const Layout = (props) => {
   console.log('%c [Layout] is rendering', 'background: #111; color: #ebd31c');
@@ -21,6 +21,7 @@ const Layout = (props) => {
       <OrtoBtn />
       <InspectedText />
       <StockView />
+      <AddAnnotationContainer />
     </>
   );
 };

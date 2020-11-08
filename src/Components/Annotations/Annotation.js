@@ -16,7 +16,7 @@ const Annotation = (props) => {
     planeMesh.current.scale.set(width * scale, 140, 0.1);
     planeMesh.current.position.set(0, -HEIGHT_OVER_XZ - props.level * 0.2, 70);
     planeMesh.current.material.color.setHex(props.color);
-  }, []);
+  }, [props.color, props.level, scale, width]);
 
   return (
     <group
@@ -40,10 +40,10 @@ const Annotation = (props) => {
         {props.ann.text}
       </Text>
       <mesh ref={planeMesh}>
-        <planeBufferGeometry attach="geometry" />
+        <planeBufferGeometry attach='geometry' />
         <meshPhongMaterial
           opacity={0.1}
-          attach="material"
+          attach='material'
           transparent={true}
           clippingPlanes={props.clippingPlanes}
         />

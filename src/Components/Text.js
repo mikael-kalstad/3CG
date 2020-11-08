@@ -67,7 +67,17 @@ const Text = (props) => {
     }
   };
 
-  useEffect(onMount, []);
+  useEffect(onMount, [
+    props.background,
+    props.backgroundColor,
+    props.backgroundOpacity,
+    props.backgroundScaleByText,
+    props.backgroundSize,
+    props.depth,
+    props.rotateToCamera,
+    props.textSize,
+    props.rotation,
+  ]);
 
   const handlePointerOver = (e) => {
     e.stopPropagation();
@@ -103,17 +113,17 @@ const Text = (props) => {
       onPointerMove={handlePointerMove}
     >
       <mesh ref={textMesh}>
-        <textBufferGeometry attach="geometry" args={[props.children, config]} />
+        <textBufferGeometry attach='geometry' args={[props.children, config]} />
         <meshPhongMaterial
-          attach="material"
+          attach='material'
           clippingPlanes={props.clippingPlanes ? props.clippingPlanes : null}
         />
       </mesh>
       {props.background && (
         <mesh ref={planeMesh}>
-          <planeBufferGeometry attach="geometry" />
+          <planeBufferGeometry attach='geometry' />
           <meshPhongMaterial
-            attach="material"
+            attach='material'
             transparent={true}
             clippingPlanes={props.clippingPlanes ? props.clippingPlanes : null}
           />

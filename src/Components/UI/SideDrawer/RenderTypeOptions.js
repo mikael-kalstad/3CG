@@ -7,9 +7,9 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import SelectBetween from '../SelectBetween';
+import SelectBetween from '../Settings/SelectBetween';
 import Typography from '@material-ui/core/Typography';
-import SettingsCheck from '../SettingsCheck';
+import SettingsCheck from '../Settings/SettingsCheck';
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#93bc6e',
     color: 'white',
     '&:hover': {
-      background: '#93bc6e',
+      background: '#7aab4f',
       color: 'white',
       filter: 'brightness(0.9)',
     },

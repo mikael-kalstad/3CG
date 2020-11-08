@@ -87,6 +87,9 @@ export const useAnnotationStore = create((set) => ({
   showFullAnnotation: true,
   toggleShowFullAnnotation: () =>
     set((state) => ({ showFullAnnotation: !state.showFullAnnotation })),
+  showAddAnnotationPopup: true,
+  toggleShowAddAnnotationPopup: () =>
+    set((state) => ({ showAddAnnotationPopup: !state.showAddAnnotationPopup })),
 }));
 
 export const useCameraStore = create((set) => ({
@@ -166,8 +169,11 @@ export const useMousePositionStore = create((set) => ({
 }));
 
 export const useMarkStore = create((set) => ({
-  startSelected: 0,
-  setStartSelected: (start) => set((state) => ({ startSelected: start })),
-  endSelected: 0,
-  setEndSelected: (end) => set((state) => ({ endSelected: end })),
+  startSelected: -1,
+  setStartSelected: (start) => set(() => ({ startSelected: start })),
+  endSelected: -1,
+  setEndSelected: (end) => set(() => ({ endSelected: end })),
+  // Used to indicate if user is finished marking or not. Finished marking is true onMouseUp when marking.
+  markingFinished: false,
+  setMarkingFinished: (newState) => set(() => ({ markingFinished: newState })),
 }));

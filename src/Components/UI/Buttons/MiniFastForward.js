@@ -1,15 +1,15 @@
-import IconButton from "@material-ui/core/IconButton";
-import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
-import React, { useState } from "react";
+import IconButton from '@material-ui/core/IconButton';
+import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
+import React, { useState } from 'react';
 import {
   useModeStore,
   useTimelineOptionsStore,
   useTimeStore,
-} from "../../../Store";
-import SnackbarPopup from "../SnackbarPopup";
+} from '../../../Store';
+import SnackbarPopup from '../Snackbars/SnackbarPopup';
 
 const ButtonStyle = {
-  color: "#E8E8E8",
+  color: '#E8E8E8',
   padding: 0,
 };
 
@@ -27,8 +27,8 @@ const MiniFastForwardBtn = (props) => {
   const showSnackbar = useTimelineOptionsStore((state) => state.showSnackbar);
 
   console.log(
-    "%c [MiniFastForwardBtn] is rendering",
-    "background: #111; color: #ebd31c"
+    '%c [MiniFastForwardBtn] is rendering',
+    'background: #111; color: #ebd31c'
   );
 
   const handleClick = () => {
@@ -47,11 +47,11 @@ const MiniFastForwardBtn = (props) => {
 
   // Format speed into format
   const formatSpeed = (speed) => {
-    return "Playback rate: " + (speed / defaultSpeed).toFixed(2) + "x";
+    return 'Playback rate: ' + (speed / defaultSpeed).toFixed(2) + 'x';
   };
 
-  let transform = "";
-  if (!props.forward) transform = "rotate(180deg)";
+  let transform = '';
+  if (!props.forward) transform = 'rotate(180deg)';
 
   const ICON_STYLE = {
     fontSize: props.iconSize || ICON_SIZE - 2,
@@ -60,17 +60,16 @@ const MiniFastForwardBtn = (props) => {
 
   return (
     <>
-      {showSnackbar && (
-        <div style={{ position: "absolute" }}>
-          <SnackbarPopup
-            message={formatSpeed(speed)}
-            open={snackbar}
-            setOpen={setSnackbar}
-          />
-        </div>
+      {showSnackbar && snackbar && (
+        <SnackbarPopup
+          message={formatSpeed(speed)}
+          open={snackbar}
+          setOpen={setSnackbar}
+          timeout={1500}
+        />
       )}
       <IconButton
-        aria-label="Play"
+        aria-label='Play'
         style={ButtonStyle}
         onClick={handleClick}
         disabled={markMode}

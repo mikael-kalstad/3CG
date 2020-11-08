@@ -17,6 +17,7 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.14.0",
     "react-draggable": "^4.4.3",
+    "react-number-format": "^4.4.1",
     "react-rnd": "^10.2.3",
     "react-scripts": "^4.0.0",
     "react-split": "^2.0.9",

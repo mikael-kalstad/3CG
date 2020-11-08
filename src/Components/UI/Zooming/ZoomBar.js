@@ -1,6 +1,6 @@
-import React from 'react';
 import Slider from '@material-ui/core/Slider';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 import { useCameraStore } from '../../../Store';
 
 const useStyles = makeStyles({
@@ -58,12 +58,12 @@ const ZoomBar = () => {
   return (
     <Slider
       style={SliderStyle}
-      orientation="vertical"
+      orientation='vertical'
       classes={classes}
       min={-80}
       max={0}
       step={0.2}
-      aria-labelledby="vertical-slider"
+      aria-labelledby='vertical-slider'
       onChange={(e, val) => setZoomValue(Math.abs(val))}
       value={-zoomValue}
       marks={marks}

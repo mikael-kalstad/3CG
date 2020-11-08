@@ -1,7 +1,7 @@
-import React, { Suspense, useMemo } from "react";
-import * as THREE from "three";
-import { useModeStore } from "../Store";
-import Text from "./Text";
+import React, { Suspense, useMemo } from 'react';
+import * as THREE from 'three';
+import { useModeStore } from '../Store';
+import Text from './Text';
 
 // The standard grid for ECG uses 0.04s per square in the x-axis, and 0.1mV in the y-axis.
 // The mV in this grid ranges from
@@ -21,8 +21,8 @@ const Grid = () => {
   let n = xSize * ySize * zSize;
   let n2 = xSize2 * ySize2 * zSize2;
 
-  let geometry = new THREE.BufferGeometry();
-  let geometry2 = new THREE.BufferGeometry();
+  let geometry = useMemo(() => new THREE.BufferGeometry(), []);
+  let geometry2 = useMemo(() => new THREE.BufferGeometry(), []);
 
   function mapTo3D(i) {
     let z = Math.floor(i / (xSize * ySize));
@@ -56,7 +56,7 @@ const Grid = () => {
     positions.push((p.z - zSize / 2) / zSize);
   }
   let positionAttribute = new THREE.Float32BufferAttribute(positions, 3);
-  geometry.setAttribute("position", positionAttribute);
+  geometry.setAttribute('position', positionAttribute);
 
   let positions2 = [];
   for (let i2 = 0; i2 < n2; i2++) {
@@ -67,7 +67,7 @@ const Grid = () => {
   }
 
   let positionAttribute2 = new THREE.Float32BufferAttribute(positions2, 3);
-  geometry2.setAttribute("position", positionAttribute2);
+  geometry2.setAttribute('position', positionAttribute2);
 
   let indexPairs = [];
   for (let i = 0; i < n; i++) {
@@ -103,12 +103,13 @@ const Grid = () => {
     }
   }
   geometry.setIndex(indexPairs);
+
   const grid = useMemo(
     () =>
       new THREE.LineSegments(
         geometry,
         new THREE.MeshNormalMaterial({
-          color: "#ff0000",
+          color: '#ff0000',
           opacity: 0.12,
         })
       ),
@@ -121,7 +122,7 @@ const Grid = () => {
       new THREE.LineSegments(
         geometry2,
         new THREE.LineBasicMaterial({
-          color: "#ff0000",
+          color: '#ff0000',
           //opacity: 0.12,
         })
       ),

@@ -1,8 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useInspectStore, useChannelStore, useMousePositionStore, useTimeStore } from '../Store';
-import { dataService } from '../Services/DataService';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-
+import {
+  useChannelStore,
+  useInspectStore,
+  useMousePositionStore,
+  useTimeStore,
+} from '../Store';
 
 const slideIn = keyframes`
   from {
@@ -51,7 +54,6 @@ const TimeText = styled.p`
   align-items: center;
 `;
 
-
 const StockView = (props) => {
   const [canceled] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
@@ -64,8 +66,8 @@ const StockView = (props) => {
   const xPos = useMousePositionStore((state) => state.xPos);
   const yPos = useMousePositionStore((state) => state.yPos);
 
-  const timeValue = Number((xPos * 0.005) + startTime).toFixed(2)
-  const voltValue = Number(yPos * 0.01).toFixed(3)
+  const timeValue = Number(xPos * 0.005 + startTime).toFixed(2);
+  const voltValue = Number(yPos * 0.01).toFixed(3);
 
   useEffect(() => {
     useChannelStore.subscribe(
@@ -75,7 +77,7 @@ const StockView = (props) => {
   }, []);
 
   useEffect(() => {
-    if (inspected != -1) {
+    if (inspected !== -1) {
       setShouldRender(true);
     }
   }, [inspected]);

@@ -1,0 +1,557 @@
+[
+  {
+    "Dx": "1st degree av block",
+    "SNOMED CT Code": 270492004,
+    "Abbreviation": "IAVB"
+  },
+  {
+    "Dx": "2nd degree av block",
+    "SNOMED CT Code": 195042002,
+    "Abbreviation": "IIAVB"
+  },
+  {
+    "Dx": "abnormal QRS",
+    "SNOMED CT Code": 164951009,
+    "Abbreviation": "abQRS"
+  },
+  {
+    "Dx": "accelerated junctional rhythm",
+    "SNOMED CT Code": 426664006,
+    "Abbreviation": "AJR"
+  },
+  {
+    "Dx": "acute myocardial infarction",
+    "SNOMED CT Code": 57054005,
+    "Abbreviation": "AMI"
+  },
+  {
+    "Dx": "acute myocardial ischemia",
+    "SNOMED CT Code": 413444003,
+    "Abbreviation": "AMIs"
+  },
+  {
+    "Dx": "anterior ischemia",
+    "SNOMED CT Code": 426434006,
+    "Abbreviation": "AnMIs"
+  },
+  {
+    "Dx": "anterior myocardial infarction",
+    "SNOMED CT Code": 54329005,
+    "Abbreviation": "AnMI"
+  },
+  {
+    "Dx": "atrial bigeminy",
+    "SNOMED CT Code": 251173003,
+    "Abbreviation": "AB"
+  },
+  {
+    "Dx": "atrial fibrillation",
+    "SNOMED CT Code": 164889003,
+    "Abbreviation": "AF"
+  },
+  {
+    "Dx": "atrial fibrillation and flutter",
+    "SNOMED CT Code": 195080001,
+    "Abbreviation": "AFAFL"
+  },
+  {
+    "Dx": "atrial flutter",
+    "SNOMED CT Code": 164890007,
+    "Abbreviation": "AFL"
+  },
+  {
+    "Dx": "atrial hypertrophy",
+    "SNOMED CT Code": 195126007,
+    "Abbreviation": "AH"
+  },
+  {
+    "Dx": "atrial pacing pattern",
+    "SNOMED CT Code": 251268003,
+    "Abbreviation": "AP"
+  },
+  {
+    "Dx": "atrial tachycardia",
+    "SNOMED CT Code": 713422000,
+    "Abbreviation": "ATach"
+  },
+  {
+    "Dx": "atrioventricular junctional rhythm",
+    "SNOMED CT Code": 29320008,
+    "Abbreviation": "AVJR"
+  },
+  {
+    "Dx": "av block",
+    "SNOMED CT Code": 233917008,
+    "Abbreviation": "AVB"
+  },
+  {
+    "Dx": "blocked premature atrial contraction",
+    "SNOMED CT Code": 251170000,
+    "Abbreviation": "BPAC"
+  },
+  {
+    "Dx": "brady tachy syndrome",
+    "SNOMED CT Code": 74615001,
+    "Abbreviation": "BTS"
+  },
+  {
+    "Dx": "bradycardia",
+    "SNOMED CT Code": 426627000,
+    "Abbreviation": "Brady"
+  },
+  {
+    "Dx": "bundle branch block",
+    "SNOMED CT Code": 6374002,
+    "Abbreviation": "BBB"
+  },
+  {
+    "Dx": "cardiac dysrhythmia",
+    "SNOMED CT Code": 698247007,
+    "Abbreviation": "CD"
+  },
+  {
+    "Dx": "chronic atrial fibrillation",
+    "SNOMED CT Code": 426749004,
+    "Abbreviation": "CAF"
+  },
+  {
+    "Dx": "chronic myocardial ischemia",
+    "SNOMED CT Code": 413844008,
+    "Abbreviation": "CMI"
+  },
+  {
+    "Dx": "complete heart block",
+    "SNOMED CT Code": 27885002,
+    "Abbreviation": "CHB"
+  },
+  {
+    "Dx": "complete right bundle branch block",
+    "SNOMED CT Code": 713427006,
+    "Abbreviation": "CRBBB"
+  },
+  {
+    "Dx": "congenital incomplete atrioventricular heart block",
+    "SNOMED CT Code": 204384007,
+    "Abbreviation": "CIAHB"
+  },
+  {
+    "Dx": "coronary heart disease",
+    "SNOMED CT Code": 53741008,
+    "Abbreviation": "CHD"
+  },
+  {
+    "Dx": "decreased qt interval",
+    "SNOMED CT Code": 77867006,
+    "Abbreviation": "SQT"
+  },
+  {
+    "Dx": "diffuse intraventricular block",
+    "SNOMED CT Code": 82226007,
+    "Abbreviation": "DIB"
+  },
+  {
+    "Dx": "early repolarization",
+    "SNOMED CT Code": 428417006,
+    "Abbreviation": "ERe"
+  },
+  {
+    "Dx": "fusion beats",
+    "SNOMED CT Code": 13640000,
+    "Abbreviation": "FB"
+  },
+  {
+    "Dx": "heart failure",
+    "SNOMED CT Code": 84114007,
+    "Abbreviation": "HF"
+  },
+  {
+    "Dx": "heart valve disorder",
+    "SNOMED CT Code": 368009,
+    "Abbreviation": "HVD"
+  },
+  {
+    "Dx": "high t-voltage",
+    "SNOMED CT Code": 251259000,
+    "Abbreviation": "HTV"
+  },
+  {
+    "Dx": "idioventricular rhythm",
+    "SNOMED CT Code": 49260003,
+    "Abbreviation": "IR"
+  },
+  {
+    "Dx": "incomplete left bundle branch block",
+    "SNOMED CT Code": 251120003,
+    "Abbreviation": "ILBBB"
+  },
+  {
+    "Dx": "incomplete right bundle branch block",
+    "SNOMED CT Code": 713426002,
+    "Abbreviation": "IRBBB"
+  },
+  {
+    "Dx": "indeterminate cardiac axis",
+    "SNOMED CT Code": 251200008,
+    "Abbreviation": "ICA"
+  },
+  {
+    "Dx": "inferior ischaemia",
+    "SNOMED CT Code": 425419005,
+    "Abbreviation": "IIs"
+  },
+  {
+    "Dx": "inferior ST segment depression",
+    "SNOMED CT Code": 704997005,
+    "Abbreviation": "ISTD"
+  },
+  {
+    "Dx": "junctional escape",
+    "SNOMED CT Code": 426995002,
+    "Abbreviation": "JE"
+  },
+  {
+    "Dx": "junctional premature complex",
+    "SNOMED CT Code": 251164006,
+    "Abbreviation": "JPC"
+  },
+  {
+    "Dx": "junctional tachycardia",
+    "SNOMED CT Code": 426648003,
+    "Abbreviation": "JTach"
+  },
+  {
+    "Dx": "lateral ischaemia",
+    "SNOMED CT Code": 425623009,
+    "Abbreviation": "LIs"
+  },
+  {
+    "Dx": "left anterior fascicular block",
+    "SNOMED CT Code": 445118002,
+    "Abbreviation": "LAnFB"
+  },
+  {
+    "Dx": "left atrial abnormality",
+    "SNOMED CT Code": 253352002,
+    "Abbreviation": "LAA"
+  },
+  {
+    "Dx": "left atrial enlargement",
+    "SNOMED CT Code": 67741000119109,
+    "Abbreviation": "LAE"
+  },
+  {
+    "Dx": "left atrial hypertrophy",
+    "SNOMED CT Code": 446813000,
+    "Abbreviation": "LAH"
+  },
+  {
+    "Dx": "left axis deviation",
+    "SNOMED CT Code": 39732003,
+    "Abbreviation": "LAD"
+  },
+  {
+    "Dx": "left bundle branch block",
+    "SNOMED CT Code": 164909002,
+    "Abbreviation": "LBBB"
+  },
+  {
+    "Dx": "left posterior fascicular block",
+    "SNOMED CT Code": 445211001,
+    "Abbreviation": "LPFB"
+  },
+  {
+    "Dx": "left ventricular hypertrophy",
+    "SNOMED CT Code": 164873001,
+    "Abbreviation": "LVH"
+  },
+  {
+    "Dx": "left ventricular strain",
+    "SNOMED CT Code": 370365005,
+    "Abbreviation": "LVS"
+  },
+  {
+    "Dx": "low qrs voltages",
+    "SNOMED CT Code": 251146004,
+    "Abbreviation": "LQRSV"
+  },
+  {
+    "Dx": "mobitz type i wenckebach atrioventricular block",
+    "SNOMED CT Code": 54016002,
+    "Abbreviation": "MoI"
+  },
+  {
+    "Dx": "myocardial infarction",
+    "SNOMED CT Code": 164865005,
+    "Abbreviation": "MI"
+  },
+  {
+    "Dx": "myocardial ischemia",
+    "SNOMED CT Code": 164861001,
+    "Abbreviation": "MIs"
+  },
+  {
+    "Dx": "nonspecific intraventricular conduction disorder",
+    "SNOMED CT Code": 698252002,
+    "Abbreviation": "NSIVCB"
+  },
+  {
+    "Dx": "nonspecific st t abnormality",
+    "SNOMED CT Code": 428750005,
+    "Abbreviation": "NSSTTA"
+  },
+  {
+    "Dx": "old myocardial infarction",
+    "SNOMED CT Code": 164867002,
+    "Abbreviation": "OldMI"
+  },
+  {
+    "Dx": "pacing rhythm",
+    "SNOMED CT Code": 10370003,
+    "Abbreviation": "PR"
+  },
+  {
+    "Dx": "paired ventricular premature complexes",
+    "SNOMED CT Code": 251182009,
+    "Abbreviation": "VPVC"
+  },
+  {
+    "Dx": "paroxysmal atrial fibrillation",
+    "SNOMED CT Code": 282825002,
+    "Abbreviation": "PAF"
+  },
+  {
+    "Dx": "paroxysmal supraventricular tachycardia",
+    "SNOMED CT Code": 67198005,
+    "Abbreviation": "PSVT"
+  },
+  {
+    "Dx": "paroxysmal ventricular tachycardia",
+    "SNOMED CT Code": 425856008,
+    "Abbreviation": "PVT"
+  },
+  {
+    "Dx": "premature atrial contraction",
+    "SNOMED CT Code": 284470004,
+    "Abbreviation": "PAC"
+  },
+  {
+    "Dx": "premature ventricular contractions",
+    "SNOMED CT Code": 427172004,
+    "Abbreviation": "PVC"
+  },
+  {
+    "Dx": "ventricular premature beats",
+    "SNOMED CT Code": 17338001,
+    "Abbreviation": "VPB"
+  },
+  {
+    "Dx": "prolonged pr interval",
+    "SNOMED CT Code": 164947007,
+    "Abbreviation": "LPR"
+  },
+  {
+    "Dx": "prolonged qt interval",
+    "SNOMED CT Code": 111975006,
+    "Abbreviation": "LQT"
+  },
+  {
+    "Dx": "qwave abnormal",
+    "SNOMED CT Code": 164917005,
+    "Abbreviation": "QAb"
+  },
+  {
+    "Dx": "r wave abnormal",
+    "SNOMED CT Code": 164921003,
+    "Abbreviation": "RAb"
+  },
+  {
+    "Dx": "rapid atrial fibrillation",
+    "SNOMED CT Code": 314208002,
+    "Abbreviation": "RAF"
+  },
+  {
+    "Dx": "right atrial abnormality",
+    "SNOMED CT Code": 253339007,
+    "Abbreviation": "RAAb"
+  },
+  {
+    "Dx": "right atrial hypertrophy",
+    "SNOMED CT Code": 446358003,
+    "Abbreviation": "RAH"
+  },
+  {
+    "Dx": "right axis deviation",
+    "SNOMED CT Code": 47665007,
+    "Abbreviation": "RAD"
+  },
+  {
+    "Dx": "right bundle branch block",
+    "SNOMED CT Code": 59118001,
+    "Abbreviation": "RBBB"
+  },
+  {
+    "Dx": "right ventricular hypertrophy",
+    "SNOMED CT Code": 89792004,
+    "Abbreviation": "RVH"
+  },
+  {
+    "Dx": "s t changes",
+    "SNOMED CT Code": 55930002,
+    "Abbreviation": "STC"
+  },
+  {
+    "Dx": "shortened pr interval",
+    "SNOMED CT Code": 49578007,
+    "Abbreviation": "SPRI"
+  },
+  {
+    "Dx": "sinoatrial block",
+    "SNOMED CT Code": 65778007,
+    "Abbreviation": "SAB"
+  },
+  {
+    "Dx": "sinus arrhythmia",
+    "SNOMED CT Code": 427393009,
+    "Abbreviation": "SA"
+  },
+  {
+    "Dx": "sinus bradycardia",
+    "SNOMED CT Code": 426177001,
+    "Abbreviation": "SB"
+  },
+  {
+    "Dx": "sinus node dysfunction",
+    "SNOMED CT Code": 60423000,
+    "Abbreviation": "SND"
+  },
+  {
+    "Dx": "sinus rhythm",
+    "SNOMED CT Code": 426783006,
+    "Abbreviation": "SNR"
+  },
+  {
+    "Dx": "sinus tachycardia",
+    "SNOMED CT Code": 427084000,
+    "Abbreviation": "STach"
+  },
+  {
+    "Dx": "st depression",
+    "SNOMED CT Code": 429622005,
+    "Abbreviation": "STD"
+  },
+  {
+    "Dx": "st elevation",
+    "SNOMED CT Code": 164931005,
+    "Abbreviation": "STE"
+  },
+  {
+    "Dx": "st interval abnormal",
+    "SNOMED CT Code": 164930006,
+    "Abbreviation": "STIAb"
+  },
+  {
+    "Dx": "supraventricular bigeminy",
+    "SNOMED CT Code": 251168009,
+    "Abbreviation": "SVB"
+  },
+  {
+    "Dx": "supraventricular premature beats",
+    "SNOMED CT Code": 63593006,
+    "Abbreviation": "SVPB"
+  },
+  {
+    "Dx": "supraventricular tachycardia",
+    "SNOMED CT Code": 426761007,
+    "Abbreviation": "SVT"
+  },
+  {
+    "Dx": "suspect arm ecg leads reversed",
+    "SNOMED CT Code": 251139008,
+    "Abbreviation": "ALR"
+  },
+  {
+    "Dx": "t wave abnormal",
+    "SNOMED CT Code": 164934002,
+    "Abbreviation": "TAb"
+  },
+  {
+    "Dx": "t wave inversion",
+    "SNOMED CT Code": 59931005,
+    "Abbreviation": "TInv"
+  },
+  {
+    "Dx": "transient ischemic attack",
+    "SNOMED CT Code": 266257000,
+    "Abbreviation": "TIA"
+  },
+  {
+    "Dx": "u wave abnormal",
+    "SNOMED CT Code": 164937009,
+    "Abbreviation": "UAb"
+  },
+  {
+    "Dx": "ventricular bigeminy",
+    "SNOMED CT Code": 11157007,
+    "Abbreviation": "VBig"
+  },
+  {
+    "Dx": "ventricular ectopics",
+    "SNOMED CT Code": 164884008,
+    "Abbreviation": "VEB"
+  },
+  {
+    "Dx": "ventricular escape beat",
+    "SNOMED CT Code": 75532003,
+    "Abbreviation": "VEsB"
+  },
+  {
+    "Dx": "ventricular escape rhythm",
+    "SNOMED CT Code": 81898007,
+    "Abbreviation": "VEsR"
+  },
+  {
+    "Dx": "ventricular fibrillation",
+    "SNOMED CT Code": 164896001,
+    "Abbreviation": "VF"
+  },
+  {
+    "Dx": "ventricular flutter",
+    "SNOMED CT Code": 111288001,
+    "Abbreviation": "VFL"
+  },
+  {
+    "Dx": "ventricular hypertrophy",
+    "SNOMED CT Code": 266249003,
+    "Abbreviation": "VH"
+  },
+  {
+    "Dx": "ventricular pacing pattern",
+    "SNOMED CT Code": 251266004,
+    "Abbreviation": "VPP"
+  },
+  {
+    "Dx": "ventricular pre excitation",
+    "SNOMED CT Code": 195060002,
+    "Abbreviation": "VPEx"
+  },
+  {
+    "Dx": "ventricular tachycardia",
+    "SNOMED CT Code": 164895002,
+    "Abbreviation": "VTach"
+  },
+  {
+    "Dx": "ventricular trigeminy",
+    "SNOMED CT Code": 251180001,
+    "Abbreviation": "VTrig"
+  },
+  {
+    "Dx": "wandering atrial pacemaker",
+    "SNOMED CT Code": 195101003,
+    "Abbreviation": "WAP"
+  },
+  {
+    "Dx": "wolff parkinson white pattern",
+    "SNOMED CT Code": 74390002,
+    "Abbreviation": "WPW"
+  }
+]

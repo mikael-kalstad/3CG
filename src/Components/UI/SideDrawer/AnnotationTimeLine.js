@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { useAnnotationStore, useTimeStore } from '../../../Store';
 import AnnotationCard from '../AnnotationCard';
 import SelectAllOrNoneBtns from '../Buttons/SelectAllOrNoneBtns';
-import SettingsCheck from '../SettingsCheck';
+import SettingsCheck from '../Settings/SettingsCheck';
 
 const Title = styled.h2``;
 const SelectWrapper = styled.div`
@@ -35,6 +35,8 @@ const AnnotationTimeline = () => {
     toggleAllAnnotations,
     showFullAnnotation,
     toggleShowFullAnnotation,
+    showAddAnnotationPopup,
+    toggleShowAddAnnotationPopup,
   ] = useAnnotationStore((state) => [
     state.annotations,
     state.activeAnnotations,
@@ -42,6 +44,8 @@ const AnnotationTimeline = () => {
     state.toggleAllAnnotations,
     state.showFullAnnotation,
     state.toggleShowFullAnnotation,
+    state.showAddAnnotationPopup,
+    state.toggleShowAddAnnotationPopup,
   ]);
 
   const [
@@ -71,6 +75,7 @@ const AnnotationTimeline = () => {
     if (showFullAnnotation && a.start + diff < a.end) setEndTime(a.end);
     else setEndTime(a.start + diff);
   };
+  console.log(annotations);
   return (
     <div>
       <Title>All annotations</Title>
@@ -79,7 +84,7 @@ const AnnotationTimeline = () => {
         3D visualization
       </FormHelperText>
 
-      <Timeline align="left" style={{ padding: '6px 0px' }}>
+      <Timeline align='left' style={{ padding: '6px 0px' }}>
         {annotations &&
           annotations
             .sort((a, b) => a.start - b.start)
@@ -90,8 +95,8 @@ const AnnotationTimeline = () => {
                 ></TimelineOppositeContent>
                 <TimelineSeparator>
                   <Typography
-                    variant="subtitle1"
-                    color="textSecondary"
+                    variant='subtitle1'
+                    color='textSecondary'
                     style={{
                       fontSize: 15,
                       width: 30,
@@ -103,7 +108,7 @@ const AnnotationTimeline = () => {
                   </Typography>
 
                   <TimelineDot
-                    color="primary"
+                    color='primary'
                     style={{ cursor: 'pointer', padding: 0 }}
                     onClick={() => toggleAnnotation(i)}
                   >
@@ -133,16 +138,23 @@ const AnnotationTimeline = () => {
       <SelectWrapper>
         <SelectAllOrNoneBtns
           toggleAll={toggleAllAnnotations}
-          type="annotations"
+          type='annotations'
         />
       </SelectWrapper>
 
       <SettingsCheck
         state={showFullAnnotation}
         onClick={toggleShowFullAnnotation}
-        name="endTimeChange"
-        label="Show full annotation"
-        description="When clicking to see annotation in 3D, change length of graph dynamically to show full length of annotation"
+        name='showfullannotation'
+        label='Show full annotation'
+        description='When clicking to see annotation in 3D, change length of graph dynamically to show full length of annotation'
+      />
+      <SettingsCheck
+        state={showAddAnnotationPopup}
+        onClick={toggleShowAddAnnotationPopup}
+        name='showaddannotationpopup'
+        label='Show add annotation popup'
+        description='When an area is marked in mark mode, show a message popup with the ability to add annotation to the selected area. Annotations can also be added in this menu'
       />
     </div>
   );

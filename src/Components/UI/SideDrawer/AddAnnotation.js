@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
 // import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { useMarkStore, useAnnotationStore, useModeStore } from '../../../Store';
+import AddIcon from '@material-ui/icons/Add';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import AddAnnotationPopup from '../AddAnnotationPopup';
+import { useAnnotationStore, useMarkStore, useModeStore } from '../../../Store';
 
 const Wrapper = styled.div``;
 
@@ -24,6 +25,7 @@ const PlusButton = styled.div`
   text-align: center;
   transition: ease 0.4s;
 `;
+
 const ButtonText = styled.div`
   ${PlusButton}:hover & {
     opacity: 1;
@@ -42,75 +44,86 @@ const MenuWrapper = styled.div`
   grid-gap: 5px;
 `;
 
-const AddAnnotation = (props) => {
-  const [showInputs, setShowInputs] = useState(false);
+const AddAnnotation = () => {
+  // const [showInputs, setShowInputs] = useState(false);
   const [buttonTextShow, setButtonTextShow] = useState(false);
-  const [codeInput, setCodeInput] = useState('');
-  const [textInput, setTextInput] = useState('');
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  // const [codeInput, setCodeInput] = useState('');
+  // const [textInput, setTextInput] = useState('');
+  // const [showConfirmation, setShowConfirmation] = useState(false);
+  const [displayPopup, setDisplayPopup] = useState(false);
 
-  const [
-    startSelected,
-    setStartSelected,
-    endSelected,
-    setEndSelected,
-  ] = useMarkStore((state) => [
-    state.startSelected,
-    state.setStartSelected,
-    state.endSelected,
-    state.setEndSelected,
-  ]);
-  const [markMode, toggleMarkMode] = useModeStore((state) => [
-    state.markMode,
-    state.toggleMarkMode,
-  ]);
+  // const [
+  //   startSelected,
+  //   setStartSelected,
+  //   endSelected,
+  //   setEndSelected,
+  // ] = useMarkStore((state) => [
+  //   state.startSelected,
+  //   state.setStartSelected,
+  //   state.endSelected,
+  //   state.setEndSelected,
+  // ]);
 
-  const addAnnotation = useAnnotationStore((state) => state.addAnnotation);
+  // const [markMode, toggleMarkMode] = useModeStore((state) => [
+  //   state.markMode,
+  //   state.toggleMarkMode,
+  // ]);
 
-  const toggleShowInputs = () => {
-    setShowInputs(!showInputs);
-    setTimeout(() => {
-      setButtonTextShow(!buttonTextShow);
-    }, 200);
-  };
+  // const addAnnotation = useAnnotationStore((state) => state.addAnnotation);
 
-  const validSelection = () => {
-    return Math.abs(startSelected - endSelected) > 0.001;
-  };
+  // const toggleShowInputs = () => {
+  //   setShowInputs(!showInputs);
+  //   setTimeout(() => {
+  //     setButtonTextShow(!buttonTextShow);
+  //   }, 200);
+  // };
 
-  const handleSubmit = () => {
-    addAnnotation({
-      start: startSelected,
-      end: endSelected,
-      code: codeInput,
-      text: textInput,
-    });
-    setCodeInput('');
-    setTextInput('');
-    setStartSelected(0);
-    setEndSelected(0);
-    if (markMode) {
-      toggleMarkMode();
-    }
-    setShowConfirmation(true);
-    setTimeout(() => {
-      setShowConfirmation(false);
-    }, 3000);
-  };
+  // const validSelection = () => {
+  //   return Math.abs(startSelected - endSelected) > 0.001;
+  // };
+
+  // const handleSubmit = () => {
+  //   addAnnotation({
+  //     start: startSelected,
+  //     end: endSelected,
+  //     code: codeInput,
+  //     text: textInput,
+  //   });
+  //   setCodeInput('');
+  //   setTextInput('');
+  //   setStartSelected(0);
+  //   setEndSelected(0);
+  //   if (markMode) {
+  //     toggleMarkMode();
+  //   }
+  //   setShowConfirmation(true);
+  //   setTimeout(() => {
+  //     setShowConfirmation(false);
+  //   }, 3000);
+  //   setShowInputs(false);
+  // };
+
+  // console.log('start', startSelected, 'end', endSelected);
+  const togglePopup = () => setDisplayPopup((currentState) => !currentState);
+
   return (
     <Wrapper>
-      <PlusButton alt="add annotation" onClick={toggleShowInputs}>
+      <PlusButton
+        alt='add annotation'
+        onClick={/*toggleShowInputs*/ togglePopup}
+      >
         <AddIcon
           style={{
             transition: 'ease 0.4s',
-            transform: showInputs ? 'rotateZ(45deg)' : 'rotateZ(0deg)',
             fontSize: '3vw',
             alignSelf: 'center',
           }}
         />
         <ButtonText>{buttonTextShow ? 'Close' : 'Add Annotation'}</ButtonText>
       </PlusButton>
-      {showInputs && (
+
+      {displayPopup && <AddAnnotationPopup onClose={togglePopup} />}
+      {/* {showInputs && (
         <MenuWrapper>
           {!validSelection() && (
             <Typography>You have not selected any part of the graph</Typography>
@@ -128,22 +141,22 @@ const AddAnnotation = (props) => {
           )}
           <TextField
             required
-            label="Code"
+            label='Code'
             onChange={(e) => setCodeInput(e.target.value)}
             disabled={!validSelection()}
             value={codeInput}
           />
           <TextField
             required
-            label="Text"
+            label='Text'
             onChange={(e) => setTextInput(e.target.value)}
             disabled={!validSelection()}
             value={textInput}
           />
 
           <Button
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             disableElevation
             onClick={handleSubmit}
             disabled={
@@ -157,7 +170,7 @@ const AddAnnotation = (props) => {
             <Typography>Annotation successfully added</Typography>
           )}
         </MenuWrapper>
-      )}
+      )} */}
     </Wrapper>
   );
 };

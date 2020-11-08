@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useAnnotationStore } from '../../../Store';
+// import { useAnnotationStore } from '../../../Store';
 
 const Wrapper = styled.div``;
 
@@ -33,10 +33,10 @@ const Input = styled.input`
 
 const AnnotationFileUpload = (props) => {
   const [aiUploaded, setAiUploaded] = useState(false);
-  const [annotations, addAnnotation] = useAnnotationStore((state) => [
-    state.annotations,
-    state.addAnnotation,
-  ]);
+  // const [annotations, addAnnotation] = useAnnotationStore((state) => [
+  //   state.annotations,
+  //   state.addAnnotation,
+  // ]);
   const handleUserAnnotationUpload = (e) => {
     let file = e.target.files[0];
     let reader = new FileReader();
@@ -64,20 +64,20 @@ const AnnotationFileUpload = (props) => {
   return (
     <Wrapper>
       <Input
-        type="file"
-        id="user-annotation-upload-button"
+        type='file'
+        id='user-annotation-upload-button'
         onChange={handleUserAnnotationUpload}
       />
-      <label htmlFor="user-annotation-upload-button">
+      <label htmlFor='user-annotation-upload-button'>
         <UploadButton>Upload user-annotations</UploadButton>
       </label>
 
       <Input
-        type="file"
-        id="ai-annotation-upload-button"
+        type='file'
+        id='ai-annotation-upload-button'
         onChange={handleAiAnnotationUpload}
       />
-      <label htmlFor="ai-annotation-upload-button">
+      <label htmlFor='ai-annotation-upload-button'>
         <UploadButton style={{ backgroundColor: aiUploaded ? 'blue' : '' }}>
           Upload AI-annotations
         </UploadButton>

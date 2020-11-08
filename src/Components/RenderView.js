@@ -8,16 +8,21 @@ import Vcg from './Vcg';
 
 const IndexIcon = styled.div`
   position: absolute;
-  top: 10px;
+  top: ${(props) =>
+    props.orientation === 0
+      ? '10px'
+      : 'calc(' + (100 / props.numOfRenders) * props.index + '% + 10px)'};
   left: ${(props) =>
-    'calc(' + (100 / props.numOfRenders) * props.index + '% + 10px)'};
+    props.orientation === 0
+      ? 'calc(' + (100 / props.numOfRenders) * props.index + '% + 10px)'
+      : '10px'};
   background: #00a8ff;
   width: 30px;
   height: 30px;
   font-size: 16px;
   font-weight: 600;
   color: white;
-  z-index: 9999;
+  z-index: 100;
   display: grid;
   align-items: center;
   justify-items: center;
@@ -42,6 +47,8 @@ const RenderView = () => {
     'background: #111; color: #ebd31c'
   );
 
+  console.log(store.activeRenders);
+
   // Link names from store with component
   let componentsNameList = [
     {
@@ -61,13 +68,17 @@ const RenderView = () => {
   let activeComponents = [];
 
   // Extract component from state that is active and should be included in the split view
-  store.activeRenders.map((r) =>
-    componentsNameList.forEach((c, i) => {
+  store.activeRenders.map((r, i) =>
+    componentsNameList.forEach((c) => {
       if (c.name.toLowerCase() === r.toLowerCase())
         activeComponents.push(
           <React.Fragment key={c.name + i}>
             {store.showRenderviewIndex && store.activeRenders.length > 1 && (
-              <IndexIcon index={i} numOfRenders={store.activeRenders.length}>
+              <IndexIcon
+                index={i}
+                numOfRenders={store.activeRenders.length}
+                orientation={store.orientation}
+              >
                 {i + 1}
               </IndexIcon>
             )}
@@ -76,6 +87,7 @@ const RenderView = () => {
         );
     })
   );
+  console.log(activeComponents);
 
   return (
     <Split

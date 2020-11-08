@@ -1,14 +1,14 @@
-import React from "react";
-import SettingsSlider from "../SettingsSlider";
-import { useCameraStore } from "../../../Store";
+import React from 'react';
+import SettingsSlider from '../Settings/SettingsSlider';
+import { useCameraStore } from '../../../Store';
 
 const GeneralOptions = () => {
   const [fov, setFov] = useCameraStore((state) => [state.fov, state.setFov]);
 
   return (
     <SettingsSlider
-      title={"Camera FOV"}
-      description={"Use the slider to select the field of view of the camera"}
+      title={'Camera FOV'}
+      description={'Use the slider to select the field of view of the camera'}
       value={fov}
       minValue={50}
       maxValue={120}
