@@ -21,12 +21,12 @@ const Header = styled.div`
   grid-auto-flow: column;
   grid-gap: 10px;
   grid-template-columns: 1fr 8fr;
-  align-content: center;
+  align-items: center;
   height: 60px;
 `;
 
 const Title = styled.h1`
-  // vertical-align: middle;
+  font-size: 24px;
   margin: 0;
   padding: 0;
 `;
@@ -108,8 +108,8 @@ const SideDrawer = () => {
           <Accordion TransitionProps={{ unmountOnExit: true }} key={i}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
+              aria-controls='panel1a-content'
+              id='panel1a-header'
             >
               <Typography className={classes.heading}>{item.title}</Typography>
             </AccordionSummary>

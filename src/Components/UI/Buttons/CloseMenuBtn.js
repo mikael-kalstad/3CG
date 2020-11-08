@@ -4,12 +4,12 @@ import Button from '@material-ui/core/Button';
 
 const CloseMenuBtn = (props) => {
   const ButtonStyle = {
-    width: '20px',
+    width: '15px',
     borderRadius: '0px',
   };
   return (
     <Button style={ButtonStyle} onClick={props.onClick}>
-      <CloseRoundedIcon style={{ fontSize: '40px', opacity: 0.7 }} />
+      <CloseRoundedIcon style={{ fontSize: '30px', opacity: 0.7 }} />
     </Button>
   );
 };

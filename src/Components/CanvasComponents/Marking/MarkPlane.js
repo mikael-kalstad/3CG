@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useMarkStore } from '../../Store';
+import { useMarkStore } from '../../../Store';
 
 const MarkPlane = (props) => {
   const mesh = useRef();

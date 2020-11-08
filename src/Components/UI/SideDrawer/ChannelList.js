@@ -12,8 +12,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import SelectAllOrNoneBtns from '../Buttons/SelectAllOrNoneBtns';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import SettingsCheck from '../SettingsCheck';
-import SettingsSlider from '../SettingsSlider';
+import SettingsCheck from '../Settings/SettingsCheck';
+import SettingsSlider from '../Settings/SettingsSlider';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 
