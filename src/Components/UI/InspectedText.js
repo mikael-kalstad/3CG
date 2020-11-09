@@ -1,9 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useInspectStore, useChannelStore } from "../../Store";
-import { dataService } from "../../Services/DataService";
-import styled, { keyframes } from "styled-components";
+import React, { useRef, useEffect, useState } from 'react';
+import { useInspectStore, useChannelStore } from '../../Store';
+import { dataService } from '../../Services/DataService';
+import styled, { keyframes } from 'styled-components';
 
-import CrossBtn from "./Buttons/CrossBtn";
+import CrossBtn from './Buttons/CrossBtn';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const slideIn = keyframes`
   from {
@@ -55,7 +56,7 @@ const InspectedText = (props) => {
   const inspected = useInspectStore((state) => state.inspected);
   const setInspected = useInspectStore((state) => state.setInspected);
 
-  const setChannel = useChannelStore((state) => state.setChannel);
+  const setActiveChannels = useChannelStore((state) => state.setActiveChannels);
   const activeChannelsRef = useRef(useChannelStore.getState().activeChannels);
 
   useEffect(() => {
@@ -73,9 +74,11 @@ const InspectedText = (props) => {
 
   const cancelInspection = () => {
     setCanceled(true); // Trigger slideOut animation
+    let newActiveChannels = [];
     for (let i = 0; i < activeChannelsRef.current.length; i++) {
-      setChannel(i, true);
+      newActiveChannels.push(true);
     }
+    setActiveChannels(newActiveChannels);
     setTimeout(() => {
       /* After slideOut animation is done (400ms), reset states */
       setInspected(-1);
@@ -90,9 +93,11 @@ const InspectedText = (props) => {
       {shouldRender && (
         <Wrapper animateOut={canceled}>
           <Text>Inspecting: {inspectedChannel}</Text>
-          <IconWrapper>
-            <CrossBtn onClick={cancelInspection} />
-          </IconWrapper>
+          <Tooltip title='Quit inspection'>
+            <IconWrapper>
+              <CrossBtn onClick={cancelInspection} />
+            </IconWrapper>
+          </Tooltip>
         </Wrapper>
       )}
     </>

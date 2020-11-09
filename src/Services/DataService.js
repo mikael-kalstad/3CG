@@ -126,11 +126,7 @@ class DataService {
       for (let i in channelData) {
         // if (i > MAX_NUM_OF_POINTS) break;
 
-        channelPoints.push([
-          Number(i),
-          channelData[i],
-          -channel * 10 + (10 * (samplesKeys.length - 1)) / 2,
-        ]);
+        channelPoints.push([Number(i), channelData[i], 0]);
       }
 
       points.push(channelPoints);

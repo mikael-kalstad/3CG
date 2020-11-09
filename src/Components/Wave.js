@@ -32,7 +32,7 @@ const Wave = (props) => {
   const [inspectMode] = useModeStore((state) => [state.inspectMode]);
 
   const activeChannels = useChannelStore((state) => state.activeChannels);
-  const setChannel = useChannelStore((state) => state.setChannel);
+  const setActiveChannels = useChannelStore((state) => state.setActiveChannels);
 
   const [
     scale,
@@ -100,11 +100,11 @@ const Wave = (props) => {
 
   const inspectChannel = (channelIndex) => {
     setInspected(channelIndex);
+    let newActiveChannels = [];
     for (let i = 0; i < activeChannels.length; i++) {
-      if (i !== channelIndex) {
-        setChannel(i, false);
-      }
+      newActiveChannels.push(i === channelIndex ? true : false);
     }
+    setActiveChannels(newActiveChannels);
   };
 
   // React-spring animation config
@@ -147,7 +147,7 @@ const Wave = (props) => {
   };
 
   return (
-    <group>
+    <group position={props.position}>
       <Text
         onClick={(e) => {
           e.stopPropagation();
@@ -183,10 +183,10 @@ const Wave = (props) => {
               1,
             ]}
           >
-            <bufferGeometry attach="geometry" ref={ref} />
+            <bufferGeometry attach='geometry' ref={ref} />
             <lineBasicMaterial
-              name="line"
-              attach="material"
+              name='line'
+              attach='material'
               linewidth={1000}
               linecap={'round'}
               linejoin={'round'}

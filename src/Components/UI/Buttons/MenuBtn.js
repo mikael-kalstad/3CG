@@ -1,5 +1,6 @@
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Tooltip from '@material-ui/core/Tooltip';
 import React from 'react';
 
 const ButtonStyle = {
@@ -13,13 +14,15 @@ const ButtonStyle = {
 
 const MenuBtn = (props) => {
   return (
-    <IconButton
-      aria-label='Play'
-      style={ButtonStyle}
-      onClick={() => props.onClick()}
-    >
-      <MenuIcon />
-    </IconButton>
+    <Tooltip title='Open menu'>
+      <IconButton
+        aria-label='Play'
+        style={ButtonStyle}
+        onClick={() => props.onClick()}
+      >
+        <MenuIcon />
+      </IconButton>
+    </Tooltip>
   );
 };
 

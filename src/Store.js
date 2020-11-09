@@ -49,6 +49,8 @@ export const useChannelStore = create((set) => ({
         i === index ? newActive : e
       ),
     })),
+  setActiveChannels: (newActiveChannels) =>
+    set((state) => ({ activeChannels: newActiveChannels })),
 }));
 
 const DEFAULT_SPEED = 0.00001;

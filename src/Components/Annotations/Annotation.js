@@ -7,16 +7,27 @@ const HEIGHT_OVER_XZ = 10;
 const sampleRate = dataService.getSampleRate();
 
 const Annotation = (props) => {
+  const firstRenderRef = useRef(true);
   const planeMesh = useRef();
   const scale = useScaleStore((state) => state.scale);
   let width = (props.ann.end - props.ann.start) * sampleRate;
-  const onMount = () => {
-    planeMesh.current.rotateX(-Math.PI / 2);
-    planeMesh.current.scale.set(width * scale, 150, 0.1);
-    planeMesh.current.position.set(0, -HEIGHT_OVER_XZ - props.level * 0.2, 75);
-    planeMesh.current.material.color.setHex(props.color);
-  };
-  useEffect(onMount, [props.color, props.level, scale, width]);
+
+  useEffect(() => {
+    const onMount = () => {
+      planeMesh.current.rotateX(-Math.PI / 2);
+      planeMesh.current.scale.set(width * scale, 150, 0.1);
+      planeMesh.current.position.set(
+        0,
+        -HEIGHT_OVER_XZ - props.level * 0.2,
+        75
+      );
+      planeMesh.current.material.color.setHex(props.color);
+    };
+    if (firstRenderRef.current) {
+      firstRenderRef.current = false;
+      onMount();
+    }
+  }, [props.color, props.level, scale, width]);
 
   return (
     <group
