@@ -21,7 +21,7 @@ const MarkPlane = (props) => {
 
   const onPointerUp = (event) => {
     setPressing(false);
-    //console.log('Hello');
+
     useMarkStore.setState({ markingFinished: true });
 
     // Get non-reactive fresh states from markStore
