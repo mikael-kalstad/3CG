@@ -89,8 +89,6 @@ const SelectedTimeInputs = (props) => {
     setEndSelected(Number(endTime));
   };
 
-  console.log('startSelected', startSelected, 'endSelected', endSelected);
-
   const InputProps = {
     inputComponent: NumberFormatCustom,
     step: 0.1,
