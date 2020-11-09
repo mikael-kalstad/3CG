@@ -1,14 +1,14 @@
 import React, { Suspense, useMemo } from 'react';
 import * as THREE from 'three';
-import { useModeStore } from '../Store';
-import Text from './Text';
+import { useModeStore } from '../../../Store';
+import Text from '../../Text';
 
 // The standard grid for ECG uses 0.04s per square in the x-axis, and 0.1mV in the y-axis.
 // The mV in this grid ranges from
 // This grid shows that standard using a 25x20 grid, the scale which is set at the end of the code
 // is 200 for both x and y. Position is 100 for x and 10 for y. Z-position is 55 for the I-channel (first).
 
-const Grid = () => {
+const Grid = (props) => {
   let xSize = 26;
   //let xSize = 25;
   let ySize = 21;
@@ -138,53 +138,36 @@ const Grid = () => {
 
   return (
     <Suspense fallback={null}>
-      <Text
-        position={[-10, 105, -75]}
-        rotateToCamera={true}
-        background={true}
-        backgroundOpacity={0.2}
-        backgroundColor={0x000000}
-        backgroundScaleByText={1.5}
-        textSize={3.5}
-      >
-        1.0 mV
-      </Text>
-      <Text
-        position={[-10, 50, -75]}
-        rotateToCamera={true}
-        background={true}
-        backgroundOpacity={0.2}
-        backgroundColor={0x000000}
-        backgroundScaleByText={1.5}
-        textSize={3.5}
-      >
-        0.5 mV
-      </Text>
-      <Text
-        position={[-20, 0, -75]}
-        rotateToCamera={true}
-        background={true}
-        backgroundOpacity={0.2}
-        backgroundColor={0x000000}
-        backgroundScaleByText={1.5}
-        textSize={3.5}
-      >
-        0 mV
-      </Text>
-      <primitive
-        object={grid}
-        //front position z=55
-        position={[104, 5, -54.6]}
-        //Scale is 8.04*xSize, and 8.05*ySize
-        scale={[208, 210, 1]}
-      />
-      <primitive
-        object={grid2}
-        //front position z=55
-        position={[120, 25, -54.5]}
-        //Scale is 8.04*xSize, and 8.05*ySize
-        scale={[240, 250, 1]}
-      />
+      <group position={props.position}>
+        {[-2, -1, 0, 1, 2].map((e) => (
+          <Text
+            position={[-124, -5 + e * 50, 0]}
+            rotateToCamera={true}
+            background={true}
+            backgroundOpacity={0.2}
+            backgroundColor={0x000000}
+            backgroundScaleByText={1.5}
+            textSize={3.5}
+          >
+            {(e / 2).toFixed(1) + ' mV'}
+          </Text>
+        ))}
+
+        <primitive
+          object={grid}
+          //front position z=55
+          // position={[104, 5, -54.6]}
+          //Scale is 8.04*xSize, and 8.05*ySize
+          scale={[208, 210, 1]}
+        />
+        <primitive
+          object={grid2}
+          //front position z=55
+          position={[16, 20, 0]}
+          //Scale is 8.04*xSize, and 8.05*ySize
+          scale={[240, 250, 1]}
+        />
+      </group>
     </Suspense>
   );
 };

@@ -50,12 +50,12 @@ const ChannelList = () => {
     activeChannels,
     toggleChannel,
     toggleAllChannels,
-    setChannel,
+    setActiveChannels,
   ] = useChannelStore((state) => [
     state.activeChannels,
     state.toggleChannel,
     state.toggleAllChannels,
-    state.setChannel,
+    state.setActiveChannels,
   ]);
 
   const [
@@ -84,13 +84,11 @@ const ChannelList = () => {
 
   const inspectChannel = (channelIndex) => {
     setInspected(channelIndex);
+    let newActiveChannels = [];
     for (let i = 0; i < activeChannels.length; i++) {
-      if (i !== channelIndex) {
-        setChannel(i, false);
-      } else {
-        setChannel(i, true);
-      }
+      newActiveChannels.push(i === channelIndex);
     }
+    setActiveChannels(newActiveChannels);
   };
 
   return (

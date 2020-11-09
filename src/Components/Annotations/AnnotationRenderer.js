@@ -62,7 +62,7 @@ const AnnotationRenderer = (props) => {
     <>
       {annotations.map(
         (ann, i) =>
-          shouldRender(ann.start, ann.end) &&
+          // shouldRender(ann.start, ann.end) &&
           activeAnnotations[i] && (
             <React.Fragment key={i}>
               <Annotation

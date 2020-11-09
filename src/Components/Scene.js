@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { Canvas } from 'react-three-fiber';
 import { useCameraStore } from '../Store';
 import CameraControls from './CameraControls';
-import Grid from './Grid';
 import OrtoCam from './OrtoCam';
 import Text from './Text';
 
@@ -30,7 +29,7 @@ const Scene = (props) => {
           Z
         </Text>
       </Suspense>
-      <Grid />
+
       <OrtoCam />
     </Canvas>
   );

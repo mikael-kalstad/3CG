@@ -1,4 +1,5 @@
 import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import NoteIcon from '@material-ui/icons/Note';
 import React from 'react';
 import { useModeStore, useRenderTypeStore } from '../../../Store';
@@ -14,9 +15,9 @@ const MarkBtn = () => {
   };
 
   return (
-    <>
+    <Tooltip title='Toggle marking'>
       <IconButton
-        aria-label="Play"
+        aria-label='Play'
         style={ButtonStyle}
         onClick={() => {
           toggleMarkMode();
@@ -24,7 +25,7 @@ const MarkBtn = () => {
       >
         <NoteIcon />
       </IconButton>
-    </>
+    </Tooltip>
   );
 };
 

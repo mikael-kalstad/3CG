@@ -93,7 +93,7 @@ const AddAnnotationContainer = () => {
         actionName='ADD ANNOTATION'
         onClick={togglePopup}
         dontShowClick={toggleShowAddAnnotationPopup}
-        message='Mark mode can only be used with click and drag in 3D with the ecg render view. Click to add annotation using start- and end-time'
+        message='Mark mode can only be used with click and drag in 3D with the ECG render view. Click to add annotation using start- and end-time'
       />
     );
   else if (markMode)

@@ -1,17 +1,17 @@
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import React from "react";
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import React from 'react';
 
 const CrossBtn = (props) => {
   const ButtonStyle = {
-    backgroundColor: "#dddddd",
-    width: "40px",
-    height: "40px",
+    backgroundColor: '#dddddd',
+    width: '40px',
+    height: '40px',
   };
 
   const IconStyle = {
-    width: "20px",
-    height: "20px",
+    width: '27px',
+    height: '27px',
   };
 
   return (

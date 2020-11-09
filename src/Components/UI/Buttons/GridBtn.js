@@ -1,5 +1,6 @@
 import IconButton from '@material-ui/core/IconButton';
 import GridOnIcon from '@material-ui/icons/GridOn';
+import Tooltip from '@material-ui/core/Tooltip';
 import React from 'react';
 import { useModeStore } from '../../../Store';
 
@@ -16,13 +17,15 @@ const GridBtn = () => {
   };
 
   return (
-    <IconButton
-      aria-label="Play"
-      style={ButtonStyle}
-      onClick={() => toggleGridMode()}
-    >
-      <GridOnIcon />
-    </IconButton>
+    <Tooltip title='Toggle grid'>
+      <IconButton
+        aria-label='Play'
+        style={ButtonStyle}
+        onClick={() => toggleGridMode()}
+      >
+        <GridOnIcon />
+      </IconButton>
+    </Tooltip>
   );
 };
 
