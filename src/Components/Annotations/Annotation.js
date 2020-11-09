@@ -10,13 +10,13 @@ const Annotation = (props) => {
   const planeMesh = useRef();
   const scale = useScaleStore((state) => state.scale);
   let width = (props.ann.end - props.ann.start) * sampleRate;
-
-  useEffect(() => {
+  const onMount = () => {
     planeMesh.current.rotateX(-Math.PI / 2);
     planeMesh.current.scale.set(width * scale, 150, 0.1);
     planeMesh.current.position.set(0, -HEIGHT_OVER_XZ - props.level * 0.2, 75);
     planeMesh.current.material.color.setHex(props.color);
-  }, [props.color, props.level, scale, width]);
+  };
+  useEffect(onMount, [props.color, props.level, scale, width]);
 
   return (
     <group

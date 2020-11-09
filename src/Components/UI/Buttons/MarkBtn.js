@@ -11,15 +11,12 @@ const MarkBtn = () => {
     backgroundColor: markMode ? '#aaa' : '#fff',
     width: '50px',
     height: '50px',
-    top: '20px',
-    right: '80px',
-    position: 'absolute',
   };
 
   return (
     <>
       <IconButton
-        aria-label='Play'
+        aria-label="Play"
         style={ButtonStyle}
         onClick={() => {
           toggleMarkMode();

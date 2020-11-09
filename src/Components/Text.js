@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useFrame, useLoader, useThree } from 'react-three-fiber';
 import * as THREE from 'three';
 
 const Text = (props) => {
-  const [maxRepeat, setMaxRepeat] = useState(1);
+  const firstRenderRef = useRef(true);
   const font = useLoader(
     THREE.FontLoader,
     process.env.PUBLIC_URL + '/helvetiker_regular.typeface.json'
@@ -24,62 +24,61 @@ const Text = (props) => {
 
   let initialBackgroundColor = props.backgroundColor;
 
-  const onMount = () => {
-    textMesh.current.geometry.computeBoundingBox();
-    let boundingBox = textMesh.current.geometry.boundingBox.max;
-    textMesh.current.geometry.translate(
-      -boundingBox.x / 2,
-      -boundingBox.y / 2,
-      -boundingBox.z / 2
-    );
+  useEffect(() => {
+    const onMount = () => {
+      textMesh.current.geometry.computeBoundingBox();
+      let boundingBox = textMesh.current.geometry.boundingBox.max;
+      textMesh.current.geometry.translate(
+        -boundingBox.x / 2,
+        -boundingBox.y / 2,
+        -boundingBox.z / 2
+      );
 
-    textMesh.current.geometry.computeBoundingBox();
+      textMesh.current.geometry.computeBoundingBox();
 
-    if (props.background) {
-      planeMesh.current.material.opacity = props.backgroundOpacity;
-      planeMesh.current.material.color.setHex(props.backgroundColor);
-      let bound = [
-        textMesh.current.geometry.boundingBox.max.x,
-        textMesh.current.geometry.boundingBox.max.y,
-        0,
-      ];
-      let scale = props.backgroundScaleByText + 1;
-      if (props.backgroundSize) {
-        planeMesh.current.scale.set(
-          props.backgroundSize[0],
-          props.backgroundSize[1],
-          0.1
-        );
-      } else {
-        planeMesh.current.scale.set(
-          Math.max(bound[0] * scale, 1.5 * props.textSize),
-          bound[1] * scale,
-          0.1
+      if (props.background) {
+        planeMesh.current.material.opacity = props.backgroundOpacity;
+        planeMesh.current.material.color.setHex(props.backgroundColor);
+        let bound = [
+          textMesh.current.geometry.boundingBox.max.x,
+          textMesh.current.geometry.boundingBox.max.y,
+          0,
+        ];
+        let scale = props.backgroundScaleByText + 1;
+        if (props.backgroundSize) {
+          planeMesh.current.scale.set(
+            props.backgroundSize[0],
+            props.backgroundSize[1],
+            0.1
+          );
+        } else {
+          planeMesh.current.scale.set(
+            Math.max(bound[0] * scale, 1.5 * props.textSize),
+            bound[1] * scale,
+            0.1
+          );
+        }
+        planeMesh.current.geometry.computeBoundingBox();
+
+        planeMesh.current.translateZ(
+          props.depth ? -props.depth / 2 - 0.01 : -0.1
         );
       }
-      planeMesh.current.geometry.computeBoundingBox();
-
-      setMaxRepeat(
-        Math.floor(
-          planeMesh.current.scale.x /
-            textMesh.current.geometry.boundingBox.max.x
-        )
-      );
-      console.log('Max repeat is', textMesh.current.geometry.boundingBox.max.x);
-
-      planeMesh.current.translateZ(
-        props.depth ? -props.depth / 2 - 0.01 : -0.1
-      );
+      if (props.rotateToCamera === undefined && props.rotation) {
+        group.current.setRotationFromEuler(
+          new THREE.Euler(
+            props.rotation[0],
+            props.rotation[1],
+            props.rotation[2]
+          )
+        );
+      }
+    };
+    if (firstRenderRef.current) {
+      firstRenderRef.current = false;
+      onMount();
     }
-    if (props.rotateToCamera === undefined && props.rotation) {
-      group.current.setRotationFromEuler(
-        new THREE.Euler(props.rotation[0], props.rotation[1], props.rotation[2])
-      );
-    }
-    console.log(textMesh.current.geometry.parameters);
-  };
-
-  useEffect(onMount, [
+  }, [
     props.background,
     props.backgroundColor,
     props.backgroundOpacity,
@@ -87,8 +86,8 @@ const Text = (props) => {
     props.backgroundSize,
     props.depth,
     props.rotateToCamera,
-    props.textSize,
     props.rotation,
+    props.textSize,
   ]);
 
   const handlePointerOver = (e) => {
