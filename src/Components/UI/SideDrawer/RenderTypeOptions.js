@@ -56,7 +56,6 @@ const RenderTypeOptions = () => {
   );
 
   const handleChange = (index, e) => {
-    console.log(e);
     store.editRender(index, e.target.value);
   };
 

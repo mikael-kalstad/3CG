@@ -179,3 +179,8 @@ export const useMarkStore = create((set) => ({
   markingFinished: false,
   setMarkingFinished: (newState) => set(() => ({ markingFinished: newState })),
 }));
+
+export const useSnackbarStore = create((set) => ({
+  snackbar: null,
+  setSnackbar: (newSnackbar) => set(() => ({ snackbar: newSnackbar })),
+}));

@@ -1,10 +1,11 @@
 import IconButton from '@material-ui/core/IconButton';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   useModeStore,
   useTimelineOptionsStore,
   useTimeStore,
+  useSnackbarStore,
 } from '../../../Store';
 import SnackbarPopup from '../Snackbars/SnackbarPopup';
 
@@ -13,12 +14,13 @@ const ButtonStyle = {
   padding: 0,
 };
 
+// Constants
 const ICON_SIZE = 18;
 const SPEED_INCREMENT = 0.000005;
 
 const MiniFastForwardBtn = (props) => {
-  const [snackbar, setSnackbar] = useState(false);
   const markMode = useModeStore((state) => state.markMode);
+  const setSnackbar = useSnackbarStore((state) => state.setSnackbar);
   const [speed, setSpeed, defaultSpeed] = useTimeStore((state) => [
     state.speed,
     state.setSpeed,
@@ -31,9 +33,21 @@ const MiniFastForwardBtn = (props) => {
     'background: #111; color: #ebd31c'
   );
 
+  // Format speed into format
+  const formatSpeed = (speed) => {
+    return 'Playback rate: ' + (speed / defaultSpeed).toFixed(2) + 'x';
+  };
+
   const handleClick = () => {
+    // Reset global snackbar since there may be an active snackbar
+    setSnackbar(null);
+
+    let snackbar = (
+      <SnackbarPopup message={formatSpeed(speed)} timeout={2500} type='info' />
+    );
+
     // Show snackbar message
-    setSnackbar(true);
+    if (showSnackbar) setSnackbar(snackbar);
 
     if (props.forward)
       setSpeed(
@@ -43,11 +57,6 @@ const MiniFastForwardBtn = (props) => {
       setSpeed(
         speed - SPEED_INCREMENT * (speed - SPEED_INCREMENT === 0 ? 2 : 1)
       );
-  };
-
-  // Format speed into format
-  const formatSpeed = (speed) => {
-    return 'Playback rate: ' + (speed / defaultSpeed).toFixed(2) + 'x';
   };
 
   let transform = '';
@@ -60,14 +69,6 @@ const MiniFastForwardBtn = (props) => {
 
   return (
     <>
-      {showSnackbar && snackbar && (
-        <SnackbarPopup
-          message={formatSpeed(speed)}
-          open={snackbar}
-          setOpen={setSnackbar}
-          timeout={1500}
-        />
-      )}
       <IconButton
         aria-label='Play'
         style={ButtonStyle}

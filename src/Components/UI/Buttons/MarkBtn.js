@@ -2,7 +2,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import NoteIcon from '@material-ui/icons/Note';
 import React from 'react';
-import { useModeStore, useRenderTypeStore } from '../../../Store';
+import { useModeStore } from '../../../Store';
 
 const MarkBtn = () => {
   const markMode = useModeStore((state) => state.markMode);

@@ -1,21 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  useMarkStore,
-  useTimeStore,
-  useRenderTypeStore,
-  useModeStore,
   useAnnotationStore,
+  useMarkStore,
+  useModeStore,
+  useRenderTypeStore,
+  useSnackbarStore,
+  useTimeStore,
 } from '../../Store';
 import AddAnnotationPopup from './AddAnnotationPopup';
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
-import SnackbarPopup from './Snackbars/SnackbarPopup';
 import SnackbarAction from './Snackbars/snackbarAction';
+import SnackbarPopup from './Snackbars/SnackbarPopup';
 
 const AddAnnotationContainer = () => {
   const [displayPopup, setDisplayPopup] = useState(false);
   const activeRenders = useRenderTypeStore((state) => state.activeRenders);
   const markMode = useModeStore((state) => state.markMode);
   const markingFinished = useMarkStore((state) => state.markingFinished);
+  const setSnackbar = useSnackbarStore((state) => state.setSnackbar);
   const [
     showAddAnnotationPopup,
     toggleShowAddAnnotationPopup,
@@ -101,19 +102,14 @@ const AddAnnotationContainer = () => {
       <SnackbarPopup
         timeout={5000}
         message='Mark mode active, click and drag with mouse in ecg to select annotation area'
+        type='info'
       />
     );
-  console.log('containes ecg', arrayContainsString(activeRenders, 'ecg'));
 
-  return (
-    <>
-      {displayPopup ? (
-        <AddAnnotationPopup onClose={togglePopup} />
-      ) : (
-        snackbarToRender
-      )}
-    </>
-  );
+  if (!displayPopup && markMode) setSnackbar(snackbarToRender);
+  else if (displayPopup && markMode) setSnackbar(null);
+
+  return displayPopup && <AddAnnotationPopup onClose={togglePopup} />;
 };
 
 export default AddAnnotationContainer;

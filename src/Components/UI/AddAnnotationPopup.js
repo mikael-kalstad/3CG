@@ -8,9 +8,15 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React, { useState } from 'react';
+import {
+  useAnnotationStore,
+  useMarkStore,
+  useModeStore,
+  useSnackbarStore,
+} from '../../Store';
 import AnnotationListDropdown from './AnnotationListDropdown';
-import { useMarkStore, useAnnotationStore, useModeStore } from '../../Store';
 import SelectedTimeInputs from './SelectedTimeInputs';
+import SnackbarPopup from './Snackbars/SnackbarPopup';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,10 +45,8 @@ const AddAnnotationPopup = (props) => {
   const [open, setOpen] = React.useState(true);
   const [inputValue, setInputValue] = useState(null);
   const addAnnotation = useAnnotationStore((state) => state.addAnnotation);
-  const [markMode, toggleMarkMode] = useModeStore((state) => [
-    state.markMode,
-    state.toggleMarkMode,
-  ]);
+  const setSnackbar = useSnackbarStore((state) => state.setSnackbar);
+  const toggleMarkMode = useModeStore((state) => state.markMode);
 
   const [
     startSelected,
@@ -57,10 +61,6 @@ const AddAnnotationPopup = (props) => {
   ]);
 
   const handleDropdownChange = (e, v) => setInputValue(v);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -87,6 +87,25 @@ const AddAnnotationPopup = (props) => {
 
     // Close dialog
     handleClose();
+
+    // Reset snackbar
+    setSnackbar(null);
+
+    let snackbar = (
+      <SnackbarPopup
+        message={
+          'Success! ' +
+          (inputValue.length === 1
+            ? 'Annotation added'
+            : inputValue.length + ' annotations added')
+        }
+        timeout={2500}
+        type='success'
+      />
+    );
+
+    // Show success snackbar
+    setSnackbar(snackbar);
   };
 
   return (

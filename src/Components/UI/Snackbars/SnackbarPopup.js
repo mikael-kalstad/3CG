@@ -2,6 +2,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { makeStyles } from '@material-ui/core/styles';
 import MuiAlert from '@material-ui/lab/Alert';
 import React, { useState } from 'react';
+import { useSnackbarStore } from '../../../Store';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -9,6 +10,7 @@ function Alert(props) {
 
 const SnackbarPopup = (props) => {
   const [open, setOpen] = useState(true);
+  const setSnackbar = useSnackbarStore((state) => state.setSnackbar);
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,6 +29,7 @@ const SnackbarPopup = (props) => {
       return;
     }
     setOpen(false);
+    setSnackbar(null);
   };
 
   return (
@@ -37,7 +40,7 @@ const SnackbarPopup = (props) => {
         onClose={handleClose}
         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
       >
-        <Alert onClose={handleClose} severity='info'>
+        <Alert onClose={handleClose} severity={props.type || null}>
           {props.message}
         </Alert>
       </Snackbar>
