@@ -13,9 +13,6 @@ const OrtoBtn = () => {
     backgroundColor: ortoMode ? '#aaa' : '#fff',
     width: '50px',
     height: '50px',
-    top: '80px',
-    right: '140px',
-    position: 'absolute',
   };
 
   return (
@@ -24,7 +21,7 @@ const OrtoBtn = () => {
       style={ButtonStyle}
       onClick={() => toggleOrtoMode()}
     >
-      <StreetviewIcon />
+      <img src='orthographic.svg' style={{ width: '25px' }} />
     </IconButton>
   );
 };

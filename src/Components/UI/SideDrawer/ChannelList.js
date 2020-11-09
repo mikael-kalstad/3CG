@@ -87,6 +87,8 @@ const ChannelList = () => {
     for (let i = 0; i < activeChannels.length; i++) {
       if (i !== channelIndex) {
         setChannel(i, false);
+      } else {
+        setChannel(i, true);
       }
     }
   };

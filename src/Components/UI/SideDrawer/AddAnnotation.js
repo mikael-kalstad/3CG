@@ -1,12 +1,12 @@
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 // import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+// import TextField from '@material-ui/core/TextField';
+// import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import AddAnnotationPopup from '../AddAnnotationPopup';
-import { useAnnotationStore, useMarkStore, useModeStore } from '../../../Store';
+// import { useAnnotationStore, useMarkStore, useModeStore } from '../../../Store';
 
 const Wrapper = styled.div``;
 
@@ -37,16 +37,16 @@ const ButtonText = styled.div`
   transition: ease 0.25s;
 `;
 
-const MenuWrapper = styled.div`
-  margin: 10px 0px 10px 0px;
-  display: grid;
-  align-content: center;
-  grid-gap: 5px;
-`;
+// const MenuWrapper = styled.div`
+//   margin: 10px 0px 10px 0px;
+//   display: grid;
+//   align-content: center;
+//   grid-gap: 5px;
+// `;
 
 const AddAnnotation = () => {
   // const [showInputs, setShowInputs] = useState(false);
-  const [buttonTextShow, setButtonTextShow] = useState(false);
+  const [buttonTextShow] = useState(false);
   // const [codeInput, setCodeInput] = useState('');
   // const [textInput, setTextInput] = useState('');
   // const [showConfirmation, setShowConfirmation] = useState(false);
