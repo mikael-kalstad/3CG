@@ -14,9 +14,12 @@ import {
   useModeStore,
   useSnackbarStore,
 } from '../../Store';
+import { dataService } from '../../Services/DataService';
 import AnnotationListDropdown from './AnnotationListDropdown';
 import SelectedTimeInputs from './SelectedTimeInputs';
 import SnackbarPopup from './Snackbars/SnackbarPopup';
+
+const duration = dataService.getDuration();
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,7 +49,7 @@ const AddAnnotationPopup = (props) => {
   const [inputValue, setInputValue] = useState(null);
   const addAnnotation = useAnnotationStore((state) => state.addAnnotation);
   const setSnackbar = useSnackbarStore((state) => state.setSnackbar);
-  const toggleMarkMode = useModeStore((state) => state.markMode);
+  const toggleMarkMode = useModeStore((state) => state.toggleMarkMode);
 
   const [
     startSelected,
@@ -144,7 +147,9 @@ const AddAnnotationPopup = (props) => {
               inputValue === null ||
               startSelected < 0 ||
               endSelected < 0 ||
-              endSelected - startSelected < 0
+              endSelected - startSelected < 0 ||
+              startSelected > duration ||
+              endSelected > duration
             }
             color='primary'
           >

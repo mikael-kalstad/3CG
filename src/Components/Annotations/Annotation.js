@@ -45,7 +45,7 @@ const Annotation = (props) => {
         backgroundSize={[width * scale, 2 * HEIGHT_OVER_XZ]}
         textSize={scale * 15}
         rotation={[0, 0, 0]}
-        depth={0.1}
+        depth={0.25}
         clippingPlanes={props.clippingPlanes}
       >
         {props.ann.text}
