@@ -154,6 +154,28 @@ const RenderTypeOptions = () => {
           'Show the index of each render view in the corner to easily distinguish the difference between render views'
         }
       />
+
+      <MarginWrapper>
+        <Typography
+          id='split-orientation-title'
+          gutterBottom
+          style={{ marginTop: '40px' }}
+        >
+          VCG Conversion method
+        </Typography>
+
+        <FormHelperText>
+          The VCG representation is a transformation of the 12-lead ecg signals,
+          different transform methods will give different results. More info.
+        </FormHelperText>
+
+        <SelectBetween
+          selectTexts={store.vcgMethodNames}
+          active={store.vcgMethod}
+          onClick={store.setVcgMethod}
+          disabled={!store.activeRenders.includes('Vcg')}
+        />
+      </MarginWrapper>
     </>
   );
 };

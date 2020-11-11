@@ -122,9 +122,6 @@ export const useTimelineOptionsStore = create((set) => ({
   showTotalTime: true,
   toggleShowTotalTime: () =>
     set((state) => ({ showTotalTime: !state.showTotalTime })),
-  showSnackbar: true,
-  toggleShowSnackbar: () =>
-    set((state) => ({ showSnackbar: !state.showSnackbar })),
 }));
 
 export const useRenderTypeStore = create((set) => ({
@@ -151,6 +148,11 @@ export const useRenderTypeStore = create((set) => ({
     set((state) => state.activeRenders.push(newRender)),
   removeActiveRender: (index) =>
     set((state) => state.activeRenders.splice(index, 1)),
+
+  // Different inverse transformation method to get vcg representation in 3D
+  vcgMethod: 0,
+  vcgMethodNames: ['Dowers', 'PLSV', 'QLSV'],
+  setVcgMethod: (index) => set({ vcgMethod: index }),
 
   // 0 = vertical, 1 = horizontal
   orientation: 0,
@@ -183,4 +185,7 @@ export const useMarkStore = create((set) => ({
 export const useSnackbarStore = create((set) => ({
   snackbar: null,
   setSnackbar: (newSnackbar) => set(() => ({ snackbar: newSnackbar })),
+  showSnackbar: true,
+  toggleShowSnackbar: () =>
+    set((state) => ({ showSnackbar: !state.showSnackbar })),
 }));
