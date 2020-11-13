@@ -1,4 +1,3 @@
-import { a } from '@react-spring/three';
 import { matrix, multiply } from 'mathjs';
 import React, { useEffect, useRef } from 'react';
 import { useUpdate, useFrame } from 'react-three-fiber';
@@ -150,7 +149,7 @@ const Vcg = () => {
   // };
 
   return (
-    <a.mesh ref={meshRef}>
+    <mesh ref={meshRef}>
       <line position={[70, 20, -150]} scale={[50, 50, 50]}>
         <bufferGeometry attach='geometry' ref={ref} />
         <lineBasicMaterial
@@ -163,7 +162,7 @@ const Vcg = () => {
           vertexColors={0xff0000}
         />
       </line>
-    </a.mesh>
+    </mesh>
   );
 };
 
