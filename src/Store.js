@@ -30,6 +30,9 @@ export const useModeStore = create((set) => ({
 export const useInspectStore = create((set) => ({
   inspected: -1,
   setInspected: (channel) => set((state) => (state.inspected = channel)),
+  currentlyHovering: false,
+  setCurrentlyHovering: (newCurrentlyHovering) =>
+    set((state) => ({ currentlyHovering: newCurrentlyHovering })),
 }));
 
 // Store for storing global all states related to ecg-data and timing
@@ -56,12 +59,12 @@ export const useChannelStore = create((set) => ({
 const DEFAULT_SPEED = 0.00001;
 
 export const useTimeStore = create((set, get) => ({
-  startTime: 0,
+  startTime: 2,
   setStartTime: (time) => set((state) => ({ startTime: time })),
   endTime:
-    dataLength > POINTS_DEFAULT_LENGTH
+    (dataLength > POINTS_DEFAULT_LENGTH
       ? POINTS_DEFAULT_LENGTH / sampleRate
-      : dataLength / sampleRate,
+      : dataLength / sampleRate) + 2,
   setEndTime: (time) => set((state) => ({ endTime: time })),
   defaultSpeed: DEFAULT_SPEED,
   speed: DEFAULT_SPEED,
@@ -107,7 +110,7 @@ export const useScaleStore = create((set) => ({
   vChannelScaling: true,
   toggleVChannelScaling: () =>
     set((state) => ({ vChannelScaling: !state.vChannelScaling })),
-  vChannelScaleFactor: 90,
+  vChannelScaleFactor: 0.1,
   setVChannelScaleFactor: (newScale) =>
     set(() => ({ vChannelScaleFactor: newScale })),
 }));

@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useUpdate, useFrame } from 'react-three-fiber';
-import { useSpring } from '@react-spring/core';
-import { a } from '@react-spring/three';
 import { /*getColorData*/ getColorDataHeat } from '../Scripts/Color';
 import {
   useChannelStore,
@@ -10,6 +8,7 @@ import {
   useModeStore,
   useScaleStore,
   useTimeStore,
+  useMousePositionStore,
 } from '../Store';
 import { dataService } from '../Services/DataService';
 import Text from './Text';
@@ -18,8 +17,17 @@ const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
 
 const Wave = (props) => {
-  const [clicked, setClicked] = useState(0);
+  console.log('%c [Wave] is rendering', 'background: #111; color: #ebd31c');
+
+  const [currentlyHovering, setCurrentlyHovering] = useInspectStore((state) => [
+    state.currentlyHovering,
+    state.setCurrentlyHovering,
+  ]);
+
   const meshRef = useRef();
+  const hoverBallRef = useRef();
+  const hoverPlaneRef = useRef();
+  const hoverLineRef = useRef();
 
   // Get mode states from global store
   const [playMode, togglePlayMode] = useModeStore((state) => [
@@ -28,8 +36,6 @@ const Wave = (props) => {
   ]);
 
   const markMode = useModeStore((state) => state.markMode);
-
-  const [inspectMode] = useModeStore((state) => [state.inspectMode]);
 
   const activeChannels = useChannelStore((state) => state.activeChannels);
   const setActiveChannels = useChannelStore((state) => state.setActiveChannels);
@@ -48,6 +54,11 @@ const Wave = (props) => {
     state.inspected,
     state.setInspected,
   ]);
+
+  // const [setxPos, setyPos] = useMousePositionStore((state) => [
+  //   state.setxPos,
+  //   state.setyPos,
+  // ]);
 
   // Speed when playMode is activated
   const speed = useTimeStore((state) => state.speed);
@@ -94,8 +105,26 @@ const Wave = (props) => {
     meshRef.current.position.set(-startTimeRef.current * sampleRate, 0, 0);
   });
 
+  useEffect(() => {
+    if (isInspected()) {
+      hoverPlaneRef.current.scale.x =
+        (endTimeRef.current - startTimeRef.current) * sampleRate * scale;
+      hoverPlaneRef.current.scale.y = 130;
+
+      hoverPlaneRef.current.position.x =
+        (endTimeRef.current - startTimeRef.current) * sampleRate * scale * 0.5;
+    }
+  }, [inspected, endTimeRef.current]);
+
+  // const hoverLineGeometryRef = useUpdate((self) => {
+  //   self.setFromPoints([
+  //     new THREE.Vector3(0, 60, 0),
+  //     new THREE.Vector3(0, -60, 0),
+  //   ]);
+  // }, []);
+
   const isInspected = () => {
-    return props.i === inspected;
+    return props.index === inspected;
   };
 
   const inspectChannel = (channelIndex) => {
@@ -106,15 +135,6 @@ const Wave = (props) => {
     }
     setActiveChannels(newActiveChannels);
   };
-
-  // React-spring animation config
-  const { spring } = useSpring({
-    spring: inspectMode && !isInspected(),
-    config: { mass: 0.5, tension: 400, friction: 50, precision: 0.001 },
-  });
-
-  // Scale on hover with mouse
-  const springScale = spring.to([0, 1], [0, -100]);
 
   const ref = useUpdate(
     (self) => {
@@ -146,6 +166,26 @@ const Wave = (props) => {
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   };
 
+  const handleHover = (e) => {
+    let overstep = (startTimeRef.current * sampleRate) % 1;
+    if (Math.abs(overstep - scale) < 0.0000000000001) {
+      overstep = 0;
+    }
+    let setback = overstep * scale;
+    let posx =
+      Math.floor(e.point.x / scale + scale + overstep) * scale - setback;
+    let hoverBallY =
+      dataService.getSamplesByChannel(props.channelName)[
+        Number.parseInt(startTimeRef.current * sampleRate + posx / scale)
+      ] * 100;
+    if (vChannelScaling && props.channelName[0] === 'V') {
+      hoverBallY *= vChannelScaleFactor;
+    }
+    hoverBallRef.current.position.set(posx, hoverBallY, 0);
+    hoverLineRef.current.position.set(posx, 0, 0);
+    useMousePositionStore.getState().setxPos(posx);
+    useMousePositionStore.getState().setyPos(hoverBallY);
+  };
   return (
     <group position={props.position}>
       <Text
@@ -165,20 +205,14 @@ const Wave = (props) => {
       >
         {props.channelName}
       </Text>
-      <a.group
-        position-y={springScale}
-        onClick={() => {
-          !markMode && setClicked(Number(!clicked));
-        }}
-        scale={[scale, 1, 1]}
-      >
-        <a.mesh ref={meshRef}>
+      <group scale={[scale, 1, 1]}>
+        <mesh ref={meshRef}>
           <line
             // position={[-startTimeRef.current * 0.4, 0, 0]}
             scale={[
               1,
               props.channelName[0] === 'V' && vChannelScaling
-                ? 100 - vChannelScaleFactor
+                ? 100 * vChannelScaleFactor
                 : 100,
               1,
             ]}
@@ -193,8 +227,45 @@ const Wave = (props) => {
               vertexColors={'VertexColors'}
             />
           </line>
-        </a.mesh>
-      </a.group>
+        </mesh>
+      </group>
+      {inspected === props.index && (
+        <>
+          <mesh ref={hoverBallRef} scale={[0.5, 0.5, 0.5]}>
+            <sphereBufferGeometry
+              attach='geometry'
+              radius={1}
+              widthSegments={5}
+              heightSegments={5}
+            />
+            <meshPhongMaterial attach='material' visible={currentlyHovering} />
+          </mesh>
+          <mesh
+            ref={hoverPlaneRef}
+            onPointerMove={inspected != -1 ? handleHover : null}
+            onPointerOver={() => setCurrentlyHovering(true)}
+            onPointerOut={() => setCurrentlyHovering(false)}
+          >
+            <planeBufferGeometry attach='geometry' />
+            <meshPhongMaterial
+              attach='material'
+              color={0xff0000}
+              opacity={0.1}
+              visible={false}
+            />
+          </mesh>
+          <mesh ref={hoverLineRef} scale={[0.1, 130, 0.1]}>
+            <boxBufferGeometry attach='geometry' />
+            <meshPhongMaterial
+              attach='material'
+              color={0xffffff}
+              opacity={0.3}
+              transparent={true}
+              visible={currentlyHovering}
+            />
+          </mesh>
+        </>
+      )}
     </group>
   );
 };

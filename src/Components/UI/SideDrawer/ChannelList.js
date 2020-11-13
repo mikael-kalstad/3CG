@@ -145,19 +145,21 @@ const ChannelList = () => {
         name='vScaling-checkbox'
         label='Scale V-channels'
         description={
-          'Scale V1-V6 channels down by a factor of ' + vChannelScaleFactor
+          'Scale V1-V6 channels down to a factor of ' +
+          vChannelScaleFactor +
+          ' from the original'
         }
       />
 
       <SettingsSlider
         title={'V-channels scale factor'}
         description={
-          'Use the slider to select the factor by which the V-channels should be scaled by, if the option is enabled'
+          'Use the slider to select the scale factor of the V-channels from the original, if the option is enabled'
         }
-        value={vChannelScaleFactor}
-        minValue={5}
-        maxValue={100}
-        stepSize={5}
+        value={vChannelScaling ? vChannelScaleFactor : 1}
+        minValue={0.05}
+        maxValue={1}
+        stepSize={0.05}
         disabled={!vChannelScaling}
         onChange={(e, v) => setVChannelScaleFactor(v)}
       />

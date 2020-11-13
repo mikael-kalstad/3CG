@@ -1,7 +1,6 @@
 import React from 'react';
-import StockView from './StockView';
 import AddAnnotationContainer from './UI/AddAnnotationContainer';
-import InspectedText from './UI/InspectedText';
+import InspectedText from './UI/ChannelInspection/InspectedText';
 import SideDrawer from './UI/SideDrawer/SideDrawer';
 import TimeLine from './UI/TimeLine/TimeLine';
 import ToolBar from './UI/ToolBar';
@@ -17,7 +16,6 @@ const Layout = (props) => {
       <ZoomBar />
 
       <InspectedText />
-      <StockView />
       <ToolBar />
 
       {/* Container for adding annotation logic with popups and dialog */}

@@ -16,7 +16,6 @@ const Ecg = () => {
   const activeChannels = useChannelStore((state) => state.activeChannels);
   const inspected = useInspectStore((state) => state.inspected);
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');
-  console.log('%c [Wave(s)] is rendering', 'background: #111; color: #ebd31c');
 
   const { gl } = useThree();
   gl.localClippingEnabled = true;
