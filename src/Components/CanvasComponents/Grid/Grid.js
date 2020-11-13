@@ -1,136 +1,98 @@
-import React, { Suspense, useMemo } from 'react';
+import React, { Suspense, useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
-import { useModeStore } from '../../../Store';
+import {
+  useAnnotationStore,
+  useModeStore,
+  useTimelineOptionsStore,
+  useTimeStore,
+} from "../../../Store";
 import Text from '../../Text';
 
 // The standard grid for ECG uses 0.04s per square in the x-axis, and 0.1mV in the y-axis.
 // The mV in this grid ranges from
-// This grid shows that standard using a 25x20 grid, the scale which is set at the end of the code
-// is 200 for both x and y. Position is 100 for x and 10 for y. Z-position is 55 for the I-channel (first).
+// This grid shows that standard using a 25x20 grid that scales with the timeline.
 
 const Grid = (props) => {
-  let xSize = 26;
-  //let xSize = 25;
-  let ySize = 21;
+  let n = 50
+  // Fetch initial time state
+  const startTime = useTimeStore((state) => state.startTime);
+  const endTime = useTimeStore((state) => state.endTime);
 
-  let xSize2 = 6;
-  let ySize2 = 5;
+  let a = (endTime - startTime) * 5;
 
-  let zSize = 1;
-  let zSize2 = 1;
-  let n = xSize * ySize * zSize;
-  let n2 = xSize2 * ySize2 * zSize2;
+  let graphLength = 5;
 
-  let geometry = useMemo(() => new THREE.BufferGeometry(), []);
-  let geometry2 = useMemo(() => new THREE.BufferGeometry(), []);
-
-  function mapTo3D(i) {
-    let z = Math.floor(i / (xSize * ySize));
-    i -= z * xSize * ySize;
-    let y = Math.floor(i / xSize);
-    let x = i % xSize;
-    return { x: x, y: y, z: z };
+  if (a > 5) {
+    graphLength = Math.ceil(a);
   }
 
-  function mapTo3D2(i2) {
-    let z2 = Math.floor(i2 / (xSize2 * ySize2));
-    i2 -= z2 * xSize2 * ySize2;
-    let y2 = Math.floor(i2 / xSize2);
-    let x2 = i2 % xSize2;
-    return { x2: x2, y2: y2, z2: z2 };
-  }
-
-  function mapFrom3D(x, y, z) {
-    return x + y * xSize + z * xSize * ySize;
-  }
-
-  function mapFrom3D2(x2, y2, z2) {
-    return x2 + y2 * xSize2 + z2 * xSize2 * ySize2;
-  }
-
-  let positions = [];
-  for (let i = 0; i < n; i++) {
-    let p = mapTo3D(i);
-    positions.push((p.x - xSize / 2) / xSize);
-    positions.push((p.y - ySize / 2) / ySize);
-    positions.push((p.z - zSize / 2) / zSize);
-  }
-  let positionAttribute = new THREE.Float32BufferAttribute(positions, 3);
-  geometry.setAttribute('position', positionAttribute);
-
-  let positions2 = [];
-  for (let i2 = 0; i2 < n2; i2++) {
-    let p2 = mapTo3D2(i2);
-    positions2.push((p2.x2 - xSize2 / 2) / xSize2);
-    positions2.push((p2.y2 - ySize2 / 2) / ySize2);
-    positions2.push((p2.z2 - zSize2 / 2) / zSize2);
-  }
-
-  let positionAttribute2 = new THREE.Float32BufferAttribute(positions2, 3);
-  geometry2.setAttribute('position', positionAttribute2);
-
-  let indexPairs = [];
-  for (let i = 0; i < n; i++) {
-    let p = mapTo3D(i);
-    if (p.x + 1 < xSize) {
-      indexPairs.push(i);
-      indexPairs.push(mapFrom3D(p.x + 1, p.y, p.z));
+  let xPoints = [];
+  for (let i = 0; i < 21; i++) {
+    if ((i + 5) % 5 == 0) {
+      continue;
     }
-    if (p.y + 1 < ySize) {
-      indexPairs.push(i);
-      indexPairs.push(mapFrom3D(p.x, p.y + 1, p.z));
-    }
-    if (p.z + 1 < zSize) {
-      indexPairs.push(i);
-      indexPairs.push(mapFrom3D(p.x, p.y, p.z + 1));
-    }
+    let m = i * 10
+    xPoints.push(new THREE.Vector3(0, m, 0));
+    xPoints.push(new THREE.Vector3((n * graphLength), m, 0));
+    xPoints.push(new THREE.Vector3(0, m, 0));
+
   }
+  let xLinesGeo = new THREE.BufferGeometry().setFromPoints(xPoints);
 
-  let indexPairs2 = [];
-  for (let i2 = 0; i2 < n2; i2++) {
-    let p2 = mapTo3D2(i2);
-    if (p2.x2 + 1 < xSize2) {
-      indexPairs2.push(i2);
-      indexPairs2.push(mapFrom3D2(p2.x2 + 1, p2.y2, p2.z2));
+  let yPoints = [];
+  for (let i = 0; i < ((graphLength * 5) + 1); i++) {
+    if ((i + 5) % 5 == 0) {
+      continue;
     }
-    if (p2.y2 + 1 < ySize2) {
-      indexPairs2.push(i2);
-      indexPairs2.push(mapFrom3D2(p2.x2, p2.y2 + 1, p2.z2));
-    }
-    if (p2.z2 + 1 < zSize2) {
-      indexPairs2.push(i2);
-      indexPairs2.push(mapFrom3D2(p2.x2, p2.y2, p2.z2 + 1));
-    }
+    let m = i * 10
+    yPoints.push(new THREE.Vector3(m, 0, 0));
+    yPoints.push(new THREE.Vector3(m, (n * 4), 0));
+    yPoints.push(new THREE.Vector3(m, 0, 0));
+
   }
-  geometry.setIndex(indexPairs);
+  let yLinesGeo = new THREE.BufferGeometry().setFromPoints(yPoints);
 
-  const grid = useMemo(
-    () =>
-      new THREE.LineSegments(
-        geometry,
-        new THREE.MeshNormalMaterial({
-          color: '#ff0000',
-          opacity: 0.12,
-        })
-      ),
-    [geometry]
-  );
+  let oxPoints = [];
+  for (let i = 0; i < 5; i++) {
+    let m = i * 50
+    oxPoints.push(new THREE.Vector3(0, m, 0));
+    oxPoints.push(new THREE.Vector3((n * graphLength), m, 0));
+    oxPoints.push(new THREE.Vector3(0, m, 0));
 
-  geometry2.setIndex(indexPairs2);
-  const grid2 = useMemo(
-    () =>
-      new THREE.LineSegments(
-        geometry2,
-        new THREE.LineBasicMaterial({
-          color: '#ff0000',
-          //opacity: 0.12,
-        })
-      ),
-    [geometry2]
-  );
+  }
+  let oxLinesGeo = new THREE.BufferGeometry().setFromPoints(oxPoints);
+
+  let oyPoints = [];
+  for (let i = 0; i < (graphLength + 1); i++) {
+    let m = i * 50
+    oyPoints.push(new THREE.Vector3(m, 0, 0));
+    oyPoints.push(new THREE.Vector3(m, (n * 4), 0));
+    oyPoints.push(new THREE.Vector3(m, 0, 0));
+
+  }
+  let oyLinesGeo = new THREE.BufferGeometry().setFromPoints(oyPoints);
+
+
+  const material = new THREE.MeshNormalMaterial({
+    color: 0xff0000,
+    opacity: 0.12
+  });
+
+  const material2 = new THREE.LineBasicMaterial({
+    color: 0xff0000
+  });
+
+  const xLines = new THREE.Line(xLinesGeo, material);
+  const yLines = new THREE.Line(yLinesGeo, material);
+  const oxLines = new THREE.Line(oxLinesGeo, material2);
+  const oyLines = new THREE.Line(oyLinesGeo, material2);
 
   // Conditional rendering to turn grid on/off
   const gridMode = useModeStore((state) => state.gridMode);
+
+  const position = [-104, -105, -0.5];
+  const oPosition = [-104, -105, -0];
+  const scale = [0.8, 1, 1];
 
   if (!gridMode) {
     return <></>;
@@ -152,20 +114,25 @@ const Grid = (props) => {
             {(e / 2).toFixed(1) + ' mV'}
           </Text>
         ))}
-
         <primitive
-          object={grid}
-          //front position z=55
-          // position={[104, 5, -54.6]}
-          //Scale is 8.04*xSize, and 8.05*ySize
-          scale={[208, 210, 1]}
+          object={xLines}
+          position={position}
+          scale={scale}
         />
         <primitive
-          object={grid2}
-          //front position z=55
-          position={[16, 20, 0]}
-          //Scale is 8.04*xSize, and 8.05*ySize
-          scale={[240, 250, 1]}
+          object={yLines}
+          position={position}
+          scale={scale}
+        />
+        <primitive
+          object={oxLines}
+          position={oPosition}
+          scale={scale}
+        />
+        <primitive
+          object={oyLines}
+          position={oPosition}
+          scale={scale}
         />
       </group>
     </Suspense>
