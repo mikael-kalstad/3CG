@@ -59,12 +59,12 @@ export const useChannelStore = create((set) => ({
 const DEFAULT_SPEED = 0.00001;
 
 export const useTimeStore = create((set, get) => ({
-  startTime: 2,
+  startTime: 0,
   setStartTime: (time) => set((state) => ({ startTime: time })),
   endTime:
-    (dataLength > POINTS_DEFAULT_LENGTH
+    dataLength > POINTS_DEFAULT_LENGTH
       ? POINTS_DEFAULT_LENGTH / sampleRate
-      : dataLength / sampleRate) + 2,
+      : dataLength / sampleRate,
   setEndTime: (time) => set((state) => ({ endTime: time })),
   defaultSpeed: DEFAULT_SPEED,
   speed: DEFAULT_SPEED,

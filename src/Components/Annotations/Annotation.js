@@ -47,6 +47,7 @@ const Annotation = (props) => {
         rotation={[0, 0, 0]}
         depth={0.25}
         clippingPlanes={props.clippingPlanes}
+        repeatText={true}
       >
         {props.ann.text}
       </Text>

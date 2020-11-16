@@ -166,6 +166,8 @@ const Wave = (props) => {
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   };
 
+  /* Calculates which point of the wave the user is hovering */
+  /* Takes into account that the timeline can be 'out of sync' of the scale */
   const handleHover = (e) => {
     let overstep = (startTimeRef.current * sampleRate) % 1;
     if (Math.abs(overstep - scale) < 0.0000000000001) {
@@ -174,17 +176,18 @@ const Wave = (props) => {
     let setback = overstep * scale;
     let posx =
       Math.floor(e.point.x / scale + scale + overstep) * scale - setback;
-    let hoverBallY =
+    let val =
       dataService.getSamplesByChannel(props.channelName)[
         Number.parseInt(startTimeRef.current * sampleRate + posx / scale)
       ] * 100;
+    let hoverBallY = val;
     if (vChannelScaling && props.channelName[0] === 'V') {
       hoverBallY *= vChannelScaleFactor;
     }
     hoverBallRef.current.position.set(posx, hoverBallY, 0);
     hoverLineRef.current.position.set(posx, 0, 0);
     useMousePositionStore.getState().setxPos(posx);
-    useMousePositionStore.getState().setyPos(hoverBallY);
+    useMousePositionStore.getState().setyPos(val);
   };
   return (
     <group position={props.position}>
