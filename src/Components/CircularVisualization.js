@@ -49,7 +49,7 @@ const CircularVisualization = (props) => {
   );
 
   return (
-    <group position={[170, 40, -120]}>
+    <group position={[90, 0, 0]}>
       <line scale={[1, 100, 1]} color={0xffffff}>
         <bufferGeometry attach="geometry" ref={geom} />
         <lineBasicMaterial

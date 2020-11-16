@@ -98,7 +98,7 @@ const AnnotationTimeline = () => {
                     variant='subtitle1'
                     color='textSecondary'
                     style={{
-                      fontSize: 15,
+                      fontSize: 13,
                       width: 30,
                       height: 20,
                       textAlign: 'center',
@@ -118,7 +118,18 @@ const AnnotationTimeline = () => {
                       />
                     }
                   </TimelineDot>
-
+                  <Typography
+                    variant='subtitle1'
+                    color='textSecondary'
+                    style={{
+                      fontSize: 13,
+                      width: 30,
+                      height: 20,
+                      textAlign: 'center',
+                    }}
+                  >
+                    {a.end.toFixed(2) + 's'}
+                  </Typography>
                   {/* Only render connector if it is not the last item in the list */}
                   {i !== annotations.length - 1 && <TimelineConnector />}
                 </TimelineSeparator>

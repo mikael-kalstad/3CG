@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useFrame, useLoader, useThree } from 'react-three-fiber';
 import * as THREE from 'three';
 
 const Text = (props) => {
+  const [maxRepeats, setMaxRepeats] = useState(1);
   const firstRenderRef = useRef(true);
   const font = useLoader(
     THREE.FontLoader,
@@ -17,7 +18,7 @@ const Text = (props) => {
     }),
     [font, props.depth, props.textSize]
   );
-  const { camera } = useThree();
+  const { camera, scene } = useThree();
   const textMesh = useRef();
   const planeMesh = useRef();
   const group = useRef();
@@ -58,11 +59,25 @@ const Text = (props) => {
             0.1
           );
         }
-        planeMesh.current.geometry.computeBoundingBox();
 
         planeMesh.current.translateZ(
           props.depth ? -props.depth / 2 - 0.01 : -0.1
         );
+        textMesh.current.geometry.computeBoundingBox();
+
+        if (props.repeatText) {
+          setMaxRepeats(
+            Number.parseInt(
+              Math.max(
+                1,
+                Math.floor(
+                  planeMesh.current.scale.x /
+                    (textMesh.current.geometry.boundingBox.max.x * 2.5)
+                )
+              )
+            )
+          );
+        }
       }
       if (props.rotateToCamera === undefined && props.rotation) {
         group.current.setRotationFromEuler(
@@ -89,6 +104,21 @@ const Text = (props) => {
     props.rotation,
     props.textSize,
   ]);
+
+  useEffect(() => {
+    let geometry = new THREE.TextBufferGeometry(
+      new Array(maxRepeats).fill(props.children).join(' - '),
+      config
+    );
+    textMesh.current.geometry = geometry;
+    textMesh.current.geometry.computeBoundingBox();
+    let boundingBox = textMesh.current.geometry.boundingBox.max;
+    textMesh.current.geometry.translate(
+      -boundingBox.x / 2,
+      -boundingBox.y / 2,
+      -boundingBox.z / 2
+    );
+  }, [maxRepeats]);
 
   const handlePointerOver = (e) => {
     e.stopPropagation();
@@ -124,10 +154,7 @@ const Text = (props) => {
       onPointerMove={handlePointerMove}
     >
       <mesh ref={textMesh}>
-        <textBufferGeometry
-          attach='geometry'
-          args={[props.children.repeat(1), config]}
-        />
+        <textBufferGeometry attach='geometry' args={[props.children, config]} />
         <meshPhongMaterial
           attach='material'
           clippingPlanes={props.clippingPlanes ? props.clippingPlanes : null}

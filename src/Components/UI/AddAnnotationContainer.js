@@ -101,7 +101,7 @@ const AddAnnotationContainer = () => {
     snackbarToRender = (
       <SnackbarPopup
         timeout={5000}
-        message='Mark mode active, click and drag with mouse in ecg to select annotation area'
+        message='Mark mode active, click and drag with the mouse in ECG-view to select annotation area'
         type='info'
       />
     );

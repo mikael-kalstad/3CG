@@ -14,9 +14,12 @@ import {
   useModeStore,
   useSnackbarStore,
 } from '../../Store';
+import { dataService } from '../../Services/DataService';
 import AnnotationListDropdown from './AnnotationListDropdown';
 import SelectedTimeInputs from './SelectedTimeInputs';
 import SnackbarPopup from './Snackbars/SnackbarPopup';
+
+const duration = dataService.getDuration();
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -147,7 +150,9 @@ const AddAnnotationPopup = (props) => {
               inputValue === null ||
               startSelected < 0 ||
               endSelected < 0 ||
-              endSelected - startSelected < 0
+              endSelected - startSelected < 0 ||
+              startSelected > duration ||
+              endSelected > duration
             }
             color='primary'
           >

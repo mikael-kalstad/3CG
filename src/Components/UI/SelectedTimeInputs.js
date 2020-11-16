@@ -3,9 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
 import { useTimeStore, useMarkStore } from '../../Store';
+import { dataService } from '../../Services/DataService';
 import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import NumberFormat from 'react-number-format';
+
+const duration = dataService.getDuration();
 
 const InputWrapper = styled.div`
   display: grid;
@@ -101,7 +104,7 @@ const SelectedTimeInputs = (props) => {
           id='outlined-basic'
           label='Start time'
           variant='outlined'
-          error={endSelected - startSelected < 0}
+          error={endSelected - startSelected < 0 || startSelected > duration}
           disabled={startSelected === -1}
           value={startSelected === -1 ? null : Number(startSelected)}
           onChange={(e) => onChange(e, 'start')}
@@ -113,7 +116,7 @@ const SelectedTimeInputs = (props) => {
           id='outlined-basic'
           label='End time'
           variant='outlined'
-          error={endSelected - startSelected < 0}
+          error={endSelected - startSelected < 0 || endSelected > duration}
           disabled={startSelected === -1}
           value={endSelected === -1 ? null : Number(endSelected)}
           onChange={(e) => onChange(e, 'end')}
@@ -127,6 +130,15 @@ const SelectedTimeInputs = (props) => {
         <div style={{ marginTop: 10 }}>
           <FormHelperText style={{ color: '#f44236' }}>
             End time must be after start time!
+          </FormHelperText>
+        </div>
+      )}
+
+      {/* Show warning if start- or end-time is more than duration */}
+      {(endSelected > duration || startSelected > duration) && (
+        <div style={{ marginTop: 10 }}>
+          <FormHelperText style={{ color: '#f44236' }}>
+            Values are larger than the duration of the visualization!
           </FormHelperText>
         </div>
       )}

@@ -126,7 +126,7 @@ const RenderTypeOptions = () => {
 
         {store.activeRenders.length === MAX_NUM_OF_RENDER_VIEWS && (
           <FormHelperText style={{ color: 'rgba(247, 152, 29, 1)' }}>
-            Maximum {MAX_NUM_OF_RENDER_VIEWS} render views is allowed
+            Maximum number of render views allowed are {MAX_NUM_OF_RENDER_VIEWS}
           </FormHelperText>
         )}
 

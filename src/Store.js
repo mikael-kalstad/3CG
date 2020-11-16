@@ -65,6 +65,9 @@ export const useModeStore = createWithLocalStorage((set) => ({
 export const useInspectStore = createWithLocalStorage((set) => ({
   inspected: -1,
   setInspected: (channel) => set((state) => (state.inspected = channel)),
+  currentlyHovering: false,
+  setCurrentlyHovering: (newCurrentlyHovering) =>
+    set((state) => ({ currentlyHovering: newCurrentlyHovering })),
 }));
 
 // Store for storing global all states related to ecg-data and timing
@@ -146,7 +149,7 @@ export const useScaleStore = createWithLocalStorage((set) => ({
   vChannelScaling: true,
   toggleVChannelScaling: () =>
     set((state) => ({ vChannelScaling: !state.vChannelScaling })),
-  vChannelScaleFactor: 90,
+  vChannelScaleFactor: 0.1,
   setVChannelScaleFactor: (newScale) =>
     set(() => ({ vChannelScaleFactor: newScale })),
 }));
