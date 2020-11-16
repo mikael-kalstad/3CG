@@ -1,3 +1,5 @@
+const groupingData = require('../data/groupings.json');
+
 const onsetToSeconds = (onset) => {
   let split = onset.split(':');
   let sec = Number(split[0]) * 3.6 * Math.pow(10, 3);
@@ -16,9 +18,7 @@ class AnnotationService {
       let newObj = {
         start,
         end: start + obj.duration,
-        code: obj.code,
-        text: obj.text,
-        ai: false,
+        data: obj.data,
       };
       return newObj;
     });
@@ -28,8 +28,7 @@ class AnnotationService {
       let newObj = {
         start,
         end: start + obj.duration,
-        code: obj.code,
-        text: obj.text,
+        data: obj.data,
         ai: true,
       };
       return newObj;
@@ -38,7 +37,7 @@ class AnnotationService {
   }
 
   getAnnotations() {
-    return this.annotations;
+    return this.annotations.sort((a, b) => a.start - b.start);
   }
 
   getAnnotationsOnlyInTimeframe(start, end) {
@@ -61,6 +60,28 @@ class AnnotationService {
       }
     }
     return result;
+  }
+
+  // Get grouping color from specific annotation based on code, if it exists
+  getGroupingColor(code) {
+    let color = undefined;
+
+    for (let i = 0; i < groupingData.length; i++) {
+      let a = groupingData[i];
+
+      // Check all codes in grouping
+      let found = a['codes'].find((c) => c == code);
+
+      if (found) {
+        // Set color to grouping color
+        color = a.color.toString();
+
+        // No need to look furhter
+        break;
+      }
+    }
+
+    return color;
   }
 }
 

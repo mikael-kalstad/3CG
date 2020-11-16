@@ -24,7 +24,11 @@ const Dropdown = (props) => {
         labelId='demo-simple-select-label'
         id='demo-simple-select'
         value={props.value}
-        onChange={(e) => props.handleChange(props.index, e)}
+        onChange={(e) =>
+          props.index
+            ? props.handleChange(e, props.index)
+            : props.handleChange(e)
+        }
       >
         {props.items.map((item) => (
           <MenuItem value={item} key={item}>

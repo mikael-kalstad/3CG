@@ -125,8 +125,8 @@ const AnnotationTimeline = () => {
 
                 <TimelineContent>
                   <AnnotationCard
-                    title={a.code}
-                    text={a.text}
+                    title={a.data['Abbreviation']}
+                    text={a.data['Dx']}
                     onClick={goToAnnotation}
                     index={i}
                   />

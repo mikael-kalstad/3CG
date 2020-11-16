@@ -6,15 +6,16 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { useState } from 'react';
-import MenuBtn from '../Buttons/MenuBtn';
+import styled from 'styled-components';
 import CloseMenuBtn from '../Buttons/CloseMenuBtn';
+import MenuBtn from '../Buttons/MenuBtn';
 import AnnotationMenu from './AnnotationMenu';
 import ChannelList from './ChannelList';
+import ColorOptions from './ColorOptions';
+import FileUpload from './FileUpload';
 import GeneralOptions from './GeneralOptions';
 import RenderTypeOptions from './RenderTypeOptions';
 import TimeLineOptions from './TimeLineOptions';
-import FileUpload from './FileUpload';
-import styled from 'styled-components';
 
 const Header = styled.div`
   display: grid;
@@ -61,6 +62,10 @@ const MenuItems = [
     component: <GeneralOptions />,
   },
   {
+    title: 'Colors',
+    component: <ColorOptions />,
+  },
+  {
     title: 'Render view',
     component: <RenderTypeOptions />,
   },
@@ -80,14 +85,24 @@ const MenuItems = [
 
 const SideDrawer = () => {
   const [show, setShow] = useState(false);
+  const [menuItemsOpen, setMenuItemsOpen] = useState(
+    MenuItems.map(() => false)
+  );
+  console.log(menuItemsOpen);
+
+  const toggleMenuItemOpen = (index) =>
+    setMenuItemsOpen((prevState) =>
+      prevState.map((e, i) => (i === index ? !e : e))
+    );
+
+  // Toggle between showing and hiding menu
+  const toggleMenu = () => setShow(!show);
+
   const classes = useStyles();
   console.log(
     '%c [SideDrawer] is rendering',
     'background: #111; color: #ebd31c'
   );
-
-  // Toggle between showing and hiding menu
-  const toggleMenu = () => setShow(!show);
 
   return (
     <>
@@ -105,7 +120,12 @@ const SideDrawer = () => {
         </Header>
 
         {MenuItems.map((item, i) => (
-          <Accordion TransitionProps={{ unmountOnExit: true }} key={i}>
+          <Accordion
+            TransitionProps={{ unmountOnExit: true }}
+            key={i}
+            onClick={() => toggleMenuItemOpen(i)}
+            expanded={menuItemsOpen[i]}
+          >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls='panel1a-content'

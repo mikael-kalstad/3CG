@@ -4,9 +4,8 @@ import { useRenderTypeStore } from '../../../Store';
 import Dropdown from '../Dropdown';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles } from '@material-ui/core/styles';
 import SelectBetween from '../Settings/SelectBetween';
 import Typography from '@material-ui/core/Typography';
 import SettingsCheck from '../Settings/SettingsCheck';
@@ -37,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   deleteIcon: {
     color: '#555',
-    margin: '8px',
+    // margin: '8px',
     cursor: 'pointer',
     '&:hover': {
       color: '#333',
@@ -55,8 +54,8 @@ const RenderTypeOptions = () => {
     'background: #111; color: #ebd31c'
   );
 
-  const handleChange = (index, e) => {
-    store.editRender(index, e.target.value);
+  const handleChange = (e, index) => {
+    store.editRender(e.target.value, index || 0);
   };
 
   const handleClick = () => {
@@ -77,14 +76,21 @@ const RenderTypeOptions = () => {
 
   return (
     <>
-      <Wrapper>
-        <FormHelperText>
-          Change or add more render views below. Several render views will be
-          displayed with a split view. Render views can also be removed.
-        </FormHelperText>
-      </Wrapper>
-
       <MarginWrapper>
+        <Typography
+          id='split-orientation-title'
+          gutterBottom
+          style={{ marginTop: '40px' }}
+        >
+          Render views
+        </Typography>
+        <Wrapper>
+          <FormHelperText>
+            Change or add more render views below. Several render views will be
+            displayed with a split view. Render views can also be removed.
+          </FormHelperText>
+        </Wrapper>
+
         {/* Render dropdown for each active render */}
         {store.activeRenders.map(
           (a, i) =>
@@ -98,7 +104,7 @@ const RenderTypeOptions = () => {
                   index={i}
                 />
                 {store.activeRenders.length > 1 && (
-                  <DeleteIcon
+                  <AddIcon
                     className={classes.deleteIcon}
                     onClick={() => store.removeActiveRender(i)}
                   />

@@ -105,6 +105,7 @@ const SelectedTimeInputs = (props) => {
           disabled={startSelected === -1}
           value={startSelected === -1 ? null : Number(startSelected)}
           onChange={(e) => onChange(e, 'start')}
+          onFocus={() => document.execCommand('selectall', null, false)}
           InputProps={InputProps}
         />
 
@@ -116,6 +117,7 @@ const SelectedTimeInputs = (props) => {
           disabled={startSelected === -1}
           value={endSelected === -1 ? null : Number(endSelected)}
           onChange={(e) => onChange(e, 'end')}
+          onFocus={() => document.execCommand('selectall', null, false)}
           InputProps={InputProps}
         />
       </InputWrapper>

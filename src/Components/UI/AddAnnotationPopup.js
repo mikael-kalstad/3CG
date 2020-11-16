@@ -46,7 +46,7 @@ const AddAnnotationPopup = (props) => {
   const [inputValue, setInputValue] = useState(null);
   const addAnnotation = useAnnotationStore((state) => state.addAnnotation);
   const setSnackbar = useSnackbarStore((state) => state.setSnackbar);
-  const toggleMarkMode = useModeStore((state) => state.markMode);
+  const toggleMarkMode = useModeStore((state) => state.toggleMarkMode);
 
   const [
     startSelected,
@@ -73,8 +73,11 @@ const AddAnnotationPopup = (props) => {
       addAnnotation({
         start: Number(startSelected),
         end: Number(endSelected),
-        code: a['Abbreviation'],
-        text: a['Dx'],
+        data: {
+          Dx: a['Dx'],
+          'SNOMED CT Code': a['"SNOMED CT Code"'],
+          Abbreviation: a['Abbreviation'],
+        },
       });
     });
 

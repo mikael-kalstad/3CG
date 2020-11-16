@@ -3,13 +3,18 @@ import * as THREE from 'three';
 import { useUpdate, useFrame } from 'react-three-fiber';
 import { useSpring } from '@react-spring/core';
 import { a } from '@react-spring/three';
-import { /*getColorData*/ getColorDataHeat } from '../Scripts/Color';
+import {
+  getHeatColorData,
+  getDiagnosisColorData,
+  getTransitionColorData,
+} from '../Scripts/Color';
 import {
   useChannelStore,
   useInspectStore,
   useModeStore,
   useScaleStore,
   useTimeStore,
+  useColorOptionsStore,
 } from '../Store';
 import { dataService } from '../Services/DataService';
 import Text from './Text';
@@ -138,11 +143,24 @@ const Wave = (props) => {
   );
 
   const updateColors = (geometry, start, end) => {
-    // Set gradient color theme to all points that is rendered in setDrawRange method
-    let colors = getColorDataHeat(
-      props.data.slice(start * sampleRate, end * sampleRate),
-      start * sampleRate
-    );
+    let colors = [];
+    const activeWaveColorType = useColorOptionsStore.getState()
+      .activeWaveColorType;
+
+    if (activeWaveColorType === 0) {
+      // Set gradient color theme to all points that is rendered in setDrawRange method
+      colors = getTransitionColorData(
+        props.data.slice(start * sampleRate, end * sampleRate),
+        start * sampleRate
+      );
+    } else if (activeWaveColorType === 1) {
+      // Set color based on diagnosis
+      colors = getDiagnosisColorData(props.data);
+    } else if (activeWaveColorType === 2) {
+      // Set color based on wave y-value
+      colors = getHeatColorData(props.data);
+    }
+
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   };
 
