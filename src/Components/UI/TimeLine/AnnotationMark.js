@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { useTimeStore, useAnnotationStore } from "../../../Store";
-import AnnotationPopper from "./AnnotationPopper";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { useTimeStore, useAnnotationStore } from '../../../Store';
+import AnnotationPopper from './AnnotationPopper';
+import { annotationService } from '../../../Services/AnnotationService';
 
 // Empty wrapper used to control hover functionality in Mark styled div
 const Wrapper = styled.div``;
@@ -15,9 +16,9 @@ const Mark = styled.div`
   }
   display: grid;
   background-color: ${(props) => props.color};
-  width: ${(props) => props.width + "px"};
+  width: ${(props) => props.width + 'px'};
   position: absolute;
-  left: ${(props) => props.left + "px"};
+  left: ${(props) => props.left + 'px'};
   text-align: center;
   font-weight: bold;
   align-items: center;
@@ -72,6 +73,13 @@ const AnnotationMark = (props) => {
 
     props.onClick && props.onClick();
   };
+
+  // Get grouping color for annotation based on code, if it exists.
+  // If not use standard color will be used
+  let groupingColor = annotationService.getGroupingColor(
+    props.ann.data['SNOMED CT Code']
+  );
+
   return (
     <Wrapper onClick={() => goToAnnotation(props.index)}>
       <Mark
@@ -79,9 +87,9 @@ const AnnotationMark = (props) => {
         onPointerOut={handlePointerOut}
         left={props.ann.start / props.ratio}
         width={(props.ann.end - props.ann.start) / props.ratio}
-        color={props.ann.ai ? "#2ecc71" : "#00a8ff"}
+        color={groupingColor || '#00a8ff'}
       >
-        {props.ann.code}
+        {props.ann.data['Abbreviation']}
       </Mark>
       <AnnotationPopper ann={props.ann} anchor={anchor} />
     </Wrapper>

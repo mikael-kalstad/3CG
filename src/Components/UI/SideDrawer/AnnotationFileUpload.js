@@ -8,7 +8,7 @@ const Wrapper = styled.div``;
 
 const UploadButton = styled.div`
   &:hover {
-    filter: ${(props) => (props.disabled ? '' : 'brightness(85%)')}
+    filter: ${(props) => (!props.disabled ? '' : 'brightness(85%)')}
     cursor: pointer;
   }
   height: 38px;

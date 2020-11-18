@@ -1,0 +1,26 @@
+[
+    {
+      "group_id" : "normal",
+      "group_text" : "Normal Sinus",
+      "codes" : ["426783006"],
+      "color" : "#5FFA31"
+    },
+    {
+      "group_id" : "arrhythmia",
+      "group_text" : "Cardiac Arrhythmia",
+      "codes" : ["427393009"],
+      "color" : "#F33517"
+    },
+    {
+      "group_id" : "tachycardia",
+      "group_text" : "Cardiac Tachycardia",
+      "codes" : ["713422000", "74615001", "426648003", "67198005", "425856008", "427084000", "426761007", "164895002"],
+      "color" : "#298EF9"
+    },
+    {
+      "group_id" : "bradycardia",
+      "group_text" : "Cardiac Bradycardia",
+      "codes" : ["426627000", "426177001"],
+      "color" : "#D080F8"
+    }
+  ]

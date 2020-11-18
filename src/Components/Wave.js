@@ -1,15 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
-import { useUpdate, useFrame, useThree } from 'react-three-fiber';
-import { /*getColorData*/ getColorDataHeat } from '../Scripts/Color';
+import { useUpdate, useFrame } from 'react-three-fiber';
 import {
   useChannelStore,
   useInspectStore,
   useModeStore,
   useScaleStore,
   useTimeStore,
+  useColorOptionsStore,
   useMousePositionStore,
 } from '../Store';
+import {
+  getDiagnosisColorData,
+  getHeatColorData,
+  getTransitionColorData,
+} from '../Scripts/Color';
 import { dataService } from '../Services/DataService';
 import Text from './Text';
 
@@ -28,8 +33,6 @@ const Wave = (props) => {
   const hoverBallRef = useRef();
   const hoverPlaneRef = useRef();
   const hoverLineRef = useRef();
-
-  const { camera } = useThree();
 
   // Get mode states from global store
   const [playMode, togglePlayMode] = useModeStore((state) => [
@@ -168,17 +171,31 @@ const Wave = (props) => {
   );
 
   const updateColors = (geometry, start, end) => {
-    // Set gradient color theme to all points that is rendered in setDrawRange method
-    let colors = getColorDataHeat(
-      props.data.slice(start * sampleRate, end * sampleRate),
-      start * sampleRate
-    );
+    let colors = [];
+    const activeWaveColorType = useColorOptionsStore.getState()
+      .activeWaveColorType;
+
+    if (activeWaveColorType === 0) {
+      // Set gradient color theme to all points that is rendered in setDrawRange method
+      colors = getTransitionColorData(
+        props.data.slice(start * sampleRate, end * sampleRate),
+        start * sampleRate
+      );
+    } else if (activeWaveColorType === 1) {
+      // Set color based on diagnosis
+      colors = getDiagnosisColorData(props.data);
+    } else if (activeWaveColorType === 2) {
+      // Set color based on wave y-value
+      colors = getHeatColorData(props.data);
+    }
+
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   };
 
   /* Calculates which point of the wave the user is hovering */
   /* Takes into account that the timeline can be 'out of sync' of the scale */
   const handleHover = (e) => {
+    // Overstep by timeline
     let overstep = (startTimeRef.current * sampleRate) % 1;
     if (Math.abs(overstep - scale) < 0.0000000000001) {
       overstep = 0;
@@ -272,7 +289,7 @@ const Wave = (props) => {
             <meshPhongMaterial
               attach='material'
               color={0xffffff}
-              opacity={0.3}
+              opacity={0.6}
               transparent={true}
               visible={currentlyHovering}
             />

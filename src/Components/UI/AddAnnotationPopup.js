@@ -76,8 +76,11 @@ const AddAnnotationPopup = (props) => {
       addAnnotation({
         start: Number(startSelected),
         end: Number(endSelected),
-        code: a['Abbreviation'],
-        text: a['Dx'],
+        data: {
+          Dx: a['Dx'],
+          'SNOMED CT Code': a['"SNOMED CT Code"'],
+          Abbreviation: a['Abbreviation'],
+        },
         ai: false,
       });
     });

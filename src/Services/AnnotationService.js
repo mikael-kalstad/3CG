@@ -1,3 +1,5 @@
+const groupingData = require('../data/groupings.json');
+
 class AnnotationService {
   constructor(filename) {
     this.filename = filename;
@@ -12,11 +14,11 @@ class AnnotationService {
   formatFile(json, isAI) {
     let result = json.map((obj) => {
       let start = this.onsetToSeconds(obj.onset);
+      console.log(obj);
       let newObj = {
         start,
         end: start + obj.duration,
-        code: obj.code,
-        text: obj.text,
+        data: obj.data,
         ai: isAI,
       };
       return newObj;
@@ -31,8 +33,7 @@ class AnnotationService {
       let newObj = {
         onset,
         duration,
-        code: obj.code,
-        text: obj.text,
+        data: obj.data,
       };
       return newObj;
     });
@@ -40,7 +41,7 @@ class AnnotationService {
   }
 
   getAnnotations() {
-    return this.annotations;
+    return this.annotations.sort((a, b) => a.start - b.start);
   }
 
   getAnnotationsOnlyInTimeframe(start, end) {
@@ -90,6 +91,27 @@ class AnnotationService {
       seconds
     );
   };
+  // Get grouping color from specific annotation based on code, if it exists
+  getGroupingColor(code) {
+    let color = undefined;
+
+    for (let i = 0; i < groupingData.length; i++) {
+      let a = groupingData[i];
+
+      // Check all codes in grouping
+      let found = a['codes'].find((c) => c == code);
+
+      if (found) {
+        // Set color to grouping color
+        color = a.color.toString();
+
+        // No need to look furhter
+        break;
+      }
+    }
+
+    return color;
+  }
 }
 
 export let annotationService = new AnnotationService(

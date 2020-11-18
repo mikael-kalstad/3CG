@@ -154,7 +154,10 @@ const Text = (props) => {
       onPointerMove={handlePointerMove}
     >
       <mesh ref={textMesh}>
-        <textBufferGeometry attach='geometry' args={[props.children, config]} />
+        <textBufferGeometry
+          attach='geometry'
+          args={[props.children + (props.repeatText ? ' -' : ''), config]}
+        />
         <meshPhongMaterial
           attach='material'
           clippingPlanes={props.clippingPlanes ? props.clippingPlanes : null}

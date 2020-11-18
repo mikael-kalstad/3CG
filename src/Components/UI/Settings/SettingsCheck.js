@@ -1,9 +1,9 @@
-import React from "react";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Checkbox from "@material-ui/core/Checkbox";
-import { makeStyles } from "@material-ui/core/styles";
+import React from 'react';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Checkbox from '@material-ui/core/Checkbox';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,9 +13,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3),
   },
   chip: {
-    justifyContent: "center",
-    flexWrap: "wrap",
-    "& > *": {
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    '& > *': {
       margin: theme.spacing(0.5),
     },
   },
@@ -25,7 +25,7 @@ const SettingsCheck = (props) => {
   const classes = useStyles();
 
   return (
-    <FormControl component="fieldset" className={classes.formControl}>
+    <FormControl component='fieldset' className={classes.formControl}>
       <FormControlLabel
         key={props.name}
         control={
@@ -36,6 +36,7 @@ const SettingsCheck = (props) => {
           />
         }
         label={props.label}
+        disabled={props.disabled}
       />
       <FormHelperText>{props.description}</FormHelperText>
     </FormControl>

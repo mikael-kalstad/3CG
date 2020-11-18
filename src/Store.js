@@ -1,6 +1,11 @@
 import create from 'zustand';
+import persist from './utils/persist';
 import { dataService } from './Services/DataService';
 import { annotationService } from './Services/AnnotationService';
+import produce from 'immer';
+import pipe from 'ramda/es/pipe';
+
+const STORAGE_KEY = 'auth';
 
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
@@ -12,8 +17,38 @@ const sampleRate = dataService.getSampleRate();
 // Get all annotations from file
 const annotationData = annotationService.getAnnotations();
 
+let localStorageEnabled = window.localStorage.getItem('root');
+let allowList = localStorageEnabled ? undefined : [];
+console.log('allowList', allowList, localStorageEnabled);
+
+// Middleware function that will save store in localStorage if the setting is enabled
+const createWithLocalStorage = (fn) => {
+  return create(
+    persist(
+      {
+        key: STORAGE_KEY,
+        allowlist: allowList,
+      },
+      fn
+    )
+  );
+};
+
+export const useStorageStore = create(
+  persist(
+    {
+      key: STORAGE_KEY,
+    },
+    (set) => ({
+      saveInLocalStorage: false,
+      toggleSaveInLocalStorage: () =>
+        set((state) => ({ saveInLocalStorage: !state.saveInLocalStorage })),
+    })
+  )
+);
+
 // Store for storing global mode states
-export const useModeStore = create((set) => ({
+export const useModeStore = createWithLocalStorage((set) => ({
   playMode: false,
   togglePlayMode: () => set((state) => ({ playMode: !state.playMode })),
   markMode: false,
@@ -27,7 +62,7 @@ export const useModeStore = create((set) => ({
   toggleGridMode: () => set((state) => ({ gridMode: !state.gridMode })),
 }));
 
-export const useInspectStore = create((set) => ({
+export const useInspectStore = createWithLocalStorage((set) => ({
   inspected: -1,
   setInspected: (channel) => set((state) => (state.inspected = channel)),
   currentlyHovering: false,
@@ -36,7 +71,7 @@ export const useInspectStore = create((set) => ({
 }));
 
 // Store for storing global all states related to ecg-data and timing
-export const useChannelStore = create((set) => ({
+export const useChannelStore = createWithLocalStorage((set) => ({
   activeChannels: numOfSamples.map(() => true),
   toggleChannel: (index) =>
     set((state) => ({
@@ -45,7 +80,7 @@ export const useChannelStore = create((set) => ({
       ),
     })),
   toggleAllChannels: (newState) =>
-    set((state) => ({ activeChannels: numOfSamples.map(() => newState) })),
+    set(() => ({ activeChannels: numOfSamples.map(() => newState) })),
   setChannel: (index, newActive) =>
     set((state) => ({
       activeChannels: state.activeChannels.map((e, i) =>
@@ -53,31 +88,31 @@ export const useChannelStore = create((set) => ({
       ),
     })),
   setActiveChannels: (newActiveChannels) =>
-    set((state) => ({ activeChannels: newActiveChannels })),
+    set(() => ({ activeChannels: newActiveChannels })),
   /* Placeholder for saving activechannels before inspecting */
   activeChannelsPlaceholder: numOfSamples.map(() => true),
   setActiveChannelsPlaceholder: (newActiveChannelsPlaceholder) =>
-    set((state) => ({
+    set(() => ({
       activeChannelsPlaceholder: newActiveChannelsPlaceholder,
     })),
 }));
 
 const DEFAULT_SPEED = 0.00001;
 
-export const useTimeStore = create((set, get) => ({
+export const useTimeStore = createWithLocalStorage((set) => ({
   startTime: 0,
-  setStartTime: (time) => set((state) => ({ startTime: time })),
+  setStartTime: (time) => set(() => ({ startTime: time })),
   endTime:
     dataLength > POINTS_DEFAULT_LENGTH
       ? POINTS_DEFAULT_LENGTH / sampleRate
       : dataLength / sampleRate,
-  setEndTime: (time) => set((state) => ({ endTime: time })),
+  setEndTime: (time) => set(() => ({ endTime: time })),
   defaultSpeed: DEFAULT_SPEED,
   speed: DEFAULT_SPEED,
   setSpeed: (newSpeed) => set(() => ({ speed: newSpeed })),
 }));
 
-export const useAnnotationStore = create((set) => ({
+export const useAnnotationStore = createWithLocalStorage((set) => ({
   annotations: annotationData,
   addAnnotation: (newAnnotation) =>
     set((state) => ({
@@ -94,23 +129,27 @@ export const useAnnotationStore = create((set) => ({
       ),
     })),
   toggleAllAnnotations: (newState) =>
-    set((state) => ({ activeAnnotations: annotationData.map(() => newState) })),
+    set((state) => ({
+      activeAnnotations: annotationData.map(() => newState),
+    })),
   showFullAnnotation: true,
   toggleShowFullAnnotation: () =>
     set((state) => ({ showFullAnnotation: !state.showFullAnnotation })),
   showAddAnnotationPopup: true,
   toggleShowAddAnnotationPopup: () =>
-    set((state) => ({ showAddAnnotationPopup: !state.showAddAnnotationPopup })),
+    set((state) => ({
+      showAddAnnotationPopup: !state.showAddAnnotationPopup,
+    })),
 }));
 
-export const useCameraStore = create((set) => ({
+export const useCameraStore = createWithLocalStorage((set) => ({
   zoomValue: 35,
   setZoomValue: (newValue) => set(() => ({ zoomValue: newValue })),
   fov: 55,
   setFov: (newValue) => set(() => ({ fov: newValue })),
 }));
 
-export const useScaleStore = create((set) => ({
+export const useScaleStore = createWithLocalStorage((set) => ({
   scale: 0.4,
   setScale: (scale) => set((state) => ({ scale: scale })),
   vChannelScaling: true,
@@ -121,7 +160,7 @@ export const useScaleStore = create((set) => ({
     set(() => ({ vChannelScaleFactor: newScale })),
 }));
 
-export const useTimelineOptionsStore = create((set) => ({
+export const useTimelineOptionsStore = createWithLocalStorage((set) => ({
   showAnnotations: true,
   toggleShowAnnotations: () =>
     set((state) => ({ showAnnotations: !state.showAnnotations })),
@@ -133,7 +172,7 @@ export const useTimelineOptionsStore = create((set) => ({
     set((state) => ({ showTotalTime: !state.showTotalTime })),
 }));
 
-export const useRenderTypeStore = create((set) => ({
+export const useRenderTypeStore = createWithLocalStorage((set) => ({
   activeRenders: ['Ecg'],
   renderNames: ['Ecg', 'Vcg', 'Circle'],
   toggleActiveRenders: (index) =>
@@ -151,7 +190,7 @@ export const useRenderTypeStore = create((set) => ({
       ),
     }));
   },
-  editRender: (index, newRender) =>
+  editRender: (newRender, index) =>
     set((state) => (state.activeRenders[index] = newRender)),
   addActiveRender: (newRender) =>
     set((state) => state.activeRenders.push(newRender)),
@@ -176,9 +215,9 @@ export const useRenderTypeStore = create((set) => ({
 
 export const useMousePositionStore = create((set) => ({
   xPos: 0,
-  setxPos: (x) => set((state) => ({ xPos: x })),
+  setxPos: (x) => set(() => ({ xPos: x })),
   yPos: 0,
-  setyPos: (y) => set((state) => ({ yPos: y })),
+  setyPos: (y) => set(() => ({ yPos: y })),
 }));
 
 export const useMarkStore = create((set) => ({
@@ -191,7 +230,7 @@ export const useMarkStore = create((set) => ({
   setMarkingFinished: (newState) => set(() => ({ markingFinished: newState })),
 }));
 
-export const useSnackbarStore = create((set) => ({
+export const useSnackbarStore = createWithLocalStorage((set) => ({
   snackbar: null,
   setSnackbar: (newSnackbar) => set(() => ({ snackbar: newSnackbar })),
   showSnackbar: true,
@@ -206,4 +245,20 @@ export const useUploadStore = create((set) => ({
   aiAnnotationsUploaded: false,
   setAiAnnotationsUploaded: (newAiAnnotationsUploaded) =>
     set(() => ({ aiAnnotationsUploaded: newAiAnnotationsUploaded })),
+}));
+
+export const useColorOptionsStore = createWithLocalStorage((set) => ({
+  mixOverlap: true,
+  toggleMixOverlap: () => set((state) => ({ mixOverlap: !state.mixOverlap })),
+  waveColorTypes: ['Single colors', 'Based on diagnosis', 'Heat color'],
+  activeWaveColorType: 0,
+  setActiveWaveColorType: (newActive) =>
+    set(() => ({ activeWaveColorType: newActive })),
+  colors: ['#FF0000', '#E2E412', '#35E627', '#00D8FF', '#D500FF'],
+  changeColor: (newColor, index) =>
+    set((state) => (state.colors[index] = newColor)),
+  addColor: (newColor) => set((state) => state.colors.push(newColor)),
+  removeColor: (index) => set((state) => state.colors.splice(index, 1)),
+  background: '#324444',
+  setBackground: (newColor) => set(() => ({ background: newColor })),
 }));

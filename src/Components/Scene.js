@@ -4,14 +4,16 @@ import { useCameraStore } from '../Store';
 import CameraControls from './CameraControls';
 import OrtoCam from './OrtoCam';
 import Text from './Text';
+import { useColorOptionsStore } from '../Store';
 
 const Scene = (props) => {
   console.log('%c [Scene] is rendering', 'background: #111; color: #ebd31c');
 
   const fov = useCameraStore((state) => state.fov);
+  const backgroundColor = useColorOptionsStore((state) => state.background);
 
   return (
-    <Canvas camera={{ fov: fov }} style={{ background: '#324444' }}>
+    <Canvas camera={{ fov: fov }} style={{ background: backgroundColor }}>
       <CameraControls />
       <ambientLight />
 

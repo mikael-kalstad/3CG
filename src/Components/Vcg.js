@@ -4,7 +4,7 @@ import { useUpdate, useFrame } from 'react-three-fiber';
 import * as THREE from 'three';
 import { dataService } from '../Services/DataService';
 import { useTimeStore } from '../Store';
-import { getColorData } from '../Scripts/Color';
+import { getTransitionColorData } from '../Scripts/Color';
 import { useRenderTypeStore } from '../Store';
 
 const sampleRate = dataService.getSampleRate();
@@ -133,13 +133,13 @@ const Vcg = () => {
 
   const updateColors = (geometry, start, end, points) => {
     // Set gradient color theme to all points that is rendered in setDrawRange method
-    let colors = getColorData(points.slice(start, end), start);
+    let colors = getTransitionColorData(points.slice(start, end), start);
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   };
 
   // const updateColors = (geometry, start, end) => {
   //   // Set gradient color theme to all points that is rendered in setDrawRange method
-  //   let colors = getColorData(
+  //   let colors = getTransitionColorData(
   //     dataService
   //       .formatDataToPoints()
   //       .slice(start * sampleRate * 10, end * sampleRate * 10),
