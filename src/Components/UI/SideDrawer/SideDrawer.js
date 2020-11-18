@@ -123,13 +123,13 @@ const SideDrawer = () => {
           <Accordion
             TransitionProps={{ unmountOnExit: true }}
             key={i}
-            onClick={() => toggleMenuItemOpen(i)}
             expanded={menuItemsOpen[i]}
           >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls='panel1a-content'
               id='panel1a-header'
+              onClick={() => toggleMenuItemOpen(i)}
             >
               <Typography className={classes.heading}>{item.title}</Typography>
             </AccordionSummary>

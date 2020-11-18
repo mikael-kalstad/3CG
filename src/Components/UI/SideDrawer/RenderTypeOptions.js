@@ -5,6 +5,7 @@ import Dropdown from '../Dropdown';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import ClearIcon from '@material-ui/icons/Clear';
 import { makeStyles } from '@material-ui/core/styles';
 import SelectBetween from '../Settings/SelectBetween';
 import Typography from '@material-ui/core/Typography';
@@ -104,7 +105,7 @@ const RenderTypeOptions = () => {
                   index={i}
                 />
                 {store.activeRenders.length > 1 && (
-                  <AddIcon
+                  <ClearIcon
                     className={classes.deleteIcon}
                     onClick={() => store.removeActiveRender(i)}
                   />

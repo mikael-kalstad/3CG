@@ -16,10 +16,6 @@ const MarginWrapper = styled.div`
   margin-top: 10px;
 `;
 
-const Wrapper = styled.div`
-  margin-top: 20px;
-`;
-
 const ColorPickerWrapper = styled.div`
   margin: 20px 0;
   display: grid;
@@ -119,19 +115,16 @@ const ColorOptions = () => {
           Note some color types may not work in some render views.
         </FormHelperText>
 
-        <Wrapper>
-          <Dropdown
-            items={waveColorTypes}
-            value={waveColorTypes[activeWaveColorType]}
-            title='Color type'
-            handleChange={handleTypeChange}
-          />
-        </Wrapper>
+        <Dropdown
+          items={waveColorTypes}
+          value={waveColorTypes[activeWaveColorType]}
+          handleChange={handleTypeChange}
+        />
 
         <Typography
           id='split-orientation-title'
           gutterBottom
-          style={{ marginTop: '30px' }}
+          style={{ marginTop: '40px' }}
         >
           Single color selector
         </Typography>
@@ -154,7 +147,7 @@ const ColorOptions = () => {
               {colors.length > 1 && (
                 <ClearIcon
                   className={classes.deleteIcon}
-                  onClick={() => removeColor(i)}
+                  onClick={() => activeWaveColorType === 0 && removeColor(i)}
                 />
               )}
             </ColorPickerWrapper>
@@ -166,7 +159,9 @@ const ColorOptions = () => {
             startIcon={<AddIcon />}
             size='small'
             onClick={() => addColor('#00D8FF')}
-            disabled={colors.length >= MAX_NUM_OF_COLORS}
+            disabled={
+              colors.length >= MAX_NUM_OF_COLORS || activeWaveColorType !== 0
+            }
           >
             Add color
           </Button>

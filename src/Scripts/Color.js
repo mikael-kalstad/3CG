@@ -127,12 +127,14 @@ export const getDiagnosisColorData = (data) => {
 
   // Default color when there is no diagnosis, which is called normal sinus rhytm
   const SINUS_RHYTM_COLOR = hexToRgbDecimal('#5FFA31');
+  const OTHER_DIAGNOSIS_COLOR = hexToRgbDecimal('#FFFFFF');
 
   // Get options state from store
   const mixOverlapColors = useColorOptionsStore.getState().mixOverlap;
 
   // Go through all data and add colors for each data point
   for (let i = 0; i < data.length; i++) {
+    // Default color when there is no annotations
     let color = SINUS_RHYTM_COLOR;
 
     // Go through every diagnosis
@@ -143,6 +145,8 @@ export const getDiagnosisColorData = (data) => {
       if (d.start <= i && d.end >= i) {
         // Set color to diagnosis color as default if it exists, before checking overlapping colors
         if (d.color) color = d.color;
+        // No diagnosis grouping color found, set to default for other diagnoses
+        else color = OTHER_DIAGNOSIS_COLOR;
 
         // Mix overlapping colors if options is enabled
         if (mixOverlapColors) {
@@ -152,7 +156,7 @@ export const getDiagnosisColorData = (data) => {
           diagnosesArr.forEach((dTemp) => {
             // If the diagnosis overlap, add it to the overlapColors array
             if (dTemp.start <= i && dTemp.end >= i && d.end >= dTemp.start)
-              overlapColors.push(dTemp.color || SINUS_RHYTM_COLOR);
+              overlapColors.push(dTemp.color || OTHER_DIAGNOSIS_COLOR);
           });
 
           // Only mix colors if there are more than one overlapping colors
