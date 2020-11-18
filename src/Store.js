@@ -48,7 +48,7 @@ export const useStorageStore = create(
 );
 
 // Store for storing global mode states
-export const useModeStore = createWithLocalStorage((set) => ({
+export const useModeStore = create((set) => ({
   playMode: false,
   togglePlayMode: () => set((state) => ({ playMode: !state.playMode })),
   markMode: false,
@@ -235,6 +235,8 @@ export const useSnackbarStore = createWithLocalStorage((set) => ({
 export const useColorOptionsStore = createWithLocalStorage((set) => ({
   mixOverlap: true,
   toggleMixOverlap: () => set((state) => ({ mixOverlap: !state.mixOverlap })),
+  overlapPriority: 0,
+  toggleOverlapPriority: () => set(state => ({ overlapPriority: state.overlapPriority === 0 ? 1 : 0})),
   waveColorTypes: ['Single color(s)', 'Diagnosis groupings', 'Amplitude'],
   activeWaveColorType: 0,
   setActiveWaveColorType: (newActive) =>

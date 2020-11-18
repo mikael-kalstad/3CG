@@ -9,7 +9,7 @@ const GlobalSnackbar = () => {
   const snackbar = useSnackbarStore((state) => state.snackbar);
 
   // This should be the only snackbar rendered in application!
-  return <>{snackbar}</>;
+  return <>{snackbar && snackbar}</>;
 };
 
 export default GlobalSnackbar;

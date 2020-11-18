@@ -30,6 +30,8 @@ const ColorSelectionWrapper = styled.div`
 
 const MAX_NUM_OF_COLORS = 10;
 
+const DROPDOWN_OVERLAP_VALUES = ['Top annotations', 'Bottom annotations'];
+
 const ColorOptions = () => {
   const [
     waveColorTypes,
@@ -37,12 +39,16 @@ const ColorOptions = () => {
     setActiveWaveColorType,
     mixOverlap,
     toggleMixOverlap,
+    overlapPriority,
+    toggleOverlapPriority,
   ] = useColorOptionsStore((state) => [
     state.waveColorTypes,
     state.activeWaveColorType,
     state.setActiveWaveColorType,
     state.mixOverlap,
     state.toggleMixOverlap,
+    state.overlapPriority,
+    state.toggleOverlapPriority,
   ]);
 
   const [
@@ -182,6 +188,29 @@ const ColorOptions = () => {
         disabled={activeWaveColorType !== 1}
         description='Mix together the colors of the ecg-waves if diagnoses overlap. Can only be toggled when the color is based on diagnoses'
       />
+
+      <MarginWrapper>
+        <Typography
+          id='split-orientation-title'
+          gutterBottom
+          style={{ marginTop: '30px' }}
+        >
+          Overlap priority
+        </Typography>
+
+        <FormHelperText style={{ marginBottom: '10px' }}>
+          Change the priority of color overlap when color type is set to
+          diagnosis groupings. Note this will have no effect when mix overlap
+          option is enabled.
+        </FormHelperText>
+
+        <Dropdown
+          items={DROPDOWN_OVERLAP_VALUES}
+          value={DROPDOWN_OVERLAP_VALUES[overlapPriority]}
+          handleChange={toggleOverlapPriority}
+          disabled={activeWaveColorType !== 1 || mixOverlap}
+        />
+      </MarginWrapper>
     </>
   );
 };

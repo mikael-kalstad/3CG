@@ -23,6 +23,7 @@ const Dropdown = (props) => {
       <Select
         labelId='demo-simple-select-label'
         id='demo-simple-select'
+        disabled={props.disabled}
         value={props.value}
         onChange={(e) =>
           props.index

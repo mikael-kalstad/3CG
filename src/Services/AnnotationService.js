@@ -1,4 +1,5 @@
 const groupingData = require('../data/groupings.json');
+const annotationTypes = require('../data/annotationTypes.json');
 
 const onsetToSeconds = (onset) => {
   let split = onset.split(':');
@@ -18,8 +19,9 @@ class AnnotationService {
       let newObj = {
         start,
         end: start + obj.duration,
-        data: obj.data,
+        data: this.findData(obj.code),
       };
+      console.log('nreobj', newObj);
       return newObj;
     });
 
@@ -34,6 +36,19 @@ class AnnotationService {
       return newObj;
     });
     this.annotations = this.json.concat(this.jsonAi);
+  }
+
+  // Find annotatinType data based on abbreviation/code
+  findData(code) {
+    // Remove any characters that is not in the alphabet
+    code = code.replace(/[^A-Za-z']/g, '');
+
+    let a;
+
+    for (let i = 0; i < annotationTypes.length; i++) {
+      a = annotationTypes[i];
+      if (a['Abbreviation'] === code) return a;
+    }
   }
 
   getAnnotations() {
