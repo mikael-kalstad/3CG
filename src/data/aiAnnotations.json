@@ -2,10 +2,7 @@
   {
     "onset": "00:00:2.580",
     "duration": 0.542,
-    "data": {
-      "Dx": "sinus arrhythmia",
-      "SNOMED CT Code": 427393009,
-      "Abbreviation": "SA"
-    }
+    "text": "sinus arrhythmia",
+    "code": "SA"
   }
 ]

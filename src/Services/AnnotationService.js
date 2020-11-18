@@ -15,13 +15,11 @@ class AnnotationService {
   formatFile(json, isAI) {
     let result = json.map((obj) => {
       let start = this.onsetToSeconds(obj.onset);
-      console.log(obj);
       let newObj = {
         start,
         end: start + obj.duration,
         data: this.findData(obj.code),
       };
-      console.log('nreobj', newObj);
       return newObj;
     });
     return result;
@@ -34,7 +32,7 @@ class AnnotationService {
       let newObj = {
         onset,
         duration,
-        data: obj.data,
+        data: this.findData(obj.code),
       };
       return newObj;
     });
