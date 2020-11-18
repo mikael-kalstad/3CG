@@ -18,7 +18,7 @@ const Text = (props) => {
     }),
     [font, props.depth, props.textSize]
   );
-  const { camera, scene } = useThree();
+  const { camera } = useThree();
   const textMesh = useRef();
   const planeMesh = useRef();
   const group = useRef();

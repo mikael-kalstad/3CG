@@ -78,6 +78,7 @@ const AddAnnotationPopup = (props) => {
         end: Number(endSelected),
         code: a['Abbreviation'],
         text: a['Dx'],
+        ai: false,
       });
     });
 

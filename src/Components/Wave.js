@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
-import { useUpdate, useFrame } from 'react-three-fiber';
+import { useUpdate, useFrame, useThree } from 'react-three-fiber';
 import { /*getColorData*/ getColorDataHeat } from '../Scripts/Color';
 import {
   useChannelStore,
@@ -29,6 +29,8 @@ const Wave = (props) => {
   const hoverPlaneRef = useRef();
   const hoverLineRef = useRef();
 
+  const { camera } = useThree();
+
   // Get mode states from global store
   const [playMode, togglePlayMode] = useModeStore((state) => [
     state.playMode,
@@ -37,8 +39,15 @@ const Wave = (props) => {
 
   const markMode = useModeStore((state) => state.markMode);
 
-  const activeChannels = useChannelStore((state) => state.activeChannels);
-  const setActiveChannels = useChannelStore((state) => state.setActiveChannels);
+  const [
+    activeChannels,
+    setActiveChannels,
+    setActiveChannelsPlaceholder,
+  ] = useChannelStore((state) => [
+    state.activeChannels,
+    state.setActiveChannels,
+    state.setActiveChannelsPlaceholder,
+  ]);
 
   const [
     scale,
@@ -109,7 +118,7 @@ const Wave = (props) => {
     if (isInspected()) {
       hoverPlaneRef.current.scale.x =
         (endTimeRef.current - startTimeRef.current) * sampleRate * scale;
-      hoverPlaneRef.current.scale.y = 130;
+      hoverPlaneRef.current.scale.y = 200;
 
       hoverPlaneRef.current.position.x =
         (endTimeRef.current - startTimeRef.current) * sampleRate * scale * 0.5;
@@ -128,6 +137,7 @@ const Wave = (props) => {
   };
 
   const inspectChannel = (channelIndex) => {
+    setActiveChannelsPlaceholder(activeChannels);
     setInspected(channelIndex);
     let newActiveChannels = [];
     for (let i = 0; i < activeChannels.length; i++) {
@@ -257,7 +267,7 @@ const Wave = (props) => {
               visible={false}
             />
           </mesh>
-          <mesh ref={hoverLineRef} scale={[0.1, 130, 0.1]}>
+          <mesh ref={hoverLineRef} scale={[0.1, 200, 0.1]}>
             <boxBufferGeometry attach='geometry' />
             <meshPhongMaterial
               attach='material'
