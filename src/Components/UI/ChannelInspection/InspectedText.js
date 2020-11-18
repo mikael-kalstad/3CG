@@ -86,6 +86,9 @@ const InspectedText = (props) => {
   const currentlyHovering = useInspectStore((state) => state.currentlyHovering);
 
   const setActiveChannels = useChannelStore((state) => state.setActiveChannels);
+  const activeChannelsPlaceholder = useChannelStore(
+    (state) => state.activeChannelsPlaceholder
+  );
   const activeChannelsRef = useRef(useChannelStore.getState().activeChannels);
 
   const startTime = useTimeStore((state) => state.startTime);
@@ -117,11 +120,7 @@ const InspectedText = (props) => {
 
   const cancelInspection = () => {
     setCanceled(true); // Trigger slideOut animation
-    let newActiveChannels = [];
-    for (let i = 0; i < activeChannelsRef.current.length; i++) {
-      newActiveChannels.push(true);
-    }
-    setActiveChannels(newActiveChannels);
+    setActiveChannels(activeChannelsPlaceholder);
     setTimeout(() => {
       /* After slideOut animation is done (400ms), reset states */
       setInspected(-1);

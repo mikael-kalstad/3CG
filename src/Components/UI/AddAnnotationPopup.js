@@ -81,6 +81,7 @@ const AddAnnotationPopup = (props) => {
           'SNOMED CT Code': a['"SNOMED CT Code"'],
           Abbreviation: a['Abbreviation'],
         },
+        ai: false,
       });
     });
 

@@ -42,8 +42,15 @@ const Wave = (props) => {
 
   const markMode = useModeStore((state) => state.markMode);
 
-  const activeChannels = useChannelStore((state) => state.activeChannels);
-  const setActiveChannels = useChannelStore((state) => state.setActiveChannels);
+  const [
+    activeChannels,
+    setActiveChannels,
+    setActiveChannelsPlaceholder,
+  ] = useChannelStore((state) => [
+    state.activeChannels,
+    state.setActiveChannels,
+    state.setActiveChannelsPlaceholder,
+  ]);
 
   const [
     scale,
@@ -114,7 +121,7 @@ const Wave = (props) => {
     if (isInspected()) {
       hoverPlaneRef.current.scale.x =
         (endTimeRef.current - startTimeRef.current) * sampleRate * scale;
-      hoverPlaneRef.current.scale.y = 130;
+      hoverPlaneRef.current.scale.y = 200;
 
       hoverPlaneRef.current.position.x =
         (endTimeRef.current - startTimeRef.current) * sampleRate * scale * 0.5;
@@ -133,6 +140,7 @@ const Wave = (props) => {
   };
 
   const inspectChannel = (channelIndex) => {
+    setActiveChannelsPlaceholder(activeChannels);
     setInspected(channelIndex);
     let newActiveChannels = [];
     for (let i = 0; i < activeChannels.length; i++) {
@@ -187,6 +195,7 @@ const Wave = (props) => {
   /* Calculates which point of the wave the user is hovering */
   /* Takes into account that the timeline can be 'out of sync' of the scale */
   const handleHover = (e) => {
+    // Overstep by timeline
     let overstep = (startTimeRef.current * sampleRate) % 1;
     if (Math.abs(overstep - scale) < 0.0000000000001) {
       overstep = 0;
@@ -275,12 +284,12 @@ const Wave = (props) => {
               visible={false}
             />
           </mesh>
-          <mesh ref={hoverLineRef} scale={[0.1, 130, 0.1]}>
+          <mesh ref={hoverLineRef} scale={[0.1, 200, 0.1]}>
             <boxBufferGeometry attach='geometry' />
             <meshPhongMaterial
               attach='material'
               color={0xffffff}
-              opacity={0.3}
+              opacity={0.6}
               transparent={true}
               visible={currentlyHovering}
             />

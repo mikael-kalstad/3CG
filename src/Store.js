@@ -89,6 +89,12 @@ export const useChannelStore = createWithLocalStorage((set) => ({
     })),
   setActiveChannels: (newActiveChannels) =>
     set(() => ({ activeChannels: newActiveChannels })),
+  /* Placeholder for saving activechannels before inspecting */
+  activeChannelsPlaceholder: numOfSamples.map(() => true),
+  setActiveChannelsPlaceholder: (newActiveChannelsPlaceholder) =>
+    set(() => ({
+      activeChannelsPlaceholder: newActiveChannelsPlaceholder,
+    })),
 }));
 
 const DEFAULT_SPEED = 0.00001;
@@ -230,6 +236,15 @@ export const useSnackbarStore = createWithLocalStorage((set) => ({
   showSnackbar: true,
   toggleShowSnackbar: () =>
     set((state) => ({ showSnackbar: !state.showSnackbar })),
+}));
+
+export const useUploadStore = create((set) => ({
+  userAnnotationsUploaded: false,
+  setUserAnnotationsUploaded: (newUserAnnotationsUploaded) =>
+    set(() => ({ userAnnotationsUploaded: newUserAnnotationsUploaded })),
+  aiAnnotationsUploaded: false,
+  setAiAnnotationsUploaded: (newAiAnnotationsUploaded) =>
+    set(() => ({ aiAnnotationsUploaded: newAiAnnotationsUploaded })),
 }));
 
 export const useColorOptionsStore = createWithLocalStorage((set) => ({
