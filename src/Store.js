@@ -106,7 +106,7 @@ export const useTimeStore = createWithLocalStorage((set) => ({
   setSpeed: (newSpeed) => set(() => ({ speed: newSpeed })),
 }));
 
-export const useAnnotationStore = createWithLocalStorage((set) => ({
+export const useAnnotationStore = create((set) => ({
   annotations: annotationData,
   addAnnotation: (newAnnotation) =>
     set((state) => ({
@@ -123,7 +123,7 @@ export const useAnnotationStore = createWithLocalStorage((set) => ({
       ),
     })),
   toggleAllAnnotations: (newState) =>
-    set((state) => ({
+    set(() => ({
       activeAnnotations: annotationData.map(() => newState),
     })),
   showFullAnnotation: true,
@@ -235,7 +235,7 @@ export const useSnackbarStore = createWithLocalStorage((set) => ({
 export const useColorOptionsStore = createWithLocalStorage((set) => ({
   mixOverlap: true,
   toggleMixOverlap: () => set((state) => ({ mixOverlap: !state.mixOverlap })),
-  waveColorTypes: ['Single colors', 'Based on diagnosis', 'Heat color'],
+  waveColorTypes: ['Single color(s)', 'Diagnosis groupings', 'Amplitude'],
   activeWaveColorType: 0,
   setActiveWaveColorType: (newActive) =>
     set(() => ({ activeWaveColorType: newActive })),

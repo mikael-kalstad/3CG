@@ -6,7 +6,7 @@ import Annotation from './Annotation';
 
 const sampleRate = dataService.getSampleRate();
 
-let colorSelection = [0x00a8ff, 0x2ecc71];
+let colorSelection = [0xffffff, 0x2ecc71];
 
 const AnnotationRenderer = (props) => {
   let startTime = useTimeStore((state) => state.startTime);
