@@ -1,20 +1,14 @@
 [
   {
-    "onset": "00:00:4.80",
+    "onset": "00:00:1.80",
     "duration": 1.512,
-    "data": {
-      "Dx": "Fancy beating",
-      "SNOMED CT Code": 427393009,
-      "Abbreviation": "FB"
-    }
+    "text": "sinus arrhythmia",
+    "code": "FB"
   },
   {
-    "onset": "00:00:7.36",
-    "duration": 0.712,
-    "data": {
-      "Dx": "Cache",
-      "SNOMED CT Code": 49578007,
-      "Abbreviation": "HAHAI"
-    }
+    "onset": "00:00:2.50",
+    "duration": 2.412,
+    "text": "Heisann",
+    "code": "SA"
   }
 ]

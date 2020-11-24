@@ -19,6 +19,7 @@ class AnnotationService {
         start,
         end: start + obj.duration,
         data: this.findData(obj.code),
+        ai: isAI,
       };
       return newObj;
     });
@@ -32,10 +33,12 @@ class AnnotationService {
       let newObj = {
         onset,
         duration,
-        data: this.findData(obj.code),
+        code: obj.data.Abbreviation,
+        text: obj.data.Dx,
       };
       return newObj;
     });
+    console.log(result);
     return result;
   }
 
