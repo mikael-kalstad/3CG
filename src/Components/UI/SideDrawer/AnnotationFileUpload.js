@@ -8,22 +8,23 @@ const Wrapper = styled.div``;
 
 const UploadButton = styled.div`
   &:hover {
-    filter: ${(props) => (!props.disabled ? '' : 'brightness(85%)')}
-    cursor: pointer;
+    cursor: ${(props) => (props.uploaded ? 'default' : 'pointer')};
+    filter: ${(props) =>
+      props.uploaded ? 'brightness(100%)' : 'brightness(85%)'};
   }
   height: 38px;
-  background-color: lightgray;
-  border-radius: 10px;
+  border-radius: 7px;
   display: grid;
   align-items: center;
-  font-size: 18px;
+  font-size: 16px;
   padding: 10px;
   margin: 13px 30px 13px 30px;
   font-weight: bold;
   text-align: center;
   vertical-align: middle;
-  color: #333333;
-  filter: ${(props) => (props.disabled ? 'brightness(50%)' : ' ')}
+
+  background-color: ${(props) => (props.uploaded ? '#2ecc71' : 'lightgray')};
+  color: ${(props) => (props.uploaded ? '#34495e' : '#333333')};
 `;
 
 const Input = styled.input`
@@ -153,8 +154,10 @@ const AnnotationFileUpload = (props) => {
         disabled={userAnnotationsUploaded}
       />
       <label htmlFor='user-annotation-upload-button'>
-        <UploadButton disabled={!userAnnotationsUploaded}>
-          Upload user-annotations
+        <UploadButton uploaded={userAnnotationsUploaded}>
+          {userAnnotationsUploaded
+            ? 'User-annotations uploaded'
+            : 'Upload user-annotations'}
         </UploadButton>
       </label>
       <Button onClick={handleUserDownload}>Download User Annotations</Button>
@@ -166,8 +169,10 @@ const AnnotationFileUpload = (props) => {
         disabled={aiAnnotationsUploaded}
       />
       <label htmlFor='ai-annotation-upload-button'>
-        <UploadButton disabled={!aiAnnotationsUploaded}>
-          Upload AI-annotations
+        <UploadButton uploaded={aiAnnotationsUploaded}>
+          {aiAnnotationsUploaded
+            ? 'AI-annotations uploaded'
+            : 'Upload AI-annotations'}
         </UploadButton>
       </label>
       <Button onClick={handleAiDownload}>Download Ai Annotations</Button>

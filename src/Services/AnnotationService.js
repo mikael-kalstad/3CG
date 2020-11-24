@@ -33,7 +33,8 @@ class AnnotationService {
       let newObj = {
         onset,
         duration,
-        data: obj.data,
+        text: obj.text,
+        code: obj.code,
       };
       return newObj;
     });

@@ -12,13 +12,14 @@ const UploadButton = styled.div`
   height: 90px;
   align-self: center;
   background-color: lightgray;
-  border-radius: 10px;
+  border-radius: 7px;
   display: grid;
   align-items: center;
   font-size: 30px;
   padding: 20px;
   margin: 10px 30px 10px 30px;
   font-weight: bold;
+  color: #333333;
   text-align: center;
 `;
 
@@ -44,8 +45,8 @@ const ECGFileUpload = (props) => {
   };
   return (
     <Wrapper>
-      <Input type="file" id="ecg-upload-button" onChange={handleChange} />
-      <label htmlFor="ecg-upload-button">
+      <Input type='file' id='ecg-upload-button' onChange={handleChange} />
+      <label htmlFor='ecg-upload-button'>
         <UploadButton>Upload ECG-datafile</UploadButton>
       </label>
     </Wrapper>

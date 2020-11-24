@@ -2,8 +2,11 @@
   {
     "onset": "00:00:4.80",
     "duration": 1.512,
-    "text": "atrial fibrillation and flutter",
-    "code": "AFAFL"
+    "data": {
+      "Dx": "Fancy beating",
+      "SNOMED CT Code": 427393009,
+      "Abbreviation": "FB"
+    }
   },
   {
     "onset": "00:00:7.36",
@@ -11,7 +14,7 @@
     "data": {
       "Dx": "Cache",
       "SNOMED CT Code": 49578007,
-      "Abbreviation": "SPRI"
+      "Abbreviation": "HAHAI"
     }
   }
 ]
