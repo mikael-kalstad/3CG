@@ -72,8 +72,8 @@ const GeneralOptions = () => {
         title={'Camera FOV'}
         description={'Use the slider to select the field of view of the camera'}
         value={fov}
-        minValue={50}
-        maxValue={120}
+        minValue={30}
+        maxValue={140}
         stepSize={10}
         onChange={(e, v) => setFov(v)}
       />

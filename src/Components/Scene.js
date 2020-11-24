@@ -9,11 +9,11 @@ import { useColorOptionsStore } from '../Store';
 const Scene = (props) => {
   console.log('%c [Scene] is rendering', 'background: #111; color: #ebd31c');
 
-  const fov = useCameraStore((state) => state.fov);
   const backgroundColor = useColorOptionsStore((state) => state.background);
+  console.log(<Canvas></Canvas>);
 
   return (
-    <Canvas camera={{ fov: fov }} style={{ background: backgroundColor }}>
+    <Canvas style={{ background: backgroundColor }}>
       <CameraControls />
       <ambientLight />
 

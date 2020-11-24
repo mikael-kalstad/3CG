@@ -16,6 +16,7 @@ import FileUpload from './FileUpload';
 import GeneralOptions from './GeneralOptions';
 import RenderTypeOptions from './RenderTypeOptions';
 import TimeLineOptions from './TimeLineOptions';
+import Upload from './Upload';
 
 const Header = styled.div`
   display: grid;
@@ -81,12 +82,16 @@ const MenuItems = [
     title: 'Timeline',
     component: <TimeLineOptions />,
   },
+  {
+    title: 'Upload/Download',
+    component: <Upload />,
+  },
 ];
 
 const SideDrawer = () => {
   const [show, setShow] = useState(false);
   const [menuItemsOpen, setMenuItemsOpen] = useState(
-    MenuItems.map(() => false)
+    MenuItems.map((e, i) => (i === MenuItems.length - 1 ? true : false))
   );
   console.log(menuItemsOpen);
 
@@ -139,7 +144,6 @@ const SideDrawer = () => {
             </AccordionDetails>
           </Accordion>
         ))}
-        <FileUpload />
       </Drawer>
     </>
   );

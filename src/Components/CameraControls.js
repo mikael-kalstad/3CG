@@ -12,6 +12,7 @@ const CameraControls = () => {
   const [initialDistance, setInitialDistance] = useState(0);
   const markMode = useModeStore((state) => state.markMode);
   const ortoMode = useModeStore((state) => state.ortoMode);
+  const fov = useCameraStore((state) => state.fov);
   const [zoomValue, setZoomValue] = useCameraStore((state) => [
     state.zoomValue,
     state.setZoomValue,
@@ -46,18 +47,15 @@ const CameraControls = () => {
 
   useEffect(onMount, []);
 
-  // useEffect(() => {
-  //   console.log(initialDistance);
-  // }, []);
-
-  /* Incase bug appears again */
-  // useEffect(() => {
-  //   /* Updating camera target before rerender */
-  //   setCamTarget(orbitRef.current.target.clone());
-  // }, [markMode]);
-
   useFrame(() => {
     computeVec();
+
+    // Set fov
+    if (orbitRef.current) {
+      orbitRef.current.object.fov = fov;
+      orbitRef.current.object.updateProjectionMatrix();
+    }
+
     if (lastZoomValue !== zoomValue) {
       if (!ortoMode) {
         camPos.set(
@@ -95,11 +93,6 @@ const CameraControls = () => {
         computeVec();
         lastZoomValue = persDistanceToZoom(initialDistance, vec.length());
         setZoomValue(lastZoomValue);
-      } else if (ortoMode) {
-        // console.log(orbitRef);
-        // lastZoomValue = orthoDistanceToZoom(initialDistance, vec.length());
-        // console.log(lastZoomValue);
-        // setZoomValue(lastZoomValue);
       }
     }
     orbitRef.current.target.clamp(minPan, maxPan);
@@ -124,39 +117,6 @@ const CameraControls = () => {
     return 30 * Math.exp((Math.log(100 / 10) / 80) * -zoom);
   };
 
-  // const orthoDistanceToZoom = (initial, current) => {
-  //   return (-80 * Math.log(2 * initial) * current) / Math.log(100 / 10);
-  // };
-
-  // useSpring({
-  //   from: inspectMode && inspected != -1 && { y: camera.position.y },
-  //   to: inspectMode && inspected != 0 ? { y: 100 } : { y: 80 },
-  //   onFrame: ({ y }) => {
-  //     camera.position.y = y;
-  //   },
-  //   // Turn off camera controls while animation is running
-  //   onStart: () => {
-  //     if (orbitRef.current) orbitRef.current.enabled = false;
-  //   },
-  //   // Turn on camera controls after animation is finished
-  //   onRest: () => {
-  //     if (orbitRef.current) orbitRef.current.enabled = true;
-  //   },
-  //   config: { mass: 10, tension: 1500, friction: 300, precision: 0.00001 },
-  // });
-
-  // useSpring({
-  //   spring: !inspectMode,
-  //   to: { y: camera.position.y },
-  //   from: { y: 0 },
-  //   onFrame: ({ y }) => {
-  //     orbitRef.current.target.y = y;
-  //     console.log(inspectMode);
-  //     console.log(orbitRef.current.target.y);
-  //   },
-  //   config: { mass: 10, tension: 1000, friction: 300, precision: 0.00001 },
-  // });
-
   return (
     <orbitControls
       zoomValueSpeed={1}
@@ -172,8 +132,6 @@ const CameraControls = () => {
       minAzimuthAngle={-Math.PI / 2}
       maxAzimuthAngle={Math.PI / 2}
       enabled={!markMode}
-      // enableDamping={true}
-      // dampingFactor={0.6}
     />
   );
 };
