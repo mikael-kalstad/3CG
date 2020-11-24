@@ -2,37 +2,25 @@
   {
     "onset": "00:00:0.080",
     "duration": 0.342,
-    "data": {
-      "Dx": "brady tachy syndrome",
-      "SNOMED CT Code": 74615001,
-      "Abbreviation": "BTS"
-    }
+    "text": "brady tachy syndrome",
+    "code": "BTS"
   },
   {
     "onset": "00:00:0.80",
     "duration": 0.512,
-    "data": {
-      "Dx": "sinus arrhythmia",
-      "SNOMED CT Code": 427393009,
-      "Abbreviation": "SA"
-    }
+    "text": "sinus arrhythmia",
+    "code": "SA"
   },
   {
     "onset": "00:00:0.50",
     "duration": 0.412,
-    "data": {
-      "Dx": "shortened pr interval",
-      "SNOMED CT Code": 49578007,
-      "Abbreviation": "SPRI"
-    }
+    "text": "shortened pr interval",
+    "code": "SPRI"
   },
   {
     "onset": "00:00:0.70",
     "duration": 0.342,
-    "data": {
-      "Dx": "brady tachy syndrome",
-      "SNOMED CT Code": 74615001,
-      "Abbreviation": "BTS"
-    }
+    "text": "brady tachy syndrome",
+    "code": "BTS"
   }
 ]

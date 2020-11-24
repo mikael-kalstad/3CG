@@ -105,7 +105,7 @@ const SelectedTimeInputs = (props) => {
           label='Start time'
           variant='outlined'
           error={endSelected - startSelected < 0 || startSelected > duration}
-          disabled={startSelected === -1}
+          // disabled={startSelected === -1}
           value={startSelected === -1 ? null : Number(startSelected)}
           onChange={(e) => onChange(e, 'start')}
           onFocus={() => document.execCommand('selectall', null, false)}
@@ -117,7 +117,7 @@ const SelectedTimeInputs = (props) => {
           label='End time'
           variant='outlined'
           error={endSelected - startSelected < 0 || endSelected > duration}
-          disabled={startSelected === -1}
+          // disabled={startSelected === -1}
           value={endSelected === -1 ? null : Number(endSelected)}
           onChange={(e) => onChange(e, 'end')}
           onFocus={() => document.execCommand('selectall', null, false)}

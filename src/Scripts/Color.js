@@ -132,39 +132,56 @@ export const getDiagnosisColorData = (data) => {
   // Get options state from store
   const mixOverlapColors = useColorOptionsStore.getState().mixOverlap;
 
+  const checkDiagnose = (i, j) => {
+    let d = diagnosesArr[j];
+
+    let color;
+
+    // Check if diagnosis start- and end time is within current data point
+    if (d.start <= i && d.end >= i) {
+      // Set color to diagnosis color as default if it exists, before checking overlapping colors
+      if (d.color) color = d.color;
+      // No diagnosis grouping color found, set to default for other diagnoses
+      else color = OTHER_DIAGNOSIS_COLOR;
+
+      // Mix overlapping colors if options is enabled
+      if (mixOverlapColors) {
+        let overlapColors = [];
+
+        // Find overlapping diagnoses
+        diagnosesArr.forEach((dTemp) => {
+          // If the diagnosis overlap, add it to the overlapColors array
+          if (dTemp.start <= i && dTemp.end >= i && d.end >= dTemp.start)
+            overlapColors.push(dTemp.color || OTHER_DIAGNOSIS_COLOR);
+        });
+
+        // Only mix colors if there are more than one overlapping colors
+        if (overlapColors.length > 1) color = mixRgbColors(overlapColors);
+      }
+      return color;
+    }
+    return false;
+  };
+
   // Go through all data and add colors for each data point
   for (let i = 0; i < data.length; i++) {
     // Default color when there is no annotations
     let color = SINUS_RHYTM_COLOR;
 
     // Go through every diagnosis
-    for (let j = 0; j < diagnosesArr.length; j++) {
-      let d = diagnosesArr[j];
+    if (useColorOptionsStore.getState().overlapPriority === 0) {
+      for (let j = 0; j < diagnosesArr.length; j++) {
+        let res = checkDiagnose(i, j);
 
-      // Check if diagnosis start- and end time is within current data point
-      if (d.start <= i && d.end >= i) {
-        // Set color to diagnosis color as default if it exists, before checking overlapping colors
-        if (d.color) color = d.color;
-        // No diagnosis grouping color found, set to default for other diagnoses
-        else color = OTHER_DIAGNOSIS_COLOR;
+        if (res) color = res;
+        // else break;
+      }
+    } else {
+      for (let j = diagnosesArr.length - 1; j >= 0; j--) {
+        let res = checkDiagnose(i, j);
 
-        // Mix overlapping colors if options is enabled
-        if (mixOverlapColors) {
-          let overlapColors = [];
-
-          // Find overlapping diagnoses
-          diagnosesArr.forEach((dTemp) => {
-            // If the diagnosis overlap, add it to the overlapColors array
-            if (dTemp.start <= i && dTemp.end >= i && d.end >= dTemp.start)
-              overlapColors.push(dTemp.color || OTHER_DIAGNOSIS_COLOR);
-          });
-
-          // Only mix colors if there are more than one overlapping colors
-          if (overlapColors.length > 1) color = mixRgbColors(overlapColors);
-        }
-
-        // No need to check more
-        break;
+        if (res) color = res;
+        // else break;
       }
     }
 

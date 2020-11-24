@@ -9,7 +9,7 @@ import {
 import Text from '../../Text';
 
 // The standard grid for ECG uses 0.04s per square in the x-axis, and 0.1mV in the y-axis.
-// The mV in this grid ranges from
+// The mV in this grid ranges from -1.0mV to +1.0mV
 // This grid shows that standard using a 25x20 grid that scales with the timeline.
 
 const Grid = (props) => {

@@ -54,7 +54,61 @@ const AddAnnotationContainer = () => {
       (endSelected) => (endSelectedRef.current = endSelected),
       (state) => state.endSelected
     );
-  }, []);
+
+    let snackbarToRender = [];
+
+    if (
+      markMode &&
+      showAddAnnotationPopup &&
+      markingFinished &&
+      (endSelectedRef.current - startSelectedRef.current > 0 ||
+        startSelectedRef.current - endSelectedRef.current > 0)
+    )
+      snackbarToRender = (
+        <SnackbarAction
+          timeout={null}
+          actionName='ADD ANNOTATION'
+          onClick={togglePopup}
+          dontShowClick={toggleShowAddAnnotationPopup}
+          message={
+            'Area marked, click add annotation to selected area. Annotation can also be added in menu in the annotations section'
+          }
+        />
+      );
+    else if (
+      showAddAnnotationPopup &&
+      markMode &&
+      !arrayContainsString(activeRenders, 'ecg')
+    )
+      snackbarToRender = (
+        <SnackbarAction
+          timeout={null}
+          actionName='ADD ANNOTATION'
+          onClick={togglePopup}
+          dontShowClick={toggleShowAddAnnotationPopup}
+          message='Mark mode can only be used with click and drag in 3D with the ECG render view. Click to add annotation using start- and end-time'
+        />
+      );
+    else if (markMode)
+      snackbarToRender = (
+        <SnackbarPopup
+          timeout={5000}
+          message='Mark mode active, click and drag with the mouse in ECG-view to select annotation area'
+          type='info'
+        />
+      );
+
+    if (!displayPopup && markMode) setSnackbar(snackbarToRender);
+    else if (displayPopup && markMode) setSnackbar(null);
+  }, [
+    displayPopup,
+    markMode,
+    activeRenders,
+    markingFinished,
+    setSnackbar,
+    showAddAnnotationPopup,
+    toggleShowAddAnnotationPopup,
+  ]);
 
   // Check if array contains string (case insensitive)
   const arrayContainsString = (arr, string) => {
@@ -62,52 +116,6 @@ const AddAnnotationContainer = () => {
   };
 
   const togglePopup = () => setDisplayPopup((currentState) => !currentState);
-
-  let snackbarToRender = [];
-
-  if (
-    markMode &&
-    showAddAnnotationPopup &&
-    markingFinished &&
-    (endSelectedRef.current - startSelectedRef.current > 0 ||
-      startSelectedRef.current - endSelectedRef.current > 0)
-  )
-    snackbarToRender = (
-      <SnackbarAction
-        timeout={null}
-        actionName='ADD ANNOTATION'
-        onClick={togglePopup}
-        dontShowClick={toggleShowAddAnnotationPopup}
-        message={
-          'Area marked, click add annotation to selected area. Annotation can also be added in menu in the annotations section'
-        }
-      />
-    );
-  else if (
-    showAddAnnotationPopup &&
-    markMode &&
-    !arrayContainsString(activeRenders, 'ecg')
-  )
-    snackbarToRender = (
-      <SnackbarAction
-        timeout={null}
-        actionName='ADD ANNOTATION'
-        onClick={togglePopup}
-        dontShowClick={toggleShowAddAnnotationPopup}
-        message='Mark mode can only be used with click and drag in 3D with the ECG render view. Click to add annotation using start- and end-time'
-      />
-    );
-  else if (markMode)
-    snackbarToRender = (
-      <SnackbarPopup
-        timeout={5000}
-        message='Mark mode active, click and drag with the mouse in ECG-view to select annotation area'
-        type='info'
-      />
-    );
-
-  if (!displayPopup && markMode) setSnackbar(snackbarToRender);
-  else if (displayPopup && markMode) setSnackbar(null);
 
   return displayPopup && <AddAnnotationPopup onClose={togglePopup} />;
 };
