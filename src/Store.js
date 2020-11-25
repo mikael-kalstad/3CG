@@ -13,7 +13,7 @@ const sampleRate = dataService.getSampleRate();
 // Get all annotations from file
 const annotationData = annotationService.getAnnotations();
 
-let localStorageEnabled = window.localStorage.getItem('root');
+let localStorageEnabled = window.localStorage.getItem('root')['storageStore'];
 let allowList = localStorageEnabled ? undefined : [];
 console.log('allowList', allowList, localStorageEnabled);
 
