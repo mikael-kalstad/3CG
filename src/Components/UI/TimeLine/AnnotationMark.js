@@ -29,6 +29,7 @@ const Mark = styled.div`
   opacity: 0.5;
   transition: 0.2s ease;
   color: white;
+  overflow: hidden;
 `;
 
 const AnnotationMark = (props) => {

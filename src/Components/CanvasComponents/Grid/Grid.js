@@ -5,7 +5,7 @@ import {
   useModeStore,
   useTimelineOptionsStore,
   useTimeStore,
-} from "../../../Store";
+} from '../../../Store';
 import Text from '../../Text';
 
 // The standard grid for ECG uses 0.04s per square in the x-axis, and 0.1mV in the y-axis.
@@ -13,7 +13,7 @@ import Text from '../../Text';
 // This grid shows that standard using a 25x20 grid that scales with the timeline.
 
 const Grid = (props) => {
-  let n = 50
+  let n = 50;
   // Fetch initial time state
   const startTime = useTimeStore((state) => state.startTime);
   const endTime = useTimeStore((state) => state.endTime);
@@ -31,55 +31,50 @@ const Grid = (props) => {
     if ((i + 5) % 5 == 0) {
       continue;
     }
-    let m = i * 10
+    let m = i * 10;
     xPoints.push(new THREE.Vector3(0, m, 0));
-    xPoints.push(new THREE.Vector3((n * graphLength), m, 0));
+    xPoints.push(new THREE.Vector3(n * graphLength, m, 0));
     xPoints.push(new THREE.Vector3(0, m, 0));
-
   }
   let xLinesGeo = new THREE.BufferGeometry().setFromPoints(xPoints);
 
   let yPoints = [];
-  for (let i = 0; i < ((graphLength * 5) + 1); i++) {
+  for (let i = 0; i < graphLength * 5 + 1; i++) {
     if ((i + 5) % 5 == 0) {
       continue;
     }
-    let m = i * 10
+    let m = i * 10;
     yPoints.push(new THREE.Vector3(m, 0, 0));
-    yPoints.push(new THREE.Vector3(m, (n * 4), 0));
+    yPoints.push(new THREE.Vector3(m, n * 4, 0));
     yPoints.push(new THREE.Vector3(m, 0, 0));
-
   }
   let yLinesGeo = new THREE.BufferGeometry().setFromPoints(yPoints);
 
   let oxPoints = [];
   for (let i = 0; i < 5; i++) {
-    let m = i * 50
+    let m = i * 50;
     oxPoints.push(new THREE.Vector3(0, m, 0));
-    oxPoints.push(new THREE.Vector3((n * graphLength), m, 0));
+    oxPoints.push(new THREE.Vector3(n * graphLength, m, 0));
     oxPoints.push(new THREE.Vector3(0, m, 0));
-
   }
   let oxLinesGeo = new THREE.BufferGeometry().setFromPoints(oxPoints);
 
   let oyPoints = [];
-  for (let i = 0; i < (graphLength + 1); i++) {
-    let m = i * 50
+  for (let i = 0; i < graphLength + 1; i++) {
+    let m = i * 50;
     oyPoints.push(new THREE.Vector3(m, 0, 0));
-    oyPoints.push(new THREE.Vector3(m, (n * 4), 0));
+    oyPoints.push(new THREE.Vector3(m, n * 4, 0));
     oyPoints.push(new THREE.Vector3(m, 0, 0));
-
   }
   let oyLinesGeo = new THREE.BufferGeometry().setFromPoints(oyPoints);
 
-
   const material = new THREE.MeshNormalMaterial({
     color: 0xff0000,
-    opacity: 0.12
+    opacity: 0.12,
   });
 
   const material2 = new THREE.LineBasicMaterial({
-    color: 0xff0000
+    color: 0xff0000,
   });
 
   const xLines = new THREE.Line(xLinesGeo, material);
@@ -114,26 +109,10 @@ const Grid = (props) => {
             {(e / 2).toFixed(1) + ' mV'}
           </Text>
         ))}
-        <primitive
-          object={xLines}
-          position={position}
-          scale={scale}
-        />
-        <primitive
-          object={yLines}
-          position={position}
-          scale={scale}
-        />
-        <primitive
-          object={oxLines}
-          position={oPosition}
-          scale={scale}
-        />
-        <primitive
-          object={oyLines}
-          position={oPosition}
-          scale={scale}
-        />
+        <primitive object={xLines} position={position} scale={scale} />
+        <primitive object={yLines} position={position} scale={scale} />
+        <primitive object={oxLines} position={oPosition} scale={scale} />
+        <primitive object={oyLines} position={oPosition} scale={scale} />
       </group>
     </Suspense>
   );

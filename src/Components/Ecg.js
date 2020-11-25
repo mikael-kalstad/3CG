@@ -8,11 +8,12 @@ import Wave from './Wave';
 import TimeGrid from './CanvasComponents/Grid/TimeGrid';
 import Grid from './CanvasComponents/Grid/Grid';
 
-// Get points which will be rendererd
-let renderPoints = dataService.formatDataToPoints();
-let channelNames = dataService.getChannelNamesArray();
-
 const Ecg = () => {
+  // Get points which will be rendererd
+  console.log('ECG FORMATTED POINTS');
+
+  let channelNames = dataService.getChannelNamesArray();
+  let renderPoints = dataService.formatDataToPoints();
   const activeChannels = useChannelStore((state) => state.activeChannels);
   const inspected = useInspectStore((state) => state.inspected);
   console.log('%c [Ecg] is rendering', 'background: #111; color: #ebd31c');

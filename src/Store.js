@@ -62,7 +62,7 @@ export const useModeStore = create((set) => ({
   toggleGridMode: () => set((state) => ({ gridMode: !state.gridMode })),
 }));
 
-export const useInspectStore = createWithLocalStorage((set) => ({
+export const useInspectStore = create((set) => ({
   inspected: -1,
   setInspected: (channel) => set((state) => (state.inspected = channel)),
   currentlyHovering: false,
@@ -245,13 +245,17 @@ export const useUploadStore = create((set) => ({
   aiAnnotationsUploaded: false,
   setAiAnnotationsUploaded: (newAiAnnotationsUploaded) =>
     set(() => ({ aiAnnotationsUploaded: newAiAnnotationsUploaded })),
+  userUploadedECGFile: false,
+  setUserUploadedECGFile: (newUserUploadedECGFile) =>
+    set(() => ({ userUploadedECGFile: newUserUploadedECGFile })),
 }));
 
 export const useColorOptionsStore = createWithLocalStorage((set) => ({
   mixOverlap: true,
   toggleMixOverlap: () => set((state) => ({ mixOverlap: !state.mixOverlap })),
   overlapPriority: 0,
-  toggleOverlapPriority: () => set(state => ({ overlapPriority: state.overlapPriority === 0 ? 1 : 0})),
+  toggleOverlapPriority: () =>
+    set((state) => ({ overlapPriority: state.overlapPriority === 0 ? 1 : 0 })),
   waveColorTypes: ['Single color(s)', 'Diagnosis groupings', 'Amplitude'],
   activeWaveColorType: 0,
   setActiveWaveColorType: (newActive) =>

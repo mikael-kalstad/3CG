@@ -4,6 +4,10 @@ class DataService {
     this.json = require('../data/data.json');
   }
 
+  setJSON(json) {
+    this.json = json;
+  }
+
   getJSON() {
     return this.json;
   }

@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { dataService } from '../../../Services/DataService';
+import { useUploadStore } from '../../../Store';
 // import { dataService } from '../../../Services/DataService';
 
 const Wrapper = styled.div``;
@@ -39,7 +41,9 @@ const ECGFileUpload = (props) => {
     reader.onloadend = () => {
       console.log('Done reading');
       console.log(reader.result);
-      // let json = JSON.parse(reader.result);
+      let json = JSON.parse(reader.result);
+      dataService.setJSON(json);
+      useUploadStore.getState().setUserUploadedECGFile(true);
     };
     reader.readAsText(file);
   };

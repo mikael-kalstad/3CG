@@ -25,15 +25,15 @@ const TimeLineOptions = () => {
         onClick={store.toggleShowTimeOnDrag}
         name='time-in-timeline-show'
         label='Show time on drag'
-        description='Show current start time when dragging/scrolling in timeline'
+        description='Show current start- or end-time when dragging/scrolling in timeline'
       />
 
       <SettingsCheck
         state={store.showTotalTime}
         onClick={store.toggleShowTotalTime}
         name='time-total-show'
-        label='Show time under timeline'
-        description='Show total time underneath the timeline'
+        label='Show time above timeline'
+        description='Show graph of time above the timeline'
       />
     </div>
   );

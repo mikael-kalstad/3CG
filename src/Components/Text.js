@@ -69,7 +69,7 @@ const Text = (props) => {
           setMaxRepeats(
             Number.parseInt(
               Math.max(
-                1,
+                0,
                 Math.floor(
                   planeMesh.current.scale.x /
                     (textMesh.current.geometry.boundingBox.max.x * 2.5)

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { dataService } from "../../../Services/DataService";
-
-const duration = dataService.getDuration();
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { dataService } from '../../../Services/DataService';
 
 const Container = styled.div`
   position: relative;
@@ -19,7 +17,8 @@ const Text = styled.span`
   font-size: 10px;
   font-weight: 600;
   color: white;
-  right: ${(props) => (duration - props.position) * (100 / duration) - 1 + "%"};
+  right: ${(props) =>
+    (props.duration - props.position) * (100 / props.duration) - 1 + '%'};
 `;
 
 const Wrapper = styled.div`
@@ -35,7 +34,7 @@ const LineWrapper = styled.div`
   white-space: nowrap;
   display: grid;
   grid-template-columns: repeat(
-    ${(props) => duration + props.numOfLinesBetween},
+    ${(props) => props.duration + props.numOfLinesBetween},
     auto
   );
   grid-template-rows: 1fr;
@@ -46,7 +45,7 @@ const LineWrapper = styled.div`
 const VerticalLine = styled.div`
   display: absolute;
   width: 2px;
-  height: ${(props) => (props.withText ? "15px" : "10px")};
+  height: ${(props) => (props.withText ? '15px' : '10px')};
   background-color: white;
   border-radius: 5px 5px 0 0;
   vertical-align: bottom;
@@ -58,6 +57,7 @@ const VerticalLineWithText = styled.div`
 `;
 
 const TimeLineGraph = (props) => {
+  const duration = dataService.getDuration();
   const [numOfLinesBetween, setNumOfLinesBetween] = useState(0);
 
   const handleResize = () => {
@@ -71,18 +71,18 @@ const TimeLineGraph = (props) => {
 
   useEffect(() => {
     // Add eventlistener to on resize to handle smaller and larger width design changes
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // Set intial width
     handleResize();
 
     // Cleanup on dismount
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   console.log(
-    "%c [TimeLineGraph] is rendering",
-    "background: #111; color: #ebd31c"
+    '%c [TimeLineGraph] is rendering',
+    'background: #111; color: #ebd31c'
   );
 
   const linspace = (start, end, steps) => {
@@ -93,10 +93,8 @@ const TimeLineGraph = (props) => {
     arr.push(end);
     return arr;
   };
-
-  let numsToDisplay = linspace(1, duration - 1, duration - 1).map((e) =>
-    e.toFixed(1)
-  );
+  let steps = duration - 1;
+  let numsToDisplay = linspace(1, duration - 1, steps).map((e) => e.toFixed(1));
 
   let linesBetween = [];
 
@@ -110,6 +108,7 @@ const TimeLineGraph = (props) => {
           numOfLinesBetween={
             numOfLinesBetween * numsToDisplay.length + numOfLinesBetween + 1
           }
+          duration={duration}
         >
           <VerticalLineWithText>
             <VerticalLine withText={true} />
@@ -118,7 +117,9 @@ const TimeLineGraph = (props) => {
             <React.Fragment key={i}>
               {linesBetween}
               <VerticalLineWithText>
-                <Text position={i + 1}>{e}</Text>
+                <Text position={i + 1} duration={duration}>
+                  {e}
+                </Text>
                 <VerticalLine withText={true} />
               </VerticalLineWithText>
             </React.Fragment>
