@@ -72,8 +72,8 @@ const GeneralOptions = () => {
         title={'Camera FOV'}
         description={'Use the slider to select the field of view of the camera'}
         value={fov}
-        minValue={50}
-        maxValue={120}
+        minValue={30}
+        maxValue={140}
         stepSize={10}
         onChange={(e, v) => setFov(v)}
       />
@@ -90,24 +90,23 @@ const GeneralOptions = () => {
         state={saveInLocalStorage}
         onClick={toggleStorage}
         name='localstorage-option'
-        label='Save to localStorage'
-        description='Save settings in localStorage. When this is enabled the settings will be saved when refreshing the page on this device. NB! Enabling this setting will cause the page to refresh.'
+        label='Save preferences'
+        description='When this is enabled the settings will be saved when refreshing the page on this device. NB! Enabling this setting will cause the page to refresh.'
       />
 
       <MarginWrapper>
         <Typography gutterBottom style={{ marginTop: '10px' }}>
-          Remove storage data
+          Reset preferences
         </Typography>
         <FormHelperText>
-          Click on the button below to remove all the data that is stored in
-          localStorage
+          Click on the button below to reset saved preferences
         </FormHelperText>
         <Button
           className={classes.button}
           onClick={toggleDialog}
           endIcon={<DeleteIcon />}
         >
-          DELETE DATA
+          DELETE PREFERENCES
         </Button>
 
         <Dialog
@@ -117,12 +116,12 @@ const GeneralOptions = () => {
           aria-describedby='alert-dialog-description'
         >
           <DialogTitle id='alert-dialog-title'>
-            {'Remove localStorage data?'}
+            {'Remove preferences?'}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              Deleting the localStorage data will reset all settings and changes
-              made to the application when refreshing the page.
+              Deleting this will reset all settings and changes made to the
+              application when refreshing the page.
             </DialogContentText>
           </DialogContent>
           <DialogActions>

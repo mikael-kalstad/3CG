@@ -19,6 +19,7 @@
     "react-dom": "^16.14.0",
     "react-draggable": "^4.4.3",
     "react-icons": "^3.11.0",
+    "react-json-pretty": "^2.2.0",
     "react-number-format": "^4.4.1",
     "react-rnd": "^10.2.3",
     "react-scripts": "^4.0.0",

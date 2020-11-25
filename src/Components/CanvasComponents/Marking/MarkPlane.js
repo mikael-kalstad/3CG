@@ -14,25 +14,30 @@ const MarkPlane = (props) => {
   }, [props.middlePoint, props.width]);
 
   const onPointerDown = (event) => {
-    props.updateXStart(event.point.x);
-    setPressing(true);
-    useMarkStore.setState({ markingFinished: false });
+    if (event.button == 0) {
+      console.log(event);
+      props.updateXStart(event.point.x);
+      setPressing(true);
+      useMarkStore.setState({ markingFinished: false });
+    }
   };
 
   const onPointerUp = (event) => {
-    setPressing(false);
+    if (event.button == 0) {
+      setPressing(false);
 
-    useMarkStore.setState({ markingFinished: true });
+      useMarkStore.setState({ markingFinished: true });
 
-    // Get non-reactive fresh states from markStore
-    const startSelected = useMarkStore.getState().startSelected;
-    const endSelected = useMarkStore.getState().endSelected;
+      // Get non-reactive fresh states from markStore
+      const startSelected = useMarkStore.getState().startSelected;
+      const endSelected = useMarkStore.getState().endSelected;
 
-    // Check if startSelected is larger than endSelected
-    if (startSelected > endSelected) {
-      // Swap values of the two states
-      useMarkStore.setState({ startSelected: endSelected });
-      useMarkStore.setState({ endSelected: startSelected });
+      // Check if startSelected is larger than endSelected
+      if (startSelected > endSelected) {
+        // Swap values of the two states
+        useMarkStore.setState({ startSelected: endSelected });
+        useMarkStore.setState({ endSelected: startSelected });
+      }
     }
   };
 

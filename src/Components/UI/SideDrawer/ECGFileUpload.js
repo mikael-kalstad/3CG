@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { dataService } from '../../../Services/DataService';
 import { useUploadStore } from '../../../Store';
+import Button from '@material-ui/core/Button';
+import PublishIcon from '@material-ui/icons/Publish';
+import { makeStyles } from '@material-ui/core/styles';
 // import { dataService } from '../../../Services/DataService';
 
 const Wrapper = styled.div``;
@@ -34,7 +37,17 @@ const Input = styled.input`
   z-index: -1;
 `;
 
-const ECGFileUpload = (props) => {
+const useStyles = makeStyles((theme) => ({
+  button: {
+    fontSize: 12,
+    height: 54,
+    width: '100%',
+  },
+}));
+
+const ECGFileUpload = () => {
+  const classes = useStyles();
+
   const handleChange = (e) => {
     let file = e.target.files[0];
     let reader = new FileReader();
@@ -47,13 +60,22 @@ const ECGFileUpload = (props) => {
     };
     reader.readAsText(file);
   };
+
   return (
-    <Wrapper>
+    <>
       <Input type='file' id='ecg-upload-button' onChange={handleChange} />
       <label htmlFor='ecg-upload-button'>
-        <UploadButton>Upload ECG-datafile</UploadButton>
+        <Button
+          variant='contained'
+          component='span'
+          color='primary'
+          startIcon={<PublishIcon />}
+          className={classes.button}
+        >
+          Upload ECG-datafile
+        </Button>
       </label>
-    </Wrapper>
+    </>
   );
 };
 

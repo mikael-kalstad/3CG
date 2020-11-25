@@ -2,10 +2,6 @@ import create from 'zustand';
 import persist from './utils/persist';
 import { dataService } from './Services/DataService';
 import { annotationService } from './Services/AnnotationService';
-import produce from 'immer';
-import pipe from 'ramda/es/pipe';
-
-const STORAGE_KEY = 'auth';
 
 // Get names of ecg-channels
 let numOfSamples = dataService.getChannelNamesArray();
@@ -22,11 +18,11 @@ let allowList = localStorageEnabled ? undefined : [];
 console.log('allowList', allowList, localStorageEnabled);
 
 // Middleware function that will save store in localStorage if the setting is enabled
-const createWithLocalStorage = (fn) => {
+const createWithLocalStorage = (key, fn) => {
   return create(
     persist(
       {
-        key: STORAGE_KEY,
+        key: key,
         allowlist: allowList,
       },
       fn
@@ -37,7 +33,7 @@ const createWithLocalStorage = (fn) => {
 export const useStorageStore = create(
   persist(
     {
-      key: STORAGE_KEY,
+      key: 'storageStore',
     },
     (set) => ({
       saveInLocalStorage: false,
@@ -71,7 +67,7 @@ export const useInspectStore = create((set) => ({
 }));
 
 // Store for storing global all states related to ecg-data and timing
-export const useChannelStore = createWithLocalStorage((set) => ({
+export const useChannelStore = create((set) => ({
   activeChannels: numOfSamples.map(() => true),
   toggleChannel: (index) =>
     set((state) => ({
@@ -99,7 +95,7 @@ export const useChannelStore = createWithLocalStorage((set) => ({
 
 const DEFAULT_SPEED = 0.00001;
 
-export const useTimeStore = createWithLocalStorage((set) => ({
+export const useTimeStore = createWithLocalStorage('timeStore', (set) => ({
   startTime: 0,
   setStartTime: (time) => set(() => ({ startTime: time })),
   endTime:
@@ -142,14 +138,14 @@ export const useAnnotationStore = create((set) => ({
     })),
 }));
 
-export const useCameraStore = createWithLocalStorage((set) => ({
+export const useCameraStore = createWithLocalStorage('cameraStore', (set) => ({
   zoomValue: 35,
   setZoomValue: (newValue) => set(() => ({ zoomValue: newValue })),
   fov: 55,
   setFov: (newValue) => set(() => ({ fov: newValue })),
 }));
 
-export const useScaleStore = createWithLocalStorage((set) => ({
+export const useScaleStore = createWithLocalStorage('scaleStore', (set) => ({
   scale: 0.4,
   setScale: (scale) => set((state) => ({ scale: scale })),
   vChannelScaling: true,
@@ -160,58 +156,66 @@ export const useScaleStore = createWithLocalStorage((set) => ({
     set(() => ({ vChannelScaleFactor: newScale })),
 }));
 
-export const useTimelineOptionsStore = createWithLocalStorage((set) => ({
-  showAnnotations: true,
-  toggleShowAnnotations: () =>
-    set((state) => ({ showAnnotations: !state.showAnnotations })),
-  showTimeOnDrag: true,
-  toggleShowTimeOnDrag: () =>
-    set((state) => ({ showTimeOnDrag: !state.showTimeOnDrag })),
-  showTotalTime: true,
-  toggleShowTotalTime: () =>
-    set((state) => ({ showTotalTime: !state.showTotalTime })),
-}));
+export const useTimelineOptionsStore = createWithLocalStorage(
+  'timelineOptionsStore',
+  (set) => ({
+    showAnnotations: true,
+    toggleShowAnnotations: () =>
+      set((state) => ({ showAnnotations: !state.showAnnotations })),
+    showTimeOnDrag: true,
+    toggleShowTimeOnDrag: () =>
+      set((state) => ({ showTimeOnDrag: !state.showTimeOnDrag })),
+    showTotalTime: true,
+    toggleShowTotalTime: () =>
+      set((state) => ({ showTotalTime: !state.showTotalTime })),
+  })
+);
 
-export const useRenderTypeStore = createWithLocalStorage((set) => ({
-  activeRenders: ['Ecg'],
-  renderNames: ['Ecg', 'Vcg', 'Circle'],
-  toggleActiveRenders: (index) =>
-    set((state) => ({
-      activeRenders: state.activeRenders.map((a, i) => (i === index ? !a : a)),
-    })),
-  reorderRenders: (sourceIndex, newIndex) => {
-    set((state) => ({
-      activeRenders: state.activeRenders.map((a, i) =>
-        i === sourceIndex
-          ? state.activeRenders[newIndex]
-          : i === newIndex
-          ? state.activeRender[sourceIndex]
-          : a
-      ),
-    }));
-  },
-  editRender: (newRender, index) =>
-    set((state) => (state.activeRenders[index] = newRender)),
-  addActiveRender: (newRender) =>
-    set((state) => state.activeRenders.push(newRender)),
-  removeActiveRender: (index) =>
-    set((state) => state.activeRenders.splice(index, 1)),
+export const useRenderTypeStore = createWithLocalStorage(
+  'renderTypeStore',
+  (set) => ({
+    activeRenders: ['Ecg'],
+    renderNames: ['Ecg', 'Vcg', 'Circle'],
+    toggleActiveRenders: (index) =>
+      set((state) => ({
+        activeRenders: state.activeRenders.map((a, i) =>
+          i === index ? !a : a
+        ),
+      })),
+    reorderRenders: (sourceIndex, newIndex) => {
+      set((state) => ({
+        activeRenders: state.activeRenders.map((a, i) =>
+          i === sourceIndex
+            ? state.activeRenders[newIndex]
+            : i === newIndex
+            ? state.activeRender[sourceIndex]
+            : a
+        ),
+      }));
+    },
+    editRender: (newRender, index) =>
+      set((state) => (state.activeRenders[index] = newRender)),
+    addActiveRender: (newRender) =>
+      set((state) => state.activeRenders.push(newRender)),
+    removeActiveRender: (index) =>
+      set((state) => state.activeRenders.splice(index, 1)),
 
-  // Different inverse transformation method to get vcg representation in 3D
-  vcgMethod: 0,
-  vcgMethodNames: ['Dowers', 'PLSV', 'QLSV'],
-  setVcgMethod: (index) => set({ vcgMethod: index }),
+    // Different inverse transformation method to get vcg representation in 3D
+    vcgMethod: 0,
+    vcgMethodNames: ['Dowers', 'PLSV', 'QLSV'],
+    setVcgMethod: (index) => set({ vcgMethod: index }),
 
-  // 0 = vertical, 1 = horizontal
-  orientation: 0,
-  toggleOrientation: () =>
-    set((state) => ({
-      orientation: state.orientation === 0 ? 1 : 0,
-    })),
-  showRenderviewIndex: true,
-  toggleShowRenderviewIndex: () =>
-    set((state) => ({ showRenderviewIndex: !state.showRenderviewIndex })),
-}));
+    // 0 = vertical, 1 = horizontal
+    orientation: 0,
+    toggleOrientation: () =>
+      set((state) => ({
+        orientation: state.orientation === 0 ? 1 : 0,
+      })),
+    showRenderviewIndex: true,
+    toggleShowRenderviewIndex: () =>
+      set((state) => ({ showRenderviewIndex: !state.showRenderviewIndex })),
+  })
+);
 
 export const useMousePositionStore = create((set) => ({
   xPos: 0,
@@ -230,13 +234,16 @@ export const useMarkStore = create((set) => ({
   setMarkingFinished: (newState) => set(() => ({ markingFinished: newState })),
 }));
 
-export const useSnackbarStore = createWithLocalStorage((set) => ({
-  snackbar: null,
-  setSnackbar: (newSnackbar) => set(() => ({ snackbar: newSnackbar })),
-  showSnackbar: true,
-  toggleShowSnackbar: () =>
-    set((state) => ({ showSnackbar: !state.showSnackbar })),
-}));
+export const useSnackbarStore = createWithLocalStorage(
+  'snackbarStore',
+  (set) => ({
+    snackbar: null,
+    setSnackbar: (newSnackbar) => set(() => ({ snackbar: newSnackbar })),
+    showSnackbar: true,
+    toggleShowSnackbar: () =>
+      set((state) => ({ showSnackbar: !state.showSnackbar })),
+  })
+);
 
 export const useUploadStore = create((set) => ({
   userAnnotationsUploaded: false,
@@ -250,21 +257,26 @@ export const useUploadStore = create((set) => ({
     set(() => ({ userUploadedECGFile: newUserUploadedECGFile })),
 }));
 
-export const useColorOptionsStore = createWithLocalStorage((set) => ({
-  mixOverlap: true,
-  toggleMixOverlap: () => set((state) => ({ mixOverlap: !state.mixOverlap })),
-  overlapPriority: 0,
-  toggleOverlapPriority: () =>
-    set((state) => ({ overlapPriority: state.overlapPriority === 0 ? 1 : 0 })),
-  waveColorTypes: ['Single color(s)', 'Diagnosis groupings', 'Amplitude'],
-  activeWaveColorType: 0,
-  setActiveWaveColorType: (newActive) =>
-    set(() => ({ activeWaveColorType: newActive })),
-  colors: ['#FF0000', '#E2E412', '#35E627', '#00D8FF', '#D500FF'],
-  changeColor: (newColor, index) =>
-    set((state) => (state.colors[index] = newColor)),
-  addColor: (newColor) => set((state) => state.colors.push(newColor)),
-  removeColor: (index) => set((state) => state.colors.splice(index, 1)),
-  background: '#324444',
-  setBackground: (newColor) => set(() => ({ background: newColor })),
-}));
+export const useColorOptionsStore = createWithLocalStorage(
+  'colorOptionsStore',
+  (set) => ({
+    mixOverlap: true,
+    toggleMixOverlap: () => set((state) => ({ mixOverlap: !state.mixOverlap })),
+    overlapPriority: 0,
+    toggleOverlapPriority: () =>
+      set((state) => ({
+        overlapPriority: state.overlapPriority === 0 ? 1 : 0,
+      })),
+    waveColorTypes: ['Single color(s)', 'Diagnosis groupings', 'Amplitude'],
+    activeWaveColorType: 0,
+    setActiveWaveColorType: (newActive) =>
+      set(() => ({ activeWaveColorType: newActive })),
+    colors: ['#FF0000', '#E2E412', '#35E627', '#00D8FF', '#D500FF'],
+    changeColor: (newColor, index) =>
+      set((state) => (state.colors[index] = newColor)),
+    addColor: (newColor) => set((state) => state.colors.push(newColor)),
+    removeColor: (index) => set((state) => state.colors.splice(index, 1)),
+    background: '#324444',
+    setBackground: (newColor) => set(() => ({ background: newColor })),
+  })
+);

@@ -3,29 +3,9 @@ import styled from 'styled-components';
 import { useAnnotationStore, useUploadStore } from '../../../Store';
 import { annotationService } from '../../../Services/AnnotationService';
 import Button from '@material-ui/core/Button';
-
-const Wrapper = styled.div``;
-
-const UploadButton = styled.div`
-  &:hover {
-    cursor: ${(props) => (props.uploaded ? 'default' : 'pointer')};
-    filter: ${(props) =>
-      props.uploaded ? 'brightness(100%)' : 'brightness(85%)'};
-  }
-  height: 38px;
-  border-radius: 7px;
-  display: grid;
-  align-items: center;
-  font-size: 16px;
-  padding: 10px;
-  margin: 13px 30px 13px 30px;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: middle;
-
-  background-color: ${(props) => (props.uploaded ? '#2ecc71' : 'lightgray')};
-  color: ${(props) => (props.uploaded ? '#34495e' : '#333333')};
-`;
+import GetAppIcon from '@material-ui/icons/GetApp';
+import NoteAdd from '@material-ui/icons/NoteAdd';
+import { makeStyles } from '@material-ui/core/styles';
 
 const Input = styled.input`
   width: 0.1px;
@@ -35,6 +15,16 @@ const Input = styled.input`
   position: absolute;
   z-index: -1;
 `;
+
+const useStyles = makeStyles((theme) => ({
+  uploadButton: {
+    fontSize: 12,
+  },
+  downloadButton: {
+    fontSize: 12,
+    margin: '15px 0',
+  },
+}));
 
 const AnnotationFileUpload = (props) => {
   const [annotations, addAnnotation] = useAnnotationStore((state) => [
@@ -53,6 +43,8 @@ const AnnotationFileUpload = (props) => {
     state.aiAnnotationsUploaded,
     state.setAiAnnotationsUploaded,
   ]);
+
+  const classes = useStyles();
 
   const validateJSONFormat = (json) => {
     if (!Array.isArray(json)) return false;
@@ -146,37 +138,73 @@ const AnnotationFileUpload = (props) => {
   };
 
   return (
-    <Wrapper>
+    <>
       <Input
         type='file'
-        id='user-annotation-upload-button'
+        id='user-annotation-upload-uploadButton'
         onChange={handleUserAnnotationUpload}
         disabled={userAnnotationsUploaded}
       />
-      <label htmlFor='user-annotation-upload-button'>
-        <UploadButton uploaded={userAnnotationsUploaded}>
+      <label htmlFor='user-annotation-upload-uploadButton'>
+        {/* <UploadButton uploaded={userAnnotationsUploaded}>
           {userAnnotationsUploaded
             ? 'User-annotations uploaded'
             : 'Upload user-annotations'}
-        </UploadButton>
+        </UploadButton> */}
+        <Button
+          variant='contained'
+          color='primary'
+          component='span'
+          startIcon={<NoteAdd />}
+          className={classes.uploadButton}
+        >
+          Upload user annotation datafile
+        </Button>
       </label>
-      <Button onClick={handleUserDownload}>Download User Annotations</Button>
+      <Button
+        variant='outlined'
+        color='primary'
+        component='span'
+        startIcon={<GetAppIcon />}
+        className={classes.downloadButton}
+        onClick={handleUserDownload}
+      >
+        Download User Annotations
+      </Button>
 
       <Input
         type='file'
-        id='ai-annotation-upload-button'
+        id='ai-annotation-upload-uploadButton'
         onChange={handleAiAnnotationUpload}
         disabled={aiAnnotationsUploaded}
       />
-      <label htmlFor='ai-annotation-upload-button'>
-        <UploadButton uploaded={aiAnnotationsUploaded}>
+      <label htmlFor='ai-annotation-upload-uploadButton'>
+        {/* <UploadButton uploaded={aiAnnotationsUploaded}>
           {aiAnnotationsUploaded
             ? 'AI-annotations uploaded'
             : 'Upload AI-annotations'}
-        </UploadButton>
+        </UploadButton> */}
+        <Button
+          variant='contained'
+          color='primary'
+          component='span'
+          startIcon={<NoteAdd />}
+          className={classes.uploadButton}
+        >
+          Upload AI annotation datafile
+        </Button>
       </label>
-      <Button onClick={handleAiDownload}>Download Ai Annotations</Button>
-    </Wrapper>
+      <Button
+        variant='outlined'
+        color='primary'
+        component='span'
+        startIcon={<GetAppIcon />}
+        className={classes.downloadButton}
+        onClick={handleAiDownload}
+      >
+        Download Ai Annotations
+      </Button>
+    </>
   );
 };
 

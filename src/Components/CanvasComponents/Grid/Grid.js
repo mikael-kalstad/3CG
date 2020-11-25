@@ -5,8 +5,11 @@ import {
   useModeStore,
   useTimelineOptionsStore,
   useTimeStore,
+  useScaleStore,
+  useInspectStore,
 } from '../../../Store';
 import Text from '../../Text';
+import { dataService } from '../../../Services/DataService';
 
 // The standard grid for ECG uses 0.04s per square in the x-axis, and 0.1mV in the y-axis.
 // The mV in this grid ranges from -1.0mV to +1.0mV
@@ -17,6 +20,18 @@ const Grid = (props) => {
   // Fetch initial time state
   const startTime = useTimeStore((state) => state.startTime);
   const endTime = useTimeStore((state) => state.endTime);
+  const inspected = useInspectStore((state) => state.inspected);
+  const [vChannelScaling, vChannelScaleFactor] = useScaleStore((state) => [
+    state.vChannelScaling,
+    state.vChannelScaleFactor,
+  ]);
+  let inspectedChannel =
+    inspected === -1 ? '' : dataService.getChannelNamesArray()[inspected];
+  let textScale = 1;
+  console.log(inspectedChannel);
+  if (inspected !== -1 && inspectedChannel[0] == 'V' && vChannelScaling) {
+    textScale = 1 / vChannelScaleFactor;
+  }
 
   let a = (endTime - startTime) * 5;
 
@@ -106,7 +121,7 @@ const Grid = (props) => {
             backgroundScaleByText={1.5}
             textSize={3.5}
           >
-            {(e / 2).toFixed(1) + ' mV'}
+            {((textScale * e) / 2).toFixed(1) + ' mV'}
           </Text>
         ))}
         <primitive object={xLines} position={position} scale={scale} />
