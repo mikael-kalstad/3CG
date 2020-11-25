@@ -14,6 +14,7 @@ const GridBtn = () => {
     backgroundColor: gridMode ? '#aaa' : '#fff',
     width: '50px',
     height: '50px',
+    boxShadow: '3px 3px 21px 0px rgba(150,150,150,1)',
   };
 
   return (

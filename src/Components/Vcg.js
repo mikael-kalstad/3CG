@@ -133,20 +133,12 @@ const Vcg = () => {
 
   const updateColors = (geometry, start, end, points) => {
     // Set gradient color theme to all points that is rendered in setDrawRange method
-    let colors = getTransitionColorData(points.slice(start, end), start);
+    let colors = getTransitionColorData(
+      points.slice(start * sampleRate, end * sampleRate),
+      start * sampleRate
+    );
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   };
-
-  // const updateColors = (geometry, start, end) => {
-  //   // Set gradient color theme to all points that is rendered in setDrawRange method
-  //   let colors = getTransitionColorData(
-  //     dataService
-  //       .formatDataToPoints()
-  //       .slice(start * sampleRate * 10, end * sampleRate * 10),
-  //     start * sampleRate * 10
-  //   );
-  //   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-  // };
 
   return (
     <mesh ref={meshRef}>
@@ -158,8 +150,7 @@ const Vcg = () => {
           linewidth={1000}
           linecap={'round'}
           linejoin={'round'}
-          needsUpdate={true}
-          vertexColors={0xff0000}
+          vertexColors={'VertexColors'}
         />
       </line>
     </mesh>

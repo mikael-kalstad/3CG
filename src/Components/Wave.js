@@ -236,7 +236,6 @@ const Wave = (props) => {
       <group scale={[scale, 1, 1]}>
         <mesh ref={meshRef}>
           <line
-            // position={[-startTimeRef.current * 0.4, 0, 0]}
             scale={[
               1,
               props.channelName[0] === 'V' && vChannelScaling

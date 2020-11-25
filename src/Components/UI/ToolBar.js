@@ -12,7 +12,6 @@ const Wrapper = styled.div`
   right: 90px;
   position: absolute;
   background-color: #eeeeee;
-
   display: grid;
   grid-auto-flow: column;
   grid-gap: 10px;
