@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import NoteAdd from '@material-ui/icons/NoteAdd';
 import { makeStyles } from '@material-ui/core/styles';
+import ConfirmDialog from '../ConfirmDialog';
+import { ToggleButton } from '@material-ui/lab';
 
 const Input = styled.input`
   width: 0.1px;
@@ -44,6 +46,12 @@ const AnnotationFileUpload = (props) => {
     state.setAiAnnotationsUploaded,
   ]);
 
+  const [showDialog, setShowDialog] = useState(false);
+  const toggleDialog = () => setShowDialog((state) => !state);
+  // 0 = User annotation, 1 = AI annotation
+  const [annotationType, setAnnotationType] = useState(0);
+  const [file, setFile] = useState(null);
+
   const classes = useStyles();
 
   const validateJSONFormat = (json) => {
@@ -67,11 +75,20 @@ const AnnotationFileUpload = (props) => {
     }
     return true;
   };
+
   const handleUserAnnotationUpload = (e) => {
-    let file = e.target.files[0];
+    setAnnotationType(0);
+    setFile(e.target.files[0]);
+    toggleDialog();
+  };
+
+  const handleUserAnnotationClick = () => {
     let reader = new FileReader();
     reader.onloadend = () => {
-      let json = JSON.parse(reader.result);
+      let json;
+      try {
+        json = JSON.parse(reader.result);
+      } catch (e) {}
       if (validateJSONFormat(json)) {
         let uploadedAnnotations = annotationService.formatFile(json, false);
         for (let i = 0; i < uploadedAnnotations.length; i++) {
@@ -88,10 +105,18 @@ const AnnotationFileUpload = (props) => {
   };
 
   const handleAiAnnotationUpload = (e) => {
-    let file = e.target.files[0];
+    setAnnotationType(1);
+    setFile(e.target.files[0]);
+    toggleDialog();
+  };
+
+  const handleAiAnnotationClick = () => {
     let reader = new FileReader();
     reader.onloadend = () => {
-      let json = JSON.parse(reader.result);
+      let json;
+      try {
+        json = JSON.parse(reader.result);
+      } catch (e) {}
       if (validateJSONFormat(json)) {
         let uploadedAnnotations = annotationService.formatFile(json, true);
         for (let i = 0; i < uploadedAnnotations.length; i++) {
@@ -137,20 +162,31 @@ const AnnotationFileUpload = (props) => {
     downloadAnchor.remove();
   };
 
+  const handleClick = () => {
+    if (annotationType === 0) handleUserAnnotationClick();
+    else if (annotationType === 1) handleAiAnnotationClick();
+
+    toggleDialog();
+  };
+
   return (
     <>
+      {showDialog && (
+        <ConfirmDialog
+          title='Are you sure?'
+          content='Do you want to upload a new annotation datafile? This will replace the current data. Make sure to download the current annotation datafile if you want to save this data before uploading a new datafile.'
+          actionText='Yes, replace datafile'
+          handleClick={handleClick}
+          handleClose={toggleDialog}
+        />
+      )}
       <Input
         type='file'
         id='user-annotation-upload-uploadButton'
         onChange={handleUserAnnotationUpload}
-        disabled={userAnnotationsUploaded}
+        // disabled={userAnnotationsUploaded}
       />
       <label htmlFor='user-annotation-upload-uploadButton'>
-        {/* <UploadButton uploaded={userAnnotationsUploaded}>
-          {userAnnotationsUploaded
-            ? 'User-annotations uploaded'
-            : 'Upload user-annotations'}
-        </UploadButton> */}
         <Button
           variant='contained'
           color='primary'
@@ -176,14 +212,9 @@ const AnnotationFileUpload = (props) => {
         type='file'
         id='ai-annotation-upload-uploadButton'
         onChange={handleAiAnnotationUpload}
-        disabled={aiAnnotationsUploaded}
+        // disabled={aiAnnotationsUploaded}
       />
       <label htmlFor='ai-annotation-upload-uploadButton'>
-        {/* <UploadButton uploaded={aiAnnotationsUploaded}>
-          {aiAnnotationsUploaded
-            ? 'AI-annotations uploaded'
-            : 'Upload AI-annotations'}
-        </UploadButton> */}
         <Button
           variant='contained'
           color='primary'

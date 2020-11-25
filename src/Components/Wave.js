@@ -40,8 +40,6 @@ const Wave = (props) => {
     state.togglePlayMode,
   ]);
 
-  const markMode = useModeStore((state) => state.markMode);
-
   const [
     activeChannels,
     setActiveChannels,
@@ -67,13 +65,12 @@ const Wave = (props) => {
     state.setInspected,
   ]);
 
-  // const [setxPos, setyPos] = useMousePositionStore((state) => [
-  //   state.setxPos,
-  //   state.setyPos,
-  // ]);
-
   // Speed when playMode is activated
-  const speed = useTimeStore((state) => state.speed);
+  const [speed, setSpeed, defaultSpeed] = useTimeStore((state) => [
+    state.speed,
+    state.setSpeed,
+    state.defaultSpeed,
+  ]);
 
   // Fetch initial time state
   const startTimeRef = useRef(useTimeStore.getState().startTime);
@@ -101,6 +98,14 @@ const Wave = (props) => {
 
     // Stop playMode if end of data is reached
     if (playMode && end) togglePlayMode();
+
+    // Avoid playback running into negative time!
+    if (playMode && speed < 0 && startTimeRef.current <= 0) {
+      togglePlayMode();
+      setStartTime(0);
+      setSpeed(defaultSpeed);
+    }
+
     // Update start and end time every frame if playMode is active
     else if (playMode) {
       setStartTime(startTimeRef.current + speed * (60 * delta));
@@ -127,13 +132,6 @@ const Wave = (props) => {
         (endTimeRef.current - startTimeRef.current) * sampleRate * scale * 0.5;
     }
   }, [inspected, endTimeRef.current]);
-
-  // const hoverLineGeometryRef = useUpdate((self) => {
-  //   self.setFromPoints([
-  //     new THREE.Vector3(0, 60, 0),
-  //     new THREE.Vector3(0, -60, 0),
-  //   ]);
-  // }, []);
 
   const isInspected = () => {
     return props.index === inspected;
