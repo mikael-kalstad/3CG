@@ -142,7 +142,7 @@ const Vcg = () => {
 
   return (
     <mesh ref={meshRef}>
-      <line position={[70, 20, -150]} scale={[50, 50, 50]}>
+      <line position={[98, 0, 0]} scale={[50, 50, 50]}>
         <bufferGeometry attach='geometry' ref={ref} />
         <lineBasicMaterial
           name='line'

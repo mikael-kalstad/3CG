@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { dataService } from '../../../Services/DataService';
-import { useUploadStore } from '../../../Store';
+import { useUploadStore, useAnnotationStore } from '../../../Store';
 import Button from '@material-ui/core/Button';
 import PublishIcon from '@material-ui/icons/Publish';
 import { makeStyles } from '@material-ui/core/styles';
@@ -40,7 +40,6 @@ const ECGFileUpload = () => {
     toggleDialog();
     let reader = new FileReader();
     reader.onloadend = () => {
-      console.log('Done reading');
       console.log(reader.result);
       let json = JSON.parse(reader.result);
       dataService.setJSON(json);
