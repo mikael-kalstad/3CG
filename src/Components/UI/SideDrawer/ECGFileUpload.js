@@ -1,32 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { dataService } from '../../../Services/DataService';
 import { useUploadStore } from '../../../Store';
 import Button from '@material-ui/core/Button';
 import PublishIcon from '@material-ui/icons/Publish';
 import { makeStyles } from '@material-ui/core/styles';
-// import { dataService } from '../../../Services/DataService';
-
-const Wrapper = styled.div``;
-
-const UploadButton = styled.div`
-  &:hover {
-    filter: brightness(85%);
-    cursor: pointer;
-  }
-  height: 90px;
-  align-self: center;
-  background-color: lightgray;
-  border-radius: 7px;
-  display: grid;
-  align-items: center;
-  font-size: 30px;
-  padding: 20px;
-  margin: 10px 30px 10px 30px;
-  font-weight: bold;
-  color: #333333;
-  text-align: center;
-`;
+import ConfirmDialog from '../ConfirmDialog';
 
 const Input = styled.input`
   width: 0.1px;
@@ -46,10 +25,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ECGFileUpload = () => {
+  const [showDialog, setShowDialog] = useState(false);
+  const toggleDialog = () => setShowDialog((state) => !state);
+
+  const [file, setFile] = useState(null);
   const classes = useStyles();
 
   const handleChange = (e) => {
-    let file = e.target.files[0];
+    toggleDialog();
+    setFile(e.target.files[0]);
+  };
+
+  const handleClick = () => {
+    toggleDialog();
     let reader = new FileReader();
     reader.onloadend = () => {
       console.log('Done reading');
@@ -58,11 +46,20 @@ const ECGFileUpload = () => {
       dataService.setJSON(json);
       useUploadStore.getState().setUserUploadedECGFile(true);
     };
-    reader.readAsText(file);
+    if (file) reader.readAsText(file);
   };
 
   return (
     <>
+      {showDialog && (
+        <ConfirmDialog
+          title='Are you sure?'
+          content='Do you want to upload a new ecg datafile? This will replace the current data. All annotations will also be deleted. Make sure to download annotation files if you want to save this data before uploading this ecg datafile.'
+          actionText='Yes, replace datafile'
+          handleClick={handleClick}
+          handleClose={toggleDialog}
+        />
+      )}
       <Input type='file' id='ecg-upload-button' onChange={handleChange} />
       <label htmlFor='ecg-upload-button'>
         <Button
