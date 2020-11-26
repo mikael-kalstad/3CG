@@ -17,7 +17,7 @@ class DataService {
   }
 
   getSampleLength() {
-    return this.json.samples.I.length;
+    return this.json.samples[Object.keys(this.json.samples)[0]].length; // Getting from first object-variable
   }
 
   getRecID() {

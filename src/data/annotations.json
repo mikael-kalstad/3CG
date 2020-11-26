@@ -18,10 +18,9 @@
     "code": "SPRI"
   },
   {
-    "onset": "00:00:0.70",
-    "duration": 0.342,
-    "text": "brady tachy syndrome",
-    "code": "BTS"
-  },
-    {"onset":"00:00:3.827204302694088","duration":0.8535771994491745,"code":"VFL","text":"ventricular flutter"}
+    "onset": "00:00:3.827204302694088",
+    "duration": 0.8535771994491745,
+    "code": "VFL",
+    "text": "ventricular flutter"
+  }
 ]

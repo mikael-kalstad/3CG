@@ -58,22 +58,42 @@ const AnnotationFileUpload = (props) => {
     if (!Array.isArray(json)) return false;
 
     if (
-      !json[0].hasOwnProperty('onset') &&
-      !json[0].hasOwnProperty('duration') &&
-      !json[0].hasOwnProperty('code') &&
+      !json[0].hasOwnProperty('onset') ||
+      !json[0].hasOwnProperty('duration') ||
+      !json[0].hasOwnProperty('code') ||
       !json[0].hasOwnProperty('text')
     ) {
       return false;
     }
     if (
-      typeof json[0].onset !== 'string' &&
-      typeof json[0].duration !== 'number' &&
-      typeof json[0].code !== 'string' &&
+      typeof json[0].onset !== 'string' ||
+      typeof json[0].duration !== 'number' ||
+      typeof json[0].code !== 'string' ||
       typeof json[0].text !== 'string'
     ) {
       return false;
     }
     return true;
+  };
+
+  const deleteAiAnnotations = () => {
+    let aiAnnotationsIndices = [];
+    useAnnotationStore
+      .getState()
+      .annotations.forEach((e, i) =>
+        e.ai ? aiAnnotationsIndices.push(i) : null
+      ); // Get indices of ai-annotations
+    useAnnotationStore.getState().deleteAnnotations(aiAnnotationsIndices);
+  };
+
+  const deleteUserAnnotations = () => {
+    let userAnnotationsIndices = [];
+    useAnnotationStore
+      .getState()
+      .annotations.forEach((e, i) =>
+        e.ai ? null : userAnnotationsIndices.push(i)
+      ); // Get indices of user-annotations
+    useAnnotationStore.getState().deleteAnnotations(userAnnotationsIndices);
   };
 
   const handleUserAnnotationUpload = (e) => {
@@ -100,6 +120,7 @@ const AnnotationFileUpload = (props) => {
       }
     };
     if (file !== undefined) {
+      deleteUserAnnotations();
       reader.readAsText(file);
     }
   };
@@ -128,6 +149,7 @@ const AnnotationFileUpload = (props) => {
       }
     };
     if (file !== undefined) {
+      deleteAiAnnotations();
       reader.readAsText(file);
     }
   };

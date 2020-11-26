@@ -15,7 +15,6 @@ const App = () => {
   const userUploadedECGFile = useUploadStore(
     (state) => state.userUploadedECGFile
   );
-  console.log(userUploadedECGFile);
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <Wrapper>

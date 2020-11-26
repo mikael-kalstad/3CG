@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Typography from '@material-ui/core/Typography';
 import InfoDialog from '../InfoDialog';
+import { dataService } from '../../../Services/DataService';
 import JSONPretty from 'react-json-pretty';
 var JSONPrettyMon = require('react-json-pretty/dist/monikai');
 
@@ -26,6 +27,7 @@ const MarginWrapper = styled.div`
 `;
 
 const jsonEcgExample = {
+  rec_id: 'A5608',
   sample_rate: 500,
   duration: 11.0,
   samples: {
@@ -96,6 +98,9 @@ const Upload = () => {
           style={{ marginTop: '40px' }}
         >
           ECG File
+        </Typography>
+        <Typography variant='subtitle' color='textSecondary' gutterBottom>
+          {'Currently visualizing: ' + dataService.getRecID()}
         </Typography>
         <FormHelperText style={{ margin: '15px 0' }}>
           Upload a file with data for the 3D-visualization of ECG-signals.

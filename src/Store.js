@@ -13,7 +13,7 @@ const sampleRate = dataService.getSampleRate();
 // Get all annotations from file
 const annotationData = annotationService.getAnnotations();
 
-let localStorageEnabled = window.localStorage.getItem('root')['storageStore'];
+let localStorageEnabled = false; //window.localStorage.getItem('root')['storageStore'];
 let allowList = localStorageEnabled ? undefined : [];
 console.log('allowList', allowList, localStorageEnabled);
 
@@ -128,6 +128,19 @@ export const useAnnotationStore = create((set) => ({
     set(() => ({
       activeAnnotations: annotationData.map(() => newState),
     })),
+  deleteAllAnnotations: () =>
+    set(() => ({
+      annotations: [],
+      activeAnnotations: [],
+    })),
+  deleteAnnotations: (indices) => {
+    set((state) => ({
+      annotations: state.annotations.filter((e, i) => !indices.includes(i)),
+      activeAnnotations: state.activeAnnotations.filter(
+        (e, i) => !indices.includes(i)
+      ),
+    }));
+  },
   showFullAnnotation: true,
   toggleShowFullAnnotation: () =>
     set((state) => ({ showFullAnnotation: !state.showFullAnnotation })),
@@ -252,7 +265,9 @@ export const useUploadStore = create((set) => ({
   aiAnnotationsUploaded: false,
   setAiAnnotationsUploaded: (newAiAnnotationsUploaded) =>
     set(() => ({ aiAnnotationsUploaded: newAiAnnotationsUploaded })),
-  userUploadedECGFile: false,
+  userUploadedECGFile: 0,
+  incrementUserUploadedECGFile: () =>
+    set((state) => ({ userUploadedECGFile: state.userUploadedECGFile + 1 })),
   setUserUploadedECGFile: (newUserUploadedECGFile) =>
     set(() => ({ userUploadedECGFile: newUserUploadedECGFile })),
 }));
