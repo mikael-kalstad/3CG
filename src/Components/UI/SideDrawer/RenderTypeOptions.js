@@ -83,12 +83,12 @@ const RenderTypeOptions = () => {
           gutterBottom
           style={{ marginTop: '40px' }}
         >
-          Render views
+          Visualizations
         </Typography>
         <Wrapper>
           <FormHelperText>
-            Change or add more render views below. Several render views will be
-            displayed with a split view. Render views can also be removed.
+            Change or add more visualizations below. Several visualizations will
+            be displayed with a split view. Visualizations can also be removed.
           </FormHelperText>
         </Wrapper>
 
@@ -100,7 +100,7 @@ const RenderTypeOptions = () => {
                 <Dropdown
                   items={store.renderNames.sort()}
                   value={a}
-                  title={'Render view ' + (i + 1)}
+                  title={'Visualization' + (i + 1)}
                   handleChange={handleChange}
                   index={i}
                 />
@@ -122,67 +122,75 @@ const RenderTypeOptions = () => {
           onClick={() => handleClick()}
           disabled={store.activeRenders.length === MAX_NUM_OF_RENDER_VIEWS}
         >
-          Add renderview
+          Add visualization
         </Button>
 
         {store.activeRenders.length === MAX_NUM_OF_RENDER_VIEWS && (
           <FormHelperText style={{ color: 'rgba(247, 152, 29, 1)' }}>
-            Maximum number of render views allowed are {MAX_NUM_OF_RENDER_VIEWS}
+            Maximum number of visualizations allowed are{' '}
+            {MAX_NUM_OF_RENDER_VIEWS}
           </FormHelperText>
         )}
+        {store.activeRenders.length > 1 && (
+          <>
+            <Typography
+              id='split-orientation-title'
+              gutterBottom
+              style={{ marginTop: '40px' }}
+            >
+              Split orientation
+            </Typography>
 
-        <Typography
-          id='split-orientation-title'
-          gutterBottom
-          style={{ marginTop: '40px' }}
-        >
-          Split orientation
-        </Typography>
+            <FormHelperText>
+              Change orientation of the split view if several visualizations are
+              active.
+            </FormHelperText>
 
-        <FormHelperText>
-          Change the orientation of the split view if several render views is
-          active.
-        </FormHelperText>
-
-        <SelectBetween
-          selectTexts={['Vertical', 'Horizontal']}
-          active={store.orientation}
-          onClick={store.toggleOrientation}
-          disabled={store.activeRenders.length < 2}
-        />
+            <SelectBetween
+              selectTexts={['Vertical', 'Horizontal']}
+              active={store.orientation}
+              onClick={store.toggleOrientation}
+              disabled={store.activeRenders.length < 2}
+            />
+          </>
+        )}
       </MarginWrapper>
 
-      <SettingsCheck
-        state={store.showRenderviewIndex}
-        onClick={store.toggleShowRenderviewIndex}
-        name='showrenderviewindex-checkbox'
-        label='Show render index'
-        description={
-          'Show the index of each render view in the corner to easily distinguish the difference between render views'
-        }
-      />
-
-      <MarginWrapper>
-        <Typography
-          id='split-orientation-title'
-          gutterBottom
-          style={{ marginTop: '40px' }}
-        >
-          VCG Conversion method
-        </Typography>
-
-        <FormHelperText>
-          The VCG representation is a transformation of the 12-lead ecg signals,
-          different transform methods will give different results. More info.
-        </FormHelperText>
-
-        <SelectBetween
-          selectTexts={store.vcgMethodNames}
-          active={store.vcgMethod}
-          onClick={store.setVcgMethod}
-          disabled={!store.activeRenders.includes('Vcg')}
+      {store.activeRenders.length > 1 && (
+        <SettingsCheck
+          state={store.showRenderviewIndex}
+          onClick={store.toggleShowRenderviewIndex}
+          name='showrenderviewindex-checkbox'
+          label='Show render index'
+          description={
+            'Show the index of each visualization in the corner to easily distinguish the difference between them'
+          }
         />
-      </MarginWrapper>
+      )}
+      {store.activeRenders.includes('Vcg') && (
+        <MarginWrapper>
+          <Typography
+            id='split-orientation-title'
+            gutterBottom
+            style={{ marginTop: '40px' }}
+          >
+            VCG Conversion method
+          </Typography>
+
+          <FormHelperText>
+            The VCG representation is a transformation of the 12-lead ecg
+            signals, different transform methods will give different results.
+            More info.
+          </FormHelperText>
+
+          <SelectBetween
+            selectTexts={store.vcgMethodNames}
+            active={store.vcgMethod}
+            onClick={store.setVcgMethod}
+            disabled={!store.activeRenders.includes('Vcg')}
+          />
+        </MarginWrapper>
+      )}
     </>
   );
 };
