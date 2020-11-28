@@ -5,6 +5,7 @@ cache:
     - node_modules/
 
 stages:
+  - test
   - deploy
 
 variables:
@@ -13,6 +14,11 @@ variables:
 before_script:
   - rm -rf build
   - CI=false npm install
+
+test:
+  stage: test
+  script:
+    - npm test
 
 pages:
   stage: deploy

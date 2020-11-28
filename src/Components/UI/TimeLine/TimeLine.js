@@ -1,25 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Rnd } from "react-rnd";
-import styled from "styled-components";
-import { dataService } from "../../../Services/DataService";
+import React, { useEffect, useRef, useState } from 'react';
+import { Rnd } from 'react-rnd';
+import styled from 'styled-components';
+import { dataService } from '../../../Services/DataService';
 import {
   useAnnotationStore,
   useTimelineOptionsStore,
   useTimeStore,
-} from "../../../Store";
-import AnnotationMark from "./AnnotationMark";
-import TimeLineBar from "./TimeLineBar";
-import TimeLineGraph from "./TimeLineGraph";
-import TimePopper from "./TimePopper";
+} from '../../../Store';
+import AnnotationMark from './AnnotationMark';
+import TimeLineBar from './TimeLineBar';
+import TimeLineGraph from './TimeLineGraph';
+import TimePopper from './TimePopper';
 
 const dataLength = dataService.getDuration();
 
 const Container = styled.div`
   width: 60%;
   max-width: 1000px;
-  height: ${(props) => (props.showTotalTime ? "60px" : "30px")};
-  border-bottom: "2px solid white";
-  border-radius: "0 0 5px 5px";
+  height: ${(props) => (props.showTotalTime ? '60px' : '30px')};
+  border-bottom: '2px solid white';
+  border-radius: '0 0 5px 5px';
   position: relative;
   bottom: 80px;
   left: 0;
@@ -45,7 +45,7 @@ const TimeLine = (props) => {
   const [endPopperOpen, setEndPopperOpen] = useState(false);
   const [anchor, setAnchor] = useState(null);
 
-  console.log("%c [Timeline] is rendering", "background: #111; color: #ebd31c");
+  console.log('%c [Timeline] is rendering', 'background: #111; color: #ebd31c');
 
   const setStartTime = useTimeStore((state) => state.setStartTime);
   const setEndTime = useTimeStore((state) => state.setEndTime);
@@ -55,7 +55,7 @@ const TimeLine = (props) => {
     state.startTime,
     state.endTime,
   ]);
-  console.log("Start time", startTime, "End Time", endTime);
+  console.log('Start time', startTime, 'End Time', endTime);
 
   const useTimeLineOptionsStore = useTimelineOptionsStore();
   const activeAnnotations = useAnnotationStore(
@@ -100,7 +100,7 @@ const TimeLine = (props) => {
       rndRef.current.updatePosition({ x: startTimeRef.current / ratio, y: 0 });
       rndRef.current.updateSize({
         width: width,
-        height: "100%",
+        height: '100%',
       });
     };
 
@@ -121,11 +121,11 @@ const TimeLine = (props) => {
     if (containerRef.current) handleResize();
 
     // Update states on resize
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // Cleanup on unmount
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, [ratio]);
 
@@ -138,22 +138,22 @@ const TimeLine = (props) => {
 
     // Update global end time state based on scroller width and new start time
     setEndTime(
-      newStartTime + ratio * Number.parseInt(ref.style.width.split("px")[0])
+      newStartTime + ratio * Number.parseInt(ref.style.width.split('px')[0])
     );
   };
 
   const resizeStart = (e, dir, ref, delta, position) => {
-    if (dir === "left") {
+    if (dir === 'left') {
       toggleStartPopper();
-    } else if (dir === "right") {
+    } else if (dir === 'right') {
       toggleEndPopper();
     }
   };
 
   const resizeStop = (e, dir, ref, delta, position) => {
-    if (dir === "left") {
+    if (dir === 'left') {
       toggleStartPopper();
-    } else if (dir === "right") {
+    } else if (dir === 'right') {
       toggleEndPopper();
     }
   };
@@ -180,11 +180,11 @@ const TimeLine = (props) => {
   };
 
   const style = {
-    height: "100%",
-    background: "rgba(247, 152, 29, 0.3)",
-    borderRadius: "5px",
-    border: "solid rgba(247, 152, 29, 1)",
-    borderWidth: "0 1px 0 1px",
+    height: '100%',
+    background: 'rgba(247, 152, 29, 0.3)',
+    borderRadius: '5px',
+    border: 'solid rgba(247, 152, 29, 1)',
+    borderWidth: '0 1px 0 1px',
     zIndex: 900,
   };
 
@@ -223,7 +223,7 @@ const TimeLine = (props) => {
 
       <Rnd
         ref={rndRef}
-        bounds="parent"
+        bounds='parent'
         style={style}
         enableResizing={{
           left: true,
@@ -235,7 +235,7 @@ const TimeLine = (props) => {
           topLeft: false,
           topRight: false,
         }}
-        dragAxis={"x"}
+        dragAxis={'x'}
         onResize={handleResize}
         onResizeStart={resizeStart}
         onResizeStop={resizeStop}
@@ -251,24 +251,24 @@ const TimeLine = (props) => {
           <TimePopper
             anchor={anchor}
             open={middlePopperOpen}
-            placement={"bottom"}
+            placement={'bottom'}
             text={
-              ((startTimeRef.current + endTimeRef.current) / 2).toFixed(2) + "s"
+              ((startTimeRef.current + endTimeRef.current) / 2).toFixed(2) + 's'
             }
           />
 
           <TimePopper
             anchor={anchor}
             open={startPopperOpen}
-            placement={"bottom-start"}
-            text={startTimeRef.current.toFixed(2) + "s"}
+            placement={'bottom-start'}
+            text={startTimeRef.current.toFixed(2) + 's'}
           />
 
           <TimePopper
             anchor={anchor}
             open={endPopperOpen}
-            placement={"bottom-end"}
-            text={endTimeRef.current.toFixed(2) + "s"}
+            placement={'bottom-end'}
+            text={endTimeRef.current.toFixed(2) + 's'}
           />
         </>
       )}

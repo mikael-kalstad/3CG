@@ -36,79 +36,15 @@ class DataService {
     return this.json.samples;
   }
 
-  getNumberOfSamples() {
-    return this.json.samples.length;
-  }
-
-  getSamplesInTimeframe(start, end) {
-    if (start < 0 || start > this.getDuration()) {
-      return 'ERROR';
-    }
-    if (end < 0 || end > this.getDuration()) {
-      return 'ERROR';
-    }
-    let samples = this.getSamples();
-    let sampleKeys = this.getChannelNamesArray();
-    let channelSamples = [];
-    for (let i in sampleKeys) {
-      channelSamples[i] = samples[sampleKeys[i]].slice(
-        Math.round(this.getSampleRate() * start),
-        Math.round(this.getSampleRate() * end)
-      );
-    }
-    return channelSamples;
-  }
-
-  getPointsNearestTime(time) {
-    let index = Math.round(this.getSampleRate() * time);
-    let points = [];
-    let samples = this.getSamples();
-    let sampleKeys = this.getChannelNamesArray();
-    for (let i in sampleKeys) {
-      points.push(samples[sampleKeys[i]][index]);
-    }
-    return points;
-  }
-
-  getNumOfSamplesInTimeframe(start, end) {
-    if (start < 0 || start > this.getDuration()) {
-      return 'ERROR';
-    }
-    if (end < 0 || end > this.getDuration()) {
-      return 'ERROR';
-    }
-    return (
-      Math.round(this.getSampleRate() * end) -
-      Math.round(this.getSampleRate() * start)
-    );
-  }
-
   getSamplesByChannel(channel) {
     return this.json.samples[channel];
   }
 
-  getSamplesByChannelInTimeframe(channel, start, end) {
-    if (start < 0 || start > this.getDuration()) {
-      return 'ERROR';
-    }
-    if (end < 0 || end > this.getDuration()) {
-      return 'ERROR';
-    }
-    let samples = this.getSamplesByChannel(channel);
-    let channelSamples = samples.slice(
-      Math.round(this.getSampleRate() * start),
-      Math.round(this.getSampleRate() * end)
-    );
-    return channelSamples;
-  }
-
   formatDataToPoints = () => {
-    let data = this.getJSON();
-
     let points = [];
 
     // Samples contains relevant point data
-    let samples = data['samples'];
+    let samples = this.getSamples();
 
     // Samples contains several channels with different "key"names
     let samplesKeys = Object.keys(samples);

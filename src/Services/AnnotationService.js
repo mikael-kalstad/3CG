@@ -1,23 +1,26 @@
 const groupingData = require('../data/groupings.json');
 const annotationTypes = require('../data/annotationTypes.json');
 
-class AnnotationService {
-  constructor() {
-    let json = require('../data/annotations.json');
-    let jsonAi = require('../data/aiAnnotations.json');
-    json = this.formatFile(json, true);
-
-    jsonAi = this.formatFile(jsonAi, true);
-    this.annotations = json.concat(jsonAi);
+export class AnnotationService {
+  constructor(annotations) {
+    this.annotations = this.formatFile(annotations, true);
   }
   // Format from fileformat to format used in code
   formatFile(json, isAI) {
     let result = json.map((obj) => {
       let start = this.onsetToSeconds(obj.onset);
+      let data = this.findData(obj.code);
+      if (data === undefined) {
+        data = {
+          Dx: obj.text,
+          'SNOMED CT Code': undefined,
+          Abbreviation: obj.code,
+        };
+      }
       let newObj = {
         start,
         end: start + obj.duration,
-        data: this.findData(obj.code),
+        data,
         ai: isAI,
       };
       return newObj;
@@ -38,7 +41,6 @@ class AnnotationService {
       };
       return newObj;
     });
-    console.log(result);
     return result;
   }
 
@@ -59,45 +61,30 @@ class AnnotationService {
     return this.annotations.sort((a, b) => a.start - b.start);
   }
 
-  // getAnnotationsOnlyInTimeframe(start, end) {
-  //   let result = [];
-  //   for (let i in this.annotations) {
-  //     let ann = this.annotations[i];
-  //     if (ann.start >= start && ann.end <= end) {
-  //       result.push(ann);
-  //     }
-  //   }
-  //   return result;
-  // }
-
-  // getAnnotationsInTimeframe(start, end) {
-  //   let result = [];
-  //   for (let i in this.annotations) {
-  //     let ann = this.annotations[i];
-  //     if (ann.start <= end && start <= ann.end) {
-  //       result.push(ann);
-  //     }
-  //   }
-  //   return result;
-  // }
-
   // Calculate onset-string to seconds
   onsetToSeconds = (onset) => {
     let split = onset.split(':');
-    let sec = Number(split[0]) * 3.6 * Math.pow(10, 3);
+    let sec = Number(split[0]) * 3.6 * 1000;
     sec += Number(split[1]) * 60;
     sec += Number(split[2]);
     return sec;
   };
 
-  // Calculate s
+  // Calculate onset from seconds
   secondsToOnset = (input) => {
     let remainder = input;
     let hours = String(Math.floor(remainder / 3600));
     remainder = remainder % 3600;
     let mins = String(Math.floor(remainder / 60));
     remainder = remainder % 60;
-    let seconds = String(remainder);
+    let seconds = remainder.toFixed(10);
+    // Fix floating point precision causing many decimals
+    while (
+      seconds[seconds.length - 1] == '0' ||
+      seconds[seconds.length - 1] == '.'
+    ) {
+      seconds = seconds.substring(0, seconds.length - 1);
+    }
     return (
       '0'.repeat(Math.max(0, 2 - hours.length)) +
       hours +
@@ -130,5 +117,15 @@ class AnnotationService {
     return color;
   }
 }
+let input = [];
 
-export let annotationService = new AnnotationService();
+try {
+  let startUserAnnotations = require('../data/annotations.json');
+  if (startUserAnnotations.length > 0)
+    input = input.concat(startUserAnnotations);
+} catch (e) {}
+try {
+  let startAiAnnotations = require('../data/aiAnnotations.json');
+  if (startAiAnnotations.length > 0) input = input.concat(startAiAnnotations);
+} catch (e) {}
+export let annotationService = new AnnotationService(input);
