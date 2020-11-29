@@ -18,12 +18,10 @@ import {
 import { dataService } from '../Services/DataService';
 import Text from './Text';
 
-const dataLength = dataService.getSampleLength();
-const sampleRate = dataService.getSampleRate();
-
 const Wave = (props) => {
   console.log('%c [Wave] is rendering', 'background: #111; color: #ebd31c');
-
+  const dataLength = dataService.getSampleLength();
+  const sampleRate = dataService.getSampleRate();
   const [currentlyHovering, setCurrentlyHovering] = useInspectStore((state) => [
     state.currentlyHovering,
     state.setCurrentlyHovering,

@@ -93,7 +93,6 @@ const SideDrawer = () => {
   const [menuItemsOpen, setMenuItemsOpen] = useState(
     MenuItems.map((e, i) => (i === MenuItems.length - 1 ? true : false))
   );
-  console.log(menuItemsOpen);
 
   const toggleMenuItemOpen = (index) =>
     setMenuItemsOpen((prevState) =>

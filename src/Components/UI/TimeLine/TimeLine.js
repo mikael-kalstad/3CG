@@ -12,8 +12,6 @@ import TimeLineBar from './TimeLineBar';
 import TimeLineGraph from './TimeLineGraph';
 import TimePopper from './TimePopper';
 
-const dataLength = dataService.getDuration();
-
 const Container = styled.div`
   width: 60%;
   max-width: 1000px;
@@ -36,6 +34,7 @@ const AnnotationWrapper = styled.div`
 `;
 
 const TimeLine = (props) => {
+  const dataLength = dataService.getDuration();
   const containerRef = useRef();
   const rndRef = useRef();
   const [containerWidth, setContainerWidth] = useState(500);

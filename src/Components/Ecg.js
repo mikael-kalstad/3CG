@@ -10,7 +10,6 @@ import Grid from './CanvasComponents/Grid/Grid';
 
 const Ecg = () => {
   // Get points which will be rendererd
-  console.log('ECG FORMATTED POINTS');
 
   let channelNames = dataService.getChannelNamesArray();
   let renderPoints = dataService.formatDataToPoints();

@@ -46,7 +46,7 @@ const AddAnnotation = () => {
             alignSelf: 'center',
           }}
         />
-        <ButtonText>'Add Annotation'</ButtonText>
+        <ButtonText>Add Annotation</ButtonText>
       </PlusButton>
 
       {displayPopup && <AddAnnotationPopup onClose={togglePopup} />}

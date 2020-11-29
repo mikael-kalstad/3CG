@@ -80,8 +80,8 @@ export class AnnotationService {
     let seconds = remainder.toFixed(10);
     // Fix floating point precision causing many decimals
     while (
-      seconds[seconds.length - 1] == '0' ||
-      seconds[seconds.length - 1] == '.'
+      seconds[seconds.length - 1] === '0' ||
+      seconds[seconds.length - 1] === '.'
     ) {
       seconds = seconds.substring(0, seconds.length - 1);
     }

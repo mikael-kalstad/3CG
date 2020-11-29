@@ -11,7 +11,7 @@ const dataLength = dataService.getSampleLength();
 const sampleRate = dataService.getSampleRate();
 
 // Get all annotations from file
-const annotationData = annotationService.getAnnotations();
+const initialAnnotationData = annotationService.getAnnotations();
 
 let localStorageEnabled = false; //window.localStorage.getItem('root')['storageStore'];
 let allowList = localStorageEnabled ? undefined : [];
@@ -49,9 +49,6 @@ export const useModeStore = create((set) => ({
   togglePlayMode: () => set((state) => ({ playMode: !state.playMode })),
   markMode: false,
   toggleMarkMode: () => set((state) => ({ markMode: !state.markMode })),
-  inspectMode: false,
-  toggleInspectMode: () =>
-    set((state) => ({ inspectMode: !state.inspectMode })),
   ortoMode: false,
   toggleOrtoMode: () => set((state) => ({ ortoMode: !state.ortoMode })),
   gridMode: false,
@@ -63,7 +60,7 @@ export const useInspectStore = create((set) => ({
   setInspected: (channel) => set((state) => (state.inspected = channel)),
   currentlyHovering: false,
   setCurrentlyHovering: (newCurrentlyHovering) =>
-    set((state) => ({ currentlyHovering: newCurrentlyHovering })),
+    set(() => ({ currentlyHovering: newCurrentlyHovering })),
 }));
 
 // Store for storing global all states related to ecg-data and timing
@@ -109,7 +106,7 @@ export const useTimeStore = createWithLocalStorage('timeStore', (set) => ({
 }));
 
 export const useAnnotationStore = create((set) => ({
-  annotations: annotationData,
+  annotations: initialAnnotationData,
   addAnnotation: (newAnnotation) =>
     set((state) => ({
       annotations: state.annotations.concat([newAnnotation]),
@@ -117,7 +114,7 @@ export const useAnnotationStore = create((set) => ({
     })),
   editAnnotation: (i, edited) =>
     set((state) => (state.annotations[i] = edited)),
-  activeAnnotations: annotationData.map(() => true),
+  activeAnnotations: initialAnnotationData.map(() => true),
   toggleAnnotation: (index) =>
     set((state) => ({
       activeAnnotations: state.activeAnnotations.map((state, i) =>
@@ -125,8 +122,8 @@ export const useAnnotationStore = create((set) => ({
       ),
     })),
   toggleAllAnnotations: (newState) =>
-    set(() => ({
-      activeAnnotations: annotationData.map(() => newState),
+    set((state) => ({
+      activeAnnotations: state.annotations.map(() => newState),
     })),
   deleteAllAnnotations: () =>
     set(() => ({

@@ -75,7 +75,6 @@ const AnnotationTimeline = () => {
     if (showFullAnnotation && a.start + diff < a.end) setEndTime(a.end);
     else setEndTime(a.start + diff);
   };
-  console.log(annotations);
   return (
     <div>
       <Title>All annotations</Title>
@@ -158,7 +157,7 @@ const AnnotationTimeline = () => {
         onClick={toggleShowFullAnnotation}
         name='showfullannotation'
         label='Show full annotation'
-        description='When clicking to see annotation in 3D, change length of graph dynamically to show full length of annotation'
+        description='When clicking to see an annotation, automatically adjust timeline to fit annotation on screen'
       />
       <SettingsCheck
         state={showAddAnnotationPopup}

@@ -1,7 +1,6 @@
 class DataService {
-  constructor() {
-    this.json = null;
-    this.json = require('../data/data.json');
+  constructor(json) {
+    this.json = json;
   }
 
   setJSON(json) {
@@ -75,4 +74,9 @@ class DataService {
   };
 }
 
-export let dataService = new DataService();
+let input = {};
+try {
+  input = require('../data/data.json');
+} catch (e) {}
+
+export let dataService = new DataService(input);
