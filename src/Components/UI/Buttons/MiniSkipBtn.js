@@ -39,7 +39,7 @@ const MiniSkipBtn = (props) => {
 
   const markMode = useModeStore((state) => state.markMode);
 
-  console.log(
+  
     "%c [MiniSkipBtn] is rendering",
     "background: #111; color: #ebd31c"
   );

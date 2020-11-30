@@ -79,7 +79,7 @@ const ChannelList = () => {
 
   const classes = useStyles();
 
-  console.log(
+  
     '%c [Checlist] is rendering (sideDrawer child)',
     'background: #111; color: #ebd31c'
   );

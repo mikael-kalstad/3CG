@@ -15,7 +15,6 @@ const initialAnnotationData = annotationService.getAnnotations();
 
 let localStorageEnabled = false; //window.localStorage.getItem('root')['storageStore'];
 let allowList = localStorageEnabled ? undefined : [];
-console.log('allowList', allowList, localStorageEnabled);
 
 // Middleware function that will save store in localStorage if the setting is enabled
 const createWithLocalStorage = (key, fn) => {

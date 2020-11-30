@@ -28,7 +28,7 @@ const MiniFastForwardBtn = (props) => {
   ]);
   const showSnackbar = useTimelineOptionsStore((state) => state.showSnackbar);
 
-  console.log(
+  
     '%c [MiniFastForwardBtn] is rendering',
     'background: #111; color: #ebd31c'
   );

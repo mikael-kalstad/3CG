@@ -42,12 +42,12 @@ const Split = styled.div`
 const RenderView = () => {
   const store = useRenderTypeStore();
 
-  console.log(
+  
     '%c [RenderView] is rendering',
     'background: #111; color: #ebd31c'
   );
 
-  console.log(store.activeRenders);
+  
 
   // Link names from store with component
   let componentsNameList = [
@@ -87,7 +87,7 @@ const RenderView = () => {
         );
     })
   );
-  console.log(activeComponents);
+  
 
   return (
     <Split

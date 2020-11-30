@@ -80,7 +80,7 @@ const TimeLineGraph = (props) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  console.log(
+  
     '%c [TimeLineGraph] is rendering',
     'background: #111; color: #ebd31c'
   );

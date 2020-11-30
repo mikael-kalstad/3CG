@@ -15,7 +15,6 @@ const MarkPlane = (props) => {
 
   const onPointerDown = (event) => {
     if (event.button == 0) {
-      console.log(event);
       props.updateXStart(event.point.x);
       setPressing(true);
       useMarkStore.setState({ markingFinished: false });

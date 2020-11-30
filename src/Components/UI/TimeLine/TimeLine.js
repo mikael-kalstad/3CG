@@ -44,8 +44,6 @@ const TimeLine = (props) => {
   const [endPopperOpen, setEndPopperOpen] = useState(false);
   const [anchor, setAnchor] = useState(null);
 
-  console.log('%c [Timeline] is rendering', 'background: #111; color: #ebd31c');
-
   const setStartTime = useTimeStore((state) => state.setStartTime);
   const setEndTime = useTimeStore((state) => state.setEndTime);
 
@@ -54,7 +52,6 @@ const TimeLine = (props) => {
     state.startTime,
     state.endTime,
   ]);
-  console.log('Start time', startTime, 'End Time', endTime);
 
   const useTimeLineOptionsStore = useTimelineOptionsStore();
   const activeAnnotations = useAnnotationStore(

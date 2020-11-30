@@ -8,7 +8,6 @@ import ZoomBar from './UI/Zooming/ZoomBar';
 import GlobalSnackbar from './UI/Snackbars/GlobalSnackbar';
 
 const Layout = (props) => {
-  console.log('%c [Layout] is rendering', 'background: #111; color: #ebd31c');
   return (
     <>
       <SideDrawer />

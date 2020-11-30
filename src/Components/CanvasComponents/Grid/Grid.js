@@ -28,7 +28,7 @@ const Grid = (props) => {
   let inspectedChannel =
     inspected === -1 ? '' : dataService.getChannelNamesArray()[inspected];
   let textScale = 1;
-  console.log(inspectedChannel);
+
   if (inspected !== -1 && inspectedChannel[0] == 'V' && vChannelScaling) {
     textScale = 1 / vChannelScaleFactor;
   }

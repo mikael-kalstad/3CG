@@ -6,7 +6,7 @@ index 16192ad..ea951ea 100644
      });
  
      function setSizes(newSizes) {
-+        console.log("new sizes", newSizes);
++        
 +
          var trimmed = trimToMin(newSizes);
          trimmed.forEach(function (newSize, i) {
@@ -19,7 +19,7 @@ index 0bfe9be..5638b41 100644
          });
  
          function setSizes(newSizes) {
-+            console.log("new Sizes", setSizes);
++            
 +
              var trimmed = trimToMin(newSizes);
              trimmed.forEach(function (newSize, i) {

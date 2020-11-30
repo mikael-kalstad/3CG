@@ -50,7 +50,7 @@ const RenderTypeOptions = () => {
 
   const classes = useStyles();
 
-  console.log(
+  
     '%c [RenderOptions] is rendering',
     'background: #111; color: #ebd31c'
   );

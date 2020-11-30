@@ -18,7 +18,7 @@ const PlayAndPauseBtn = () => {
   const togglePlayMode = useModeStore((state) => state.togglePlayMode);
   const markMode = useModeStore((state) => state.markMode);
 
-  console.log(
+  
     '%c [PlayAndPauseBtn] is rendering',
     'background: #111; color: #ebd31c'
   );

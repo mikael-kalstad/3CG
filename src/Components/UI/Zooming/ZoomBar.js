@@ -54,7 +54,6 @@ const ZoomBar = () => {
 
   const classes = useStyles();
 
-  console.log('%c [ZoomBar] is rendering', 'background: #111; color: #ebd31c');
   return (
     <Slider
       style={SliderStyle}

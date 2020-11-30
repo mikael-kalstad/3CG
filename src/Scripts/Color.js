@@ -32,7 +32,7 @@ const hexToRgbDecimal = (hex) => {
 
 // Mix two individual rgb colors together
 const mixRgbColors = (rgbArr) => {
-  // console.log('color1', rgbArr1, 'color2', rgbArr2);
+  //
   let newRgb = [0, 0, 0];
 
   for (let i = 0; i < 3; i++) {
@@ -44,7 +44,7 @@ const mixRgbColors = (rgbArr) => {
 
     newRgb[i] = tempValue / rgbArr.length;
   }
-  // console.log('newrgb', newRgb);
+  //
   return newRgb;
 };
 
@@ -58,7 +58,7 @@ export const getTransitionColorData = (data, offset) => {
 
   // Get colors from global store
   let hexColor = useColorOptionsStore.getState().colors;
-  // console.log(hexColor);
+  //
 
   // Add all hex colors to arr after converting it to rgb (0-1)
   hexColor.forEach((h) => colors.push(hexToRgbDecimal(h)));

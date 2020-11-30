@@ -10,7 +10,6 @@ import { useRenderTypeStore } from '../Store';
 const sampleRate = dataService.getSampleRate();
 
 const Vcg = () => {
-  console.log('%c [Vcg2] is rendering', 'background: #111; color: #ebd31c');
   const meshRef = useRef();
 
   // Fetch initial time state

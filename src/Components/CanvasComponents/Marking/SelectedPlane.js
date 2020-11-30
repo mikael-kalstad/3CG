@@ -57,16 +57,16 @@ const SelectedPlane = (props) => {
     return Math.abs(selected[1] - selected[0]) > 0.001;
   };
   // let points = dataService.getPointsNearestTime(1 / 500);
-  // console.log(points);
+  //
   // let vectors = new Float32Array(points.length * 3);
-  // console.log(vectors);
+  //
   // for (let i = 0; i < points.length; i++) {
-  //   console.log(i);
+  //
   //   vectors[3 * i] = i * 0.4;
   //   vectors[3 * i + 1] = points[i]*20;
   //   vectors[3 * i + 2] = i * 10 - (10 * (points.length - 1)) / 2;
   // }
-  // console.log(vectors);
+  //
 
   // var geom = new THREE.Geometry();
   // var v1 = new THREE.Vector3(0, 0, 0);
@@ -90,10 +90,10 @@ const SelectedPlane = (props) => {
   return (
     <group>
       <mesh ref={planeMesh}>
-        <boxBufferGeometry attach="geometry" />
+        <boxBufferGeometry attach='geometry' />
         <meshPhongMaterial
           opacity={shouldRender(props.selected) ? TRANSPARANCY_PLANE : 0}
-          attach="material"
+          attach='material'
           transparent={true}
           clippingPlanes={[startPlane, endPlane]}
         />

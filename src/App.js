@@ -11,8 +11,6 @@ const Wrapper = styled.div`
 `;
 
 const App = () => {
-  console.log('%c [App] is rendering', 'background: #111; color: #ebd31c');
-
   // DO NOT REMOVE LINE UNDER, ENSURES RERENDER ON UPLOAD OF ECG FILE
   const userUploadedECGFile = useUploadStore(
     (state) => state.userUploadedECGFile

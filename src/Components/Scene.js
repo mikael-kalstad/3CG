@@ -7,10 +7,7 @@ import Text from './Text';
 import { useColorOptionsStore } from '../Store';
 
 const Scene = (props) => {
-  console.log('%c [Scene] is rendering', 'background: #111; color: #ebd31c');
-
   const backgroundColor = useColorOptionsStore((state) => state.background);
-  console.log(<Canvas></Canvas>);
 
   return (
     <Canvas style={{ background: backgroundColor }}>

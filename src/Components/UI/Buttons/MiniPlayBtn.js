@@ -17,7 +17,7 @@ const MiniPlayBtn = (props) => {
   const togglePlayMode = useModeStore((state) => state.togglePlayMode);
   const markMode = useModeStore((state) => state.markMode);
 
-  console.log(
+  
     "%c [MiniPlayBtn] is rendering",
     "background: #111; color: #ebd31c"
   );

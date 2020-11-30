@@ -59,7 +59,6 @@ const jsonAnnotationExample = [
     code: 'BTS',
   },
 ];
-console.log(JSONPrettyMon);
 
 const Upload = () => {
   const [showDialog, setShowDialog] = useState(false);
