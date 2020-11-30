@@ -100,7 +100,7 @@ const RenderTypeOptions = () => {
                 <Dropdown
                   items={store.renderNames.sort()}
                   value={a}
-                  title={'Visualization' + (i + 1)}
+                  title={'Visualization ' + (i + 1)}
                   handleChange={handleChange}
                   index={i}
                 />

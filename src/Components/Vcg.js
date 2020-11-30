@@ -91,7 +91,7 @@ const Vcg = () => {
 
   useFrame(() => {
     if (
-      previousStartTime !== startTimeRef.current &&
+      previousStartTime !== startTimeRef.current ||
       previousEndTime !== endTimeRef.current
     ) {
       previousStartTime = startTimeRef.current;
@@ -99,7 +99,7 @@ const Vcg = () => {
 
       ref.current.setDrawRange(
         startTimeRef.current * sampleRate,
-        endTimeRef.current * sampleRate
+        (endTimeRef.current - startTimeRef.current) * sampleRate
       );
 
       updateColors(

@@ -54,7 +54,7 @@ test('Test channel store', () => {
   activeChannels = useChannelStore.getState().activeChannels;
   expect(activeChannels[2]).toBeFalsy();
 
-  let newActiveChannels = new Array().fill(true);
+  let newActiveChannels = new Array(activeChannels.length).fill(true);
   useChannelStore.getState().setActiveChannels(newActiveChannels);
   activeChannels = useChannelStore.getState().activeChannels;
   activeChannels.forEach((e) => expect(e).toBeTruthy());
