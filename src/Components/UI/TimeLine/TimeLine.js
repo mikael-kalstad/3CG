@@ -181,7 +181,7 @@ const TimeLine = (props) => {
     borderRadius: '5px',
     border: 'solid rgba(247, 152, 29, 1)',
     borderWidth: '0 1px 0 1px',
-    zIndex: 900,
+    zIndex: 99,
   };
 
   return (

@@ -1,4 +1,4 @@
-class DataService {
+export class DataService {
   constructor(json) {
     this.json = json;
   }

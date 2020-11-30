@@ -119,7 +119,7 @@ const Vcg = () => {
     // Set specific range which is to be shown
     self.setDrawRange(
       startTimeRef.current * sampleRate,
-      endTimeRef.current * sampleRate
+      (endTimeRef.current - startTimeRef.current) * sampleRate
     );
 
     // Set initial points

@@ -216,7 +216,7 @@ const Wave = (props) => {
       <Text
         onClick={(e) => {
           e.stopPropagation();
-          inspectChannel(props.index);
+          if (inspected === -1) inspectChannel(props.index);
         }}
         position={props.data[0].map((val, i) => (i === 0 ? val - 6 : val))}
         rotateToCamera={true}

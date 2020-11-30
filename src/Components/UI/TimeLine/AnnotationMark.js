@@ -9,7 +9,7 @@ const Wrapper = styled.div``;
 
 const Mark = styled.div`
   ${Wrapper}:hover & {
-    z-index: 100;
+    z-index: 200;
     opacity: 0.9;
     filter: brightness(85%);
     cursor: pointer;
@@ -25,11 +25,12 @@ const Mark = styled.div`
   height: 28px;
   user-select: none;
   border-radius: 5px;
-  font-size: 0.7vw;
+  font-size: 0.9vw;
   opacity: 0.5;
   transition: 0.2s ease;
   color: white;
   overflow: hidden;
+  z-index: 100;
 `;
 
 const AnnotationMark = (props) => {
