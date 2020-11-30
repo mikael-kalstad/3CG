@@ -1,12 +1,12 @@
-import IconButton from "@material-ui/core/IconButton";
-import PauseIcon from "@material-ui/icons/Pause";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import React from "react";
-import { useModeStore } from "../../../Store";
+import IconButton from '@material-ui/core/IconButton';
+import PauseIcon from '@material-ui/icons/Pause';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import React from 'react';
+import { useModeStore } from '../../../Store';
 
 const ButtonStyle = {
   fontSize: 12,
-  color: "#92BD6C",
+  color: '#92BD6C',
   padding: 0,
 };
 
@@ -17,14 +17,9 @@ const MiniPlayBtn = (props) => {
   const togglePlayMode = useModeStore((state) => state.togglePlayMode);
   const markMode = useModeStore((state) => state.markMode);
 
-  
-    "%c [MiniPlayBtn] is rendering",
-    "background: #111; color: #ebd31c"
-  );
-
   return (
     <IconButton
-      aria-label="Play"
+      aria-label='Play'
       style={ButtonStyle}
       onClick={() => togglePlayMode()}
       disabled={markMode}

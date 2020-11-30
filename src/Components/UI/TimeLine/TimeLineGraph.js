@@ -80,11 +80,6 @@ const TimeLineGraph = (props) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  
-    '%c [TimeLineGraph] is rendering',
-    'background: #111; color: #ebd31c'
-  );
-
   const linspace = (start, end, steps) => {
     let arr = [];
     for (let i = start; i < end; i += (end - start) / (steps - 1)) {

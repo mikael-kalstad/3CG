@@ -50,11 +50,6 @@ const RenderTypeOptions = () => {
 
   const classes = useStyles();
 
-  
-    '%c [RenderOptions] is rendering',
-    'background: #111; color: #ebd31c'
-  );
-
   const handleChange = (e, index) => {
     store.editRender(e.target.value, index || 0);
   };

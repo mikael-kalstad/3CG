@@ -28,11 +28,6 @@ const MiniFastForwardBtn = (props) => {
   ]);
   const showSnackbar = useTimelineOptionsStore((state) => state.showSnackbar);
 
-  
-    '%c [MiniFastForwardBtn] is rendering',
-    'background: #111; color: #ebd31c'
-  );
-
   // Format speed into format
   const formatSpeed = (speed) => {
     return 'Playback rate: ' + (speed / defaultSpeed).toFixed(2) + 'x';

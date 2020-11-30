@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from "react";
-import IconButton from "@material-ui/core/IconButton";
-import SkipNextIcon from "@material-ui/icons/SkipNext";
-import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
-import { useModeStore, useTimeStore } from "../../../Store";
-import { dataService } from "../../../Services/DataService";
+import React, { useEffect, useRef } from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import SkipNextIcon from '@material-ui/icons/SkipNext';
+import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import { useModeStore, useTimeStore } from '../../../Store';
+import { dataService } from '../../../Services/DataService';
 
 const DURATION = dataService.getDuration();
 
 const ButtonStyle = {
-  fontSize: "small",
-  color: "#E8E8E8",
+  fontSize: 'small',
+  color: '#E8E8E8',
   padding: 0,
 };
 
@@ -39,11 +39,6 @@ const MiniSkipBtn = (props) => {
 
   const markMode = useModeStore((state) => state.markMode);
 
-  
-    "%c [MiniSkipBtn] is rendering",
-    "background: #111; color: #ebd31c"
-  );
-
   let SKIP = 1.0;
 
   const handleClick = () => {
@@ -63,7 +58,7 @@ const MiniSkipBtn = (props) => {
 
   return (
     <IconButton
-      aria-label="skip"
+      aria-label='skip'
       style={ButtonStyle}
       onClick={() => handleClick()}
       disabled={

@@ -16,20 +16,7 @@ const Vcg = () => {
   const startTimeRef = useRef(useTimeStore.getState().startTime);
   const endTimeRef = useRef(useTimeStore.getState().endTime);
 
-  // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
-  useEffect(() => {
-    useTimeStore.subscribe(
-      (startTime) => (startTimeRef.current = startTime),
-      (state) => state.startTime
-    );
-
-    useTimeStore.subscribe(
-      (endTime) => (endTimeRef.current = endTime),
-      (state) => state.endTime
-    );
-  }, []);
-
-  let values = dataService.getSamples();
+  const vcgMethod = useRenderTypeStore((state) => state.vcgMethod);
 
   const dowersTransform = () => {
     // Transform methods for 12-lead ecg to vcg
@@ -55,7 +42,7 @@ const Vcg = () => {
     ];
 
     // Set inverse matrix based upon transform method selected in settings
-    let invD = transformMethods[useRenderTypeStore.getState().vcgMethod];
+    let invD = transformMethods[vcgMethod];
 
     // [V1 V2 V3 V4 V5 V6 I II]
     let matrixA = matrix([
@@ -83,10 +70,28 @@ const Vcg = () => {
     return output;
   };
 
+  let values = dataService.getSamples();
+  let vcgPoints = dowersTransform(values);
+
+  // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
+  useEffect(() => {
+    useTimeStore.subscribe(
+      (startTime) => (startTimeRef.current = startTime),
+      (state) => state.startTime
+    );
+
+    useTimeStore.subscribe(
+      (endTime) => (endTimeRef.current = endTime),
+      (state) => state.endTime
+    );
+  }, []);
+
+  useEffect(() => {
+    vcgPoints = dowersTransform(values);
+  }, [vcgMethod, dowersTransform]);
+
   let previousStartTime = startTimeRef.current;
   let previousEndTime = endTimeRef.current;
-
-  let vcgPoints = dowersTransform(values);
 
   useFrame(() => {
     if (

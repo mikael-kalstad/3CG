@@ -103,10 +103,6 @@ const SideDrawer = () => {
   const toggleMenu = () => setShow(!show);
 
   const classes = useStyles();
-  
-    '%c [SideDrawer] is rendering',
-    'background: #111; color: #ebd31c'
-  );
 
   return (
     <>

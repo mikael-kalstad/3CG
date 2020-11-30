@@ -79,11 +79,6 @@ const ChannelList = () => {
 
   const classes = useStyles();
 
-  
-    '%c [Checlist] is rendering (sideDrawer child)',
-    'background: #111; color: #ebd31c'
-  );
-
   const inspectChannel = (channelIndex) => {
     setActiveChannelsPlaceholder(activeChannels);
     setInspected(channelIndex);

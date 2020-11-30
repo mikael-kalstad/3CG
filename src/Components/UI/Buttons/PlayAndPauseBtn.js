@@ -18,11 +18,6 @@ const PlayAndPauseBtn = () => {
   const togglePlayMode = useModeStore((state) => state.togglePlayMode);
   const markMode = useModeStore((state) => state.markMode);
 
-  
-    '%c [PlayAndPauseBtn] is rendering',
-    'background: #111; color: #ebd31c'
-  );
-
   return (
     <IconButton
       aria-label='Play'
