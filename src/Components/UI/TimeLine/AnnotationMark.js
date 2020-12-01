@@ -25,7 +25,7 @@ const Mark = styled.div`
   height: 28px;
   user-select: none;
   border-radius: 5px;
-  font-size: 0.9vw;
+  font-size: 0.7vw;
   opacity: 0.5;
   transition: 0.2s ease;
   color: white;

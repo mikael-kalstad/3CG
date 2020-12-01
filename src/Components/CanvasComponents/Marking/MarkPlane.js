@@ -21,27 +21,37 @@ const MarkPlane = (props) => {
     }
   };
 
+  const finishMarking = () => {
+    setPressing(false);
+
+    useMarkStore.setState({ markingFinished: true });
+
+    // Get non-reactive fresh states from markStore
+    const startSelected = useMarkStore.getState().startSelected;
+    const endSelected = useMarkStore.getState().endSelected;
+
+    // Check if startSelected is larger than endSelected
+    if (startSelected > endSelected) {
+      // Swap values of the two states
+      useMarkStore.setState({ startSelected: endSelected });
+      useMarkStore.setState({ endSelected: startSelected });
+    }
+  };
+
   const onPointerUp = (event) => {
     if (event.button == 0) {
-      setPressing(false);
-
-      useMarkStore.setState({ markingFinished: true });
-
-      // Get non-reactive fresh states from markStore
-      const startSelected = useMarkStore.getState().startSelected;
-      const endSelected = useMarkStore.getState().endSelected;
-
-      // Check if startSelected is larger than endSelected
-      if (startSelected > endSelected) {
-        // Swap values of the two states
-        useMarkStore.setState({ startSelected: endSelected });
-        useMarkStore.setState({ endSelected: startSelected });
-      }
+      finishMarking();
     }
   };
 
   const onPointerDrag = (event) => {
     props.updateXEnd(event.point.x);
+  };
+
+  const onPointerOut = () => {
+    if (pressing) {
+      finishMarking();
+    }
   };
 
   return (
@@ -50,7 +60,7 @@ const MarkPlane = (props) => {
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       onPointerMove={pressing && onPointerDrag}
-      onPointerOut={pressing && onPointerUp}
+      onPointerOut={onPointerOut}
     >
       <boxBufferGeometry attach='geometry' />
       <meshPhongMaterial opacity={0} attach='material' transparent={true} />
