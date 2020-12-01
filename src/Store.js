@@ -160,7 +160,7 @@ export const useScaleStore = createWithLocalStorage('scaleStore', (set) => ({
   vChannelScaling: true,
   toggleVChannelScaling: () =>
     set((state) => ({ vChannelScaling: !state.vChannelScaling })),
-  vChannelScaleFactor: 0.1,
+  vChannelScaleFactor: 1,
   setVChannelScaleFactor: (newScale) =>
     set(() => ({ vChannelScaleFactor: newScale })),
 }));
