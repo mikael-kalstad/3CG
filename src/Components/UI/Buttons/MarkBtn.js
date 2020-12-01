@@ -1,6 +1,7 @@
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import NoteIcon from '@material-ui/icons/Note';
+import { RiMarkPenFill } from 'react-icons/ri';
 import React from 'react';
 import { useModeStore } from '../../../Store';
 
@@ -24,7 +25,7 @@ const MarkBtn = () => {
           toggleMarkMode();
         }}
       >
-        <NoteIcon />
+        <RiMarkPenFill />
       </IconButton>
     </Tooltip>
   );
