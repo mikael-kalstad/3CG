@@ -6,16 +6,14 @@ import {
   useModeStore,
   useTimelineOptionsStore,
   useTimeStore,
-} from "../../../Store";
-import Text from '../../Text';
+} from '../../../Store';
+import Text from '../Text';
 import { dataService } from '../../../Services/DataService';
 
 const channelNames = dataService.getChannelNamesArray();
 
-
 const TimeGrid = (props) => {
-
-  let n = 50
+  let n = 50;
   // Fetch initial time state
   const startTime = useTimeStore((state) => state.startTime);
   const endTime = useTimeStore((state) => state.endTime);
@@ -29,24 +27,22 @@ const TimeGrid = (props) => {
   }
 
   // i < 12
-  // 
+  //
   let xPoints = [];
   for (let i = 0; i < 2; i++) {
-    let m = i * 110
+    let m = i * 110;
     xPoints.push(new THREE.Vector3(0, 0, m));
-    xPoints.push(new THREE.Vector3((n * graphLength), 0, m));
+    xPoints.push(new THREE.Vector3(n * graphLength, 0, m));
     xPoints.push(new THREE.Vector3(0, 0, m));
-
   }
   let xLinesGeo = new THREE.BufferGeometry().setFromPoints(xPoints);
 
   let yPoints = [];
-  for (let i = 0; i < ((graphLength) + 1); i++) {
-    let m = i * 50
+  for (let i = 0; i < graphLength + 1; i++) {
+    let m = i * 50;
     yPoints.push(new THREE.Vector3(m, 0, 0));
-    yPoints.push(new THREE.Vector3(m, 0, (n * 2.2)));
+    yPoints.push(new THREE.Vector3(m, 0, n * 2.2));
     yPoints.push(new THREE.Vector3(m, 0, 0));
-
   }
   let yLinesGeo = new THREE.BufferGeometry().setFromPoints(yPoints);
 
@@ -76,26 +72,17 @@ const TimeGrid = (props) => {
   const position = [0, -100, -55];
   const scale = [0.8, 1, 1];
 
-  if (!gridMode || (inspected !== -1)) {
+  if (!gridMode || inspected !== -1) {
     return <></>;
   }
 
   return (
     <Suspense fallback={null}>
-      <group >
-        <primitive
-          object={xLines}
-          position={position}
-          scale={scale}
-        />
-        <primitive
-          object={yLines}
-          position={position}
-          scale={scale}
-        />
+      <group>
+        <primitive object={xLines} position={position} scale={scale} />
+        <primitive object={yLines} position={position} scale={scale} />
       </group>
     </Suspense>
-
   );
 };
 

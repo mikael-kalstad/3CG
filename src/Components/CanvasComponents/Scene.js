@@ -1,10 +1,10 @@
 import React, { Suspense } from 'react';
 import { Canvas } from 'react-three-fiber';
-import { useCameraStore } from '../Store';
-import CameraControls from './CameraControls';
-import OrtoCam from './OrtoCam';
+import { useCameraStore } from '../../Store';
+import CameraControls from './Camera/CameraControls';
+import OrtoCam from './Camera/OrtoCam';
 import Text from './Text';
-import { useColorOptionsStore } from '../Store';
+import { useColorOptionsStore } from '../../Store';
 
 const Scene = (props) => {
   const backgroundColor = useColorOptionsStore((state) => state.background);

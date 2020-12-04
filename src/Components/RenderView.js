@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRenderTypeStore } from '../Store';
-import CircularVisualization from './CircularVisualization';
-import Scene from './Scene';
-import Ecg from './Ecg';
-import Vcg from './Vcg';
+import CircularVisualization from './CanvasComponents/Visualizations/CircularVisualization';
+import Scene from './CanvasComponents/Scene';
+import Ecg from './CanvasComponents/Visualizations/Ecg';
+import Vcg from './CanvasComponents/Visualizations/Vcg';
 
 const IndexIcon = styled.div`
   position: absolute;

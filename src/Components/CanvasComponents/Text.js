@@ -27,6 +27,7 @@ const Text = (props) => {
 
   useEffect(() => {
     const onMount = () => {
+      // Position text in middle of background
       textMesh.current.geometry.computeBoundingBox();
       let boundingBox = textMesh.current.geometry.boundingBox.max;
       textMesh.current.geometry.translate(
@@ -38,6 +39,7 @@ const Text = (props) => {
       textMesh.current.geometry.computeBoundingBox();
 
       if (props.background) {
+        // Configure background
         planeMesh.current.material.opacity = props.backgroundOpacity;
         planeMesh.current.material.color.setHex(props.backgroundColor);
         let bound = [
@@ -45,6 +47,7 @@ const Text = (props) => {
           textMesh.current.geometry.boundingBox.max.y,
           0,
         ];
+        // Scale background from props
         let scale = props.backgroundScaleByText + 1;
         if (props.backgroundSize) {
           planeMesh.current.scale.set(
@@ -64,7 +67,7 @@ const Text = (props) => {
           props.depth ? -props.depth / 2 - 0.01 : -0.1
         );
         textMesh.current.geometry.computeBoundingBox();
-
+        // Calculate repeats from size of text and background
         if (props.repeatText) {
           setMaxRepeats(
             Number.parseInt(
@@ -79,6 +82,7 @@ const Text = (props) => {
           );
         }
       }
+      // Rotate group from prop if rotateToCamera is not set
       if (props.rotateToCamera === undefined && props.rotation) {
         group.current.setRotationFromEuler(
           new THREE.Euler(
@@ -105,6 +109,7 @@ const Text = (props) => {
     props.textSize,
   ]);
 
+  // Set new text to repeated text
   useEffect(() => {
     let geometry = new THREE.TextBufferGeometry(
       new Array(maxRepeats).fill(props.children).join(' - '),
@@ -118,7 +123,7 @@ const Text = (props) => {
       -boundingBox.y / 2,
       -boundingBox.z / 2
     );
-  }, [maxRepeats]);
+  }, [maxRepeats, props.children]);
 
   const handlePointerOver = (e) => {
     e.stopPropagation();

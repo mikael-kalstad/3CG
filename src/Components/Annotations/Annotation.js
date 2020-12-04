@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { dataService } from '../../Services/DataService';
 import { annotationService } from '../../Services/AnnotationService';
 import { useScaleStore } from '../../Store';
-import Text from '../Text';
+import Text from '../CanvasComponents/Text';
 
 const HEIGHT_OVER_XZ = 10;
 const sampleRate = dataService.getSampleRate();

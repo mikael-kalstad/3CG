@@ -8,7 +8,7 @@ import {
   useScaleStore,
   useInspectStore,
 } from '../../../Store';
-import Text from '../../Text';
+import Text from '../Text';
 import { dataService } from '../../../Services/DataService';
 
 // The standard grid for ECG uses 0.04s per square in the x-axis, and 0.1mV in the y-axis.

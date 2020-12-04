@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import styled from 'styled-components';
 import RenderView from './Components/RenderView';
-import Layout from './Components/Layout';
+import Layout from './Components/UI/Layout';
 import { useUploadStore } from './Store';
 
 const Wrapper = styled.div`

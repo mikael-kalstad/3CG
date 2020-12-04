@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useFrame, useUpdate } from 'react-three-fiber';
 import * as THREE from 'three';
-import { dataService } from '../Services/DataService';
-import { useTimeStore, useInspectStore } from '../Store';
+import { dataService } from '../../../Services/DataService';
+import { useTimeStore, useInspectStore } from '../../../Store';
 
 const sampleRate = dataService.getSampleRate();
 

@@ -1,12 +1,12 @@
 import React, { Suspense } from 'react';
 import { useThree } from 'react-three-fiber';
-import { dataService } from '../Services/DataService';
-import { useChannelStore, useInspectStore } from '../Store';
-import AnnotationRenderer from './Annotations/AnnotationRenderer';
-import MarkWaves from './CanvasComponents/Marking/MarkWaves';
-import Wave from './Wave';
-import TimeGrid from './CanvasComponents/Grid/TimeGrid';
-import Grid from './CanvasComponents/Grid/Grid';
+import { dataService } from '../../../Services/DataService';
+import { useChannelStore, useInspectStore } from '../../../Store';
+import AnnotationRenderer from '../../Annotations/AnnotationRenderer';
+import MarkWaves from '../Marking/MarkWaves';
+import Wave from '../Wave';
+import TimeGrid from '../Grid/TimeGrid';
+import Grid from '../Grid/Grid';
 
 const Ecg = () => {
   // Get points which will be rendererd

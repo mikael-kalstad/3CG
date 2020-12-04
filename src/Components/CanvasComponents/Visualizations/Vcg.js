@@ -2,10 +2,9 @@ import { matrix, multiply } from 'mathjs';
 import React, { useEffect, useRef } from 'react';
 import { useUpdate, useFrame } from 'react-three-fiber';
 import * as THREE from 'three';
-import { dataService } from '../Services/DataService';
-import { useTimeStore } from '../Store';
-import { getTransitionColorData } from '../Scripts/Color';
-import { useRenderTypeStore } from '../Store';
+import { dataService } from '../../../Services/DataService';
+import { getTransitionColorData } from '../../../Scripts/Color';
+import { useTimeStore, useRenderTypeStore } from '../../../Store';
 
 const sampleRate = dataService.getSampleRate();
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { extend, useFrame, useThree } from 'react-three-fiber';
 import * as THREE from 'three';
-import { useCameraStore, useModeStore } from '../Store';
+import { useCameraStore, useModeStore } from '../../../Store';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 extend({ OrbitControls });

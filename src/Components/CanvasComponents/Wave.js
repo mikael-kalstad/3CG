@@ -9,13 +9,13 @@ import {
   useTimeStore,
   useColorOptionsStore,
   useMousePositionStore,
-} from '../Store';
+} from '../../Store';
 import {
   getDiagnosisColorData,
   getHeatColorData,
   getTransitionColorData,
-} from '../Scripts/Color';
-import { dataService } from '../Services/DataService';
+} from '../../Scripts/Color';
+import { dataService } from '../../Services/DataService';
 import Text from './Text';
 
 const Wave = (props) => {
