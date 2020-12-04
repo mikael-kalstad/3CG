@@ -13,7 +13,12 @@ const sampleRate = dataService.getSampleRate();
 // Get all annotations from file
 const initialAnnotationData = annotationService.getAnnotations();
 
-let localStorageEnabled = false; //window.localStorage.getItem('root')['storageStore'];
+let localStorageEnabled;
+if (window.localStorage.getItem('root') !== null) {
+  localStorageEnabled = true; //window.localStorage.getItem('root')['storageStore'];
+} else {
+  localStorageEnabled = false;
+}
 let allowList = localStorageEnabled ? undefined : [];
 
 // Middleware function that will save store in localStorage if the setting is enabled

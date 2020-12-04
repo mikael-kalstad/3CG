@@ -53,7 +53,6 @@ const AnnotationRenderer = (props) => {
 
   //let annotations = useAnnotationStore((state) => state.annotations);
   const scale = useScaleStore((state) => state.scale);
-  const shouldRender = (start, end) => start <= endTime && startTime <= end;
 
   // Two planes for clipping the annotations
   let startPlane = new THREE.Plane(new THREE.Vector3(1, 0, 0), 0);
@@ -66,7 +65,6 @@ const AnnotationRenderer = (props) => {
     <>
       {annotations.map(
         (ann, i) =>
-          // shouldRender(ann.start, ann.end) &&
           activeAnnotations[i] && (
             <React.Fragment key={i}>
               <Annotation
