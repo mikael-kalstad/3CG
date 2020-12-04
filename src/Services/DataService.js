@@ -77,7 +77,7 @@ export class DataService {
 
 let input = {};
 try {
-  input = require('../data/data.json');
+  input = require('../res/data.json');
 } catch (e) {}
 
 export let dataService = new DataService(input);

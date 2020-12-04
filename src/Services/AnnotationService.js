@@ -1,5 +1,5 @@
-const groupingData = require('../data/groupings.json');
-const annotationTypes = require('../data/annotationTypes.json');
+const groupingData = require('../res/groupings.json');
+const annotationTypes = require('../res/annotationTypes.json');
 
 export class AnnotationService {
   constructor(annotations) {
@@ -120,12 +120,12 @@ export class AnnotationService {
 let input = [];
 
 try {
-  let startUserAnnotations = require('../data/annotations.json');
+  let startUserAnnotations = require('../res/annotations.json');
   if (startUserAnnotations.length > 0)
     input = input.concat(startUserAnnotations);
 } catch (e) {}
 try {
-  let startAiAnnotations = require('../data/aiAnnotations.json');
+  let startAiAnnotations = require('../res/aiAnnotations.json');
   if (startAiAnnotations.length > 0) input = input.concat(startAiAnnotations);
 } catch (e) {}
 export let annotationService = new AnnotationService(input);

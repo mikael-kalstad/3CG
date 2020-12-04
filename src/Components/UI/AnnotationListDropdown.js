@@ -10,7 +10,7 @@ const TextWrapper = styled.div`
   grid-template-rows: auto auto;
 `;
 
-const annotationTypes = require('../../data/annotationTypes.json');
+const annotationTypes = require('../../res/annotationTypes.json');
 
 const useStyles = makeStyles({
   option: {

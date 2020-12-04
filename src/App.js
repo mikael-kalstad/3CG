@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import styled from 'styled-components';
-import RenderView from './Components/RenderView';
+import RenderView from './Components/CanvasComponents/RenderView';
 import Layout from './Components/UI/Layout';
 import { useUploadStore } from './Store';
 

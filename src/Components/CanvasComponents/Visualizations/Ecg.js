@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { useThree } from 'react-three-fiber';
 import { dataService } from '../../../Services/DataService';
 import { useChannelStore, useInspectStore } from '../../../Store';
-import AnnotationRenderer from '../../Annotations/AnnotationRenderer';
+import AnnotationRenderer from '../Annotations/AnnotationRenderer';
 import MarkWaves from '../Marking/MarkWaves';
 import Wave from '../Wave';
 import TimeGrid from '../Grid/TimeGrid';
