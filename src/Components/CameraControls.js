@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { extend, useFrame, useThree } from 'react-three-fiber';
 import * as THREE from 'three';
 import { useCameraStore, useModeStore } from '../Store';
-import { OrbitControls } from '../utils/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 extend({ OrbitControls });
 const MAX_DISTANCE = 1000;
@@ -99,6 +99,7 @@ const CameraControls = () => {
     orbitRef.current.update();
   });
 
+  // Convert zoom value to distance between camera and target
   const persZoomToDistance = (zoom) => {
     return (
       MIN_DISTANCE *
@@ -106,6 +107,7 @@ const CameraControls = () => {
     );
   };
 
+  // Convert distance between camera and target to zoom value
   const persDistanceToZoom = (initial, current) => {
     return (
       (80 * Math.log((2 / initial) * current)) /
@@ -113,6 +115,7 @@ const CameraControls = () => {
     );
   };
 
+  // Convert to zoom value used in orthographic camera
   const orthoZoomToDistance = (zoom) => {
     return 30 * Math.exp((Math.log(100 / 10) / 80) * -zoom);
   };
@@ -132,7 +135,6 @@ const CameraControls = () => {
       minAzimuthAngle={-Math.PI / 2}
       maxAzimuthAngle={Math.PI / 2}
       enableRotate={!markMode}
-      // enabled={!markMode}
     />
   );
 };

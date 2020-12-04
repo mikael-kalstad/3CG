@@ -54,6 +54,7 @@ export const useModeStore = create((set) => ({
   toggleGridMode: () => set((state) => ({ gridMode: !state.gridMode })),
 }));
 
+//Store for handling states used for inspecting a channel
 export const useInspectStore = create((set) => ({
   inspected: -1,
   setInspected: (channel) => set((state) => (state.inspected = channel)),
@@ -104,6 +105,7 @@ export const useTimeStore = createWithLocalStorage('timeStore', (set) => ({
   setSpeed: (newSpeed) => set(() => ({ speed: newSpeed })),
 }));
 
+// Store for annotations and filtering them
 export const useAnnotationStore = create((set) => ({
   annotations: initialAnnotationData,
   addAnnotation: (newAnnotation) =>
@@ -111,8 +113,6 @@ export const useAnnotationStore = create((set) => ({
       annotations: state.annotations.concat([newAnnotation]),
       activeAnnotations: state.activeAnnotations.concat([true]),
     })),
-  editAnnotation: (i, edited) =>
-    set((state) => (state.annotations[i] = edited)),
   activeAnnotations: initialAnnotationData.map(() => true),
   toggleAnnotation: (index) =>
     set((state) => ({
@@ -147,6 +147,7 @@ export const useAnnotationStore = create((set) => ({
     })),
 }));
 
+// Store for camera options
 export const useCameraStore = createWithLocalStorage('cameraStore', (set) => ({
   zoomValue: 35,
   setZoomValue: (newValue) => set(() => ({ zoomValue: newValue })),
@@ -154,6 +155,7 @@ export const useCameraStore = createWithLocalStorage('cameraStore', (set) => ({
   setFov: (newValue) => set(() => ({ fov: newValue })),
 }));
 
+// Store for all values used to scale the rendered data
 export const useScaleStore = createWithLocalStorage('scaleStore', (set) => ({
   scale: 0.4,
   setScale: (scale) => set((state) => ({ scale: scale })),
@@ -165,6 +167,7 @@ export const useScaleStore = createWithLocalStorage('scaleStore', (set) => ({
     set(() => ({ vChannelScaleFactor: newScale })),
 }));
 
+// Store for handling options for how timeline is rendered
 export const useTimelineOptionsStore = createWithLocalStorage(
   'timelineOptionsStore',
   (set) => ({
@@ -180,28 +183,12 @@ export const useTimelineOptionsStore = createWithLocalStorage(
   })
 );
 
+// Store for handling all options to displaying different types of visualizations
 export const useRenderTypeStore = createWithLocalStorage(
   'renderTypeStore',
   (set) => ({
     activeRenders: ['Ecg'],
     renderNames: ['Ecg', 'Vcg', 'Circle'],
-    toggleActiveRenders: (index) =>
-      set((state) => ({
-        activeRenders: state.activeRenders.map((a, i) =>
-          i === index ? !a : a
-        ),
-      })),
-    reorderRenders: (sourceIndex, newIndex) => {
-      set((state) => ({
-        activeRenders: state.activeRenders.map((a, i) =>
-          i === sourceIndex
-            ? state.activeRenders[newIndex]
-            : i === newIndex
-            ? state.activeRender[sourceIndex]
-            : a
-        ),
-      }));
-    },
     editRender: (newRender, index) =>
       set((state) => (state.activeRenders[index] = newRender)),
     addActiveRender: (newRender) =>
@@ -226,6 +213,7 @@ export const useRenderTypeStore = createWithLocalStorage(
   })
 );
 
+// Store for handling states when hovering inspected wave
 export const useMousePositionStore = create((set) => ({
   xPos: 0,
   setxPos: (x) => set(() => ({ xPos: x })),
@@ -233,6 +221,7 @@ export const useMousePositionStore = create((set) => ({
   setyPos: (y) => set(() => ({ yPos: y })),
 }));
 
+// Store for handling states when user is marking waves
 export const useMarkStore = create((set) => ({
   startSelected: -1,
   setStartSelected: (start) => set(() => ({ startSelected: start })),
@@ -243,6 +232,7 @@ export const useMarkStore = create((set) => ({
   setMarkingFinished: (newState) => set(() => ({ markingFinished: newState })),
 }));
 
+//Store for handling message popups
 export const useSnackbarStore = createWithLocalStorage(
   'snackbarStore',
   (set) => ({
@@ -254,20 +244,14 @@ export const useSnackbarStore = createWithLocalStorage(
   })
 );
 
+// Store for handling upload of ECG-data
 export const useUploadStore = create((set) => ({
-  userAnnotationsUploaded: false,
-  setUserAnnotationsUploaded: (newUserAnnotationsUploaded) =>
-    set(() => ({ userAnnotationsUploaded: newUserAnnotationsUploaded })),
-  aiAnnotationsUploaded: false,
-  setAiAnnotationsUploaded: (newAiAnnotationsUploaded) =>
-    set(() => ({ aiAnnotationsUploaded: newAiAnnotationsUploaded })),
   userUploadedECGFile: 0,
   incrementUserUploadedECGFile: () =>
     set((state) => ({ userUploadedECGFile: state.userUploadedECGFile + 1 })),
-  setUserUploadedECGFile: (newUserUploadedECGFile) =>
-    set(() => ({ userUploadedECGFile: newUserUploadedECGFile })),
 }));
 
+// Store for handling colors used in visualizations
 export const useColorOptionsStore = createWithLocalStorage(
   'colorOptionsStore',
   (set) => ({

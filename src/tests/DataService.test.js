@@ -21,9 +21,12 @@ let testObject = {
 };
 let s = new DataService(testObject);
 
-test('get methods', () => {
+test('Test get methods', () => {
   expect(s.getDuration()).toBe(1.5);
   expect(s.getSampleLength()).toBe(3);
+  expect(s.getSampleLength()).toBe(
+    Number.parseInt(s.getDuration() * s.getSampleRate())
+  );
   expect(s.getRecID()).toEqual('TEST-ID');
   expect(s.getSampleRate()).toBe(2);
   expect(s.getChannelNamesArray()).toHaveLength(12);
@@ -32,4 +35,22 @@ test('get methods', () => {
   expect(s.getSamplesByChannel('II')).toContain(-0.032);
   expect(s.getSamplesByChannel('II')).toContain(0.029);
   expect(s.getSamplesByChannel('II')).toContain(0.036);
+});
+
+test('Test formatting of data to points', () => {
+  let points = s.formatDataToPoints();
+  expect(points).toHaveLength(s.getChannelNamesArray().length);
+  points.forEach((e) => {
+    expect(e).toHaveLength(3);
+    expect(e).toHaveLength(
+      Number.parseInt(s.getDuration() * s.getSampleRate())
+    );
+  });
+  let arbChannel = points[3];
+  expect(arbChannel[0][0]).toBe(0);
+  expect(arbChannel[1][0]).toBe(1);
+  expect(arbChannel[2][0]).toBe(2);
+  expect(arbChannel[0][1]).toBe(0.058);
+  expect(arbChannel[1][1]).toBe(0.033);
+  expect(arbChannel[2][1]).toBe(-0.021);
 });

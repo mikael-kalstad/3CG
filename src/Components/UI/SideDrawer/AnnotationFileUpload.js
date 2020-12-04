@@ -34,18 +34,6 @@ const AnnotationFileUpload = (props) => {
     state.addAnnotation,
   ]);
 
-  const [
-    userAnnotationsUploaded,
-    setUserAnnotationsUploaded,
-    aiAnnotationsUploaded,
-    setAiAnnotationsUploaded,
-  ] = useUploadStore((state) => [
-    state.userAnnotationsUploaded,
-    state.setUserAnnotationsUploaded,
-    state.aiAnnotationsUploaded,
-    state.setAiAnnotationsUploaded,
-  ]);
-
   const [showDialog, setShowDialog] = useState(false);
   const toggleDialog = () => setShowDialog((state) => !state);
   // 0 = User annotation, 1 = AI annotation
@@ -114,7 +102,6 @@ const AnnotationFileUpload = (props) => {
         for (let i = 0; i < uploadedAnnotations.length; i++) {
           addAnnotation(uploadedAnnotations[i]);
         }
-        setUserAnnotationsUploaded(true);
       } else {
         alert('This file is not supported');
       }
@@ -143,7 +130,6 @@ const AnnotationFileUpload = (props) => {
         for (let i = 0; i < uploadedAnnotations.length; i++) {
           addAnnotation(uploadedAnnotations[i]);
         }
-        setAiAnnotationsUploaded(true);
       } else {
         alert('This file is not supported');
       }
@@ -206,7 +192,6 @@ const AnnotationFileUpload = (props) => {
         type='file'
         id='user-annotation-upload-uploadButton'
         onChange={handleUserAnnotationUpload}
-        // disabled={userAnnotationsUploaded}
       />
       <label htmlFor='user-annotation-upload-uploadButton'>
         <Button
@@ -234,7 +219,6 @@ const AnnotationFileUpload = (props) => {
         type='file'
         id='ai-annotation-upload-uploadButton'
         onChange={handleAiAnnotationUpload}
-        // disabled={aiAnnotationsUploaded}
       />
       <label htmlFor='ai-annotation-upload-uploadButton'>
         <Button

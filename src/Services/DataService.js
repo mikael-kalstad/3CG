@@ -39,6 +39,7 @@ export class DataService {
     return this.json.samples[channel];
   }
 
+  // Formats data to array with shape (channels X samplelength X dimensions), normally 12 x samplelength x 3
   formatDataToPoints = () => {
     let points = [];
 

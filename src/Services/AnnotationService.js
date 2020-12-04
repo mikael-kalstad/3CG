@@ -19,7 +19,7 @@ export class AnnotationService {
       }
       let newObj = {
         start,
-        end: start + obj.duration,
+        end: start + Math.abs(obj.duration),
         data,
         ai: isAI,
       };
