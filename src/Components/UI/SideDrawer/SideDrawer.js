@@ -12,7 +12,6 @@ import MenuBtn from '../Buttons/MenuBtn';
 import AnnotationMenu from './AnnotationMenu';
 import ChannelList from './ChannelList';
 import ColorOptions from './ColorOptions';
-import FileUpload from './FileUpload';
 import GeneralOptions from './GeneralOptions';
 import RenderTypeOptions from './RenderTypeOptions';
 import TimeLineOptions from './TimeLineOptions';

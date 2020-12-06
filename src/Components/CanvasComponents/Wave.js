@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useUpdate, useFrame } from 'react-three-fiber';
 import {
@@ -116,14 +116,16 @@ const Wave = (props) => {
 
     updateColors(ref.current, startTimeRef.current, endTimeRef.current);
 
+    // Reposition wave
     meshRef.current.position.set(-startTimeRef.current * sampleRate, 0, 0);
   });
 
   useEffect(() => {
+    // Set raycast plane for inspection of values when inspected
     if (isInspected()) {
       hoverPlaneRef.current.scale.x =
         (endTimeRef.current - startTimeRef.current) * sampleRate * scale;
-      hoverPlaneRef.current.scale.y = 200;
+      hoverPlaneRef.current.scale.y = 350;
 
       hoverPlaneRef.current.position.x =
         (endTimeRef.current - startTimeRef.current) * sampleRate * scale * 0.5;
@@ -134,6 +136,7 @@ const Wave = (props) => {
     return props.index === inspected;
   };
 
+  // Inspects current wave and filters out all other channels
   const inspectChannel = (channelIndex) => {
     setActiveChannelsPlaceholder(activeChannels);
     setInspected(channelIndex);

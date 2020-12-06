@@ -19,15 +19,6 @@ const Wrapper = styled.div`
   grid-gap: 0px;
 `;
 
-const Text = styled.div`
-  align-self: center;
-  text-align: center;
-  font-size: 15px;
-  color: grey;
-  margin: 0;
-  padding: 0;
-`;
-
 const Grid = styled.div`
   display: grid;
   grid-auto-flow: column;
