@@ -74,24 +74,27 @@ export const getTransitionColorData = (data, offset) => {
   for (let i = 0; i < data.length; i++) {
     // Index that will divide data set into equal parts to make colors equally distanced between points
     let x = parseInt(i / (data.length / colors.length));
-
-    // Last color in list should look backward not forward for transition!
-    if (x === colors.length - 1)
+    if (colors.length > 1) {
+      // Last color in list should look backward not forward for transition!
+      if (x === colors.length - 1)
+        arr.push(colors[x][0], colors[x][1], colors[x][2]);
+      // Add colors with a transition between the current and next color in list.
+      // Note that there is three color points for R,G and B values
+      else
+        arr.push(
+          colors[x][0] +
+            (colors[x + 1][0] - colors[x][0]) *
+              (i / (x + 1) / (data.length / colors.length)),
+          colors[x][1] +
+            (colors[x + 1][1] - colors[x][1]) *
+              (i / (x + 1) / (data.length / colors.length)),
+          colors[x][2] +
+            (colors[x + 1][2] - colors[x][2]) *
+              (i / (x + 1) / (data.length / colors.length))
+        );
+    } else {
       arr.push(colors[x][0], colors[x][1], colors[x][2]);
-    // Add colors with a transition between the current and next color in list.
-    // Note that there is three color points for R,G and B values
-    else
-      arr.push(
-        colors[x][0] +
-          (colors[x + 1][0] - colors[x][0]) *
-            (i / (x + 1) / (data.length / colors.length)),
-        colors[x][1] +
-          (colors[x + 1][1] - colors[x][1]) *
-            (i / (x + 1) / (data.length / colors.length)),
-        colors[x][2] +
-          (colors[x + 1][2] - colors[x][2]) *
-            (i / (x + 1) / (data.length / colors.length))
-      );
+    }
   }
 
   // 3D-points uses Float32Array to add colors to geometry

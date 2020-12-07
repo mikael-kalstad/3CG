@@ -52,7 +52,7 @@ const ColorPicker = (props) => {
     if (checkInput()) {
       props.index
         ? props.onChange(tempColor, props.index)
-        : props.onChange(tempColor);
+        : props.onChange(tempColor, props.index);
     }
   };
 
@@ -82,8 +82,7 @@ const ColorPicker = (props) => {
       // Set color in store
       props.index
         ? props.onChange(tempColor, props.index)
-        : props.onChange(tempColor);
-
+        : props.onChange(tempColor, props.index);
       // Hide color picker
       togglePicker();
     }

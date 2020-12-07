@@ -80,10 +80,11 @@ const ChannelList = () => {
   const classes = useStyles();
 
   const inspectChannel = (channelIndex) => {
-    setActiveChannelsPlaceholder(activeChannels);
-    setInspected(channelIndex);
+    setActiveChannelsPlaceholder(activeChannels); // Saves current active channels
+    setInspected(channelIndex); // Inspect channel
     let newActiveChannels = [];
     for (let i = 0; i < activeChannels.length; i++) {
+      // Only inspected channel is active
       newActiveChannels.push(i === channelIndex);
     }
     setActiveChannels(newActiveChannels);

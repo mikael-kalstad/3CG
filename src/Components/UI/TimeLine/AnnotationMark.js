@@ -51,10 +51,12 @@ const AnnotationMark = (props) => {
     state.showFullAnnotation,
   ]);
 
+  // Sets anchor of popper
   const handlePointerOver = (event) => {
     setAnchor(anchor ? null : event.currentTarget);
   };
 
+  // Unsets anchor of popper
   const handlePointerOut = (event) => {
     setAnchor(null);
   };

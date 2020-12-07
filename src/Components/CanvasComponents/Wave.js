@@ -108,7 +108,7 @@ const Wave = (props) => {
       setStartTime(startTimeRef.current + speed * (60 * delta));
       setEndTime(endTimeRef.current + speed * (60 * delta));
     }
-
+    // Update drawrange of wave
     ref.current.setDrawRange(
       startTimeRef.current * sampleRate,
       (endTimeRef.current - startTimeRef.current) * sampleRate
@@ -138,10 +138,11 @@ const Wave = (props) => {
 
   // Inspects current wave and filters out all other channels
   const inspectChannel = (channelIndex) => {
-    setActiveChannelsPlaceholder(activeChannels);
+    setActiveChannelsPlaceholder(activeChannels); // Save active channels
     setInspected(channelIndex);
     let newActiveChannels = [];
     for (let i = 0; i < activeChannels.length; i++) {
+      // Only inspected channel should be active
       newActiveChannels.push(i === channelIndex ? true : false);
     }
     setActiveChannels(newActiveChannels);

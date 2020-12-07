@@ -32,6 +32,7 @@ const ECGFileUpload = () => {
   const classes = useStyles();
 
   const validateJSONFormat = (json) => {
+    // Check for properties
     if (
       !json.hasOwnProperty('rec_id') ||
       !json.hasOwnProperty('sample_rate') ||
@@ -40,6 +41,7 @@ const ECGFileUpload = () => {
     ) {
       return false;
     }
+    // Check type of properties
     if (
       typeof json.rec_id !== 'string' ||
       typeof json.sample_rate !== 'number' ||
@@ -59,6 +61,7 @@ const ECGFileUpload = () => {
   const handleClick = () => {
     toggleDialog();
     let reader = new FileReader();
+    // After file has been read
     reader.onloadend = () => {
       let json;
       try {
@@ -72,6 +75,7 @@ const ECGFileUpload = () => {
         alert('This file is not supported');
       }
     };
+    // Read current file
     if (file) reader.readAsText(file);
   };
 

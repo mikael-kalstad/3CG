@@ -273,7 +273,9 @@ export const useColorOptionsStore = createWithLocalStorage(
       set(() => ({ activeWaveColorType: newActive })),
     colors: ['#FF0000', '#E2E412', '#35E627', '#00D8FF', '#D500FF'],
     changeColor: (newColor, index) =>
-      set((state) => (state.colors[index] = newColor)),
+      set((state) => ({
+        colors: state.colors.map((e, i) => (i === index ? newColor : e)),
+      })),
     addColor: (newColor) => set((state) => state.colors.push(newColor)),
     removeColor: (index) => set((state) => state.colors.splice(index, 1)),
     background: '#324444',

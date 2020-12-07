@@ -26,6 +26,7 @@ const Annotation = (props) => {
   if (groupingColor) groupingColor = formatHexColor(groupingColor);
 
   useEffect(() => {
+    // Set initial values
     const onMount = () => {
       planeMesh.current.rotateX(-Math.PI / 2);
       planeMesh.current.scale.set(width * scale, 150, 0.1);

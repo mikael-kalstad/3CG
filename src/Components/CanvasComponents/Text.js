@@ -39,7 +39,7 @@ const Text = (props) => {
       textMesh.current.geometry.computeBoundingBox();
 
       if (props.background) {
-        // Configure background
+        // Configure background of text
         planeMesh.current.material.opacity = props.backgroundOpacity;
         planeMesh.current.material.color.setHex(props.backgroundColor);
         let bound = [
@@ -118,6 +118,7 @@ const Text = (props) => {
     textMesh.current.geometry = geometry;
     textMesh.current.geometry.computeBoundingBox();
     let boundingBox = textMesh.current.geometry.boundingBox.max;
+    // Position text in middle of background
     textMesh.current.geometry.translate(
       -boundingBox.x / 2,
       -boundingBox.y / 2,
@@ -125,6 +126,7 @@ const Text = (props) => {
     );
   }, [maxRepeats, props.children]);
 
+  // Apply clickevent and hovereffect if available
   const handlePointerOver = (e) => {
     e.stopPropagation();
     if (props.onClick) document.body.style.cursor = 'pointer';
@@ -132,12 +134,14 @@ const Text = (props) => {
       planeMesh.current.material.color.setHex(props.hoverBackgroundColor);
   };
 
+  // Revert when mouse exits
   const handlePointerOut = () => {
     if (props.onClick) document.body.style.cursor = 'default';
     if (props.hoverEffect)
       planeMesh.current.material.color.setHex(initialBackgroundColor);
   };
 
+  // Ensures mouse is pointer if it exits one object behind one that is currently hovered
   const handlePointerMove = (e) => {
     e.stopPropagation();
     if (props.onClick) document.body.style.cursor = 'pointer';
@@ -145,7 +149,7 @@ const Text = (props) => {
 
   useFrame(() => {
     if (props.rotateToCamera) {
-      group.current.setRotationFromEuler(camera.rotation);
+      group.current.setRotationFromEuler(camera.rotation); // Rotate to camera
     }
   });
 

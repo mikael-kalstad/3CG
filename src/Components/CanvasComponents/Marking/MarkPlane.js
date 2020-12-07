@@ -10,11 +10,11 @@ const MarkPlane = (props) => {
     mesh.current.scale.set(props.width, 0.1, 3 * 115);
     mesh.current.position.x = props.middlePoint;
     mesh.current.position.y = -0.2;
-    // mesh.current.material.color.setHex(0xff0000);
   }, [props.middlePoint, props.width]);
 
   const onPointerDown = (event) => {
     if (event.button == 0) {
+      // Left mouse button
       props.updateXStart(event.point.x);
       setPressing(true);
       useMarkStore.setState({ markingFinished: false });
@@ -40,6 +40,7 @@ const MarkPlane = (props) => {
 
   const onPointerUp = (event) => {
     if (event.button == 0) {
+      // Left mouse button
       finishMarking();
     }
   };
@@ -48,6 +49,7 @@ const MarkPlane = (props) => {
     props.updateXEnd(event.point.x);
   };
 
+  // If mouse leaves markplane
   const onPointerOut = () => {
     if (pressing) {
       finishMarking();

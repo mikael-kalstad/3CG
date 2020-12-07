@@ -27,20 +27,21 @@ const AnnotationRenderer = (props) => {
     let levelsArr = new Array(annotations.length).fill(0);
     for (let k = 0; k < 8; k++) {
       let changed = false;
+      // Iterate over every relation between annotations
       for (let i = 0; i < annotations.length - 1; i++) {
         for (let j = i + 1; j < annotations.length; j++) {
           if (
-            levelsArr[i] === k &&
-            levelsArr[j] === k &&
-            levelsArr[i] === levelsArr[j] &&
+            levelsArr[i] === k && // Not changed in current iteration
+            levelsArr[j] === k && // Not changed in current iteration
+            levelsArr[i] === levelsArr[j] && // Both at same level
             activeAnnotations[i] &&
-            activeAnnotations[j]
+            activeAnnotations[j] // Both active
           ) {
             let anni = annotations[i];
             let annj = annotations[j];
             let overlap = annj.start <= anni.end && anni.start <= annj.end;
             if (overlap) {
-              levelsArr[j] += 1;
+              levelsArr[j] += 1; // Push one annotation up
               changed = true;
             }
           }
@@ -78,8 +79,6 @@ const AnnotationRenderer = (props) => {
             </React.Fragment>
           )
       )}
-      {/* <planeHelper plane={startPlane} size={20} />
-      <planeHelper plane={endPlane} size={20} /> */}
     </>
   );
 };

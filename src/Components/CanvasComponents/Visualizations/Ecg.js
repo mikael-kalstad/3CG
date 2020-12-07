@@ -33,7 +33,7 @@ const Ecg = () => {
                     position={[
                       0,
                       0,
-                      -i * 10 + (10 * (channelNames.length - 1)) / 2,
+                      -i * 10 + (10 * (channelNames.length - 1)) / 2, // Create spacing between waves
                     ]}
                     data={channel}
                     channelName={channelNames[i]}
@@ -42,8 +42,6 @@ const Ecg = () => {
                 </React.Fragment>
               )
           )}
-
-        {/* <Vcg data={renderPoints} /> */}
       </mesh>
 
       <MarkWaves

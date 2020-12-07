@@ -9,9 +9,8 @@ import {
 import MarkPlane from './MarkPlane';
 import SelectedPlane from './SelectedPlane';
 
-const sampleRate = dataService.getSampleRate();
-
 const MarkWaves = (props) => {
+  const sampleRate = dataService.getSampleRate();
   const [
     startSelected,
     setStartSelected,
@@ -28,16 +27,19 @@ const MarkWaves = (props) => {
   const endTime = useTimeStore((state) => state.endTime);
   const scale = useScaleStore((state) => state.scale);
 
+  // Update selected starttime (When mouse is pressed on plane)
   const updateXStart = (xStartPos) => {
     let xStartTime = startTime + xStartPos / (sampleRate * scale); // Converting to time
     setStartSelected(xStartTime);
     setEndSelected(xStartTime);
   };
 
+  // Update selected endtime (When mouse is dragged)
   const updateXEnd = (xEndPos) => {
     let xEndTime = startTime + xEndPos / (sampleRate * scale); // Converting to time
     setEndSelected(xEndTime);
   };
+  // Calculate width and position of plane used for marking
   let markPlaneWidth = (endTime - startTime) * sampleRate * scale;
   let middlePoint = markPlaneWidth / 2;
   return (
