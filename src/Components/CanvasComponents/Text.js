@@ -149,7 +149,7 @@ const Text = (props) => {
 
   useFrame(() => {
     if (props.rotateToCamera) {
-      group.current.setRotationFromEuler(camera.rotation); // Rotate to camera
+      group.current.setRotationFromEuler(camera.rotation); // Rotate to face camera
     }
   });
 

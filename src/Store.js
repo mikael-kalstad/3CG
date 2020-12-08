@@ -276,8 +276,10 @@ export const useColorOptionsStore = createWithLocalStorage(
       set((state) => ({
         colors: state.colors.map((e, i) => (i === index ? newColor : e)),
       })),
-    addColor: (newColor) => set((state) => state.colors.push(newColor)),
-    removeColor: (index) => set((state) => state.colors.splice(index, 1)),
+    addColor: (newColor) =>
+      set((state) => ({ colors: state.colors.concat([newColor]) })),
+    removeColor: (index) =>
+      set((state) => ({ colors: state.colors.filter((e, i) => i !== index) })),
     background: '#324444',
     setBackground: (newColor) => set(() => ({ background: newColor })),
   })

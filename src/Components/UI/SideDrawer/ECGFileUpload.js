@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { dataService } from '../../../Services/DataService';
-import { useUploadStore, useAnnotationStore } from '../../../Store';
+import {
+  useUploadStore,
+  useAnnotationStore,
+  useMarkStore,
+} from '../../../Store';
 import Button from '@material-ui/core/Button';
 import PublishIcon from '@material-ui/icons/Publish';
 import { makeStyles } from '@material-ui/core/styles';
@@ -69,8 +73,12 @@ const ECGFileUpload = () => {
       } catch (e) {}
       if (validateJSONFormat(json)) {
         dataService.setJSON(json);
+        // Reset some stores
         useUploadStore.getState().incrementUserUploadedECGFile();
         useAnnotationStore.getState().deleteAllAnnotations();
+        useMarkStore.getState().setMarkingFinished(false);
+        useMarkStore.getState().setStartSelected(-1);
+        useMarkStore.getState().setEndSelected(-1);
       } else {
         alert('This file is not supported');
       }

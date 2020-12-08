@@ -1,10 +1,14 @@
 import { matrix, multiply } from 'mathjs';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useUpdate, useFrame } from 'react-three-fiber';
 import * as THREE from 'three';
 import { dataService } from '../../../Services/DataService';
 import { getTransitionColorData } from '../../../Scripts/Color';
-import { useTimeStore, useRenderTypeStore } from '../../../Store';
+import {
+  useTimeStore,
+  useRenderTypeStore,
+  useColorOptionsStore,
+} from '../../../Store';
 
 const sampleRate = dataService.getSampleRate();
 
@@ -16,8 +20,10 @@ const Vcg = () => {
   const endTimeRef = useRef(useTimeStore.getState().endTime);
 
   const vcgMethod = useRenderTypeStore((state) => state.vcgMethod);
+  const colors = useColorOptionsStore((state) => state.colors);
 
   const dowersTransform = () => {
+    let values = dataService.getSamples();
     // Transform methods for 12-lead ecg to vcg
     let transformMethods = [
       // Dowers inverse matrix
@@ -55,10 +61,12 @@ const Vcg = () => {
       values['II'],
     ]);
 
+    // Perform transformation
     let transformed = multiply(invD, matrixA);
 
     let output = [];
 
+    // Extract points from matrix
     for (let i = 0; i < transformed._data[0].length; i++) {
       output.push([
         transformed._data[0][i],
@@ -69,8 +77,7 @@ const Vcg = () => {
     return output;
   };
 
-  let values = dataService.getSamples();
-  let vcgPoints = dowersTransform(values);
+  let vcgPoints = dowersTransform();
 
   // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
   useEffect(() => {
@@ -85,9 +92,24 @@ const Vcg = () => {
     );
   }, []);
 
+  // When VCG-method is changed
   useEffect(() => {
-    vcgPoints = dowersTransform(values);
-  }, [vcgMethod, dowersTransform]);
+    vcgPoints = dowersTransform();
+    ref.current.setFromPoints(
+      vcgPoints.map((p, i) => {
+        return new THREE.Vector3(p[0], p[1], p[2]);
+      })
+    );
+  }, [vcgMethod]);
+
+  useEffect(() => {
+    updateColors(
+      ref.current,
+      startTimeRef.current,
+      endTimeRef.current,
+      vcgPoints
+    );
+  }, [colors]);
 
   let previousStartTime = startTimeRef.current;
   let previousEndTime = endTimeRef.current;

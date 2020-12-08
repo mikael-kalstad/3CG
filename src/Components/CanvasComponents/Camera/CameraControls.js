@@ -39,6 +39,7 @@ const CameraControls = () => {
     );
   }, [vec]);
 
+  // Initial values and computation of vector between camera and target
   const onMount = () => {
     computeVec();
     setInitialDistance(vec.length());
@@ -63,6 +64,7 @@ const CameraControls = () => {
           orbitRef.current.target.y,
           orbitRef.current.target.z
         );
+        // Calculate position of camera based on new zoom
         vec.normalize();
         vec.negate();
         vec.multiplyScalar(persZoomToDistance(zoomValue));
