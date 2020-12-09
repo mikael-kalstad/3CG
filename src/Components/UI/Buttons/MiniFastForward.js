@@ -8,6 +8,7 @@ import {
   useSnackbarStore,
 } from '../../../Store';
 import SnackbarPopup from '../Snackbars/SnackbarPopup';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const ButtonStyle = {
   color: '#E8E8E8',
@@ -64,14 +65,19 @@ const MiniFastForwardBtn = (props) => {
 
   return (
     <>
-      <IconButton
-        aria-label='Play'
-        style={ButtonStyle}
-        onClick={handleClick}
-        disabled={markMode}
+      <Tooltip
+        title={props.forward ? 'Speed forward' : 'Speed backward'}
+        placement='top'
       >
-        <DoubleArrowIcon style={ICON_STYLE} />
-      </IconButton>
+        <IconButton
+          aria-label='Play'
+          style={ButtonStyle}
+          onClick={handleClick}
+          disabled={markMode}
+        >
+          <DoubleArrowIcon style={ICON_STYLE} />
+        </IconButton>
+      </Tooltip>
     </>
   );
 };

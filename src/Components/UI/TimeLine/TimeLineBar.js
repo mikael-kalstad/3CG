@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import MiniPlayBtn from "../Buttons/MiniPlayBtn";
-import MiniSKipBtn from "../Buttons/MiniSkipBtn";
-import MiniFastForwardBtn from "../Buttons/MiniFastForward";
+import React from 'react';
+import styled from 'styled-components';
+import MiniPlayBtn from '../Buttons/MiniPlayBtn';
+import MiniSKipBtn from '../Buttons/MiniSkipBtn';
+import MiniFastForwardBtn from '../Buttons/MiniFastForward';
 
 const Container = styled.div`
   position: absolute;
@@ -12,7 +12,7 @@ const Container = styled.div`
   border-radius: 5px 5px 0 0;
   background: #333;
   border-bottom: ${(props) =>
-    !props.showTotalTime && "1px solid rgba(255,255,255,0.4)"};
+    !props.showTotalTime && '1px solid rgba(255,255,255,0.4)'};
 `;
 
 const ControlsWrapper = styled.div`

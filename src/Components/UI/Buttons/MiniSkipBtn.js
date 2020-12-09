@@ -4,6 +4,7 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import { useModeStore, useTimeStore } from '../../../Store';
 import { dataService } from '../../../Services/DataService';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const DURATION = dataService.getDuration();
 
@@ -56,23 +57,41 @@ const MiniSkipBtn = (props) => {
 
   const ICON_STYLE = { fontSize: props.iconSize || ICON_SIZE };
 
-  return (
-    <IconButton
-      aria-label='skip'
-      style={ButtonStyle}
-      onClick={() => handleClick()}
-      disabled={
-        markMode || props.forward
-          ? endTimeRef.current + SKIP + 0.05 > DURATION
-          : startTimeRef.current + 0.05 < SKIP
+  const getText = () => {
+    if (props.forward) {
+      if (endTimeRef.current + SKIP + 0.05 > DURATION) {
+        return '';
+      } else {
+        return 'Skip forward';
       }
-    >
-      {props.forward ? (
-        <SkipNextIcon style={ICON_STYLE} />
-      ) : (
-        <SkipPreviousIcon style={ICON_STYLE} />
-      )}
-    </IconButton>
+    } else {
+      if (startTimeRef.current + 0.05 < SKIP) {
+        return '';
+      } else {
+        return 'Skip backward';
+      }
+    }
+  };
+
+  return (
+    <Tooltip title={getText()} placement='top'>
+      <IconButton
+        aria-label='skip'
+        style={ButtonStyle}
+        onClick={() => handleClick()}
+        disabled={
+          markMode || props.forward
+            ? endTimeRef.current + SKIP + 0.05 > DURATION
+            : startTimeRef.current + 0.05 < SKIP
+        }
+      >
+        {props.forward ? (
+          <SkipNextIcon style={ICON_STYLE} />
+        ) : (
+          <SkipPreviousIcon style={ICON_STYLE} />
+        )}
+      </IconButton>
+    </Tooltip>
   );
 };
 

@@ -3,6 +3,7 @@ import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import React from 'react';
 import { useModeStore } from '../../../Store';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const ButtonStyle = {
   fontSize: 12,
@@ -18,18 +19,20 @@ const MiniPlayBtn = (props) => {
   const markMode = useModeStore((state) => state.markMode);
 
   return (
-    <IconButton
-      aria-label='Play'
-      style={ButtonStyle}
-      onClick={() => togglePlayMode()}
-      disabled={markMode}
-    >
-      {playMode ? (
-        <PauseIcon style={{ fontSize: props.iconSize || ICON_SIZE }} />
-      ) : (
-        <PlayArrowIcon style={{ fontSize: props.iconSize || ICON_SIZE }} />
-      )}
-    </IconButton>
+    <Tooltip title={playMode ? 'Pause' : 'Play'} placement='top'>
+      <IconButton
+        aria-label='Play'
+        style={ButtonStyle}
+        onClick={() => togglePlayMode()}
+        disabled={markMode}
+      >
+        {playMode ? (
+          <PauseIcon style={{ fontSize: props.iconSize || ICON_SIZE }} />
+        ) : (
+          <PlayArrowIcon style={{ fontSize: props.iconSize || ICON_SIZE }} />
+        )}
+      </IconButton>
+    </Tooltip>
   );
 };
 
