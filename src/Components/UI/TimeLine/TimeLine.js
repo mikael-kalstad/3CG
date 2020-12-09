@@ -184,6 +184,22 @@ const TimeLine = (props) => {
     zIndex: 99,
   };
 
+  // Use arrow keys to drag timeline
+  const handleFocusedKeyPress = (e) => {
+    if (e.keyCode == 39) {
+      if (endTimeRef.current < dataService.getDuration() - 0.02) {
+        setEndTime(endTimeRef.current + 0.02);
+        setStartTime(startTimeRef.current + 0.02);
+      }
+    }
+    if (e.keyCode == 37) {
+      if (startTimeRef.current > 0.02) {
+        setEndTime(endTimeRef.current - 0.02);
+        setStartTime(startTimeRef.current - 0.02);
+      }
+    }
+  };
+
   return (
     <Container
       ref={containerRef}
@@ -218,6 +234,7 @@ const TimeLine = (props) => {
       )}
 
       <Rnd
+        tabindex={100}
         ref={rndRef}
         bounds='parent'
         style={style}
@@ -240,6 +257,7 @@ const TimeLine = (props) => {
         onDragStop={toggleMiddlePopper}
         minWidth={50}
         position={{ x: startTimeRef.current / ratio, y: 0 }}
+        onKeyDown={handleFocusedKeyPress}
       />
 
       {useTimeLineOptionsStore.showTimeOnDrag && (
