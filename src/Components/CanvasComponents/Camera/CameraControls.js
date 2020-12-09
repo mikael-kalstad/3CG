@@ -29,7 +29,7 @@ const CameraControls = () => {
 
   // Variables for limiting camera rotation and movement
   let minPan = new THREE.Vector3(-1000, -1000, -55);
-  let maxPan = new THREE.Vector3(10000, 1000, 1000);
+  let maxPan = new THREE.Vector3(100000, 1000, 1000);
 
   const computeVec = useCallback(() => {
     vec.set(
@@ -69,15 +69,17 @@ const CameraControls = () => {
         vec.negate();
         vec.multiplyScalar(persZoomToDistance(zoomValue));
         camPos.add(vec);
-
+        // Update position of camera
         orbitRef.current.object.position.set(camPos.x, camPos.y, camPos.z);
       }
       if (ortoMode) {
+        // Calculate zoom for orthocamera
         orbitRef.current.object.zoom = orthoZoomToDistance(zoomValue);
         orbitRef.current.object.updateProjectionMatrix();
       }
       lastZoomValue = zoomValue;
     }
+    // If zoom by scrollbar is big enough, update state
     if (
       Math.abs(
         orbitRef.current.target
@@ -97,6 +99,7 @@ const CameraControls = () => {
         setZoomValue(lastZoomValue);
       }
     }
+    // Restrict camera movement
     orbitRef.current.target.clamp(minPan, maxPan);
     orbitRef.current.update();
   });

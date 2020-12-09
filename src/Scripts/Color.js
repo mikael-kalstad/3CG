@@ -211,17 +211,38 @@ export const getHeatColorData = (data, offset) => {
   for (let i = 0; i < data.length; i++) {
     values.push(data[i][1]);
   }
+  let colors = [];
+
+  // Get colors from global store
+  let hexColor = useColorOptionsStore.getState().colors;
+  //
+
+  // Add all hex colors to arr after converting it to rgb (0-1)
+  hexColor.forEach((h) => colors.push(hexToRgbDecimal(h)));
 
   let maxValue = Math.max(...values);
   let minValue = Math.min(...values);
   let range = Math.abs(maxValue) + Math.abs(minValue);
-  for (let i = 0; i < data.length; i++) {
-    let ratio = (data[i][1] + Math.abs(minValue)) / range;
-    arr.push(
-      yellow[0] + (red[0] - yellow[0]) * ratio,
-      yellow[1] + (red[1] - yellow[1]) * ratio,
-      yellow[2] + (red[2] - yellow[2]) * ratio
-    );
+  if (colors.length < 2) {
+    // Not enough colors for heat
+    for (let i = 0; i < data.length; i++) {
+      let ratio = (data[i][1] + Math.abs(minValue)) / range;
+      arr.push(
+        yellow[0] + (red[0] - yellow[0]) * ratio,
+        yellow[1] + (red[1] - yellow[1]) * ratio,
+        yellow[2] + (red[2] - yellow[2]) * ratio
+      );
+    }
+  } else {
+    // Enough colors for heat
+    for (let i = 0; i < data.length; i++) {
+      let ratio = (data[i][1] + Math.abs(minValue)) / range;
+      arr.push(
+        colors[1][0] + (colors[0][0] - colors[1][0]) * ratio,
+        colors[1][1] + (colors[0][1] - colors[1][1]) * ratio,
+        colors[1][2] + (colors[0][2] - colors[1][2]) * ratio
+      );
+    }
   }
 
   // 3D-points uses Float32Array to add colors to geometry

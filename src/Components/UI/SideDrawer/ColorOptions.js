@@ -141,19 +141,23 @@ const ColorOptions = () => {
         </FormHelperText>
 
         {/* This section should be disabled if the current color type is not single color */}
-        <ColorSelectionWrapper disabled={activeWaveColorType !== 0}>
+        <ColorSelectionWrapper disabled={activeWaveColorType === 1}>
           {colors.map((c, i) => (
             <ColorPickerWrapper key={c + i}>
               <ColorPicker
                 index={i}
                 initialColor={c}
                 onChange={changeColor}
-                disabled={activeWaveColorType !== 0}
+                disabled={
+                  activeWaveColorType === 1 ||
+                  (activeWaveColorType === 2 && i > 1)
+                }
               />
               {colors.length > 1 && (
                 <ClearIcon
                   className={classes.deleteIcon}
-                  onClick={() => activeWaveColorType === 0 && removeColor(i)}
+                  onClick={() => activeWaveColorType !== 1 && removeColor(i)}
+                  disabled={activeWaveColorType === 2 && i > 1}
                 />
               )}
             </ColorPickerWrapper>
@@ -166,7 +170,7 @@ const ColorOptions = () => {
             size='small'
             onClick={() => addColor('#00D8FF')}
             disabled={
-              colors.length >= MAX_NUM_OF_COLORS || activeWaveColorType !== 0
+              colors.length >= MAX_NUM_OF_COLORS || activeWaveColorType === 1
             }
           >
             Add color

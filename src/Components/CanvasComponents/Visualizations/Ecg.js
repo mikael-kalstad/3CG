@@ -9,9 +9,8 @@ import TimeGrid from '../Grid/TimeGrid';
 import Grid from '../Grid/Grid';
 
 const Ecg = () => {
-  // Get points which will be rendererd
-
   let channelNames = dataService.getChannelNamesArray();
+  // Get points which will be rendered
   let renderPoints = dataService.formatDataToPoints();
   const activeChannels = useChannelStore((state) => state.activeChannels);
   const inspected = useInspectStore((state) => state.inspected);
