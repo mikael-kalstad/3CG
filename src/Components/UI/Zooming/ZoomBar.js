@@ -69,6 +69,7 @@ const ZoomBar = () => {
         value={-zoomValue}
         marks={marks}
         track={false}
+        aria-label='Zoombar'
       />
     </Tooltip>
   );

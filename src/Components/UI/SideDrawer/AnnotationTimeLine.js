@@ -110,6 +110,7 @@ const AnnotationTimeline = () => {
                     color='primary'
                     style={{ cursor: 'pointer', padding: 0 }}
                     onClick={() => toggleAnnotation(i)}
+                    aria-label={'Toggle annotation ' + a.data.Abbreviation}
                   >
                     {
                       <CircleCheckedFilled

@@ -18,7 +18,7 @@ const OrtoBtn = () => {
   return (
     <Tooltip title='Toggle orthographic view'>
       <IconButton
-        aria-label='Play'
+        aria-label='Toggle orthographic view'
         style={ButtonStyle}
         onClick={() => toggleOrtoMode()}
       >

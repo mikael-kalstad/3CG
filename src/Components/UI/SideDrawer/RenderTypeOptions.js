@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SelectBetween from '../Settings/SelectBetween';
 import Typography from '@material-ui/core/Typography';
 import SettingsCheck from '../Settings/SettingsCheck';
+import IconButton from '@material-ui/core/IconButton';
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
@@ -98,12 +99,15 @@ const RenderTypeOptions = () => {
                   title={'Visualization ' + (i + 1)}
                   handleChange={handleChange}
                   index={i}
+                  aria-label='Choose visualization'
                 />
                 {store.activeRenders.length > 1 && (
-                  <ClearIcon
-                    className={classes.deleteIcon}
+                  <IconButton
                     onClick={() => store.removeActiveRender(i)}
-                  />
+                    aria-label='Clear visualization'
+                  >
+                    <ClearIcon className={classes.deleteIcon} />
+                  </IconButton>
                 )}
               </Wrapper>
             )
@@ -116,6 +120,7 @@ const RenderTypeOptions = () => {
           size='small'
           onClick={() => handleClick()}
           disabled={store.activeRenders.length === MAX_NUM_OF_RENDER_VIEWS}
+          aria-label='Add visualization'
         >
           Add visualization
         </Button>

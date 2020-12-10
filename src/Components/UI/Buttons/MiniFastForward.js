@@ -70,7 +70,7 @@ const MiniFastForwardBtn = (props) => {
         placement='top'
       >
         <IconButton
-          aria-label='Play'
+          aria-label={props.forward ? 'Speed forward' : 'Speed backward'}
           style={ButtonStyle}
           onClick={handleClick}
           disabled={markMode}

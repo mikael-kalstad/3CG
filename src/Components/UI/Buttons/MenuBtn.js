@@ -16,7 +16,7 @@ const MenuBtn = (props) => {
   return (
     <Tooltip title='Open menu'>
       <IconButton
-        aria-label='Play'
+        aria-label='Open menu'
         style={ButtonStyle}
         onClick={() => props.onClick()}
       >

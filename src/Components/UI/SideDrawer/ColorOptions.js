@@ -125,6 +125,7 @@ const ColorOptions = () => {
           items={waveColorTypes}
           value={waveColorTypes[activeWaveColorType]}
           handleChange={handleTypeChange}
+          aria-label='Choose color visualization-type'
         />
 
         <Typography
@@ -172,6 +173,7 @@ const ColorOptions = () => {
             disabled={
               colors.length >= MAX_NUM_OF_COLORS || activeWaveColorType === 1
             }
+            aria-label='Add color'
           >
             Add color
           </Button>
@@ -191,6 +193,7 @@ const ColorOptions = () => {
         label='Mix overlapping colors'
         disabled={activeWaveColorType !== 1}
         description='Mix together the colors of the ecg-waves if diagnoses overlap. Can only be toggled when the color is based on diagnoses'
+        aria-label='Mix overlapping colors'
       />
 
       <MarginWrapper>
@@ -213,6 +216,7 @@ const ColorOptions = () => {
           value={DROPDOWN_OVERLAP_VALUES[overlapPriority]}
           handleChange={toggleOverlapPriority}
           disabled={activeWaveColorType !== 1 || mixOverlap}
+          aria-label='Choose overlap priority'
         />
       </MarginWrapper>
     </>

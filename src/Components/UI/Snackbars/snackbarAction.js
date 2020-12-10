@@ -61,6 +61,7 @@ const SnackbarAction = (props) => {
                 if (props.dontShowClick) props.dontShowClick();
               }}
               className={classes.dontShowButton}
+              aria-label="Don't show again"
             >
               DON'T SHOW AGAIN
             </Button>
@@ -68,6 +69,7 @@ const SnackbarAction = (props) => {
               size='small'
               onClick={handleClose}
               className={classes.closeButton}
+              aria-label='Close'
             >
               CLOSE
             </Button>
@@ -75,6 +77,7 @@ const SnackbarAction = (props) => {
               size='small'
               onClick={props.onClick}
               className={classes.button}
+              aria-label={props.actionName}
             >
               {props.actionName}
             </Button>

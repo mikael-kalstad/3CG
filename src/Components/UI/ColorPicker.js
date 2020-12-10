@@ -101,6 +101,7 @@ const ColorPicker = (props) => {
           background={tempColor}
           onClick={() => !props.disabled && togglePicker()}
           disabled={props.disabled}
+          aria-label='Change color'
         />
         <TextField
           value={input}
@@ -108,6 +109,7 @@ const ColorPicker = (props) => {
           onChange={handleInputChange}
           onBlur={onInputUnFocus}
           disabled={props.disabled}
+          aria-label='Change color with hex'
         />
       </SwatchWrapper>
 

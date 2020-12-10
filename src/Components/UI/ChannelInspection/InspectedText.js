@@ -142,7 +142,10 @@ const InspectedText = (props) => {
             <Text>Inspecting: {inspectedChannel}</Text>
             <Tooltip title='Quit inspection'>
               <IconWrapper>
-                <CrossBtn onClick={cancelInspection} />
+                <CrossBtn
+                  onClick={cancelInspection}
+                  aria-label='Quit inspection'
+                />
               </IconWrapper>
             </Tooltip>
           </UpperWrapper>

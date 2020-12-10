@@ -110,6 +110,7 @@ const SelectedTimeInputs = (props) => {
           onChange={(e) => onChange(e, 'start')}
           onFocus={() => document.execCommand('selectall', null, false)}
           InputProps={InputProps}
+          aria-label='Selected start time'
         />
 
         <TextField
@@ -122,6 +123,7 @@ const SelectedTimeInputs = (props) => {
           onChange={(e) => onChange(e, 'end')}
           onFocus={() => document.execCommand('selectall', null, false)}
           InputProps={InputProps}
+          aria-label='Selected end time'
         />
       </InputWrapper>
 
@@ -155,6 +157,7 @@ const SelectedTimeInputs = (props) => {
             color='primary'
             onClick={() => handleButtonClick()}
             className={classes.button}
+            aria-label='Use timeline start- and end-time'
           >
             Use timeline start- and end-time
           </Button>

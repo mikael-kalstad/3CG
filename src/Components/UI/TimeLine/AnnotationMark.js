@@ -92,6 +92,9 @@ const AnnotationMark = (props) => {
         left={props.ann.start / props.ratio}
         width={(props.ann.end - props.ann.start) / props.ratio}
         color={groupingColor || '#00a8ff'}
+        aria-label={
+          'Annotation mark for annotation ' + props.ann.data.Abbreviation
+        }
       >
         {props.ann.data['Abbreviation']}
       </Mark>

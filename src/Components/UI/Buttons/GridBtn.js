@@ -18,7 +18,7 @@ const GridBtn = () => {
   return (
     <Tooltip title='Toggle grid'>
       <IconButton
-        aria-label='Play'
+        aria-label='Toggle grid'
         style={ButtonStyle}
         onClick={() => toggleGridMode()}
       >

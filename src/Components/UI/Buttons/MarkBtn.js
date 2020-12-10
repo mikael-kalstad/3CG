@@ -19,7 +19,7 @@ const MarkBtn = () => {
   return (
     <Tooltip title='Toggle marking'>
       <IconButton
-        aria-label='Play'
+        aria-label='Toggle marking'
         style={ButtonStyle}
         onClick={() => {
           toggleMarkMode();

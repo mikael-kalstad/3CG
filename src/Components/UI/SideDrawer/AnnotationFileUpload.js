@@ -200,6 +200,7 @@ const AnnotationFileUpload = (props) => {
           component='span'
           startIcon={<NoteAdd />}
           className={classes.uploadButton}
+          aria-label='Upload user-annotations'
         >
           Upload user annotation datafile
         </Button>
@@ -211,6 +212,7 @@ const AnnotationFileUpload = (props) => {
         startIcon={<GetAppIcon />}
         className={classes.downloadButton}
         onClick={handleUserDownload}
+        aria-label='Download user-annotations'
       >
         Download User Annotations
       </Button>
@@ -227,6 +229,7 @@ const AnnotationFileUpload = (props) => {
           component='span'
           startIcon={<NoteAdd />}
           className={classes.uploadButton}
+          aria-label='Upload ai-annotations'
         >
           Upload AI annotation datafile
         </Button>
@@ -238,6 +241,7 @@ const AnnotationFileUpload = (props) => {
         startIcon={<GetAppIcon />}
         className={classes.downloadButton}
         onClick={handleAiDownload}
+        aria-label='Download ai-annotations'
       >
         Download Ai Annotations
       </Button>

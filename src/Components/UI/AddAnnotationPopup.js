@@ -142,7 +142,7 @@ const AddAnnotationPopup = (props) => {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color='primary'>
+          <Button onClick={handleClose} color='primary' aria-label='Cancel'>
             Cancel
           </Button>
           <Button
@@ -156,6 +156,7 @@ const AddAnnotationPopup = (props) => {
               endSelected > duration
             }
             color='primary'
+            aria-label='Add'
           >
             Add
           </Button>

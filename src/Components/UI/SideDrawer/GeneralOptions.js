@@ -76,6 +76,7 @@ const GeneralOptions = () => {
         maxValue={140}
         stepSize={10}
         onChange={(e, v) => setFov(v)}
+        aria-label='Change camera field of view'
       />
 
       <SettingsCheck
@@ -84,6 +85,7 @@ const GeneralOptions = () => {
         name='show-snackbar-option'
         label='Show snackbar'
         description='Show snackbar popup with messages. E.g. when changing playback speed'
+        aria-label='Toggle show snackbar'
       />
 
       <SettingsCheck
@@ -92,6 +94,7 @@ const GeneralOptions = () => {
         name='localstorage-option'
         label='Save preferences'
         description='When this is enabled the settings will be saved when refreshing the page on this device. NB! Enabling this setting will cause the page to refresh.'
+        aria-label='Toggle save preferences'
       />
 
       <MarginWrapper>
@@ -105,6 +108,7 @@ const GeneralOptions = () => {
           className={classes.button}
           onClick={toggleDialog}
           endIcon={<DeleteIcon />}
+          aria-label='Delete preferences'
         >
           DELETE PREFERENCES
         </Button>
@@ -125,7 +129,7 @@ const GeneralOptions = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={toggleDialog} color='primary'>
+            <Button onClick={toggleDialog} color='primary' aria-label='Cancel'>
               Cancel
             </Button>
             <Button
@@ -135,6 +139,7 @@ const GeneralOptions = () => {
               className={classes.button}
               style={{ marginTop: 0 }}
               endIcon={<DeleteIcon />}
+              aria-label='Confirm deletion of preferences'
             >
               Yes, delete
             </Button>

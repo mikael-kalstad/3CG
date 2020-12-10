@@ -76,7 +76,7 @@ const MiniSkipBtn = (props) => {
   return (
     <Tooltip title={getText()} placement='top'>
       <IconButton
-        aria-label='skip'
+        aria-label={getText()}
         style={ButtonStyle}
         onClick={() => handleClick()}
         disabled={

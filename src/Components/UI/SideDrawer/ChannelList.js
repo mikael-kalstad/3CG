@@ -112,6 +112,7 @@ const ChannelList = () => {
                       checked={state}
                       onChange={() => toggleChannel(i)}
                       name={channelNames[i]}
+                      aria-label={'Filter channel ' + channelNames[i]}
                     />
                   }
                   label={channelNames[i]}
@@ -122,6 +123,7 @@ const ChannelList = () => {
                   disableElevation={true}
                   onClick={() => inspectChannel(i)}
                   disabled={inspected !== -1}
+                  aria-label={'Inspect channel ' + channelNames[i]}
                 >
                   Inspect
                 </Button>
@@ -148,6 +150,7 @@ const ChannelList = () => {
           vChannelScaleFactor +
           ' from the original'
         }
+        aria-label='Scale V-channels'
       />
 
       <SettingsSlider
@@ -161,6 +164,7 @@ const ChannelList = () => {
         stepSize={0.05}
         disabled={!vChannelScaling}
         onChange={(e, v) => setVChannelScaleFactor(v)}
+        aria-label='Change V-channel scale factor'
       />
     </div>
   );

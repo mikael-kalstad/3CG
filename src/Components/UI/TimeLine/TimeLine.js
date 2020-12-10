@@ -234,7 +234,7 @@ const TimeLine = (props) => {
       )}
 
       <Rnd
-        tabindex={100}
+        tabIndex={100}
         ref={rndRef}
         bounds='parent'
         style={style}
@@ -258,6 +258,7 @@ const TimeLine = (props) => {
         minWidth={50}
         position={{ x: startTimeRef.current / ratio, y: 0 }}
         onKeyDown={handleFocusedKeyPress}
+        aria-label='Selected interval of timeline'
       />
 
       {useTimeLineOptionsStore.showTimeOnDrag && (

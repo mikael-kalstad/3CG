@@ -33,6 +33,7 @@ const SettingsCheck = (props) => {
             checked={props.state}
             onChange={() => props.onClick()}
             name={props.name}
+            aria-label='Toggle checkbox'
           />
         }
         label={props.label}

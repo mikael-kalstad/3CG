@@ -21,7 +21,7 @@ const MiniPlayBtn = (props) => {
   return (
     <Tooltip title={playMode ? 'Pause' : 'Play'} placement='top'>
       <IconButton
-        aria-label='Play'
+        aria-label={playMode ? 'Pause' : 'Play'}
         style={ButtonStyle}
         onClick={() => togglePlayMode()}
         disabled={markMode}

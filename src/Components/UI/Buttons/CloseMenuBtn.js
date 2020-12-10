@@ -8,7 +8,7 @@ const CloseMenuBtn = (props) => {
     borderRadius: '0px',
   };
   return (
-    <Button style={ButtonStyle} onClick={props.onClick}>
+    <Button style={ButtonStyle} onClick={props.onClick} aria-label='Close menu'>
       <CloseRoundedIcon style={{ fontSize: '30px', opacity: 0.7 }} />
     </Button>
   );

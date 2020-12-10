@@ -39,6 +39,7 @@ const SnackbarPopup = (props) => {
         autoHideDuration={props.timeout}
         onClose={handleClose}
         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        aria-label='Close'
       >
         <Alert onClose={handleClose} severity={props.type || null}>
           {props.message}

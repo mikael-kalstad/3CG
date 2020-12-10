@@ -38,7 +38,11 @@ const AddAnnotation = () => {
 
   return (
     <Wrapper>
-      <PlusButton alt='add annotation' onClick={togglePopup}>
+      <PlusButton
+        alt='add annotation'
+        onClick={togglePopup}
+        aria-label='Add annotation'
+      >
         <AddIcon
           style={{
             transition: 'ease 0.4s',
