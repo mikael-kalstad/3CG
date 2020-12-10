@@ -83,7 +83,6 @@ const AnnotationMark = (props) => {
   let groupingColor = annotationService.getGroupingColor(
     props.ann.data['SNOMED CT Code']
   );
-  console.log('grouping color', groupingColor);
 
   return (
     <Wrapper onClick={() => goToAnnotation(props.index)}>
