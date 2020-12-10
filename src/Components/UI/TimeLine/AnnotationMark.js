@@ -16,6 +16,7 @@ const Mark = styled.div`
   }
   display: grid;
   background-color: ${(props) => props.color};
+  color: ${(props) => (props.color === '#fff' ? '#000' : '#fff')};
   width: ${(props) => props.width + 'px'};
   position: absolute;
   left: ${(props) => props.left + 'px'};
@@ -28,7 +29,6 @@ const Mark = styled.div`
   font-size: 0.7vw;
   opacity: 0.5;
   transition: 0.2s ease;
-  color: white;
   overflow: hidden;
   z-index: 100;
 `;
@@ -83,6 +83,7 @@ const AnnotationMark = (props) => {
   let groupingColor = annotationService.getGroupingColor(
     props.ann.data['SNOMED CT Code']
   );
+  console.log('grouping color', groupingColor);
 
   return (
     <Wrapper onClick={() => goToAnnotation(props.index)}>
@@ -91,7 +92,7 @@ const AnnotationMark = (props) => {
         onPointerOut={handlePointerOut}
         left={props.ann.start / props.ratio}
         width={(props.ann.end - props.ann.start) / props.ratio}
-        color={groupingColor || '#00a8ff'}
+        color={groupingColor || '#fff'}
         aria-label={
           'Annotation mark for annotation ' + props.ann.data.Abbreviation
         }

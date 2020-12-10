@@ -10,8 +10,6 @@ import Annotation from './Annotation';
 
 const sampleRate = dataService.getSampleRate();
 
-let colorSelection = [0xffffff, 0x2ecc71];
-
 const AnnotationRenderer = (props) => {
   let startTime = useTimeStore((state) => state.startTime);
   let endTime = useTimeStore((state) => state.endTime);
@@ -73,7 +71,7 @@ const AnnotationRenderer = (props) => {
                 startTime={startTime}
                 endTime={endTime}
                 clippingPlanes={[startPlane, endPlane]}
-                color={colorSelection[ann.ai ? 1 : 0]}
+                color={0xffffff}
                 level={levels[i] !== undefined ? levels[i] : 0}
               />
             </React.Fragment>
