@@ -56,7 +56,6 @@ const TimeGrid = (props) => {
   });
   */
   const material = new THREE.MeshNormalMaterial({
-    color: 0xff0000,
     opacity: 0.2,
   });
   const xLines = new THREE.LineSegments(xLinesGeo, material);

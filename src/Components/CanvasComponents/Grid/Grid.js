@@ -84,7 +84,6 @@ const Grid = (props) => {
   let oyLinesGeo = new THREE.BufferGeometry().setFromPoints(oyPoints);
 
   const material = new THREE.MeshNormalMaterial({
-    color: 0xff0000,
     opacity: 0.12,
   });
 
