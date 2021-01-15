@@ -1,12 +1,12 @@
 # SU3 - 3CG
 
-**A web-based application for analyzing ECG-signals.**
+**A web-based application for analyzing ECG-signals in 3D. This project had focus on experimenting with different ways of visualizing ECG-signals in 3D. The project was a pre-project to the bachelors thesis, therefore a research question was developed; "Can 3D-visualization of ECG-waves be favorable?" (NOTE, this is a translation of the norwegian research question: "Kan 3D-visualisering av EKG-bølgeformer være gunstig?" **
 
 <br/>
 <img src="https://github.com/mikael-kalstad/3CG/blob/master/documentation/overview.PNG" width="80%" margin="auto">
 A screenshot from the main view in the application. This image is showing an example file of an ECG-data file<br/><br/>
 
-This project was an university project in the subject TDAT3022 Systemutviklingsprosjekt assigned by Infiniwell AS.that I worked on with my team. The project lasted a semester, where we went through all the stages of developing an application. An extensive report with schedules, timesheets, meetings, vision document and more: Click to Download
+This project was an university project in the subject <em>TDAT3022 Systemutviklingsprosjekt</em> assigned by Infiniwell AS.that I worked on with my team. The project lasted a semester, where we went through all the stages of developing an application. An extensive report with a research question, timesheets, meetings, vision document and more: Click to Download
 
 **Team members:**
 
@@ -37,4 +37,4 @@ This project was an university project in the subject TDAT3022 Systemutviklingsp
 ### Screenshots
 <br/>
 <img src="https://github.com/mikael-kalstad/3CG/blob/master/documentation/splitview.PNG" width="100%">
-A screenshot from the main view in the application. This image is showing an example file of an ECG-data file<br/><br/>
+A screenshot showing the split view functionality. The first visualization is a normal 12-channel ECG wave, the second is a visualization called VCG (Vectorcardiography), and the third is an experimental visualization made by William Dalheim called Circle visualization. (Experimenting with different visualization was a part of this project). <br/><br/>
