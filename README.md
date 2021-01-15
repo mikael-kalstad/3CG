@@ -1,3 +1,3 @@
 # SU3 - 3CG
 
-Repository for our project in the course Systemutvikling 3
+A web-based application for analyzing ECG-signals.  
