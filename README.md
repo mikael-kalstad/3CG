@@ -36,5 +36,5 @@ This project was an university project in the subject TDAT3022 Systemutviklingsp
 
 ### Screenshots
 <br/>
-<img src="https://github.com/mikael-kalstad/3CG/blob/master/documentation/overview.PNG" width="100%">
+<img src="https://github.com/mikael-kalstad/3CG/blob/master/documentation/splitview.PNG" width="100%">
 A screenshot from the main view in the application. This image is showing an example file of an ECG-data file<br/><br/>
