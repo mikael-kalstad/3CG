@@ -3,7 +3,7 @@
 **A web-based application for analyzing ECG-signals.**
 
 <br/>
-<img src="https://github.com/mikael-kalstad/3CG/documentation/overview.png" width="100%">
+<img src="https://github.com/mikael-kalstad/raw/master/3CG/documentation/overview.png" width="100%">
 A screenshot from the main view in the application. This image is showing an example file of an ECG-data file<br/><br/>
 
 This project was an university project in the subject TDAT3022 Systemutviklingsprosjekt assigned by Infiniwell AS.that I worked on with my team. The project lasted a semester, where we went through all the stages of developing an application. An extensive report with schedules, timesheets, meetings, vision document and more: Click to Download
@@ -36,5 +36,5 @@ This project was an university project in the subject TDAT3022 Systemutviklingsp
 
 ### Screenshots
 <br/>
-<img src="https://github.com/mikael-kalstad/3CG/documentation/overview.PNG" width="100%">
-The register  <br/><br/>
+<img src="https://github.com/mikael-kalstad/raw/master/3CG/documentation/overview.png" width="100%">
+A screenshot from the main view in the application. This image is showing an example file of an ECG-data file<br/><br/>
