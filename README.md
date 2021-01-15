@@ -10,7 +10,7 @@ This project was an university project in the subject <em>TDAT3022 Systemutvikli
 
 An extensive report with a research question, theory, results, conclusion timesheets, meetings, vision document and more:
 
-<a id="raw-url" href="https://github.com/mikael-kalstad/3CG/blob/master/documentation/Hovedrapport.pdf" download>Click to Download</a>
+<a id="raw-url" href="https://github.com/mikael-kalstad/3CG/master/documentation/Hovedrapport.pdf" download>Click to Download</a>
 
 **Team members:**
 
