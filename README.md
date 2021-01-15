@@ -1,6 +1,6 @@
 # SU3 - 3CG
 
-**A web-based application for analyzing ECG-signals in 3D. This project had focus on experimenting with different ways of visualizing ECG-signals in 3D. The project was a pre-project to the bachelors thesis, therefore a research question was developed; "Can 3D-visualization of ECG-waves be favorable?" (NOTE, this is a translation of the norwegian research question: "Kan 3D-visualisering av EKG-bølgeformer være gunstig?" **
+**A web-based application for analyzing ECG-signals in 3D. This project had focus on experimenting with different ways of visualizing ECG-signals in 3D. The project was a pre-project to the bachelors thesis, therefore a research question was developed; Can 3D-visualization of ECG-waves be favorable? (NOTE, this is a translation of the norwegian research question: Kan 3D-visualisering av EKG-bølgeformer være gunstig? **
 
 <br/>
 <img src="https://github.com/mikael-kalstad/3CG/blob/master/documentation/overview.PNG" width="80%" margin="auto">
