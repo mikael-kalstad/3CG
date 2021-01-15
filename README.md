@@ -6,7 +6,7 @@
 <img src="https://github.com/mikael-kalstad/3CG/blob/master/documentation/overview.PNG" width="80%" margin="auto">
 A screenshot from the main view in the application. This image is showing an example file of an ECG-data file<br/><br/>
 
-This project was an university project in the subject <em>TDAT3022 Systemutviklingsprosjekt</em> assigned by Infiniwell AS.that I worked on with my team. The project lasted a semester, where we went through all the stages of developing an application. This project had focus on experimenting with different ways of visualizing ECG-signals in 3D. The project was a pre-project to the bachelors thesis, therefore a research question was developed; "Can 3D-visualization of ECG-waves be favorable?" (NOTE, this is a translation of the norwegian research question: "Kan 3D-visualisering av EKG-bølgeformer være gunstig?"
+This team project was an university project in the subject <em>TDAT3022 Systemutviklingsprosjekt</em> assigned by Infiniwell AS. The project lasted a semester, where we went through all the stages of developing an application. This project had focus on experimenting with different ways of visualizing ECG-signals in 3D. The project was a pre-project to the bachelors thesis, therefore a research question was developed; "Can 3D-visualization of ECG-waves be favorable?" (NOTE, this is a translation of the norwegian research question: "Kan 3D-visualisering av EKG-bølgeformer være gunstig?"
 
 An extensive report with a research question, theory, results, conclusion timesheets, meetings, vision document and more:
 [Click to view](documentation/Hovedrapport.pdf)<br/>
