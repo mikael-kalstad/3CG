@@ -2,7 +2,7 @@
 
 **A web-based application for analyzing ECG-signals in 3D.**
 
-The application can be tried [here](https://williad.pages.stud.idi.ntnu.no/su3-3cg/).
+The application can be tried <a href="https://williad.pages.stud.idi.ntnu.no/su3-3cg/" target="_blank">here</a>.
 
 <br/>
 <img src="https://github.com/mikael-kalstad/3CG/blob/master/documentation/overview.PNG" width="80%" margin="auto">
